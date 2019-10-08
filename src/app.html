@@ -22,6 +22,7 @@ See examples below in the boilerplate code
 
 <!-- cot-app:body -->
 <div id="bdit_cot-vfh_container" class="container-fluid">
+  <!-- Intro texts -->
   <div class="page-header">
     <h1></h1>
   </div>
@@ -46,7 +47,7 @@ See examples below in the boilerplate code
     </div>
   </div>
   
-
+  <!-- Intro to Data Exploration -->
    <div class="row">
       <div class="col-xs-12 pagecontent">
         <h2 id="subtitle2"></h2>
@@ -56,6 +57,22 @@ See examples below in the boilerplate code
           <li id="Q2"></li>
           <li id="Q3"></li>
         </ul>
+    </div>
+  </div>
+
+  <!-- Fig 1 PTC Growth -->
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <div class="section-growth">
+        <h3 id="section0" class="myh3"></h3>
+        <div id="section0-text1"></div>
+
+        <h4 id="growthtsTitle" class="text-center"></h4>
+        <div class="row">
+          <div class="col-xs-3"></div>
+          <div class="col-xs-6 tpd-line data"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -74,12 +91,13 @@ See examples below in the boilerplate code
     <!-- endinject -->
     <!-- place your application script references here: -->
     <script src="../lib/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="module" src="scripts/main.js"></script>
     <script src="../lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="../lib/i18next.min.js"></script>
     <script type="text/javascript" src="../lib/d3.v4.min.js"></script>
     <script src="../lib/queue.v1.min.js"></script>
     <script src="../lib/utils.js"></script>
+    <script src="../lib/line.js"></script>
   <!-- endbuild -->
   <!--@if ENV!='prod'-->
   <script type="text/javascript">

@@ -3,6 +3,8 @@
 // Any resources from this project should be referenced using SRC_PATH preprocessor var
 // Ex: let myImage = '/*@echo SRC_PATH*//img/sample.jpg';
 
+import settingsTPDline from "./settings_tpdLineChart.js";
+
 $(function () {
   if (window['cot_app']) { //the code in this 'if' block should be deleted for embedded apps
     const app = new cot_app("bdit_cot-vfh",{
@@ -18,9 +20,18 @@ $(function () {
     ]).render();
   }
   let container = $('#bdit_cot-vfh_container');
+  
+
+  // -----------------------------------------------------------------------------
+  // data objects
+  const ptcData = {}; 
+
+  // data selectors
+  const tpd = "tpd"; // trips per day data
 
   // -----------------------------------------------------------------------------
   function pageTexts() {
+    // Intro texts
     d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
     d3.select("#subtitle1").text(i18next.t("subtitle1", {ns: "indexhtml"}));
     d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
@@ -29,25 +40,58 @@ $(function () {
     d3.select("#appendixA").html(i18next.t("appendixA", {ns: "indexhtml"}));
     d3.select("#appendixB").html(i18next.t("appendixB", {ns: "indexhtml"}));
 
+    // Intro to Data Exploration
     d3.select("#subtitle2").text(i18next.t("subtitle2", {ns: "indexhtml"}));
-
-
-
     d3.select("#Q1").html(i18next.t("Q1", {ns: "indexhtml"}));
     d3.select("#Q2").html(i18next.t("Q2", {ns: "indexhtml"}));
     d3.select("#Q3").html(i18next.t("Q3", {ns: "indexhtml"}));
+
+    // Fig 1 PTC Growth
+    d3.select(".section-growth").select("#section0").text(i18next.t("section0", {ns: "indexhtml"}));
+    d3.select(".section-growth").select("#section0-text1").html(i18next.t("section0-text1", {ns: "indexhtml"}));
+    d3.select("#growthtsTitle").html(i18next.t("growthtsTitle", {ns: "indexhtml"}));
   }
 
   // -----------------------------------------------------------------------------
+  // Chart SVGs
+  // Fig 1 - Trips Per Day line chart
+  const tpdChart = d3.select(".tpd-line.data")
+      .append("svg")
+      .attr("id", "tpdLine");
+
+  // -----------------------------------------------------------------------------
+  // Chart functions
+  // Fig 1 - Trips Per Day line chart
+  function showtpdLine() {
+    lineChart(tpdChart, settingsTPDline, ptcData[tpd]);
+    // axes labels
+    rotateLabels("tpdLine", settingsTPDline);
+  }
+
+  function rotateLabels(chartId, sett) {
+    // axes labels
+    d3.select(`#${chartId}`).select(".y.axis").select(".chart-label").attr("transform", function(d) {
+      return "translate(" + (sett.y.translateXY[0]) + " " + (sett.y.translateXY[1]) + ")rotate(-90)";
+    });
+
+    if (sett.x.translateXY) {
+      d3.select(`#${chartId}`).select(".x.axis").select(".chart-label").attr("transform", function(d) {
+        return "translate(" + (sett.x.translateXY[0]) + " " + (sett.x.translateXY[1]) + ")";
+      });
+    }
+  }
+  // -----------------------------------------------------------------------------
   // Initial page load
   i18n.load(["i18n"], () => {
-    // settingsScatter.x.label = i18next.t("x_label", {ns: "scatter"})
+    settingsTPDline.y.label = i18next.t("y_label", {ns: "line"}),
+    settingsTPDline.x.label = i18next.t("x_label", {ns: "line"})
     d3.queue()
-        .defer(d3.json, "data/fig1_dailytrips_city.json") // ptcfile
-        .await(function(error, fig1_file) {
+        .defer(d3.json, "../data/fig1_dailytrips_city.json") // ptcfile
+        .await(function(error, tpdfile) {
+          ptcData[tpd] = tpdfile;
 
           pageTexts();
-    
+          showtpdLine();    
         });
   });
 }); // function()
