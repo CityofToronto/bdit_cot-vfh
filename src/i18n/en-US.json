@@ -1,0 +1,141 @@
+{
+  "en-US": {
+    "indexhtml": {
+      "pagetitle": "The Transportation Impacts of Vehicle-for-Hire in the City of Toronto",
+      "subtitle": "Key findings and implications",
+      "introp": "Private Tranpsportation Companies (PTCs) trips have grown rapidly since September 2016, when the service was first licensed by the City. Building a deeper understanding of these new services and their impact on mobility and the operation of the City's street networks is key to keeping in front of changing trends with policy to support the benefits of PTC services while minimizing adverse impacts on traffic, the environment and the equity of mobility services. In response to the City Council Recommendation 92, Item LS10.3 “A New Vehicle-for-Hire Bylaw to Regulate Toronto's Ground Transportation Industry” adopted by City Council on May 3 2016, the Transportation Impacts of Vehicle-for-Hire in the City of Toronto report was released in June 2019 and looks at what is most likely the first wave of disruptions from these new mobility-as-a-service businesses. Click below to open the pdf file of the full report or the appendices.",
+      "fullreport": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/96c7-Report_v1.0_2019-06-21.pdf'>Full Report</a>",
+      "appendixA": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/8f59-AppendixA_detailed_methodology_data.pdf'>Appendix A:<br> Methodology</a>",
+      "appendixB": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/8edf-AppendixB_ward_profiles.pdf'>Appendix B:<br> Ward Profiles</a>",
+      "DVpara": "Here, we provide an interactive exploration of the results of this report, organized around these 3 central questions:",
+      "Q1": "What are the trends and patterns in vehicle-for-hire travel in the City?",
+      "Q2": "How has this travel impacted the transportation network?",
+      "Q3": "How have travel choices evolved in Toronto?",
+
+      "section0": "PTC trips have grown by 180% in 2.5 years",
+      "section0-text1": "PTC trips have grown rapidly since September 2016, when the service was first licensed by the City. 176,000 trips were made daily in March 2019, an increase of over 180% since September 2016. Most of these trips were made in the district of Toronto and East York, which in September 2018 accounted for 61% of the total number of daily trips, followed by North York (16%), Etobicoke York (13), and Scarborough (9%).",
+      "growthtsTitle": "Average daily PTC Trips, September 2016 &ndash; March 2019",
+
+      "section1": "Toronto compared with other PTC cities",
+      "section1-text1": "Yet, the City of Toronto is still in the early stages of PTC adoption relative to other cities in North America. For context, in Chicago, a city of comparable population where PTCs started 3 years earlier than in Toronto, <a href='#' class='hover-link highlight-total' data-highlight='simPop'>there are almost twice the number of daily trips than in Toronto</a> (330,400 vs. 176,000), whereas daily PTC trips in Toronto are <a href='#' class='hover-link highlight-total' data-highlight='simTrips'>currently comparable to San Francisco (170,000 trips/day)</a>, a city about 3 times smaller in population. While cities can differ greatly in their regulatory context, demographic makeup, and the size and population density of their urban cores, trends in PTC growth suggest that the PTC trip market in the City of Toronto is not saturated and that growth in trips will likely continue for the foreseeable future.",
+      "cityScatterTitle": "Size of PTC Trip Markets in Other Jurisdictions",
+
+      "section2": "How has this sky-rocketing trip growth impacted the City?",
+      "section2-text1": "As daily PTC trip counts have made a meteoric rise, especially in the downtown core, intuitively it might seem that this would slow traffic down considerably. We looked at travel times in the downtown core, where PTC activity is heaviest, at three different periods of the day, from October 2017 &ndash; March 2019 and found no increasing trends, despite the rapid increase in daily trip counts during those same periods.",
+      "section2-text1b": "The line plots below show the number of PTC trips/day in the downtown core (top) and the percent change in travel times (bottom) in the same area from October 2017 &ndash; March 2019 for different times of the day selectable from the dropdown menu (default AM peak). The net travel time changes over these months for the AM peak, PM peak, and Friday/Saturday night were +4%, &minus;1%, and &minus;1%, respectively. The map shows the percentage of traffic attibuted to PTC activity in the downtown core for the selected time. The highest proportion reaches about 8% in the <b>AM PEAK **FIND OUT**</b>, particularly in and around Spadina-Fort York, and also Broadview North and Yonge-St Clair/Casaloma.",
+      "amPeak": "AM Peak",
+      "pmPeak": "PM Peak",
+      "FriSat": "Fri/Sat Night",
+      "section2-text2": "One factor to consider is the possibility of sharing rides, a feature that can be requested when booking a trip with for example Lyft Line and Uber Pool. These services match passengers with others heading on similar paths. Shared trips now account for 26% of all PTC trips. Outside the core, users are 45% more likely to order shared services. However, 82% of these share requests actually find a match. The map below shows the percentage of shared trips requested by neighbourhood in September 2018, with the largest concentration in the suburbs, especially in Etobicoke North, Humber River-Black Creek and York South-Weston. Toggling the map reveals the percentage of requested shared trips that were actually shared.",
+      "req": "Percent requested",
+      "shared": "Percent shared",
+
+      "section3": "When do people use PTCs?",
+      "section3-text1": "We have found a remarkably consistent pattern in the use of PTCs across the week. The line graph below shows the number of trips per hour averaged over each day of the week in September 2018. From Monday to Thursday there are distinct peaks in the morning and afternoon corresponding to typical commute periods, and the most number of trips occur on Friday night and weekends. On Friday afternoon, this pattern starts to transition to a different shape, with a peak much later on, around midnight, similar to Saturday night activity. Sunday is the quiestest day of the week, with about half the number of trips as on Saturday, with a peak in the early afternoon.",
+
+      "section4": "Why do people use PTCs?",
+      "section4-text1": "While we don't have data about individual trips, we do know total pick-up and drop-off locations and times. Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs. The line chart below shows the percentage of total weekly trips for each hour of the week, averaged by day of week, for the city and for a ward selected in the dropdown menu. In the suburbs, trips are more commuter-focused, as their Friday night and weekend profiles are smaller compared with the city average which is dominated by downtown activity. <br><br>For example, the line chart below of PTC activity in Scarborough-Agincourt (purple line) shows strong peaks on weekday mornings and reduced Friday/Saturday night activity compared with the city average (gray line). Moving the cursor over the Monday morning peak shows on the adjacent map several drop-off locations (pink circles) around Sunnybrook Health Sciences Centre and the Hollands Broadview Rehabilliation Hospital, whereas on Friday or Saturday evening the dropoffs (purple circles) clustered around the Don Mills entertainment complex."
+    },
+    "districts": {
+      "city": "City",
+      "TOEY": "Toronto & East York",
+      "NY": "North York",
+      "EY": "Etobicoke York",
+      "Scar": "Scarborough",
+      "downtown": "Downtown Core"
+    },
+    "wards": {
+      "w1": "Etobicoke North",
+      "w2": "Etobicoke Centre",
+      "w3": "Etobicoke-Lakeshore",
+      "w4": "Parkdale-High Park",
+      "w5": "York South-Weston",
+      "w6": "York Centre",
+      "w7": "Humber River-Black Creek",
+      "w8": "Eglinton-Lawrence",
+      "w9": "Davenport",
+      "w10": "Spadina-Fort York",
+      "w11": "University-Rosedale",
+      "w12": "Toronto-St. Paul's",
+      "w13": "Toronto Centre",
+      "w14": "Toronto-Danforth",
+      "w15": "Don Valley West",
+      "w16": "Don Valley East",
+      "w17": "Don Valley North",
+      "w18": "Willowdale",
+      "w19": "Beaches-East York",
+      "w20": "Scarborough Southwest",
+      "w21": "Scarborough Centre",
+      "w22": "Scarborough-Agincourt",
+      "w23": "Scarborough North",
+      "w24": "Scarborough-Guildwood",
+      "w25": "Scarborough-Rouge Park",
+      "city": "City"
+    },
+    "wardnum": {
+      "w1": "Ward 1",
+      "w2": "Ward 2",
+      "w3": "Ward 3",
+      "w4": "Ward 4",
+      "w5": "Ward 5",
+      "w6": "Ward 6",
+      "w7": "Ward 7",
+      "w8": "Ward 8",
+      "w9": "Ward 9",
+      "w10": "Ward 10",
+      "w11": "Ward 11",
+      "w12": "Ward 12",
+      "w13": "Ward 13",
+      "w14": "Ward 14",
+      "w15": "Ward 15",
+      "w16": "Ward 16",
+      "w17": "Ward 17",
+      "w18": "Ward 18",
+      "w19": "Ward 19",
+      "w20": "Ward 20",
+      "w21": "Ward 21",
+      "w22": "Ward 22",
+      "w23": "Ward 23",
+      "w24": "Ward 24",
+      "w25": "Ward 25"
+    },
+    "line": {
+      "x_label": "Month",
+      "y_label": "PTC Trips/day"
+    },
+    "line-tod": {
+      "y_label": "PTC Trips/day"
+    },
+    "ttline": {
+      "x_label": "Month",
+      "y_label": "% Change",
+      "downtown": "Downtown Core",
+      "ttpercent": "percentage change"
+    },
+    "towline": {
+      "x_label": "",
+      "y_label": "Trips/hour",
+      "hr": "Hour"
+    },
+    "ward_towline": {
+      "x_label": "",
+      "y_label": "Trip fraction (%)",
+      "hr": "Hour"
+    },
+    "scatter": {
+      "x_label": "Year of First PTC Trip",
+      "y_label": "PTC Trips/day",
+      "NYC": "New York City",
+      "Chi": "Chicago",
+      "SF": "San Francisco",
+      "TO": "Toronto",
+      "Bos": "Boston",
+      "Sea": "Seattle"
+    },
+    "pudoMap": {
+      "wkdayAMpeak": "Weekday AM Peak",
+      "frisatNightI": "Fri/Sat 19h-21h"
+    }
+
+  }
+}

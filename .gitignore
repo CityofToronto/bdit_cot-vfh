@@ -1,0 +1,20 @@
+#A gitignore file. Customize as you like
+
+#ignore IDE related files
+.idea
+.settings
+.project
+
+#ignore npm-generated directories
+node_modules
+
+#ignore gulpfile-generated directories
+.tmp
+dist
+
+#ignore bower-generated directories
+bower_components
+test/bower_components
+
+#ignore developer-specific environment settings
+.env
