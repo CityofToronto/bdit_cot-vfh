@@ -10,8 +10,8 @@ See examples below in the boilerplate code
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
-    <link rel="stylesheet" type="text/css" href="styles/main.scss">
     <link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.scss">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
     <!-- core_print:css -->
@@ -21,7 +21,51 @@ See examples below in the boilerplate code
 <!-- cot-app:head end-->
 
 <!-- cot-app:body -->
-<div id="bdit_cot-vfh_container"></div>
+<div id="bdit_cot-vfh_container" class="container-fluid">
+  <div class="page-header">
+    <h1></h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <h2 id="subtitle1"></h2>
+      <p id="introp"></p></br>
+    </div>
+  </div>
+
+  <!-- links to PDF reports -->
+  <div class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-2 pagecontent">
+        <button id="reportButton" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+    <div class="col-xs-2 pagecontent">
+        <button id="appendixA" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+    <div class="col-xs-2 pagecontent">
+        <button id="appendixB" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+  </div>
+  
+
+   <div class="row">
+      <div class="col-xs-12 pagecontent">
+        <h2 id="subtitle2"></h2>
+        <p id="DVpara"></p>
+        <ul id="centralQ">
+          <li id="Q1"></li>
+          <li id="Q2"></li>
+          <li id="Q3"></li>
+        </ul>
+    </div>
+  </div>
+
+
+
+
+
+
+
+</div>
 <!-- cot-app:body end-->
 
 <!-- cot-app:footer -->

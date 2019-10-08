@@ -5,5 +5,296 @@
 // Ex: background-image: url(/* @echo SRC_PATH*//img/sample.jpg)
 
 #bdit_cot-vfh_container {
-
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px;
 }
+
+/* COT */
+body {
+  font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+  font-size: 16px;
+  line-height: 1.42857;
+  color: black;
+  background-color: #fff
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px
+}
+
+.container-fluid:before,.container-fluid:after {
+  content: " ";
+  display: table
+}
+
+.container-fluid:after {
+  clear: both
+}
+
+.container-fluid {
+  max-width: 1400px
+}
+
+.row {
+  margin-left: -16px;
+  margin-right: -16px
+}
+
+.row:before,.row:after {
+  content: " ";
+  display: table
+}
+
+.row:after {
+  clear: both
+}
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;}
+a,b,strong,th {
+  font-weight: 500
+}
+
+/* -------*/
+/* Custom */
+text {
+  font-size: 22px;
+}
+
+.myh3 {
+  margin-top: 70px;
+}
+
+.form-control {
+  margin-top: 20px;
+}
+
+.midtexts {
+  margin-top: 20px;
+}
+
+/* -----------*/
+/* Intro section */
+.pdfbutton {
+  width: 106px;
+  height: 100px;
+  background-color: #ec9f09;
+  border-color: #fff;
+  color: #000;
+  margin-bottom: 23px;
+  /* margin-left: 168px; */
+}
+.pdfbutton a {
+  color:  #000;
+}
+#reportButton {
+  /* position: absolute;
+  left: 146px;
+  top: 4px; */
+}
+
+/* -----------*/
+/* DV-related */
+.text-center {
+  text-align: center;
+}
+
+div.tooltip {
+  position: absolute;
+  padding: 6px;
+  text-align: left;
+  color: #fff;
+  background: #333;
+  border-radius: 8px;
+  font: 24px;
+}
+
+.hoverLine {
+   stroke: #000;
+   stroke-width: 1px;
+   opacity: 1;
+   pointer-events: none;
+}
+
+/* -------------*/
+/* scatter plot */
+.scatter svg text {
+	fill: currentColor;
+}
+
+.scatter svg .tick line,
+.scatter svg .domain {
+	stroke: currentColor;
+}
+
+.point-text {
+  stroke: none;
+}
+
+.label {
+  color: #000;
+  stroke: none;
+  font-size: 22px;
+  font-weight: normal !important;
+}
+
+.dim-circle {
+  opacity: 0.1;
+}
+
+/* line chart PTC growth */
+.line svg text {
+	fill: currentColor;
+}
+
+.line svg .tick line,
+.line svg .domain {
+	stroke: currentColor;
+}
+
+.dline {
+	stroke: #000;
+	stroke-width: 1.5;
+}
+
+.dline1 {
+	stroke: #660159;
+  stroke-width: 7px;
+}
+
+.dline2 {
+	stroke: #FF7F00;
+}
+
+.dline3 {
+	stroke: #28A026;
+}
+
+.dline4 {
+	stroke: #D82A23;
+}
+
+.dline5 {
+	stroke: #9364BE;
+}
+
+.dline6 {
+	stroke: #8C574B;
+}
+
+.dline7 {
+	stroke: #E474C2;
+}
+
+/* scatter plot legend rects */
+.legendText {
+  font-size: 11px;
+}
+.popLevel0 {
+  fill: #d7b5d8;
+}
+.popLevel1 {
+  fill: #dd1c77;
+}
+.popLevel2 {
+  fill: #df65b0;
+}
+.popLevel3 {
+  fill: #df65b0;
+}
+.popLevel4 {
+  fill: #980043;
+}
+
+/* TOD line chart for PTC growth */
+.line-tod .x.axis .tick text{
+	opacity: 0;
+}
+.vktmap, .ward-pudo-map {
+  margin-top: 20px;
+}
+
+
+/* TOW line chart */
+#tow text {
+  font-size: 14px;
+}
+#hr {
+  position: relative;
+  left: 1083px;
+  top: 169px;
+}
+.dow-label {
+  position: relative;
+  top: -3px;
+}
+#mon {
+  left: -21px;
+}
+#tues {
+  left: -6px;
+}
+#wed {
+  left: 15px;
+}
+#thurs {
+  left: 28px;
+}
+#fri {
+  left: 56px;
+}
+#sat {
+  left: 73px;
+}
+#sun {
+  left: 90px;
+}
+
+/* ward TOW line chart */
+#wardtow text {
+  font-size: 19px;
+}
+#wardhr {
+  position: relative;
+  left: 605px;
+  top: 302px;
+}
+.warddow-label {
+  font-size: 14px;
+  position: relative;
+  top: -19px;
+}
+#ward_mon {
+  left: -69px;
+}
+#ward_tues {
+  left: -52px;
+}
+#ward_wed {
+  left: -29px;
+}
+#ward_thurs {
+  left: -13px;
+}
+#ward_fri {
+  left: 17px;
+}
+#ward_sat {
+  left: 35px;
+}
+#ward_sun {
+  left: 54px;
+}
+
+/* pudo map legend */
+.wkdayAMpeak {
+  fill: #ff78b9;
+}
+.frisatNightI {
+  fill: #660159;
+}
+

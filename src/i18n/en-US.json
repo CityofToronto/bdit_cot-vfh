@@ -2,11 +2,13 @@
   "en-US": {
     "indexhtml": {
       "pagetitle": "The Transportation Impacts of Vehicle-for-Hire in the City of Toronto",
-      "subtitle": "Key findings and implications",
-      "introp": "Private Tranpsportation Companies (PTCs) trips have grown rapidly since September 2016, when the service was first licensed by the City. Building a deeper understanding of these new services and their impact on mobility and the operation of the City's street networks is key to keeping in front of changing trends with policy to support the benefits of PTC services while minimizing adverse impacts on traffic, the environment and the equity of mobility services. In response to the City Council Recommendation 92, Item LS10.3 “A New Vehicle-for-Hire Bylaw to Regulate Toronto's Ground Transportation Industry” adopted by City Council on May 3 2016, the Transportation Impacts of Vehicle-for-Hire in the City of Toronto report was released in June 2019 and looks at what is most likely the first wave of disruptions from these new mobility-as-a-service businesses. Click below to open the pdf file of the full report or the appendices.",
+      "subtitle1": "Key findings and implications",
+      "introp": "Private Tranpsportation Companies (PTCs) trips have grown rapidly since the service was first licensed by the City in September 2016. Understanding these new services and their impact is key to developing policies that support the benefits of these services while minimizing adverse effects on traffic, the environment and the equity of mobility services. In response to the City Council Recommendation 92, Item LS10.3, “A New Vehicle-for-Hire Bylaw to Regulate Toronto's Ground Transportation Industry”, adopted by City Council on May 3, 2016, the Transportation Impacts of Vehicle-for-Hire in the City of Toronto report was released in June 2019 and looks at what is most likely the first wave of disruptions from these new mobility-as-a-service businesses. Click below to open the PDF file of the full report and its methodology (Appendix A), or open the interactive dashboard to see PTC trends by ward (Appendix B).",
       "fullreport": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/96c7-Report_v1.0_2019-06-21.pdf'>Full Report</a>",
       "appendixA": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/8f59-AppendixA_detailed_methodology_data.pdf'>Appendix A:<br> Methodology</a>",
-      "appendixB": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/8edf-AppendixB_ward_profiles.pdf'>Appendix B:<br> Ward Profiles</a>",
+      "appendixB": "<a target='_blank' href='https://vfh-wardprofiles.herokuapp.com/'>Appendix B:<br> Ward Profiles</a>",
+      
+      "subtitle2": "Explore the data",
       "DVpara": "Here, we provide an interactive exploration of the results of this report, organized around these 3 central questions:",
       "Q1": "What are the trends and patterns in vehicle-for-hire travel in the City?",
       "Q2": "How has this travel impacted the transportation network?",
