@@ -38,6 +38,15 @@
       "section4": "Why do people use PTCs?",
       "section4-text1": "While we don't have data about individual trips, we do know total pick-up and drop-off locations and times. Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs. The line chart below shows the percentage of total weekly trips for each hour of the week, averaged by day of week, for the city and for a ward selected in the dropdown menu. In the suburbs, trips are more commuter-focused, as their Friday night and weekend profiles are smaller compared with the city average which is dominated by downtown activity. <br><br>For example, the line chart below of PTC activity in Scarborough-Agincourt (purple line) shows strong peaks on weekday mornings and reduced Friday/Saturday night activity compared with the city average (gray line). Moving the cursor over the Monday morning peak shows on the adjacent map several drop-off locations (pink circles) around Sunnybrook Health Sciences Centre and the Hollands Broadview Rehabilliation Hospital, whereas on Friday or Saturday evening the dropoffs (purple circles) clustered around the Don Mills entertainment complex."
     },
+     "dow-abbr": {
+      "mon": "Mon",
+      "tues": "Tues",
+      "wed": "Wed",
+      "thurs": "Thurs",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
     "districts": {
       "city": "City",
       "TOEY": "Toronto & East York",
