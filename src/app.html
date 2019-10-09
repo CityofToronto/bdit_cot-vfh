@@ -4,12 +4,14 @@ Any resources from this project should be referenced using SRC_PATH preprocessor
 See examples below in the boilerplate code
 -->
 
+<html lang="en-US">
 <!-- cot-app:head -->
   <!--@exec startBuildTagWithCacheBuster('styles/main.css')-->
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
-    <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.scss">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
     <!-- core_print:css -->
@@ -19,7 +21,95 @@ See examples below in the boilerplate code
 <!-- cot-app:head end-->
 
 <!-- cot-app:body -->
-<div id="bdit_cot-vfh_container"></div>
+<div id="bdit_cot-vfh_container" class="container-fluid">
+  <!-- Intro texts -->
+  <div class="page-header">
+    <h1></h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <h2 id="subtitle1"></h2>
+      <p id="introp"></p></br>
+    </div>
+  </div>
+
+  <!-- links to PDF reports -->
+  <div class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-2 pagecontent">
+        <button id="reportButton" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+    <div class="col-xs-2 pagecontent">
+        <button id="appendixA" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+    <div class="col-xs-2 pagecontent">
+        <button id="appendixB" class="btn btn-info pdfbutton" type="button"></button>
+    </div>
+  </div>
+
+  <!-- Intro to Data Exploration -->
+   <div class="row">
+      <div class="col-xs-12 pagecontent">
+        <h2 id="subtitle2"></h2>
+        <p id="DVpara"></p>
+        <ul id="centralQ">
+          <li id="Q1"></li>
+          <li id="Q2"></li>
+          <li id="Q3"></li>
+        </ul>
+    </div>
+  </div>
+
+  <!-- Fig 1 PTC Growth -->
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <div class="section-growth">
+        <h3 id="section0" class="myh3"></h3>
+        <div id="section0-text1"></div>
+
+        <h4 id="growthtsTitle" class="text-center"></h4>
+        <div class="row">
+          <div class="col-xs-3"></div>
+          <div class="col-xs-6 tpd-line data"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fig 3 Time of Week -->
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <div class="section-tow">
+        <h3 id="section3" class="myh3"></h3>
+        <div id="section3-text1"></div>
+
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10 tow data">
+          <div id="hr"></div>
+        </div>
+        <div class="col-xs-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 pagecontent">
+      <div class="col-xs-3" class=""></div>
+      <div class="col-xs-1 dow-label" id="mon"></div>
+      <div class="col-xs-1 dow-label" id="tues"></div>
+      <div class="col-xs-1 dow-label" id="wed"></div>
+      <div class="col-xs-1 dow-label" id="thurs"></div>
+      <div class="col-xs-1 dow-label" id="fri"></div>
+      <div class="col-xs-1 dow-label" id="sat"></div>
+      <div class="col-xs-1 dow-label" id="sun"></div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>
 <!-- cot-app:body end-->
 
 <!-- cot-app:footer -->
@@ -27,7 +117,14 @@ See examples below in the boilerplate code
     <!-- core:js -->
     <!-- endinject -->
     <!-- place your application script references here: -->
-    <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/main.js"></script>
+    <script src="../lib/jquery.min.js"></script>
+    <script type="module" src="scripts/main.js"></script>
+    <script src="../lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/i18next.min.js"></script>
+    <script type="text/javascript" src="../lib/d3.v4.min.js"></script>
+    <script src="../lib/queue.v1.min.js"></script>
+    <script src="../lib/utils.js"></script>
+    <script src="../lib/line.js"></script>
   <!-- endbuild -->
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
@@ -37,3 +134,4 @@ See examples below in the boilerplate code
   </script>
   <!--@endif-->
 <!-- cot-app:footer end-->
+</html>
