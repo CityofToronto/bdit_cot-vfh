@@ -2,8 +2,8 @@
   "name": "bdit_cot-vfh",
   "version": "0.0.0",
   "qaRelease": 0,
-  "description": "Describe this app",
-  "author": "Your name here",
+  "description": "Visualization page for VFH",
+  "author": "Cathy Nangini",
   "contributors": [],
   "devDependencies": {
     "babel-preset-env": "^1.6.0",
