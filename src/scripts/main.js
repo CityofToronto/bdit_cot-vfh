@@ -115,13 +115,15 @@ $(function () {
     // settingsTOWline.x.label = i18next.t("x_label", {ns: "towline"}),
     // settingsTOWline.y.label = i18next.t("y_label", {ns: "towline"})
     d3.queue()
-        .defer(d3.json, "data/fig1_dailytrips_city.json") // trips per day
-        .defer(d3.json, "data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
-        .defer(d3.json, "data/fig3_tow_profile_city.json") // time of week ts
+        .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
+        .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
+        .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
         .await(function(error, tpdfile, tpdAMfile, towfile) {
-          // ptcData[tpd] = tpdfile;
+          console.log(tpdfile)
+          ptcData[tpd] = tpdfile;
           // ptcData[tpdAM] = tpdAMfile;
           // ptcData[tow] = towfile;
+          console.log(ptcData)
 
           pageTexts();
           // showtpdLine();

@@ -37,7 +37,7 @@ gulp.task('settings', () => {
     .pipe(gulp.dest('dist' + dir + '/scripts'));
 });
 
-gulp.task('appdata', () => {
+gulp.task('data', () => {
   console.log('adding data files');
   let dir = '/webapps/bdit_cot-vfh';
   return gulp.src(['src/data/*.json'])
@@ -51,4 +51,4 @@ gulp.task('appdata', () => {
 //   });
 // });
 
-gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'appdata']);
+gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data']);
