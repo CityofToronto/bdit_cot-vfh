@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const core = require('./node_modules/core/gulp_helper');
 const pkg = require('./package.json');
+const babel = require('gulp-babel');
 
 core.embeddedApp.createTasks(gulp, {
   pkg,
@@ -44,6 +45,12 @@ gulp.task('data', () => {
     .pipe(gulp.dest('dist' + dir + '/data'));
 });
 
+gulp.task('indexjs', () => {
+  console.log('adding index.js');
+  let dir = '/webapps/bdit_cot-vfh';
+  return gulp.src(['src/scripts/index.js'])
+    .pipe(gulp.dest('dist' + dir + '/scripts'));
+});
 
 // gulp.task('foo_run', () => {
 //   return new Promise(resolve => {
@@ -51,4 +58,4 @@ gulp.task('data', () => {
 //   });
 // });
 
-gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data']);
+gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data', 'indexjs']);

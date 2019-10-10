@@ -20,7 +20,7 @@ See examples below in the boilerplate code
 <!-- cot-app:head end-->
 
 <!-- cot-app:body -->
-<div id="bdit_cot-vfh_container" class="container-fluid">
+<div id="bdit_cot-vfh_container">
   <!-- Intro texts -->
   <div class="page-header">
     <h1></h1>
@@ -112,23 +112,23 @@ See examples below in the boilerplate code
     <!-- core:js -->
     <!-- endinject -->
     <!-- place your application script references here: -->
-    <script type="module" src="scripts/main.js"></script>
 
   <!-- endbuild -->
-  <script src="/webapps/bdit_cot-vfh/lib/jquery.min.js"></script>
-  <script type="text/javascript" src="/webapps/bdit_cot-vfh/lib/i18next.min.js"></script>
-  <script src="/webapps/bdit_cot-vfh/lib/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/webapps/bdit_cot-vfh/lib/d3.v4.min.js"></script>
-  <script src="/webapps/bdit_cot-vfh/lib/queue.v1.min.js"></script>
-  <script src="/webapps/bdit_cot-vfh/lib/utils.js"></script>
-  <script src="/webapps/bdit_cot-vfh/lib/line.js"></script>
+  <script src="<!-- @echo SRC_PATH -->/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/i18next.min.js"></script>
+  <script src="<!-- @echo SRC_PATH -->/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/d3.v4.min.js"></script>
+  <script src="<!-- @echo SRC_PATH -->/lib/queue.v1.min.js"></script>
+  <script src="<!-- @echo SRC_PATH -->/lib/utils.js"></script>
+  <script src="<!-- @echo SRC_PATH -->/lib/line.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/index.js"></script>
 
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
-    console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');
-    console.log('bdit_cot-vfh qa release: <!--@echo QA_RELEASE-->');
-    console.log('bdit_cot-vfh build: <!--@echo BUILD_ID-->');
-  </script>
+  console.log('bdit_core_transit running on <!--@echo ENV--> environment');
+  console.log('bdit_core_transit SRC_PATH: <!--@echo SRC_PATH-->');
+  console.log('bdit_core_transit build: <!--@echo BUILD_ID-->');
+</script>
   <!--@endif-->
 <!-- cot-app:footer end-->
 </html>
