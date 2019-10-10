@@ -45,7 +45,46 @@ function pageTexts() {
   d3.select(".dow-label#sat").html(i18next.t("sat", {ns: "dow-abbr"}));
   d3.select(".dow-label#sun").html(i18next.t("sun", {ns: "dow-abbr"}));
 }
+// -----------------------------------------------------------------------------
+// Chart SVGs
+// Fig 1 - Trips Per Day line chart
+const tpdChart = d3.select(".tpd-line.data")
+    .append("svg")
+    .attr("id", "tpdLine");
 
+// Fig 3 - TOW line chart
+const towChart = d3.select(".tow.data")
+    .append("svg")
+    .attr("id", "towLine");
+
+// -----------------------------------------------------------------------------
+// Chart functions
+// Fig 1 - Trips Per Day line chart
+function showtpdLine() {
+  lineChart(tpdChart, settingsTPDline, ptcData[tpd]);
+  rotateLabels("tpdLine", settingsTPDline);
+}
+// Fig 3 - Time of Week line chart
+function showtowLine() {
+  lineChart(towChart, settingsTOWline, ptcData[tow]);
+  rotateLabels("towLine", settingsTOWline);
+  // axis annotations
+  d3.select("#hr")
+      .text(i18next.t("hr", {ns: "towline"}));
+}
+
+function rotateLabels(chartId, sett) {
+  // axes labels
+  d3.select(`#${chartId}`).select(".y.axis").select(".chart-label").attr("transform", function(d) {
+    return "translate(" + (sett.y.translateXY[0]) + " " + (sett.y.translateXY[1]) + ")rotate(-90)";
+  });
+
+  if (sett.x.translateXY) {
+    d3.select(`#${chartId}`).select(".x.axis").select(".chart-label").attr("transform", function(d) {
+      return "translate(" + (sett.x.translateXY[0]) + " " + (sett.x.translateXY[1]) + ")";
+    });
+  }
+}
 // -----------------------------------------------------------------------------
 // Initial page load
 console.log("CALL init page load")
@@ -53,16 +92,103 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
   console.log("init page load")
   d3.queue()
       .defer(d3.json, "webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
-      // .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
-      // .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
       .await(function(error, tpdfile, tpdAMfile, towfile) {
-        // console.log(tpdfile)
-        // ptcData[tpd] = tpdfile;
-        // ptcData[tpdAM] = tpdAMfile;
-        // ptcData[tow] = towfile;
+        ptcData[tpd] = tpdfile;
+        ptcData[tpdAM] = tpdAMfile;
+        ptcData[tow] = towfile;
 
         pageTexts();
-        // showtpdLine();
+
+        // settings files
+        settingsTPDline = {
+          alt: i18next.t("alt", {ns: "line"}),
+          margin: {
+            top: 20,
+            right: 10,
+            bottom: 80,
+            left: 125
+          },
+          aspectRatio: 16 / 9,
+          datatable: false,
+          filterData: function(d) {
+            const root = d.tpd;
+            const keys = this.z.getKeys(root);
+            return keys.map(function(key) {
+              return {
+                id: key,
+                values: root[key].map(function(value, index) {
+                  return {
+                    year: root.keys.values[index],
+                    value: value
+                  };
+                })
+              };
+            });
+          },
+          x: {
+            label: i18next.t("x_label", {ns: "line"}),
+            getValue: function(d) {
+              return new Date(d.year + "-01");
+            },
+            getText: function(d) {
+              return d.year;
+            },
+            ticks: 6,
+            translateXY: [-380, 65],
+            // from extend
+            getDomain: function(flatData) {
+              return d3.extent(flatData, this.x.getValue.bind(this));
+            },
+            getRange: function() {
+              return [0, this.innerWidth];
+            }
+          },
+          y: {
+            label: i18next.t("y_label", {ns: "line"}),
+            getValue: function(d) {
+              return d.value;
+            },
+            getText: function(d) {
+              return Math.round(d.value);
+            },
+            translateXY: [-95, 250],
+            ticks: 5,
+            // from extend
+            getDomain: function(flatData) {
+              var min = d3.min(flatData, this.y.getValue.bind(this));
+              return [
+                min > 0 ? 0 : min,
+                d3.max(flatData, this.y.getValue.bind(this))
+              ];
+            }
+          },
+
+          z: {
+            label: i18next.t("z_label", {ns: "line"}),
+            getId: function(d) {
+              return d.id;
+            },
+            getKeys: function(d) {
+              const keys = Object.keys(d);
+              keys.splice(keys.indexOf("keys"), 1);
+              return keys;
+            },
+            getClass: function(...args) {
+              return this.z.getId.apply(this, args);
+            },
+            getDataPoints: function(d) {
+              return d.values;
+            },
+            getText: function(d) {
+              return i18next.t(d.id, {ns: "districts"});
+            }
+          },
+          width: 900
+        };
+
+        showtpdLine();
         // showtowLine();
       });
 })
