@@ -45,7 +45,46 @@ function pageTexts() {
   d3.select(".dow-label#sat").html(i18next.t("sat", {ns: "dow-abbr"}));
   d3.select(".dow-label#sun").html(i18next.t("sun", {ns: "dow-abbr"}));
 }
+// -----------------------------------------------------------------------------
+// Chart SVGs
+// Fig 1 - Trips Per Day line chart
+const tpdChart = d3.select(".tpd-line.data")
+    .append("svg")
+    .attr("id", "tpdLine");
 
+// Fig 3 - TOW line chart
+const towChart = d3.select(".tow.data")
+    .append("svg")
+    .attr("id", "towLine");
+
+// -----------------------------------------------------------------------------
+// Chart functions
+// Fig 1 - Trips Per Day line chart
+function showtpdLine() {
+  lineChart(tpdChart, settingsTPDline, ptcData[tpd]);
+  // rotateLabels("tpdLine", settingsTPDline);
+}
+// Fig 3 - Time of Week line chart
+function showtowLine() {
+  lineChart(towChart, settingsTOWline, ptcData[tow]);
+  rotateLabels("towLine", settingsTOWline);
+  // axis annotations
+  d3.select("#hr")
+      .text(i18next.t("hr", {ns: "towline"}));
+}
+
+function rotateLabels(chartId, sett) {
+  // axes labels
+  d3.select(`#${chartId}`).select(".y.axis").select(".chart-label").attr("transform", function(d) {
+    return "translate(" + (sett.y.translateXY[0]) + " " + (sett.y.translateXY[1]) + ")rotate(-90)";
+  });
+
+  if (sett.x.translateXY) {
+    d3.select(`#${chartId}`).select(".x.axis").select(".chart-label").attr("transform", function(d) {
+      return "translate(" + (sett.x.translateXY[0]) + " " + (sett.x.translateXY[1]) + ")";
+    });
+  }
+}
 // -----------------------------------------------------------------------------
 // Initial page load
 console.log("CALL init page load")
@@ -53,16 +92,106 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
   console.log("init page load")
   d3.queue()
       .defer(d3.json, "webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
-      // .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
-      // .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
       .await(function(error, tpdfile, tpdAMfile, towfile) {
-        // console.log(tpdfile)
-        // ptcData[tpd] = tpdfile;
-        // ptcData[tpdAM] = tpdAMfile;
-        // ptcData[tow] = towfile;
+        ptcData[tpd] = tpdfile;
+        ptcData[tpdAM] = tpdAMfile;
+        ptcData[tow] = towfile;
 
         pageTexts();
-        // showtpdLine();
+
+        // settings files
+        settingsTPDline = {
+          alt: i18next.t("alt", {ns: "towline"}),
+          margin: {
+            top: 5,
+            right: 30,
+            bottom: 20,
+            left: 125
+          },
+          aspectRatio: 16 / 3,
+          datatable: false,
+          filterData: function(d) {
+            const root = d.tow;
+            const keys = this.z.getKeys(root);
+            const skip = 6; // number of hours to skip in 24h; for x-axis ticks
+            let xtickIdx = root.keys.values.map((q) => {
+              if (q * skip <= 162) return q * skip;
+            });
+            xtickIdx = xtickIdx.filter((q)=> {
+              return q != undefined;
+            });
+            return keys.map(function(key) {
+              return {
+                id: key,
+                xtickIdx: xtickIdx,
+                values: root[key].map(function(value, index) {
+                  return {
+                    year: root.keys.values[index],
+                    value: value
+                  };
+                })
+              };
+            });
+          },
+          x: {
+            // label: i18next.t("x_label", {ns: "towline"}),
+            type: "linear",
+            getValue: function(d) {
+              // return new Date(d.year + "-01");
+              return d.year;
+            },
+            getText: function(d) {
+              return d.year;
+            },
+            // ticks: 28,
+            getTickText: function(val) {
+              const modVal = val % 24;
+              return modVal;
+            },
+            translateXY: [-380, 45]
+          },
+          y: {
+            label: i18next.t("y_label", {ns: "towline"}),
+            getValue: function(d) {
+              return d.value;
+            },
+            getText: function(d) {
+              return Math.round(d.value);
+            },
+            translateXY: [-60, 95],
+            ticks: 2
+          },
+          z: {
+            label: i18next.t("z_label", {ns: "towline"}),
+            getId: function(d) {
+              return d.id;
+            },
+            getKeys: function(d) {
+              const keys = Object.keys(d);
+              keys.splice(keys.indexOf("keys"), 1);
+              return keys;
+            },
+            getxtickIdx: function(filteredData) {
+              return filteredData.map((d) => {
+                return d.xtickIdx;
+              })[0];
+            },
+            getClass: function(...args) {
+              return this.z.getId.apply(this, args);
+            },
+            getDataPoints: function(d) {
+              return d.values;
+            },
+            getText: function(d) {
+              return i18next.t(d.id, {ns: "towline"});
+            }
+          },
+          width: 900
+        };
+
+        showtpdLine();
         // showtowLine();
       });
 })
