@@ -1,5 +1,5 @@
 {
-  "en-US": {
+  "en": {
     "indexhtml": {
       "pagetitle": "The Transportation Impacts of Vehicle-for-Hire in the City of Toronto",
       "subtitle1": "Key findings and implications",
@@ -7,7 +7,7 @@
       "fullreport": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/96c7-Report_v1.0_2019-06-21.pdf'>Full Report</a>",
       "appendixA": "<a target='_blank' href='https://www.toronto.ca/wp-content/uploads/2019/06/8f59-AppendixA_detailed_methodology_data.pdf'>Appendix A:<br> Methodology</a>",
       "appendixB": "<a target='_blank' href='https://vfh-wardprofiles.herokuapp.com/'>Appendix B:<br> Ward Profiles</a>",
-      
+
       "subtitle2": "Explore the data",
       "DVpara": "Here, we provide an interactive exploration of the results of this report, organized around these 3 central questions:",
       "Q1": "What are the trends and patterns in vehicle-for-hire travel in the City?",
