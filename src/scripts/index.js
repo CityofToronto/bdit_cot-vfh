@@ -62,7 +62,7 @@ const towChart = d3.select(".tow.data")
 // Fig 1 - Trips Per Day line chart
 function showtpdLine() {
   lineChart(tpdChart, settingsTPDline, ptcData[tpd]);
-  // rotateLabels("tpdLine", settingsTPDline);
+  rotateLabels("tpdLine", settingsTPDline);
 }
 // Fig 3 - Time of Week line chart
 function showtowLine() {
@@ -103,6 +103,92 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
 
         // settings files
         settingsTPDline = {
+          alt: i18next.t("alt", {ns: "line"}),
+          margin: {
+            top: 20,
+            right: 10,
+            bottom: 80,
+            left: 125
+          },
+          aspectRatio: 16 / 9,
+          datatable: false,
+          filterData: function(d) {
+            const root = d.tpd;
+            const keys = this.z.getKeys(root);
+            return keys.map(function(key) {
+              return {
+                id: key,
+                values: root[key].map(function(value, index) {
+                  return {
+                    year: root.keys.values[index],
+                    value: value
+                  };
+                })
+              };
+            });
+          },
+          x: {
+            label: i18next.t("x_label", {ns: "line"}),
+            getValue: function(d) {
+              return new Date(d.year + "-01");
+            },
+            getText: function(d) {
+              return d.year;
+            },
+            ticks: 6,
+            translateXY: [-380, 65],
+            // from extend
+            getDomain: function(flatData) {
+              return d3.extent(flatData, this.x.getValue.bind(this));
+            },
+            getRange: function() {
+              return [0, this.innerWidth];
+            }
+          },
+          y: {
+            label: i18next.t("y_label", {ns: "line"}),
+            getValue: function(d) {
+              return d.value;
+            },
+            getText: function(d) {
+              return Math.round(d.value);
+            },
+            translateXY: [-95, 250],
+            ticks: 5,
+            // from extend
+            getDomain: function(flatData) {
+              var min = d3.min(flatData, this.y.getValue.bind(this));
+              return [
+                min > 0 ? 0 : min,
+                d3.max(flatData, this.y.getValue.bind(this))
+              ];
+            }
+          },
+
+          z: {
+            label: i18next.t("z_label", {ns: "line"}),
+            getId: function(d) {
+              return d.id;
+            },
+            getKeys: function(d) {
+              const keys = Object.keys(d);
+              keys.splice(keys.indexOf("keys"), 1);
+              return keys;
+            },
+            getClass: function(...args) {
+              return this.z.getId.apply(this, args);
+            },
+            getDataPoints: function(d) {
+              return d.values;
+            },
+            getText: function(d) {
+              return i18next.t(d.id, {ns: "districts"});
+            }
+          },
+          width: 900
+        };
+
+        settingsTOWline = {
           alt: i18next.t("alt", {ns: "towline"}),
           margin: {
             top: 5,
@@ -150,8 +236,16 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
               const modVal = val % 24;
               return modVal;
             },
-            translateXY: [-380, 45]
+            translateXY: [-380, 45],
+            // from extend
+            getDomain: function(flatData) {
+              return d3.extent(flatData, this.x.getValue.bind(this));
+            },
+            getRange: function() {
+              return [0, this.innerWidth];
+            }
           },
+
           y: {
             label: i18next.t("y_label", {ns: "towline"}),
             getValue: function(d) {
@@ -161,8 +255,17 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
               return Math.round(d.value);
             },
             translateXY: [-60, 95],
-            ticks: 2
+            ticks: 2,
+            // from extend
+            getDomain: function(flatData) {
+              var min = d3.min(flatData, this.y.getValue.bind(this));
+              return [
+                min > 0 ? 0 : min,
+                d3.max(flatData, this.y.getValue.bind(this))
+              ];
+            }
           },
+
           z: {
             label: i18next.t("z_label", {ns: "towline"}),
             getId: function(d) {
@@ -192,6 +295,6 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
         };
 
         showtpdLine();
-        // showtowLine();
+        showtowLine();
       });
 })
