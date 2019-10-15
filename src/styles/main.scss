@@ -79,22 +79,46 @@ text {
 
 /* -----------*/
 /* Intro section */
-.pdfbutton {
-  width: 106px;
-  height: 100px;
-  background-color: #ec9f09;
-  border-color: #fff;
-  color: #000;
-  margin-bottom: 23px;
-  /* margin-left: 168px; */
+.row.cards > div{
+    height: 180px;
+    margin-bottom: 1em;
+    margin-left: 100px;
 }
-.pdfbutton a {
-  color:  #000;
+.chart--card {
+  display: grid;
+  cursor: pointer;
+  border: 2px solid #D0D3D5;
+  width: 22%;
+  margin: 30px;
 }
-#reportButton {
-  /* position: absolute;
-  left: 146px;
-  top: 4px; */
+.chart__card-heading {
+  background-color: #D0D3D5;
+  text-align: center;
+  align-items: center;
+  display: grid;
+  font-size: 18px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.chart__card-body {
+  text-align: center;
+  align-items: center;
+}
+.chart__card-body {
+  padding: 40px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-size: 1.125em;
+}
+.chart__button-link {
+  text-align: right;
+  width: 98%
+  color: #2d699e;
+}
+.glyphicon-circle-arrow-right {
+  color: #2d699e;
 }
 
 /* -----------*/

@@ -59,6 +59,17 @@ const towChart = d3.select(".tow.data")
 
 // -----------------------------------------------------------------------------
 // Chart functions
+function showCards() {
+  d3.select("#card-1").select(".chart__card-body")
+    .html(i18next.t("fullreportLink", {ns: "indexhtml"}));
+
+  d3.select("#card-2").select(".chart__card-body")
+    .html(i18next.t("appendixALink", {ns: "indexhtml"}));
+
+  d3.select("#card-3").select(".chart__card-body")
+    .html(i18next.t("appendixBLink", {ns: "indexhtml"}));
+}
+
 // Fig 1 - Trips Per Day line chart
 function showtpdLine() {
   lineChart(tpdChart, settingsTPDline, ptcData[tpd]);
@@ -98,6 +109,8 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
         ptcData[tpd] = tpdfile;
         ptcData[tpdAM] = tpdAMfile;
         ptcData[tow] = towfile;
+
+        showCards();
 
         pageTexts();
 

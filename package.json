@@ -59,6 +59,7 @@
     "isInternetStandaloneApp": false,
     "includeDropzone": false,
     "includeModal": false,
-    "includeTerms": false
+    "includeTerms": false,
+    "includeChart":true
   }
 }
