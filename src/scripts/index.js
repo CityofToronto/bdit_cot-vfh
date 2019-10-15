@@ -296,5 +296,8 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
 
         showtpdLine();
         showtowLine();
+
+        // hack
+        d3.select("#appDisplay").attr("class", "show");
       });
 })
