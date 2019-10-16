@@ -62,9 +62,13 @@ function showCards() {
   d3.select("#card-1").select(".chart__card-body")
     .html(i18next.t("fullreportLink", {ns: "indexhtml"}));
 
+d3.select("#card-2").select(".chart__card-heading")
+  .html(i18next.t("appendixA", {ns: "indexhtml"}));
   d3.select("#card-2").select(".chart__card-body")
     .html(i18next.t("appendixALink", {ns: "indexhtml"}));
 
+d3.select("#card-3").select(".chart__card-heading")
+  .html(i18next.t("appendixB", {ns: "indexhtml"}));
   d3.select("#card-3").select(".chart__card-body")
     .html(i18next.t("appendixBLink", {ns: "indexhtml"}));
 }
