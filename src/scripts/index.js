@@ -19,9 +19,6 @@ function pageTexts() {
   d3.select("#subtitle1").text(i18next.t("subtitle1", {ns: "indexhtml"}));
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
   d3.select("#DVpara").html(i18next.t("DVpara", {ns: "indexhtml"}));
-  d3.select("#reportButton").html(i18next.t("fullreport", {ns: "indexhtml"}));
-  d3.select("#appendixA").html(i18next.t("appendixA", {ns: "indexhtml"}));
-  d3.select("#appendixB").html(i18next.t("appendixB", {ns: "indexhtml"}));
 
   // Intro to Data Exploration
   d3.select("#subtitle2").text(i18next.t("subtitle2", {ns: "indexhtml"}));
@@ -60,6 +57,8 @@ const towChart = d3.select(".tow.data")
 // -----------------------------------------------------------------------------
 // Chart functions
 function showCards() {
+  d3.select("#card-1").select(".chart__card-heading")
+    .html(i18next.t("fullreport", {ns: "indexhtml"}));
   d3.select("#card-1").select(".chart__card-body")
     .html(i18next.t("fullreportLink", {ns: "indexhtml"}));
 

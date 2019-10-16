@@ -82,23 +82,18 @@ text {
 .row.cards > div{
     height: 180px;
     margin-bottom: 1em;
-    margin-left: 100px;
 }
 .chart--card {
   display: grid;
   cursor: pointer;
   border: 2px solid #D0D3D5;
-  width: 22%;
-  margin: 30px;
 }
 .chart__card-heading {
   background-color: #D0D3D5;
   text-align: center;
   align-items: center;
-  display: grid;
+  display: flex;
   font-size: 18px;
-  margin-left: -16px;
-  margin-right: -16px;
   padding-top: 12px;
   padding-bottom: 12px;
 }
@@ -114,7 +109,7 @@ text {
 }
 .chart__button-link {
   text-align: right;
-  width: 98%
+  width: 98%;
   color: #2d699e;
 }
 .glyphicon-circle-arrow-right {
