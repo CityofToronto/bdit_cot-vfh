@@ -1,5 +1,3 @@
-var junk="junk";
-
 // -----------------------------------------------------------------------------
 // settings
 let settingsTPDline;
@@ -13,6 +11,19 @@ const tpdAM = "tpdAM"; // trips per day AM
 const tow = "tow"; // time of week
 
 // -----------------------------------------------------------------------------
+// Chart SVGs
+// Fig 1 - Trips Per Day line chart
+const tpdChart = d3.select(".tpd-line.data")
+    .append("svg")
+    .attr("id", "tpdLine");
+
+// Fig 3 - TOW line chart
+const towChart = d3.select(".tow.data")
+    .append("svg")
+    .attr("id", "towLine");
+
+// -----------------------------------------------------------------------------
+// Functions
 function pageTexts() {
   // Intro texts
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
@@ -42,20 +53,8 @@ function pageTexts() {
   d3.select(".dow-label#sat").html(i18next.t("sat", {ns: "dow-abbr"}));
   d3.select(".dow-label#sun").html(i18next.t("sun", {ns: "dow-abbr"}));
 }
-// -----------------------------------------------------------------------------
-// Chart SVGs
-// Fig 1 - Trips Per Day line chart
-const tpdChart = d3.select(".tpd-line.data")
-    .append("svg")
-    .attr("id", "tpdLine");
 
-// Fig 3 - TOW line chart
-const towChart = d3.select(".tow.data")
-    .append("svg")
-    .attr("id", "towLine");
-
-// -----------------------------------------------------------------------------
-// Chart functions
+// Report cards
 function showCards() {
   d3.select("#card-1").select(".chart__card-heading")
     .html(i18next.t("fullreport", {ns: "indexhtml"}));
@@ -114,7 +113,6 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
         ptcData[tow] = towfile;
 
         showCards();
-
         pageTexts();
 
         // settings files
@@ -203,7 +201,6 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
           },
           width: 900
         };
-
         settingsTOWline = {
           alt: i18next.t("alt", {ns: "towline"}),
           margin: {
