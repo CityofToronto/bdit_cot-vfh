@@ -29,7 +29,7 @@ See examples below in the boilerplate code
         <h1></h1>
       </div>
         <div class="row">
-          <div class="col-xs-12 pagecontent">
+          <div class="col-md-12 page-content">
             <h2 id="subtitle1"></h2>
             <p id="introp"></p><br>
           </div>
@@ -74,7 +74,7 @@ See examples below in the boilerplate code
 
         <!-- Intro to Data Exploration -->
          <div class="row">
-            <div class="col-xs-12 pagecontent">
+            <div class="col-md-12 page-content">
               <h2 id="subtitle2"></h2>
               <p id="DVpara"></p>
               <ul id="centralQ">
@@ -87,45 +87,81 @@ See examples below in the boilerplate code
 
         <!-- Fig 1 PTC Growth -->
         <div class="row">
-          <div class="col-xs-12 pagecontent">
+          <div class="col-md-12 page-content">
             <div class="section-growth">
               <h3 id="section0" class="myh3"></h3>
               <div id="section0-text1"></div>
 
               <h4 id="growthtsTitle" class="text-center"></h4>
               <div class="row">
-                <div class="col-xs-3"></div>
-                <div class="col-xs-6 tpd-line data"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-6 tpd-line data"></div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Figs 2 Impacts -->
+        <div class="row">
+          <div class="col-md-12 page-content">
+            <div class="section-impact">
+              <h3 id="section2" class="myh3"></h3>
+              <div id="section2-text1"></div>
+              <div id="section2-text1b" class="midtexts"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Shared trips map -->
+        <div class="row">
+          <div class="col-md-12 page-content">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 data">
+
+            </div>
+            <div class="col-md-2"></div>
           </div>
         </div>
 
         <!-- Fig 3 Time of Week -->
         <div class="row">
-          <div class="col-xs-12 pagecontent">
+          <div class="col-md-12 page-content">
             <div class="section-tow">
               <h3 id="section3" class="myh3"></h3>
               <div id="section3-text1"></div>
 
-              <div class="col-xs-1"></div>
-              <div class="col-xs-10 tow data">
+              <div class="col-md-1"></div>
+              <div class="col-md-10 tow data">
                 <div id="hr"></div>
               </div>
-              <div class="col-xs-1"></div>
+              <div class="col-md-1"></div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12 pagecontent">
-            <div class="col-xs-3" class=""></div>
-            <div class="col-xs-1 dow-label" id="mon"></div>
-            <div class="col-xs-1 dow-label" id="tues"></div>
-            <div class="col-xs-1 dow-label" id="wed"></div>
-            <div class="col-xs-1 dow-label" id="thurs"></div>
-            <div class="col-xs-1 dow-label" id="fri"></div>
-            <div class="col-xs-1 dow-label" id="sat"></div>
-            <div class="col-xs-1 dow-label" id="sun"></div>
+          <div class="col-md-12 page-content">
+            <div class="col-md-3" class=""></div>
+            <div class="col-md-1 dow-label" id="mon"></div>
+            <div class="col-md-1 dow-label" id="tues"></div>
+            <div class="col-md-1 dow-label" id="wed"></div>
+            <div class="col-md-1 dow-label" id="thurs"></div>
+            <div class="col-md-1 dow-label" id="fri"></div>
+            <div class="col-md-1 dow-label" id="sat"></div>
+            <div class="col-md-1 dow-label" id="sun"></div>
+          </div>
+        </div>
+        <!-- Section Ward Patterns -->
+        <div class="row">
+          <div class="col-md-12 page-content">
+            <div class="section-wardpatterns">
+              <h3 id="section4" class="myh3"></h3>
+            </div>
+          </div>
+        </div>
+        <!-- PUDO bubble map -->
+        <div class="row">
+          <div class="col-md-6 page-content"></div>
+          <div class="col-md-6 page-content">
+            <cotui-charts id="wardPUDOMap" chart-type="map" chart-title="Neighbourhoods" x-axislabel="Neighbourhood" y-axislabel="Amount"></cotui-charts>
           </div>
         </div>
     </div>
@@ -148,7 +184,12 @@ See examples below in the boilerplate code
   <script src="<!-- @echo SRC_PATH -->/lib/utils.js"></script>
   <script src="<!-- @echo SRC_PATH -->/lib/line.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/index.js"></script>
-  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/cotui.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/cotui.js"></script>
+  <!-- Load Esri Leaflet from CDN https://github.com/Esri/esri-leaflet/issues/1113 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script  src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
 
   <!--@if ENV!='prod'-->
   <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/cotui.css">
