@@ -10,7 +10,7 @@ See examples below in the boilerplate code
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
     <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/cotui.css">
+    <link rel="stylesheet" type="text/css" href="lib/cotui.css">
     <link rel="stylesheet" type="text/css" href="styles/main.scss">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
@@ -160,7 +160,7 @@ See examples below in the boilerplate code
         <!-- PUDO bubble map -->
         <div class="row">
           <div class="col-md-6 page-content"></div>
-          <div class="col-md-6 page-content">
+          <div class="col-md-6 page-content" style='height:700px;'>
             <cotui-charts id="wardPUDOMap" chart-type="map" chart-title="Neighbourhoods" x-axislabel="Neighbourhood" y-axislabel="Amount"></cotui-charts>
           </div>
         </div>
@@ -173,7 +173,7 @@ See examples below in the boilerplate code
   <!--@exec startBuildTagWithCacheBuster('scripts/main.js')-->
     <!-- core:js -->
     <!-- endinject -->
-    <!-- place your application script references here: -->
+    <!-- place your applcotui.cication script references here: -->
 
   <!-- endbuild -->
   <script src="<!-- @echo SRC_PATH -->/lib/jquery.min.js"></script>
@@ -186,13 +186,10 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/index.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/cotui.js"></script>
   <!-- Load Esri Leaflet from CDN https://github.com/Esri/esri-leaflet/issues/1113 -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-  <script  src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
-  <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
   <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
 
+
   <!--@if ENV!='prod'-->
-  <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/cotui.css">
   <script type="text/javascript">
   console.log('bdit_core_transit running on <!--@echo ENV--> environment');
   console.log('bdit_core_transit SRC_PATH: <!--@echo SRC_PATH-->');
