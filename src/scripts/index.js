@@ -4,11 +4,13 @@ let settingsTPDline;
 
 // data objects
 const ptcData = {};
+const ptcMap = {}; //by ward
 
 // data selectors
 const tpd = "tpd"; // trips per day
 const tpdAM = "tpdAM"; // trips per day AM
 const tow = "tow"; // time of week
+const ward = 1;
 
 // -----------------------------------------------------------------------------
 // Chart SVGs
@@ -159,17 +161,19 @@ function showtpdLine() {
 function showWardPUDOMap() {
   const ui = new COTUI({initCustomElements: true});
   ui.Charts();
-    // const options = {
-    //   // mapHeight: 1200,
-    //   mapType: 'Gray'
-    // };
-    // var yourMap = new cot_map("wardPUDOMap", options);
-    // yourMap.render();
+  var mapData = ptcMap[ward];
+  console.log("JSON: ", ptcMap[ward])
+  var map = document.getElementById('wardPUDOMap');
+  map.data = mapData;
+  map.updateComponent();
 
-    var mapData = new ChartData();
-    var map = document.getElementById('wardPUDOMap');
-    map.data = mapData;
-    map.updateComponent();
+    const options = {
+      // mapHeight: 1200,
+      mapType: 'Gray'
+    };
+    var yourMap = new cot_map("cotmap", options);
+    console.log("yourMap: ", yourMap )
+    yourMap.render();
 }
 
 // Fig 3 - Time of Week line chart
@@ -202,10 +206,13 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
       .defer(d3.json, "webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
-      .await(function(error, tpdfile, tpdAMfile, towfile) {
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_ptc_map_w1.json") // ptc bubble map for ward 1
+      .await(function(error, tpdfile, tpdAMfile, towfile, ptcmapfile) {
         ptcData[tpd] = tpdfile;
         ptcData[tpdAM] = tpdAMfile;
         ptcData[tow] = towfile;
+
+        ptcMap[ward] = ptcmapfile;
 
         showCards();
         pageTexts();
