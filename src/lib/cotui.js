@@ -46963,12 +46963,6 @@ var COTUI = function(t) {
                         e = (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}).layer,
                         n = void 0 === e ? "COTGEO_CENSUS_NEIGHBORHOOD" : e,
                         i = this.data;
-                        console.log("this: ", this)
-                        console.log("data: ", this.data)
-                        console.log("e: ", e)
-                        console.log("i: ", i)
-                        console.log("i.hasOwnProperty: ", i.hasOwnProperty("chartOptions"))
-                        console.log("statement: ", i.hasOwnProperty("chartOptions") || (i.chartOptions = {}))
                     i.hasOwnProperty("chartOptions") || (i.chartOptions = {});
                     var a = (new Xl).getLayer({
                             layer: n
@@ -47019,11 +47013,6 @@ var COTUI = function(t) {
                         p = {},
                         _ = [],
                         m = [];
-                        console.log("h: ", h)
-                        console.log("t: ", t)
-                        console.log("o: ", o)
-                        console.log("c: ", c)
-                        console.log("d: ", d)
                     h.map(function(e) {
                         f[e.label] = L.layerGroup(), p[e.label] = L.layerGroup();
                         var n = t.ColorRange;

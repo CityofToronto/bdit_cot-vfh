@@ -159,6 +159,7 @@ function showtpdLine() {
 
 // Fig 2c - Shared trips cholorpleth
 function showWardPUDOMap() {
+  // old way
   const ui = new COTUI({initCustomElements: true});
   ui.Charts();
   var mapData = ptcMap[ward];
@@ -167,13 +168,22 @@ function showWardPUDOMap() {
   map.data = mapData;
   map.updateComponent();
 
-    const options = {
-      // mapHeight: 1200,
-      mapType: 'Gray'
-    };
-    var yourMap = new cot_map("cotmap", options);
-    console.log("yourMap: ", yourMap )
-    yourMap.render();
+  // current way
+  const options = {
+    // mapHeight: 1200,
+    mapType: 'Gray',
+    markerList: [[43.66, -79.373903], [43.706773, -79.398429]],
+    circleOptions: {
+      color: "red",
+      fillColor: "#f03",
+      fillOpacity: 0.5,
+      radius: 500
+    }
+  };
+  var yourMap = new cot_map("cotmap", options);
+  console.log("yourMap: ", yourMap )
+  yourMap.render();
+  yourMap.addCircle();
 }
 
 // Fig 3 - Time of Week line chart
@@ -199,9 +209,7 @@ function rotateLabels(chartId, sett) {
 }
 // -----------------------------------------------------------------------------
 // Initial page load
-console.log("CALL init page load")
 i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
-  console.log("init page load")
   d3.queue()
       .defer(d3.json, "webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
