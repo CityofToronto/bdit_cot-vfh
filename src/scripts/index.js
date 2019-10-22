@@ -4,7 +4,8 @@ let settingsTPDline;
 
 // data objects
 const ptcData = {};
-const ptcMap = {}; //by ward
+const ptcMap = {}; //PUDO map by ward
+const ptcFraction = {}; //PTC Trip Fraction by ward
 
 // data selectors
 const tpd = "tpd"; // trips per day
@@ -23,6 +24,18 @@ const tpdChart = d3.select(".tpd-line.data")
 const towChart = d3.select(".tow.data")
     .append("svg")
     .attr("id", "towLine");
+
+// Fig 4a - Trip Fraction line chart
+const fractionLineChart = d3.select(".fractionline.data")
+    .append("svg")
+    .attr("id", "fractionline");
+
+// -----------------------------------------------------------------------------
+// Tooltip divs
+const divHoverArea = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 // -----------------------------------------------------------------------------
 class ChartData{
@@ -93,7 +106,112 @@ class ChartData{
     }
   }
 
-// Functions
+// -----------------------------------------------------------------------------
+// Aux Functions
+function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
+  chartObj.svg.datum(chartObj);
+  chartObj.data = chartObj.settings.filterData(data);
+
+  let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
+  let rect;
+  let line;
+
+  if (overlay.empty()) {
+    overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
+        .append("g")
+        .attr("class", "overlay");
+
+    rect = overlay
+        .append("rect")
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr("class", "overlay");
+
+    line = overlay.append("line")
+        .attr("class", "hoverLine")
+        .style("display", "inline")
+        .style("visibility", "hidden");
+  } else {
+    rect = overlay.select("rect");
+    line = overlay.select("line");
+  }
+
+  rect
+      .attr("width", chartObj.settings.innerWidth)
+      .attr("height", chartObj.settings.innerHeight)
+      .on("mousemove", function(e) {
+        const chartObj = d3.select(this.ownerSVGElement).datum();
+        const x = d3.mouse(this)[0];
+        const xD = chartObj.x.invert(x);
+        const i = Math.round(xD);
+        let d0;
+        let d1;
+        if (i === 0) { // handle edge case
+          d1 = chartObj.data[0].values[i].year;
+          d0 = d1;
+        } else {
+          d0 = chartObj.data[0].values[i - 1].year;
+          d1 = chartObj.data[0].values[i].year;
+        }
+
+        let d;
+        if (d0 && d1) {
+          // d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
+          d = xD - d0 > d1 - xD ? d1 : d0;
+        } else if (d0) {
+          d = d0;
+        } else {
+          d = d1;
+        }
+
+        const sf = 4.467065868263473; // NOTE
+        d = d * sf;
+
+        line.attr("x1", d);
+        line.attr("x2", d);
+        line.style("visibility", "visible");
+
+        if (onMouseOverCb && typeof onMouseOverCb === "function") {
+          const hr = i % 24;
+          const hoverData = {};
+          hoverData.ward = [hr, data.linedata.w22[i], i];
+          onMouseOverCb(hoverData);
+        }
+      })
+      .on("mouseout", function() {
+        line.style("visibility", "hidden");
+        if (onMouseOutCb && typeof onMouseOutCb === "function") {
+          onMouseOutCb();
+        }
+      });
+
+  line
+      .attr("x1", 0)
+      .attr("x2", 0)
+      .attr("y1", 0)
+      .attr("y2", chartObj.settings.innerHeight);
+}
+
+function hoverlineTip(settings, div, dataObj) {
+  const thisHr = `${dataObj.ward[0]}h00`;
+  const cityVal = d3.format("(.2f")(dataObj.ward[1]);
+
+  const makeTable = function() {
+    let rtnTable = `<b>Hour: ${thisHr}</b><br><br><table>`;
+    rtnTable = rtnTable.concat(`<tr><td><b>${i18next.t("y_label", {ns: "ward_towline"})}</b>: ${cityVal}</td></tr>`);
+    rtnTable = rtnTable.concat("</table>");
+    return rtnTable;
+  };
+
+  div.html(makeTable())
+      .style("opacity", .9)
+      .style("left", ((d3.event.pageX + 10) + "px"))
+      .style("top", ((d3.event.pageY + 10) + "px"))
+      .style("pointer-events", "none");
+}
+
+// -----------------------------------------------------------------------------
+// Charts
 function pageTexts() {
   // Intro texts
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
@@ -131,9 +249,14 @@ function pageTexts() {
 
   // Ward patterns section
   d3.select(".section-wardpatterns").select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
+  d3.select(".section-wardpatterns").select("#section4-text1").html(i18next.t("section4-text1", {ns: "indexhtml"}));
+  // ** ward dropdown menu
+  d3.select("#ward-menu").node()[0].text = i18next.t("w22", {ns: "wards"});
+  d3.select("#ward-menu").node()[1].text = i18next.t("w1", {ns: "wards"});
+  d3.select("#ward-menu").node()[2].text = i18next.t("w10", {ns: "wards"});
 }
 
-// Report cards
+// Fig 0 -  Report cards
 function showCards() {
   d3.select("#card-1").select(".chart__card-heading")
     .html(i18next.t("fullreport", {ns: "indexhtml"}));
@@ -158,6 +281,46 @@ function showtpdLine() {
 }
 
 // Fig 2c - Shared trips cholorpleth
+
+// Fig 3 - Time of Week line chart
+function showtowLine() {
+  lineChart(towChart, settingsTOWline, ptcData[tow]);
+  rotateLabels("towLine", settingsTOWline);
+  // axis annotations
+  d3.select("#hr")
+      .text(i18next.t("hr", {ns: "towline"}));
+}
+
+// Fig 4a - Trip Fraction city and ward
+function showFractionLine() {
+  fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
+  // axes labels
+  rotateLabels("fractionline", settingsFractionLine);
+  // axis annotations
+  d3.select("#fractionhr")
+      .text(i18next.t("hr", {ns: "towline"}));
+
+  // hover line
+  fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
+  createOverlay(fractionLine, ptcFraction[ward], (d) => {
+    hoverlineTip(settingsFractionLine, divHoverArea, d);
+    const idx = d.ward[2];
+    const hr = d.ward[0];
+    const friNoon = 108;
+    // if (hr >= 7 && hr <= 9) {
+    //   if (idx < friNoon) {
+    //     // weekday AM peak
+    //   }
+    // } else if (hr >= 19 && hr <= 23) {
+    //   if (idx >= 115 & idx < 144) {
+    //   }
+    // } else {
+    // }
+  }, () => {
+    divHoverArea.style("opacity", 0);
+  });
+}
+// Fig 4b - PUDO map
 function showWardPUDOMap() {
   // old way
   const ui = new COTUI({initCustomElements: true});
@@ -186,15 +349,6 @@ function showWardPUDOMap() {
   yourMap.addCircle();
 }
 
-// Fig 3 - Time of Week line chart
-function showtowLine() {
-  lineChart(towChart, settingsTOWline, ptcData[tow]);
-  rotateLabels("towLine", settingsTOWline);
-  // axis annotations
-  d3.select("#hr")
-      .text(i18next.t("hr", {ns: "towline"}));
-}
-
 function rotateLabels(chartId, sett) {
   // axes labels
   d3.select(`#${chartId}`).select(".y.axis").select(".chart-label").attr("transform", function(d) {
@@ -214,12 +368,14 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
       .defer(d3.json, "webapps/bdit_cot-vfh/data/fig1_dailytrips_city.json") // trips per day
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
-      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_ptc_map_w1.json") // ptc bubble map for ward 1
-      .await(function(error, tpdfile, tpdAMfile, towfile, ptcmapfile) {
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4a_dummy_tripfraction_w22.json") // wardtowfile
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_ptc_map_w1.json") // ptc choropleth for ward 1
+      .await(function(error, tpdfile, tpdAMfile, towfile, ptcfractionfile ,ptcmapfile) {
         ptcData[tpd] = tpdfile;
-        ptcData[tpdAM] = tpdAMfile;
+        ptcData[tpdAM] = tpdAMfile; // not used yet
         ptcData[tow] = towfile;
 
+        ptcFraction[ward] = ptcfractionfile;
         ptcMap[ward] = ptcmapfile;
 
         showCards();
@@ -416,10 +572,119 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
           },
           width: 900
         };
+        settingsFractionLine = {
+          alt: i18next.t("alt", {ns: "towline"}),
+          margin: {
+            top: 0,
+            right: 55,
+            bottom: 55,
+            left: 100
+          },
+          aspectRatio: 16 / 8,
+          datatable: false,
+          filterData: function(d) {
+            const root = d.linedata;
+            const keys = this.z.getKeys(root);
+            const skip = 6; // number of hours to skip in 24h; for x-axis ticks
+            let xtickIdx = root.keys.values.map((q) => {
+              if (q * skip <= 162) return q * skip;
+            });
+            xtickIdx = xtickIdx.filter((q)=> {
+              return q != undefined;
+            });
+            return keys.map(function(key) {
+              return {
+                id: key,
+                xtickIdx: xtickIdx,
+                values: root[key].map(function(value, index) {
+                  return {
+                    year: root.keys.values[index],
+                    value: value
+                  };
+                })
+              };
+            });
+          },
+          x: {
+            // label: i18next.t("x_label", {ns: "towline"}),
+            type: "linear",
+            getValue: function(d) {
+              return d.year;
+            },
+            getText: function(d) {
+              return d.year;
+            },
+            // ticks: 28,
+            getTickText: function(val) {
+              const modVal = val % 24;
+              return modVal;
+            },
+            translateXY: [-380, 45]
+          },
+
+          y: {
+            label: i18next.t("y_label", {ns: "ward_towline"}),
+            getValue: function(d) {
+              return d.value;
+            },
+            getText: function(d) {
+              return Math.round(d.value);
+            },
+            translateXY: [-75, 280],
+            ticks: 2
+          },
+
+          z: {
+            label: i18next.t("z_label", {ns: "towline"}),
+            getId: function(d) {
+              return d.id;
+            },
+            getKeys: function(d) {
+              const keys = Object.keys(d);
+              keys.splice(keys.indexOf("keys"), 1);
+              return keys;
+            },
+            getxtickIdx: function(filteredData) {
+              return filteredData.map((d) => {
+                return d.xtickIdx;
+              })[0];
+            },
+            getClass: function(...args) {
+              return this.z.getId.apply(this, args);
+            },
+            getDataPoints: function(d) {
+              return d.values;
+            },
+            getText: function(d) {
+              return i18next.t(d.id, {ns: "towline"});
+            }
+          },
+          levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
+          width: 900
+        };
+        settingsFractionLine.x = $.extend({
+          getDomain: function(flatData) {
+            return d3.extent(flatData, this.x.getValue.bind(this));
+          },
+          getRange: function() {
+            return [0, this.innerWidth];
+          }
+        }, settingsFractionLine.x || {});
+        settingsFractionLine.y = $.extend({
+          getDomain: function(flatData) {
+            var min = d3.min(flatData, this.y.getValue.bind(this));
+            return [
+              min > 0 ? 0 : min,
+              d3.max(flatData, this.y.getValue.bind(this))
+            ];
+          }
+        }, settingsFractionLine.y || {});
+
 
         showtpdLine();
-        showWardPUDOMap();
         showtowLine();
+        showFractionLine();
+        showWardPUDOMap();
 
         // hack
         d3.select("#appDisplay").attr("class", "show");

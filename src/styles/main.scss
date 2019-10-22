@@ -64,15 +64,12 @@ a,b,strong,th {
 text {
   font-size: 22px;
 }
-
 .myh3 {
   margin-top: 55px !important;
 }
-
 .form-control {
-  margin-top: 20px;
+  margin: 20px;
 }
-
 .midtexts {
   margin-top: 20px;
 }
@@ -173,7 +170,6 @@ text {
   font-size:85%
 }
 
-
 .chart__button-link {
   text-align: right;
   width: 98%;
@@ -188,7 +184,6 @@ text {
 .text-center {
   text-align: center;
 }
-
 div.tooltip {
   position: absolute;
   padding: 6px;
@@ -198,7 +193,6 @@ div.tooltip {
   border-radius: 8px;
   font: 24px;
 }
-
 .hoverLine {
    stroke: #000;
    stroke-width: 1px;
@@ -340,40 +334,41 @@ div.tooltip {
   left: 90px;
 }
 
-/* ward TOW line chart */
-#wardtow text {
-  font-size: 19px;
+/* Trip Fraction line chart */
+#fractionline text {
+  font-size: 16px;
 }
-#wardhr {
+#fractionhr {
   position: relative;
-  left: 605px;
-  top: 302px;
+  left: 734px;
+  top: 366px;
+  font-size: 16px;
 }
-.warddow-label {
+.fractionline-label {
   font-size: 14px;
   position: relative;
-  top: -19px;
+  top: -28px;
 }
 #ward_mon {
-  left: -69px;
+  left: -90px;
 }
 #ward_tues {
-  left: -52px;
+  left: -63px;
 }
 #ward_wed {
-  left: -29px;
+  left: -33px;
 }
 #ward_thurs {
   left: -13px;
 }
 #ward_fri {
-  left: 17px;
+  left: 26px;
 }
 #ward_sat {
-  left: 35px;
+  left: 53px;
 }
 #ward_sun {
-  left: 54px;
+  left: 78px;
 }
 
 /* pudo map legend */
