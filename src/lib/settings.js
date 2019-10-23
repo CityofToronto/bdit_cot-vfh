@@ -194,7 +194,7 @@ settingsTOWline = {
   width: 900
 };
 // -----------------------------------------------------------------------------
-// Fig 3a - Trips fraction over Time Of Week lineChart
+// Fig 4a - Trips fraction over Time Of Week lineChart
 settingsFractionLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
