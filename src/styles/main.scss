@@ -184,15 +184,35 @@ text {
 .text-center {
   text-align: center;
 }
-div.tooltip {
+/* tooltip for Trip Fraction lineChart with hover line */
+div.list-group {
   position: absolute;
-  padding: 6px;
-  text-align: left;
-  color: #fff;
-  background: #333;
-  border-radius: 8px;
+  margin-bottom: 32px;
+  // width: 200px;
+  background: #fff;
+  color: #000;
+  border-radius: 3px !important;
+  border: 1px solid #ddd;
   font: 24px;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.46);
+  // padding: 12px;
 }
+.list-group table {
+  width: 200px;
+  border-collapse:collapse;
+}
+.list-group table tr {
+  background-color: #fff !important;
+}
+.list-group table td {
+  height: 40px;
+  padding: 8px;
+}
+/* http://jsfiddle.net/zLecmk67/ */
+.table-striped tbody tr:nth-child(even) td {
+   background-color: #f5f5f5;
+ }
+
 .hoverLine {
    stroke: #000;
    stroke-width: 1px;

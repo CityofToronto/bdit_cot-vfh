@@ -32,10 +32,9 @@ const fractionLineChart = d3.select(".fractionline.data")
 
 // -----------------------------------------------------------------------------
 // Tooltip divs
-const divHoverArea = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+const divHoverLine = d3.select("body")
+    .append("div").attr("class", "panel panel-default")
+    .append("div").attr("class", "list-group");
 
 // -----------------------------------------------------------------------------
 class ChartData{
@@ -199,7 +198,7 @@ function showFractionLine() {
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, ptcFraction[ward], (d) => {
-    hoverlineTip(settingsFractionLine, divHoverArea, d);
+    hoverlineTip(settingsFractionLine, divHoverLine, d);
     const idx = d.ward[2];
     const hr = d.ward[0];
     const friNoon = 108;
@@ -213,7 +212,7 @@ function showFractionLine() {
     // } else {
     // }
   }, () => {
-    divHoverArea.style("opacity", 0);
+    divHoverLine.style("opacity", 0);
   });
 }
 // Fig 4b - PUDO map
