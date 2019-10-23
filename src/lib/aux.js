@@ -98,14 +98,14 @@ function hoverlineTip(settings, div, dataObj) {
   const cityVal = d3.format("(.2f")(dataObj.ward[1]);
 
   const makeTable = function() {
-    let rtnTable = `<b>Hour: ${thisHr}</b><br><br><table>`;
-    rtnTable = rtnTable.concat(`<tr><td><b>${i18next.t("y_label", {ns: "ward_towline"})}</b>: ${cityVal}</td></tr>`);
+    let rtnTable = `<table class="table-striped"><tr><td>${i18next.t("y_label", {ns: "ward_towline"})}: ${cityVal}</td></tr>`
+    rtnTable = rtnTable.concat(`<tr><td>Hour: ${thisHr}</td></tr>`);
     rtnTable = rtnTable.concat("</table>");
     return rtnTable;
   };
 
   div.html(makeTable())
-      .style("opacity", .9)
+      .style("opacity", .999)
       .style("left", ((d3.event.pageX + 10) + "px"))
       .style("top", ((d3.event.pageY + 10) + "px"))
       .style("pointer-events", "none");
