@@ -29,6 +29,9 @@ const towChart = d3.select(".tow.data")
 const fractionLineChart = d3.select(".fractionline.data")
     .append("svg")
     .attr("id", "fractionline");
+// Fig 4b - PUDO map corresponding to Fig 4a Trip fraction
+var yourMap = new cot_map("cotmap", pudoMapSettings);
+console.log("yourMap: ", yourMap )
 
 // -----------------------------------------------------------------------------
 // Tooltip divs
@@ -220,28 +223,22 @@ function showWardPUDOMap() {
   // old way
   const ui = new COTUI({initCustomElements: true});
   ui.Charts();
+  var map = document.getElementById('wardPUDOMap');
+
   var mapData = ptcMap[ward];
   console.log("JSON: ", ptcMap[ward])
-  var map = document.getElementById('wardPUDOMap');
   map.data = mapData;
   map.updateComponent();
 
   // current way
-  const options = {
-    // mapHeight: 1200,
-    mapType: 'Gray',
-    markerList: [[43.66, -79.373903], [43.706773, -79.398429]],
-    circleOptions: {
-      color: "red",
-      fillColor: "#f03",
-      fillOpacity: 0.5,
-      radius: 500
-    }
-  };
-  var yourMap = new cot_map("cotmap", options);
-  console.log("yourMap: ", yourMap )
+  // var yourMap = new cot_map("cotmap", pudoMapSettings);
+  // console.log("yourMap: ", yourMap )
+  console.log("call render")
+  console.log("container h before render: ", $("#cotmap").height())
   yourMap.render();
+    console.log("container h after render: ", $("#cotmap").height())
   yourMap.addCircle();
+
 }
 
 // -----------------------------------------------------------------------------
@@ -273,8 +270,17 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
         showtowLine();
         showFractionLine();
         showWardPUDOMap();
+        console.log("------------------------------------------------------")
+        console.log("container h after showWardPUDOMap: ", $("#cotmap").height())
 
         // hack
         d3.select("#appDisplay").attr("class", "show");
       });
+})
+
+$(document).ready(function(){
+  console.log("------------------------------------------------------")
+  console.log("container h before ready: ", $("#cotmap").height())
+  console.log("READY")
+  console.log("container h after ready: ", $("#cotmap").height())
 })

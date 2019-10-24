@@ -189,7 +189,9 @@ See examples below in the boilerplate code
             </div>
           </div>
           <div class="col-md-5 page-content" style='height:700px;'>
-            <cotui-charts id="cotmap" chart-type="map" chart-title="Neighbourhoods" x-axislabel="Neighbourhood" y-axislabel="Amount"></cotui-charts>
+            <div id="visionzero2018_container">
+              <cotui-charts id="cotmap" chart-type="map" chart-title="Neighbourhoods" x-axislabel="Neighbourhood" y-axislabel="Amount" style="height: 400px; position: relative; background: rgb(207, 211, 212) none repeat scroll 0% 0%;"></cotui-charts>
+            </div>
           </div>
         </div>
 
@@ -213,6 +215,7 @@ See examples below in the boilerplate code
     <!-- place your applcotui.cication script references here: -->
 
   <!-- endbuild -->
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/mapsettings.js"></script>
   <script src="<!-- @echo SRC_PATH -->/lib/jquery.min.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/i18next.min.js"></script>
   <script src="<!-- @echo SRC_PATH -->/lib/bootstrap.min.js"></script>
@@ -223,7 +226,7 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/index.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/aux.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/settings.js"></script>
-  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/mapsettings.js"></script>
+
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/lib/cotui.js"></script>
   <!-- Load Esri Leaflet from CDN https://github.com/Esri/esri-leaflet/issues/1113 -->
   <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>

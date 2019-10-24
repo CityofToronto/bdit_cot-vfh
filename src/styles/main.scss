@@ -397,3 +397,44 @@ div.list-group {
 .frisatNightI {
   fill: #660159;
 }
+
+/* PUDO map */
+#cotmap {
+  min-height: 400px;
+}
+#visionzero2018_container {
+  // *:focus{
+  //   outline: 5px auto rgb(49, 125, 157);
+  //   outline-offset: -2px;
+  // }
+// NOTE override some leaflet style
+
+	.leaflet-control{
+		margin:0;
+	}
+	.leaflet-bar{
+		border-radius:4px;
+		border-width: 1px;
+	}
+  .leaflet-bar.leaflet-control{
+    position:relative;
+    width:100%;
+    border:0;
+  }
+  .leaflet-bottom.leaflet-left{
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .leaflet-shadowWards-pane{
+    z-index: 390;
+  }
+  .leaflet-right.leaflet-bottom {
+  	bottom: 0;
+    right:0;
+    z-index: 999;
+	}
+  .leaflet-control-scale.leaflet-control{
+    margin:0 5px 5px 0;
+  }
+}
