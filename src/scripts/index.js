@@ -6,6 +6,7 @@ let settingsTPDline;
 const ptcData = {};
 const ptcMap = {}; //PUDO map by ward
 const ptcFraction = {}; //PTC Trip Fraction by ward
+const pudoMap = {}; //PUDO map by ward
 
 // data selectors
 const tpd = "tpd"; // trips per day
@@ -30,8 +31,8 @@ const fractionLineChart = d3.select(".fractionline.data")
     .append("svg")
     .attr("id", "fractionline");
 // Fig 4b - PUDO map corresponding to Fig 4a Trip fraction
-var yourMap = new cot_map("cotmap", pudoMapSettings);
-console.log("yourMap: ", yourMap )
+// var yourMap = new cot_map("cotmap", pudoMapSettings);
+// console.log("yourMap: ", yourMap )
 
 // -----------------------------------------------------------------------------
 // Tooltip divs
@@ -231,12 +232,15 @@ function showWardPUDOMap() {
   map.updateComponent();
 
   // current way
-  // var yourMap = new cot_map("cotmap", pudoMapSettings);
-  // console.log("yourMap: ", yourMap )
-  console.log("call render")
-  console.log("container h before render: ", $("#cotmap").height())
+  console.log("pudoMap[ward]: ", pudoMap[ward].latlon)
+  pudoMapSettings = $.extend({
+    markerList:  pudoMap[ward].latlon
+  }, pudoMapSettings || {});
+  
+  var yourMap = new cot_map("cotmap", pudoMapSettings);
+  console.log("yourMap: ", yourMap )
+  // console.log("container h before render: ", $("#cotmap").height())
   yourMap.render();
-    console.log("container h after render: ", $("#cotmap").height())
   yourMap.addCircle();
 
 }
@@ -254,13 +258,15 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4a_dummy_tripfraction_w22.json") // wardtowfile
       .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_ptc_map_w1.json") // ptc choropleth for ward 1
-      .await(function(error, tpdfile, tpdAMfile, towfile, ptcfractionfile ,ptcmapfile) {
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22
+      .await(function(error, tpdfile, tpdAMfile, towfile, ptcfractionfile ,ptcmapfile, pudomapfile) {
         ptcData[tpd] = tpdfile;
         ptcData[tpdAM] = tpdAMfile; // not used yet
         ptcData[tow] = towfile;
 
         ptcFraction[ward] = ptcfractionfile;
         ptcMap[ward] = ptcmapfile;
+        pudoMap[ward] = pudomapfile;
 
         showCards();
         pageTexts();
