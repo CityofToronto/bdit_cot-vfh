@@ -64,48 +64,112 @@ a,b,strong,th {
 text {
   font-size: 22px;
 }
-
 .myh3 {
-  margin-top: 70px;
+  margin-top: 55px !important;
 }
-
 .form-control {
-  margin-top: 20px;
+  margin: 20px;
 }
-
 .midtexts {
   margin-top: 20px;
 }
 
 /* -----------*/
+.page-content {
+  font-size: 1.125em;
+}
 /* Intro section */
 .row.cards > div{
     height: 180px;
     margin-bottom: 1em;
 }
+.chart__card {
+   display:grid;
+   height:100%;
+   grid-template-rows:2fr 3.8fr 1fr
+}
+@media print {
+   [card-style*=option1] a {
+     font-size:smaller
+   }
+   [card-style*=option1] .chart--card {
+     border:1px dotted var(--color-border-dark)
+   }
+   [card-style*=option1] .chart__card-heading {
+     border-bottom:1px dashed var(--color-border-dark)
+   }
+}
 .chart--card {
-  display: grid;
-  cursor: pointer;
-  border: 2px solid #D0D3D5;
+   height:100%;
+   border: 2px solid rgba(208, 211, 213, 0.9);
+   display:grid
 }
-.chart__card-heading {
-  background-color: #D0D3D5;
-  text-align: center;
-  align-items: center;
-  font-size: 18px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+@media print {
+  .chart--card a[href]:after {
+    font-size:16px
+  }
 }
-.chart__card-body {
-  text-align: center;
-  align-items: center;
+.chart--card:hover .chart--value a {
+  text-decoration:underline
 }
-.chart__card-body {
-  padding: 40px;
-  -webkit-box-pack: center;
-  justify-content: center;
-  font-size: 1.125em;
+.chart--card .image {
+   opacity:.98;
+   overflow:hidden;
+   border-bottom-left-radius:3px;
+   border-bottom-right-radius:3px
 }
+.chart--card .chart__card-heading {
+   background-color: #D0D5DA;
+   color: #000;
+   font-size: 1.125em;
+   padding:0 var(--padding-small);
+   display:-webkit-box;
+   display:-ms-flexbox;
+   display:flex;
+   -webkit-box-pack:center;
+   -ms-flex-pack:center;
+   justify-content:center
+}
+.chart--card .chart__card-body,
+.chart--card .chart__card-heading {
+   text-align:center;
+   -webkit-box-align:center;
+   -ms-flex-align:center;
+   align-items:center
+}
+.chart--card .chart__card-body {
+   display:grid;
+   grid-template-rows:1fr auto;
+   color:#fff;
+   border-bottom-left-radius:3px;
+   border-bottom-right-radius:3px
+}
+.chart--card__image {
+   position:relative;
+   text-Align:center
+}
+.chart--card__image .chart__card-body {
+   width:100%;
+   height:100%;
+   position:absolute;
+   top:50%;
+   left:50%;
+   -webkit-transform:translate(-50%,-50%);
+   transform:translate(-50%,-50%);
+   padding:0
+}
+@media screen and (max-width:600px) {
+ .chart--card__image .chart__card-body {
+  padding:10% 0
+ }
+}
+.chart--card .chart--value {
+  font-size:2em
+}
+.chart--card .chart--caption {
+  font-size:85%
+}
+
 .chart__button-link {
   text-align: right;
   width: 98%;
@@ -120,16 +184,33 @@ text {
 .text-center {
   text-align: center;
 }
-
-div.tooltip {
+/* tooltip for Trip Fraction lineChart with hover line */
+div.list-group {
   position: absolute;
-  padding: 6px;
-  text-align: left;
-  color: #fff;
-  background: #333;
-  border-radius: 8px;
+  margin-bottom: 32px;
+  // width: 200px;
+  background: #fff;
+  color: #000;
+  border-radius: 3px !important;
+  border: 1px solid #ddd;
   font: 24px;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.46);
 }
+.list-group table {
+  width: 200px;
+  border-collapse:collapse;
+}
+.list-group table tr {
+  background-color: #fff !important;
+}
+.list-group table td {
+  height: 40px;
+  padding: 8px;
+}
+/* http://jsfiddle.net/zLecmk67/ */
+.table-striped tbody tr:nth-child(even) td {
+   background-color: #f5f5f5;
+ }
 
 .hoverLine {
    stroke: #000;
@@ -243,8 +324,8 @@ div.tooltip {
 }
 #hr {
   position: relative;
-  left: 1083px;
-  top: 213px;
+  left: 1099px;
+  top: 218px;
 }
 .dow-label {
   position: relative;
@@ -272,40 +353,41 @@ div.tooltip {
   left: 90px;
 }
 
-/* ward TOW line chart */
-#wardtow text {
-  font-size: 19px;
+/* Trip Fraction line chart */
+#fractionline text {
+  font-size: 16px;
 }
-#wardhr {
+#fractionhr {
   position: relative;
-  left: 605px;
-  top: 302px;
+  left: 734px;
+  top: 366px;
+  font-size: 16px;
 }
-.warddow-label {
+.fractionline-label {
   font-size: 14px;
   position: relative;
-  top: -19px;
+  top: -28px;
 }
 #ward_mon {
-  left: -69px;
+  left: -90px;
 }
 #ward_tues {
-  left: -52px;
+  left: -63px;
 }
 #ward_wed {
-  left: -29px;
+  left: -33px;
 }
 #ward_thurs {
   left: -13px;
 }
 #ward_fri {
-  left: 17px;
+  left: 26px;
 }
 #ward_sat {
-  left: 35px;
+  left: 53px;
 }
 #ward_sun {
-  left: 54px;
+  left: 78px;
 }
 
 /* pudo map legend */
@@ -314,4 +396,45 @@ div.tooltip {
 }
 .frisatNightI {
   fill: #660159;
+}
+
+/* PUDO map */
+#cotmap {
+  min-height: 400px;
+}
+#visionzero2018_container {
+  // *:focus{
+  //   outline: 5px auto rgb(49, 125, 157);
+  //   outline-offset: -2px;
+  // }
+// NOTE override some leaflet style
+
+	.leaflet-control{
+		margin:0;
+	}
+	.leaflet-bar{
+		border-radius:4px;
+		border-width: 1px;
+	}
+  .leaflet-bar.leaflet-control{
+    position:relative;
+    width:100%;
+    border:0;
+  }
+  .leaflet-bottom.leaflet-left{
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .leaflet-shadowWards-pane{
+    z-index: 390;
+  }
+  .leaflet-right.leaflet-bottom {
+  	bottom: 0;
+    right:0;
+    z-index: 999;
+	}
+  .leaflet-control-scale.leaflet-control{
+    margin:0 5px 5px 0;
+  }
 }
