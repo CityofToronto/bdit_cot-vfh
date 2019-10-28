@@ -48,17 +48,10 @@ gulp.task('data', () => {
     .pipe(gulp.dest('dist' + dir + '/data'));
 });
 
-gulp.task('indexjs', () => {
-  console.log('adding index.js');
-  let dir = '/resources';
-  return gulp.src(['src/scripts/index.js'])
-    .pipe(gulp.dest('dist' + dir + '/scripts'));
-});
-
 // gulp.task('foo_run', () => {
 //   return new Promise(resolve => {
 //     runSequence('clean', 'build_with_simulator', 'lib', '_serve', resolve);
 //   });
 // });
 
-gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data', 'indexjs']);
+gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data']);
