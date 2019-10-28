@@ -116,35 +116,6 @@ function pageTexts() {
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
   d3.select("#subtitle1").text(i18next.t("subtitle1", {ns: "indexhtml"}));
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
-  d3.select("#DVpara").html(i18next.t("DVpara", {ns: "indexhtml"}));
-
-  // Intro to Data Exploration
-  d3.select("#subtitle2").text(i18next.t("subtitle2", {ns: "indexhtml"}));
-  d3.select("#Q1").html(i18next.t("Q1", {ns: "indexhtml"}));
-  d3.select("#Q2").html(i18next.t("Q2", {ns: "indexhtml"}));
-  d3.select("#Q3").html(i18next.t("Q3", {ns: "indexhtml"}));
-
-  // Fig 1 PTC Growth
-  d3.select(".section-growth").select("#section0").text(i18next.t("section0", {ns: "indexhtml"}));
-  d3.select(".section-growth").select("#section0-text1").html(i18next.t("section0-text1", {ns: "indexhtml"}));
-  d3.select("#growthtsTitle").html(i18next.t("growthtsTitle", {ns: "indexhtml"}));
-
-  // Figs 2 Impacts
-  d3.select(".section-impact").select("#section2").html(i18next.t("section2", {ns: "indexhtml"}));
-  d3.select(".section-impact").select("#section2-text1").html(i18next.t("section2-text1", {ns: "indexhtml"}));
-  d3.select(".section-impact").select("#section2-text1b").html(i18next.t("section2-text1b", {ns: "indexhtml"}));
-  // d3.select(".section-impact").select("#section2-text2").html(i18next.t("section2-text2", {ns: "indexhtml"}));
-
-  // Fig 3 Time of Week
-  d3.select(".section-tow").select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
-  d3.select(".section-tow").select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
-  d3.select(".dow-label#mon").html(i18next.t("mon", {ns: "dow-abbr"}));
-  d3.select(".dow-label#tues").html(i18next.t("tues", {ns: "dow-abbr"}));
-  d3.select(".dow-label#wed").html(i18next.t("wed", {ns: "dow-abbr"}));
-  d3.select(".dow-label#thurs").html(i18next.t("thurs", {ns: "dow-abbr"}));
-  d3.select(".dow-label#fri").html(i18next.t("fri", {ns: "dow-abbr"}));
-  d3.select(".dow-label#sat").html(i18next.t("sat", {ns: "dow-abbr"}));
-  d3.select(".dow-label#sun").html(i18next.t("sun", {ns: "dow-abbr"}));
 
   // Ward patterns section
   d3.select(".section-wardpatterns").select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
@@ -221,7 +192,7 @@ function showFractionLine() {
 }
 // Fig 4b - PUDO map
 function showWardPUDOMap() {
-  // old way
+  // choloropleth
   const ui = new COTUI({initCustomElements: true});
   ui.Charts();
   var map = document.getElementById('wardPUDOMap');
@@ -231,7 +202,7 @@ function showWardPUDOMap() {
   map.data = mapData;
   map.updateComponent();
 
-  // current way
+  // everything other than chloropleth
   console.log("pudoMap[ward]: ", pudoMap[ward].latlon)
   pudoMapSettings = $.extend({
     markerList:  pudoMap[ward].latlon
@@ -268,12 +239,9 @@ i18n.load(["webapps/bdit_cot-vfh/i18n"], () => {
         ptcMap[ward] = ptcmapfile;
         pudoMap[ward] = pudomapfile;
 
-        showCards();
         pageTexts();
 
         // Line Charts
-        showtpdLine();
-        showtowLine();
         showFractionLine();
         showWardPUDOMap();
         console.log("------------------------------------------------------")
