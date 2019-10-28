@@ -6,7 +6,7 @@ For embedded apps:
 ------------------
 This app can be embedded on COT Wordpress pages with:
 
-`[cot_app app="bdit_cot-vfh"][/cot_app]`
+`[CotApp app="bdit_cot-vfh"][/CotApp]`
 
 Here is the application.json definition
 

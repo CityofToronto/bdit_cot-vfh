@@ -2,8 +2,8 @@
   "name": "bdit_cot-vfh",
   "version": "0.0.0",
   "qaRelease": 0,
-  "description": "Visualization page for VFH",
-  "author": "Cathy Nangini",
+  "description": "Describe this app",
+  "author": "Your name here",
   "contributors": [],
   "devDependencies": {
     "babel-preset-env": "^1.6.0",
@@ -34,24 +34,21 @@
     "gulp-useref": "^3.1.2",
     "gulp-zip": "^4.0.0",
     "node-env-file": "^0.1.8",
-    "run-sequence": "^1.2.2",
-    "esri-leaflet": "^2.2.4",
-    "leaflet": "^1.5.1",
-    "leaflet-gesture-handling": "^1.1.8"
+    "run-sequence": "^1.2.2"
   },
   "dependencies": {
-    "core": "git+https://github.com/CityofToronto/corejs.git#9.3.7",
-    "cotui": "git+https://github.com/CityofToronto/COT_UI.git#develop"
+    "core": "git+https://github.com/CityofToronto/corejs.git#9.3.8",
+    "cotui": "git+https://github.com/CityofToronto/COT_UI.git#1.0.2"
   },
   "coreConfig": {
-    "isEmbedded": false,
+    "isEmbedded": true,
     "includeFormValidation": false,
     "includeEditableSelect": false,
     "includeIntlTelInput": false,
     "includeJQueryMaskedInput": false,
     "includePlaceholders": false,
     "includeMultiSelect": false,
-    "includeMap": true,
+    "includeMap": false,
     "includeFullCalendar": false,
     "includeDatePicker": false,
     "includeLogin": false,
@@ -62,7 +59,6 @@
     "isInternetStandaloneApp": false,
     "includeDropzone": false,
     "includeModal": false,
-    "includeTerms": false,
-    "includeChart": true
+    "includeTerms": false
   }
 }
