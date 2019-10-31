@@ -13,11 +13,13 @@ $(function () {
       searchcontext: 'INTER'
     });
 
-    app.setBreadcrumb([
-      {"name": "bdit_cot-vfh", "link": "#"}
-    ]).render();
+    // COMMENT OUT WHEN NOT ON CITY NETWORK
+    // app.setBreadcrumb([
+    //   {"name": "bdit_cot-vfh", "link": "#"}
+    // ]).render();
   }
   let container = $('#bdit_cot-vfh_container');
+
 });
 
 
@@ -48,38 +50,41 @@ const ward = 1;
 
 
 // -----------------------------------------------------------------------------
+// Page texts
+function pageTexts() {
+  // Intro texts
+  d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
+  d3.select("#subtitle1").text(i18next.t("subtitle1", {ns: "indexhtml"}));
+  d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
+}
 
 // -----------------------------------------------------------------------------
 // Charts
 
 
 
-
-// -----------------------------------------------------------------------------
-// Initial page load
-// i18n.load(["/resources/i18n"], () => {
-//   settingsTPDline.x.label = i18next.t("x_label", {ns: "line"}),
-//   settingsTPDline.y.label = i18next.t("y_label", {ns: "line"}),
-//   settingsTOWline.y.label = i18next.t("y_label", {ns: "towline"}),
-//   settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
-//   d3.queue()
-//       .defer(d3.json, "/resources/data/fig1_dailytrips_city.json") // trips per day
-//       .defer(d3.json, "/resources/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
-//       .defer(d3.json, "/resources/data/fig3_tow_profile_city.json") // time of week ts
-//       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w22.json") // wardtowfile
-//       .defer(d3.json, "/resources/data/fig4b_ptc_map_w1.json") // ptc choropleth for ward 1
-//       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22
-//       .await(function(error, tpdfile, tpdAMfile, towfile, ptcfractionfile ,ptcmapfile, pudomapfile) {
- 
-//         console.log("&&&&&& ptcfractionfile: ", ptcfractionfile)
-
-
-//       });
-// })
-
 $(document).ready(function(){
-  console.log("------------------------------------------------------")
-  console.log("container h before ready: ", $("#cotmap").height())
-  console.log("READY")
-  console.log("container h after ready: ", $("#cotmap").height())
+  // -----------------------------------------------------------------------------
+  // Initial page load
+  i18n.load(["/resources/i18n"], () => {
+    d3.queue()
+      .defer(d3.json, "/resources/data/fig1_dailytrips_city.json") // trips per day
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig2_dummy_ptc_AM_downtown.json") // time of day ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig3_tow_profile_city.json") // time of week ts
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4a_dummy_tripfraction_w22.json") // wardtowfile
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_ptc_map_w1.json") // ptc choropleth for ward 1
+      .defer(d3.json, "/webapps/bdit_cot-vfh/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22
+      .await(function(error, tpdfile, tpdAMfile, towfile, ptcfractionfile ,ptcmapfile, pudomapfile) {
+        // Load data files into objects
+        ptcData[tpd] = tpdfile;
+        ptcData[tpdAM] = tpdAMfile; // not used yet
+        ptcData[tow] = towfile;
+        ptcFraction[ward] = ptcfractionfile;
+        ptcMap[ward] = ptcmapfile;
+        pudoMap[ward] = pudomapfile;
+
+        // Display texts
+        pageTexts();
+    });
+  })
 })

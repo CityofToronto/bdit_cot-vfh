@@ -6,4 +6,124 @@
 
 #bdit_cot-vfh_container {
 
+	/* -------*/
+	/* Custom */
+	text {
+	  font-size: 22px;
+	}
+	.myh3 {
+	  margin-top: 5px !important;
+	}
+	.form-control {
+	  margin: 20px;
+	}
+	.midtexts {
+	  margin-top: 20px;
+	}
+
+	/* -----------*/
+	.page-content {
+	  font-size: 1.125em;
+	}
+	/* Intro section */
+	.row.cards > div{
+	    height: 180px;
+	    margin-bottom: 1em;
+	}
+	.chart__card {
+	   display:grid;
+	   height:100%;
+	   grid-template-rows:2fr 3.8fr 1fr
+	}
+	@media print {
+	   [card-style*=option1] a {
+	     font-size:smaller
+	   }
+	   [card-style*=option1] .chart--card {
+	     border:1px dotted var(--color-border-dark)
+	   }
+	   [card-style*=option1] .chart__card-heading {
+	     border-bottom:1px dashed var(--color-border-dark)
+	   }
+	}
+	.chart--card {
+	   height:100%;
+	   border: 2px solid rgba(208, 211, 213, 0.9);
+	   display:grid
+	}
+	@media print {
+	  .chart--card a[href]:after {
+	    font-size:16px
+	  }
+	}
+	.chart--card:hover .chart--value a {
+	  text-decoration:underline
+	}
+	.chart--card .image {
+	   opacity:.98;
+	   overflow:hidden;
+	   border-bottom-left-radius:3px;
+	   border-bottom-right-radius:3px
+	}
+	.chart--card .chart__card-heading {
+	   background-color: #D0D5DA;
+	   color: #000;
+	   font-size: 1.125em;
+	   padding:0 var(--padding-small);
+	   display:-webkit-box;
+	   display:-ms-flexbox;
+	   display:flex;
+	   -webkit-box-pack:center;
+	   -ms-flex-pack:center;
+	   justify-content:center
+	}
+	.chart--card .chart__card-body,
+	.chart--card .chart__card-heading {
+	   text-align:center;
+	   -webkit-box-align:center;
+	   -ms-flex-align:center;
+	   align-items:center
+	}
+	.chart--card .chart__card-body {
+	   display:grid;
+	   grid-template-rows:1fr auto;
+	   color:#fff;
+	   border-bottom-left-radius:3px;
+	   border-bottom-right-radius:3px
+	}
+	.chart--card__image {
+	   position:relative;
+	   text-Align:center
+	}
+	.chart--card__image .chart__card-body {
+	   width:100%;
+	   height:100%;
+	   position:absolute;
+	   top:50%;
+	   left:50%;
+	   -webkit-transform:translate(-50%,-50%);
+	   transform:translate(-50%,-50%);
+	   padding:0
+	}
+	@media screen and (max-width:600px) {
+	 .chart--card__image .chart__card-body {
+	  padding:10% 0
+	 }
+	}
+	.chart--card .chart--value {
+	  font-size:2em
+	}
+	.chart--card .chart--caption {
+	  font-size:85%
+	}
+
+	.chart__button-link {
+	  text-align: right;
+	  width: 98%;
+	  color: #2d699e;
+	}
+	.glyphicon-circle-arrow-right {
+	  color: #2d699e;
+	}
+
 }

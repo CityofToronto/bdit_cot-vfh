@@ -9,7 +9,7 @@ See examples below in the boilerplate code
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
-    <link rel="stylesheet" type="text/css" href="</resources/styles/main.css">
+    <link rel="stylesheet" href="<!-- @echo SRC_PATH -->/styles/main.css">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
     <!-- core_print:css -->
@@ -102,7 +102,6 @@ See examples below in the boilerplate code
     <!-- place your application script references here: -->
     <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/main.js"></script>
   <!-- endbuild -->
-  <script type="text/javascript" src="/resources/lib/mapsettings.js"></script>
   <script type="text/javascript" src="/resources/lib/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/lib/i18next.min.js"></script>
   <script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script>
@@ -111,7 +110,6 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="/resources/lib/utils.js"></script>
   <script type="text/javascript" src="/resources/lib/line.js"></script>
   <script type="text/javascript" src="/resources/lib/aux.js"></script>
-  <script type="text/javascript" src="/resources/lib/settings.js"></script>
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
     console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');
