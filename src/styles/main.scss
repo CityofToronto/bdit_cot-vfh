@@ -5,7 +5,6 @@
 // Ex: background-image: url(/* @echo SRC_PATH*//img/sample.jpg)
 
 #bdit_cot-vfh_container {
-  /* Custom */
 	text {
 	  font-size: 22px;
 	}
@@ -23,8 +22,7 @@
 	.page-content {
 	  font-size: 1.125em;
 	}
-
-  /* Intro section */
+	/* Intro section */
 	.row.cards > div{
 	    height: 180px;
 	    margin-bottom: 1em;
@@ -124,5 +122,214 @@
 	.glyphicon-circle-arrow-right {
 	  color: #2d699e;
 	}
+
+	/* -----------*/
+	/* DV-related */
+	.text-center {
+	  text-align: center;
+	}
+	/* tooltip for Trip Fraction lineChart with hover line */
+	div.list-group {
+	  position: absolute;
+	  margin-bottom: 32px;
+	  // width: 200px;
+	  background: #fff;
+	  color: #000;
+	  border-radius: 3px !important;
+	  border: 1px solid #ddd;
+	  font: 24px;
+	  box-shadow: 0 3px 5px -1px rgba(0,0,0,.46);
+	}
+	.list-group table {
+	  width: 200px;
+	  border-collapse:collapse;
+	}
+	.list-group table tr {
+	  background-color: #fff !important;
+	}
+	.list-group table td {
+	  height: 40px;
+	  padding: 8px;
+	}
+	/* http://jsfiddle.net/zLecmk67/ */
+	.table-striped tbody tr:nth-child(even) td {
+	   background-color: #f5f5f5;
+	 }
+
+	.hoverLine {
+	   stroke: #000;
+	   stroke-width: 1px;
+	   opacity: 1;
+	   pointer-events: none;
+	}
+	.panel {
+		border: none !important;
+	}
+
+	/* line chart PTC growth */
+	.line svg text {
+		fill: currentColor;
+	}
+
+	.line svg .tick line,
+	.line svg .domain {
+		stroke: currentColor;
+	}
+
+	.dline {
+		stroke: #000;
+		stroke-width: 1.5;
+	}
+
+	.dline1 {
+		stroke: #660159;
+	  stroke-width: 7px;
+	}
+
+	.dline2 {
+		stroke: #FF7F00;
+	}
+
+	.dline3 {
+		stroke: #28A026;
+	}
+
+	.dline4 {
+		stroke: #D82A23;
+	}
+
+	.dline5 {
+		stroke: #9364BE;
+	}
+
+	.dline6 {
+		stroke: #8C574B;
+	}
+
+	.dline7 {
+		stroke: #E474C2;
+	}
+
+	/* TOW line chart */
+	#towLine text {
+	  font-size: 14px;
+	}
+	#hr {
+	  position: relative;
+	  left: 1099px;
+	  top: 218px;
+	}
+	.dow-label {
+	  position: relative;
+	  top: -3px;
+	}
+	#mon {
+	  left: -21px;
+	}
+	#tues {
+	  left: -6px;
+	}
+	#wed {
+	  left: 15px;
+	}
+	#thurs {
+	  left: 28px;
+	}
+	#fri {
+	  left: 56px;
+	}
+	#sat {
+	  left: 73px;
+	}
+	#sun {
+	  left: 90px;
+	}
+
+	/* Trip Fraction line chart */
+	#fractionline text {
+	  font-size: 16px;
+	}
+	#fractionhr {
+	  position: relative;
+	  left: 734px;
+	  top: 366px;
+	  font-size: 16px;
+	}
+	.fractionline-label {
+	  font-size: 14px;
+	  position: relative;
+	  top: -28px;
+	}
+	#ward_mon {
+	  left: -90px;
+	}
+	#ward_tues {
+	  left: -63px;
+	}
+	#ward_wed {
+	  left: -33px;
+	}
+	#ward_thurs {
+	  left: -13px;
+	}
+	#ward_fri {
+	  left: 26px;
+	}
+	#ward_sat {
+	  left: 53px;
+	}
+	#ward_sun {
+	  left: 78px;
+	}
+
+	/* pudo map legend */
+	.wkdayAMpeak {
+	  fill: #ff78b9;
+	}
+	.frisatNightI {
+	  fill: #660159;
+	}
+
+	/* PUDO map */
+	#cotmap {
+	  min-height: 400px;
+	}
+	#visionzero2018_container {
+	  // *:focus{
+	  //   outline: 5px auto rgb(49, 125, 157);
+	  //   outline-offset: -2px;
+	  // }
+	// NOTE override some leaflet style
+
+		.leaflet-control{
+			margin:0;
+		}
+		.leaflet-bar{
+			border-radius:4px;
+			border-width: 1px;
+		}
+	  .leaflet-bar.leaflet-control{
+	    position:relative;
+	    width:100%;
+	    border:0;
+	  }
+	  .leaflet-bottom.leaflet-left{
+	    top: 0;
+	    bottom: 0;
+	    right: 0;
+	  }
+	  .leaflet-shadowWards-pane{
+	    z-index: 390;
+	  }
+	  .leaflet-right.leaflet-bottom {
+	  	bottom: 0;
+	    right:0;
+	    z-index: 999;
+		}
+	  .leaflet-control-scale.leaflet-control{
+	    margin:0 5px 5px 0;
+	  }
+	}
+
 
 }
