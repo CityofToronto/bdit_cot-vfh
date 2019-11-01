@@ -12,7 +12,7 @@ let _config = {
 pudoMapSettings = {
   enableControlBox: false,
   enableSearchBar: false,
-  // zoom: 11,  
+  // zoom: 11,
   mapHeight: 400,
   // isVectorBasemap: true,
   enableFullscreen: false,

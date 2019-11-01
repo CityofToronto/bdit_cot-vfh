@@ -19,3 +19,33 @@ $(function () {
   // }
   let container = $('#bdit_cot-vfh_container');
 });
+
+// -----------------------------------------------------------------------------
+// CUSTOM CODE
+// import settingsFractionLine from "./settings_fractionLine.js";
+
+// data objects
+const ptcFraction = {}; //PTC Trip Fraction by ward
+const pudoMap = {}; //PUDO map by ward
+
+// data selectors
+const tpd = "tpd"; // trips per day
+const tpdAM = "tpdAM"; // trips per day AM
+const tow = "tow"; // time of week
+const ward = 1;
+
+$(document).ready(function(){
+  console.log("doc ready")
+  // -----------------------------------------------------------------------------
+  // Initial page load
+  i18n.load(["/resources/i18n"], () => {
+    settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
+    d3.queue()
+      .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w22.json") // trip fraction for ward 22
+      .await(function(error,ptcfractionfile) {
+        // Load data files into objects
+        ptcFraction[ward] = ptcfractionfile;
+        console.log(ptcFraction)
+      });
+  })
+})
