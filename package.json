@@ -49,7 +49,7 @@
     "includeJQueryMaskedInput": false,
     "includePlaceholders": false,
     "includeMultiSelect": false,
-    "includeMap": false,
+    "includeMap": true,
     "includeFullCalendar": false,
     "includeDatePicker": false,
     "includeLogin": false,

@@ -86,6 +86,20 @@ function showFractionLine() {
     divHoverLine.style("opacity", 0);
   });
 }
+// Fig 4b - PUDO map
+function showWardPUDOMap() {
+  console.log("pudoMap[ward]: ", pudoMap[ward].latlon)
+  pudoMapSettings = $.extend({
+    markerList:  pudoMap[ward].latlon
+  }, pudoMapSettings || {});
+
+  var wardpudoMap = new cot_map("cotmap", pudoMapSettings);
+  console.log("wardpudoMap: ", wardpudoMap )
+  wardpudoMap.render();
+  wardpudoMap.addCircle();
+
+}
+
 
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
@@ -102,22 +116,23 @@ $(document).ready(function(){
       .attr("class", "panel panel-default")
       .append("div").attr("class", "list-group");
 
-
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
     settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w22.json") // trip fraction for ward 22
-      .await(function(error, ptcfractionfile) {
+      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22
+      .await(function(error, ptcfractionfile, pudomapfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
+        pudoMap[ward] = pudomapfile;
 
         // Display texts
         pageTexts();
 
         // Line Charts
         showFractionLine();
-        // showWardPUDOMap();
+        showWardPUDOMap();
       });
   })
 })
