@@ -59,7 +59,7 @@ function pageTexts() {
 }
 
 function showFractionLine() {
-  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
+  const fractionLine = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
   // axis annotations

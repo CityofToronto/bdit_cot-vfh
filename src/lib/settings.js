@@ -204,7 +204,6 @@ settingsFractionLine = {
     left: 100
   },
   aspectRatio: 16 / 8,
-  datatable: false,
   filterData: function(d) {
     const root = d.linedata;
     const keys = this.z.getKeys(root);
@@ -263,8 +262,10 @@ settingsFractionLine = {
       return d.id;
     },
     getKeys: function(d) {
+      console.log("d in z: ", d)
       const keys = Object.keys(d);
       keys.splice(keys.indexOf("keys"), 1);
+      console.log("keys inz: ", keys)
       return keys;
     },
     getxtickIdx: function(filteredData) {
@@ -283,7 +284,9 @@ settingsFractionLine = {
     }
   },
   levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
-  width: 900
+  width: 900,
+  datatable: true,
+  tableTitle: "Table Title"
 };
 // extend with default settings that were in original line.js
 settingsFractionLine.x = $.extend({
