@@ -119,6 +119,8 @@ $(document).ready(function(){
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
     settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
+    settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
+    settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w22.json") // trip fraction for ward 22
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22

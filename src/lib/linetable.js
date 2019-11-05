@@ -159,42 +159,15 @@ function lineTable(svg, settings, data) {
     );
   },
   drawTable = function() {
-    console.log("junk: ", this.settings)
     var sett = this.settings,
       summaryId = "chrt-dt-tbl",
-      // data = (sett.filterData && typeof sett.filterData === "function") ?
-      //   sett.filterData(sett.data, "table") : sett.data,
-      tdata = (sett.filterData && typeof sett.filterData === "function") ?
+      filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ),
       details = parent.select("details"),
-      keys = ["Hour", "Trip fraction"],// sett.z.getKeys.call(sett, data),
-      // columns = sett.z.getDataPoints.call(sett, data[keys[0]]),
-      headerText = (sett.x.getText || sett.x.getValue).bind(sett),
-      setRow = function(d) {
-        console.log("setRow d: ", d)
-        var row = d3.select(this),
-          cells = row.selectAll("*")
-            .data(d),
-          getText = function(d) {
-            return d;
-          };
-
-        cells
-          .enter()
-            .append(function(d, i) {
-              return  document.createElement(i === 0 ? "th" : "td");
-            })
-            .text(getText);
-
-        cells.text(getText);
-
-        cells
-          .exit()
-            .remove();
-      },
+      keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
       table, header, headerCols, body, dataRows;
 
     if (details.empty()) {
@@ -212,8 +185,11 @@ function lineTable(svg, settings, data) {
       header = table.append("thead").append("tr");
       body = table.append("tbody");
 
-      // header.append("td");
-      header.append("td").attr("id", "thead_h0").text(keys[0]);
+      header
+        .append("td")
+        .attr("id", "thead_h0")
+        .text(sett.x.label);
+
     } else {
       header = details.select("thead tr");
       body = details.select("tbody");
@@ -222,47 +198,54 @@ function lineTable(svg, settings, data) {
     details.select("summary").text(sett.tableTitle || "Data");
 
     headerCols = header.selectAll("th")
-    .data(["Trip fraction"]);
-    // headerCols = header.selectAll("th")
-      // .data(columns);
+      .data(sett.z.getKeys.call(sett, data)); // [ "fraction" ]
 
     headerCols
       .enter()
         .append("th")
-        .text("Trip fraction");
-        // .text(headerText);
+        .text(sett.y.label)
+        .style("text-align", "right");
 
     headerCols
-      .text("Trip fraction");
-      // .text(headerText);
+      .text(sett.y.label);
 
     headerCols
       .exit()
       .remove();
 
+    // Set number of rows by appending array in .data
     dataRows = body.selectAll("tr")
-      .data([10,20])
-    //   .data(data.map(function() {
-    //     var arr = [(sett.z.getText || sett.z.getValue).apply(sett, arguments)]
-    //         .concat(sett.z.getDataPoints.apply(sett, arguments).map((sett.y.getText ? sett.y.getText : sett.y.getValue).bind(sett)));
-    //     return arr;
-    //   }));
+      .data(filteredData[0].values); // array of length 168
 
-    dataRows
+    dataRow = dataRows
       .enter()
         .append("tr")
-          .each(setRow);
+        .attr("id", function (d, i) {
+            return "row" + i;
+          });
 
-    dataRows
-      .each(setRow);
+    // th of each row
+    dataRow.append("th").attr("id", function (d, i) {
+      return "row" + i + "_h0";
+    })
+    .text(sett.x.getText.bind(sett)); // index for hour [0...167]
+
+    // td of each row
+    for (k = 0; k < keys.length; k++) {
+      dataRow.append("td").attr("headers", function (d, i) {
+        return "row" + i + "_h0" + " thead_h" + (k + 1);
+      }).text(function (d) {
+        return sett.y.getValue.call(sett, d, keys[k]);
+      }).style("text-align", "right");
+    }
 
     dataRows
       .exit()
         .remove();
 
-    // if ($ || wb) {
-    //   $(".chart-data-table summary").trigger("wb-init.wb-details");
-    // }
+    if ($ || wb) {
+      $(".chart-data-table summary").trigger("wb-init.wb-details");
+    }
   },
   clear = function() {
     dataLayer.remove();

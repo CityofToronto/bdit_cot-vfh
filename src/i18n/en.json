@@ -131,9 +131,10 @@
       "hr": "Hour"
     },
     "ward_towline": {
-      "x_label": "",
+      "x_label": "Time of day",
       "y_label": "Trip fraction (%)",
-      "hr": "Hour"
+      "hr": "Hour",
+      "tabletitle": "Percentage of trips per hour out of total weekly trips"      
     },
     "scatter": {
       "x_label": "Year of First PTC Trip",
