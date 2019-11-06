@@ -168,6 +168,27 @@ function lineTable(svg, settings, data) {
       ),
       details = parent.select("details"),
       keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
+      setRow = function(d) { // d: [ "Monday 0h00", 0.3234158 ]
+        var row = d3.select(this),
+          cells = row.selectAll("*")
+            .data(d),
+          getText = function(d) {
+            return d; // [ "Monday 0h00", 0.3234158 ]
+          };
+
+        cells
+          .enter()
+            .append(function(d, i) {
+              return  document.createElement(i === 0 ? "th" : "td");
+            })
+            .text(getText);
+
+        cells.text(getText);
+
+        cells
+          .exit()
+            .remove();
+      },
       table, header, headerCols, body, dataRows;
 
     if (details.empty()) {
@@ -187,7 +208,6 @@ function lineTable(svg, settings, data) {
 
       header
         .append("td")
-        .attr("id", "thead_h0")
         .text(sett.x.label);
 
     } else {
@@ -203,8 +223,7 @@ function lineTable(svg, settings, data) {
     headerCols
       .enter()
         .append("th")
-        .text(sett.y.label)
-        .style("text-align", "right");
+        .text(sett.y.label);
 
     headerCols
       .text(sett.y.label);
@@ -214,29 +233,43 @@ function lineTable(svg, settings, data) {
       .remove();
 
     // Set number of rows by appending array in .data
+    var flatout = [];
     dataRows = body.selectAll("tr")
-      .data(filteredData[0].values); // array of length 168
+      .data(function (d) {
+          filteredData[0].values.map(function(d, i) { // array of length 168
+            return flatout.push([sett.x.getText.call(sett, i), d.value]);
+          })
+        return flatout; //[ [ "Monday 0h00", 0.3234158 ], [ "Monday 1h00", 0.21998841 ], ..., [ "Friday 3h00", 0.14364915 ] ]
+      })
 
     dataRow = dataRows
       .enter()
-        .append("tr");
-
-    // th of each row
-    dataRow.append("th").attr("scope", function (d, i) {
-      return "row";
-    })
-    .text(sett.x.getText.bind(sett)); // index for hour [0...167]
-    console.log("dataRow: ", dataRow)
-
-    // td of each row
-    dataRow.append("td")
-      .text(function (d) {
-        return sett.y.getValue.call(sett, d, keys[0]);
-      });
+        .append("tr")
+          .each(setRow);
 
     dataRows
-      .exit()
-        .remove();
+        .each(setRow);
+
+      dataRows
+        .exit()
+          .remove();
+
+    // // th of each row
+    // dataRow.append("th").attr("scope", function (d, i) {
+    //   return "row";
+    // })
+    // .text(sett.x.getText.bind(sett)); // index for hour [0...167]
+    // console.log("dataRow: ", dataRow)
+    //
+    // // td of each row
+    // dataRow.append("td")
+    //   .text(function (d) {
+    //     return sett.y.getValue.call(sett, d, keys[0]);
+    //   });
+    //
+    // dataRows
+    //   .exit()
+    //     .remove();
 
     if ($ || wb) {
       $(".chart-data-table summary").trigger("wb-init.wb-details");

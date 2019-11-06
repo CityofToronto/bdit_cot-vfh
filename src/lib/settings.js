@@ -232,17 +232,17 @@ settingsFractionLine = {
     getValue: function(d) {
       return d.tod;
     },
-    getText: function(d) { // used for data table only
-      // Object { tod: 167, value: 0.46428669 }
+    getText: function(d) { // used for data table ONLY
+      // d is a number from 0 to 167
       let dow;
-      if (d.tod < 24) dow = "Monday"
-      else if (d.tod < 48) dow = "Tuesday"
-      else if (d.tod < 72) dow = "Wednesday"
-      else if (d.tod < 96) dow = "Thursday"
-      else if (d.tod < 120) dow = "Friday"
-      else if (d.tod < 144) dow = "Saturday"
+      if (d < 24) dow = "Monday"
+      else if (d < 48) dow = "Tuesday"
+      else if (d < 72) dow = "Wednesday"
+      else if (d < 96) dow = "Thursday"
+      else if (d < 120) dow = "Friday"
+      else if (d < 144) dow = "Saturday"
       else dow = "Sunday"
-      return `${dow} ${d.tod % 24}h00`;
+      return `${dow} ${d % 24}h00`;
     },
     // ticks: 28,
     getTickText: function(val) {

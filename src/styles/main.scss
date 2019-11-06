@@ -27,7 +27,10 @@
 	summary {
 		display: list-item;
 	}
-	.data td {
+	.data thead th {
+		text-align: right;
+	}
+	.data tbody td {
 		text-align: right;
 	}
 
