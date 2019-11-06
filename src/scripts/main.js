@@ -29,10 +29,7 @@ const ptcFraction = {}; // PTC Trip Fraction by ward
 const pudoMap = {}; // PUDO map by ward
 
 // data selectors
-const tpd = "tpd"; // trips per day
-const tpdAM = "tpdAM"; // trips per day AM
-const tow = "tow"; // time of week
-const ward = 1;
+let ward = "w1";
 
 // Chart names
 let fractionLineChart;
@@ -100,6 +97,24 @@ function showWardPUDOMap() {
 
 }
 
+// -----------------------------------------------------------------------------
+const loadData = function(cb) {
+  if (!ptcFraction[ward]) {
+    d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
+      ptcFraction[ward] = todfile;
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
+// -----------------------------------------------------------------------------
+function uiHandler(event) {
+  ward = event.target.value; // w22
+  loadData(() => {
+    showFractionLine();
+  });
+}
 
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
@@ -138,3 +153,5 @@ $(document).ready(function(){
       });
   })
 })
+
+$(document).on("change", uiHandler);
