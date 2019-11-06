@@ -54,8 +54,8 @@ function pageTexts() {
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
   d3.select("#section4-text1").html(i18next.t("section4-text1", {ns: "indexhtml"}));
   // ** ward dropdown menu
-  d3.select("#ward-menu").node()[0].text = i18next.t("w22", {ns: "wards"});
-  d3.select("#ward-menu").node()[1].text = i18next.t("w1", {ns: "wards"});
+  d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
+  d3.select("#ward-menu").node()[1].text = i18next.t("w22", {ns: "wards"});
 }
 
 function showFractionLine() {
@@ -122,8 +122,8 @@ $(document).ready(function(){
     settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     d3.queue()
-      .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w22.json") // trip fraction for ward 22
-      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w22.json") // pudo map ward 22
+      .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
+      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .await(function(error, ptcfractionfile, pudomapfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
