@@ -219,25 +219,20 @@ function lineTable(svg, settings, data) {
 
     dataRow = dataRows
       .enter()
-        .append("tr")
-        .attr("id", function (d, i) {
-            return "row" + i;
-          });
+        .append("tr");
 
     // th of each row
-    dataRow.append("th").attr("id", function (d, i) {
-      return "row" + i + "_h0";
+    dataRow.append("th").attr("scope", function (d, i) {
+      return "row";
     })
     .text(sett.x.getText.bind(sett)); // index for hour [0...167]
+    console.log("dataRow: ", dataRow)
 
     // td of each row
-    for (k = 0; k < keys.length; k++) {
-      dataRow.append("td").attr("headers", function (d, i) {
-        return "row" + i + "_h0" + " thead_h" + (k + 1);
-      }).text(function (d) {
-        return sett.y.getValue.call(sett, d, keys[k]);
-      }).style("text-align", "right");
-    }
+    dataRow.append("td")
+      .text(function (d) {
+        return sett.y.getValue.call(sett, d, keys[0]);
+      });
 
     dataRows
       .exit()
