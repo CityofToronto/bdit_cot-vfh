@@ -204,6 +204,10 @@ settingsFractionLine = {
     left: 100
   },
   aspectRatio: 16 / 8,
+  _selfFormatter: i18n.getNumberFormatter(2),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
+  },
   filterData: function(d) {
     const keys = this.z.getKeys(d);
     const skip = 6; // number of hours to skip in 24h; for x-axis ticks

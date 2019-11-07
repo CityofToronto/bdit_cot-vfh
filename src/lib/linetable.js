@@ -181,6 +181,9 @@ function lineTable(svg, settings, data) {
             .append(function(d, i) {
               return  document.createElement(i === 0 ? "th" : "td");
             })
+            .attr("scope", function(d, i) { // COT accessibility
+              if (i === 0) return "row";
+            })
             .text(getText);
 
         cells.text(getText);
@@ -203,6 +206,11 @@ function lineTable(svg, settings, data) {
         .append("table")
           .attr("class", "table")
           .attr("aria-labelledby", summaryId);
+
+      table
+        .append("caption")
+        .text(sett.tableTitle);
+
       header = table.append("thead").append("tr");
       body = table.append("tbody");
 
@@ -236,8 +244,10 @@ function lineTable(svg, settings, data) {
     var flatout = [];
     dataRows = body.selectAll("tr")
       .data(function (d) {
-          filteredData[0].values.map(function(d, i) { // array of length 168
-            return flatout.push([sett.x.getText.call(sett, i), d.value]);
+          filteredData[0].values.map(function(d, i) { // array of length 168            
+            return flatout.push(
+              [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
+            );
           })
         return flatout; //[ [ "Monday 0h00", 0.3234158 ], [ "Monday 1h00", 0.21998841 ], ..., [ "Friday 3h00", 0.14364915 ] ]
       })

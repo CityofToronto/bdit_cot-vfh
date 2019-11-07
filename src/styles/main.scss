@@ -6,7 +6,7 @@
 
 #bdit_cot-vfh_container {
 	text {
-	  font-size: 22px;
+	  font-size: 1.125em; // 22px;
 	}
 	.myh3 {
 	  margin-top: 5px !important;
@@ -18,20 +18,46 @@
 	  margin-top: 20px;
 	}
 	/* all tables */
-	.details .chart-data-table {
+	// .details .chart-data-table {
+	details {
 	  padding-bottom: 0em;
+		margin-top: 1em;
+		cursor: pointer;
 	}
-	.table {
-		margin-bottom: 0px;
-	}
-	summary {
+	details > summary {
 		display: list-item;
+		font-size: 85%;
+		font-weight: bold;
+	}
+	caption {
+		padding-bottom: 15px;
+		color: #000;
+		font-weight: bold;
+	}
+	table {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		border: 1px solid #ddd;
+	}
+	table th {
+		padding: 8px 16px !important;
+	  border: 1px solid #ddd !important;
+	  // border-bottom: 3px solid #165788 !important;
+	}
+	.data thead td {
+		font-weight: bold;
+		border-bottom: 2px solid #165788 !important;
 	}
 	.data thead th {
-		text-align: right;
+		text-align: left;
+		border-bottom: 2px solid #165788 !important;
+	}
+	.data tbody th {
+		font-weight: normal;
 	}
 	.data tbody td {
-		text-align: right;
+		text-align: left;
+		background-color: #f8f8f8f8 !important;
 	}
 
 	/* -----------*/
