@@ -30,6 +30,7 @@ const pudoMap = {}; // PUDO map by ward
 
 // data selectors
 let ward = "w1";
+let fractionTableTitle;
 
 // Chart names
 let fractionLineChart;
@@ -108,9 +109,16 @@ const loadData = function(cb) {
     cb();
   }
 };
+
+function updateTitles() {
+  fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+  d3.select(".fractionline").select("summary").text(fractionTableTitle);
+  d3.select(".fractionline").select("caption").text(fractionTableTitle);
+}
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
   ward = event.target.value; // w22
+  updateTitles();
   loadData(() => {
     showFractionLine();
   });
@@ -144,11 +152,16 @@ $(document).ready(function(){
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
 
+        // initial titles
+        fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+
         // Display texts
         pageTexts();
 
         // Line Charts
         showFractionLine();
+        d3.select(".fractionline").select("summary").text(fractionTableTitle);
+        d3.select(".fractionline").select("caption").text(fractionTableTitle);
         showWardPUDOMap();
       });
   })

@@ -208,8 +208,8 @@ function lineTable(svg, settings, data) {
           .attr("aria-labelledby", summaryId);
 
       table
-        .append("caption")
-        .text(sett.tableTitle);
+        .append("caption");
+        // .text(sett.tableTitle); // set in main.js - changes with dropdown menu selection
 
       header = table.append("thead").append("tr");
       body = table.append("tbody");
@@ -223,7 +223,8 @@ function lineTable(svg, settings, data) {
       body = details.select("tbody");
     }
 
-    details.select("summary").text(sett.tableTitle || "Data");
+    // Set in main.js - changes with dropdown menu selection
+    // details.select("summary").text(sett.tableTitle || "Data");
 
     headerCols = header.selectAll("th")
       .data(sett.z.getKeys.call(sett, data)); // [ "fraction" ]
@@ -244,7 +245,7 @@ function lineTable(svg, settings, data) {
     var flatout = [];
     dataRows = body.selectAll("tr")
       .data(function (d) {
-          filteredData[0].values.map(function(d, i) { // array of length 168            
+          filteredData[0].values.map(function(d, i) { // array of length 168
             return flatout.push(
               [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
             );
