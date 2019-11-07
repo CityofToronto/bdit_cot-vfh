@@ -31,6 +31,7 @@ const pudoMap = {}; // PUDO map by ward
 // data selectors
 let ward = "w1";
 let fractionTableTitle;
+let day = "mon";
 
 // Chart names
 let fractionLineChart;
@@ -57,7 +58,7 @@ function pageTexts() {
 }
 
 function showFractionLine() {
-  const fractionLine = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
+  const fractionLine = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
   // axis annotations
@@ -83,6 +84,8 @@ function showFractionLine() {
   }, () => {
     divHoverLine.style("opacity", 0);
   });
+
+  // Data table for trip fraction
 }
 // Fig 4b - PUDO map
 function showWardPUDOMap() {
@@ -113,15 +116,27 @@ const loadData = function(cb) {
 function updateTitles() {
   fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
-  d3.select(".fractionline").select("caption").text(fractionTableTitle);
+  d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+}
+function updateTableCaption() {
+  d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
-  ward = event.target.value; // w22
-  updateTitles();
-  loadData(() => {
-    showFractionLine();
-  });
+  console.log("uiHandler: ", event)
+  console.log("event.target.id: ", event.target.id)
+  console.log("uiHandler valu: ", event.target.value)
+
+  if (event.target.id === "ward-menu") {
+    ward = event.target.value; // w22
+    updateTitles();
+    loadData(() => {
+      showFractionLine();
+    });
+  } else if (event.target.id === "fraction-menu") {
+    day = event.target.value;
+    updateTableCaption();
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -161,7 +176,7 @@ $(document).ready(function(){
         // Line Charts
         showFractionLine();
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(fractionTableTitle);
+        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
         showWardPUDOMap();
       });
   })

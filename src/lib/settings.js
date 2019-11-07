@@ -302,7 +302,9 @@ settingsFractionLine = {
   levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
   width: 900,
   datatable: true,
-  tableTitle: i18next.t("tabletitle", {ns: "ward_towline"})
+  tablemenu: true,
+  tableTitle: i18next.t("tabletitle", {ns: "ward_towline"}),
+  tableCaption: i18next.t("tablecaption", {ns: "ward_towline"})
 };
 // extend with default settings that were in original line.js
 settingsFractionLine.x = $.extend({

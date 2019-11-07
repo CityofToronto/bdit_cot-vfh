@@ -1,4 +1,4 @@
-function lineTable(svg, settings, data) {
+function lineTable(svg, settings, data, day) {
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -159,6 +159,7 @@ function lineTable(svg, settings, data) {
     );
   },
   drawTable = function() {
+    console.log("DAY: ", day)
     var sett = this.settings,
       summaryId = "chrt-dt-tbl",
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
@@ -198,6 +199,33 @@ function lineTable(svg, settings, data) {
       details = parent
         .append("details")
           .attr("class", "chart-data-table");
+
+      // Dropdown menu for table
+      if (sett.tablemenu) {
+        var menu, options;
+
+        menu = details.append("div").attr("class", "col-md-3")
+          .append("select")
+            .attr("id", "fraction-menu")
+            .attr("class", "form-control");
+
+        options = menu.selectAll("option")
+          .data([{val:"mon", text: "Monday"},{val:"tues", text: "Tuesday"}])
+          .enter()
+            .append("option")
+            .attr("value", function(d) {
+              return d.val;
+            })
+            .attr("selected", function(d) {
+              if (d.val === "mon") {
+                return true;
+              }
+            })
+            .text(function(d) {
+              return d.text;
+            })
+      }
+      //
 
       details.append("summary")
         .attr("id", summaryId);
@@ -246,9 +274,20 @@ function lineTable(svg, settings, data) {
     dataRows = body.selectAll("tr")
       .data(function (d) {
           filteredData[0].values.map(function(d, i) { // array of length 168
-            return flatout.push(
-              [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
-            );
+            if (day == "mon") {
+              if (d.tod < 24) {
+                return flatout.push(
+                  [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
+                );
+              }
+            } else if (day == "tues") {
+              if (d.tod < 48) {
+                return flatout.push(
+                  [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
+                );
+              }
+            }
+
           })
         return flatout; //[ [ "Monday 0h00", 0.3234158 ], [ "Monday 1h00", 0.21998841 ], ..., [ "Friday 3h00", 0.14364915 ] ]
       })
