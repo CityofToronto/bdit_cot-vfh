@@ -58,7 +58,7 @@ function pageTexts() {
 }
 
 function showFractionLine() {
-  const fractionLine = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
+  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
   // axis annotations
@@ -86,6 +86,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
+  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
 }
 // Fig 4b - PUDO map
 function showWardPUDOMap() {

@@ -50,7 +50,7 @@ function lineChart(svg, settings, data) {
       lineFn = function() {
         return line(sett.z.getDataPoints.apply(sett, arguments));
       },
-      lines, labels;    
+      lines, labels;
 
     x = rtnObj.x = getXScale().range(sett.x.getRange.call(sett, flatData));
     y = rtnObj.y = d3.scaleLinear().range([innerHeight, 0]);
@@ -183,9 +183,7 @@ function lineChart(svg, settings, data) {
 
   process = function() {
     draw.apply(rtnObj);
-    // d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-    // if (mergedSettings.datatable === false) return;
-    // drawTable.apply(rtnObj);
+    d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
   };
   if (data === undefined) {
     d3.json(mergedSettings.url, function(error, xhr) {
