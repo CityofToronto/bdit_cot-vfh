@@ -248,6 +248,43 @@ settingsFractionLine = {
       else dow = "Sunday"
       return `${dow} ${d % 24}h00`;
     },
+    getSubText: function(data, day) { // used for data table ONLY
+      // d is a number from 0 to 167
+      var flatout = [];
+
+      data.map(function(d, i) { // array of length 168
+        if (day == "mon") {
+          if (d.tod < 24) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "tues") {
+          if (d.tod > 23 & d.tod < 48) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "wed") {
+          if (d.tod > 47 & d.tod < 72) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "thurs") {
+          if (d.tod > 71 & d.tod < 96) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "fri") {
+          if (d.tod > 95 & d.tod < 120) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "sat") {
+          if (d.tod > 119 & d.tod < 144) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "sun") {
+          if (d.tod > 143) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        }
+      })
+      return flatout;
+    },
     // ticks: 28,
     getTickText: function(val) {
       const modVal = val % 24;

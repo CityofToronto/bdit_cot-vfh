@@ -134,9 +134,12 @@ function uiHandler(event) {
     loadData(() => {
       showFractionLine();
     });
-  } else if (event.target.id === "fraction-menu") {
+  }
+  // Menu for trip fraction lineChart table
+  else if (event.target.id === "fraction-menu") {
     day = event.target.value;
     updateTableCaption();
+    lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
   }
 }
 
