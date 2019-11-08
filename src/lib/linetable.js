@@ -201,16 +201,16 @@ function lineTable(svg, settings, data, day) {
           .attr("class", "chart-data-table");
 
       // Dropdown menu for table
-      if (sett.tablemenu) {
+      if (sett.menuData) {
         var menu, options;
-
+        
         menu = details.append("div").attr("class", "col-md-3")
           .append("select")
             .attr("id", "fraction-menu")
             .attr("class", "form-control");
 
         options = menu.selectAll("option")
-          .data([{val:"mon", text: "Monday"},{val:"tues", text: "Tuesday"}])
+          .data(sett.menuData)
           .enter()
             .append("option")
             .attr("value", function(d) {

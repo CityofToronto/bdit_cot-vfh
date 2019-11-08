@@ -302,7 +302,10 @@ settingsFractionLine = {
   levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
   width: 900,
   datatable: true,
-  tablemenu: true,
+  menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
+            {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
+            {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
+            {val:"sun", text: "Sunday"}],
   tableTitle: i18next.t("tabletitle", {ns: "ward_towline"}),
   tableCaption: i18next.t("tablecaption", {ns: "ward_towline"})
 };
