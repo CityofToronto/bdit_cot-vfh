@@ -204,12 +204,14 @@ settingsFractionLine = {
     left: 100
   },
   aspectRatio: 16 / 8,
-  datatable: false,
+  _selfFormatter: i18n.getNumberFormatter(2),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
+  },
   filterData: function(d) {
-    const root = d.linedata;
-    const keys = this.z.getKeys(root);
+    const keys = this.z.getKeys(d);
     const skip = 6; // number of hours to skip in 24h; for x-axis ticks
-    let xtickIdx = root.keys.values.map((q) => {
+    let xtickIdx = d.keys.values.map((q) => {
       if (q * skip <= 162) return q * skip;
     });
     xtickIdx = xtickIdx.filter((q)=> {
@@ -219,9 +221,9 @@ settingsFractionLine = {
       return {
         id: key,
         xtickIdx: xtickIdx,
-        values: root[key].map(function(value, index) {
+        values: d[key].map(function(value, index) {
           return {
-            year: root.keys.values[index],
+            tod: d.keys.values[index],
             value: value
           };
         })
@@ -229,13 +231,59 @@ settingsFractionLine = {
     });
   },
   x: {
-    // label: i18next.t("x_label", {ns: "towline"}),
+    label: i18next.t("tod", {ns: "ward_towline"}),
     type: "linear",
     getValue: function(d) {
-      return d.year;
+      return d.tod;
     },
-    getText: function(d) {
-      return d.year;
+    getText: function(d) { // used for data table ONLY
+      // d is a number from 0 to 167
+      let dow;
+      if (d < 24) dow = "Monday"
+      else if (d < 48) dow = "Tuesday"
+      else if (d < 72) dow = "Wednesday"
+      else if (d < 96) dow = "Thursday"
+      else if (d < 120) dow = "Friday"
+      else if (d < 144) dow = "Saturday"
+      else dow = "Sunday"
+      return `${dow} ${d % 24}h00`;
+    },
+    getSubText: function(data, day) { // used for data table ONLY
+      // d is a number from 0 to 167
+      var flatout = [];
+
+      data.map(function(d, i) { // array of length 168
+        if (day == "mon") {
+          if (d.tod < 24) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "tues") {
+          if (d.tod > 23 & d.tod < 48) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "wed") {
+          if (d.tod > 47 & d.tod < 72) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "thurs") {
+          if (d.tod > 71 & d.tod < 96) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "fri") {
+          if (d.tod > 95 & d.tod < 120) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "sat") {
+          if (d.tod > 119 & d.tod < 144) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        } else if (day == "sun") {
+          if (d.tod > 143) {
+            flatout.push([`${d.tod % 24}h00`, d.value]);
+          }
+        }
+      })
+      return flatout;
     },
     // ticks: 28,
     getTickText: function(val) {
@@ -260,11 +308,17 @@ settingsFractionLine = {
   z: {
     label: i18next.t("z_label", {ns: "towline"}),
     getId: function(d) {
+      // { id: "fraction", xtickIdx: (28) [0, 6, 12, …, 162],
+      //   values: (168) [{ tod: 0, value: 0.28592435 }, …, { tod: 99, value: 0.10722163 }]
+      // }
       return d.id;
     },
     getKeys: function(d) {
-      const keys = Object.keys(d);
-      keys.splice(keys.indexOf("keys"), 1);
+      // {"fraction": [0.28592435, 0.23656836, 0.17870272, …],
+      // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
+      // }
+      const keys = Object.keys(d); // [ "fraction" ]
+      keys.splice(keys.indexOf("keys"), 1); // [ "fraction" ]
       return keys;
     },
     getxtickIdx: function(filteredData) {
@@ -283,7 +337,14 @@ settingsFractionLine = {
     }
   },
   levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
-  width: 900
+  width: 900,
+  datatable: true,
+  menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
+            {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
+            {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
+            {val:"sun", text: "Sunday"}],
+  tableTitle: i18next.t("tabletitle", {ns: "ward_towline"}),
+  tableCaption: i18next.t("tablecaption", {ns: "ward_towline"})
 };
 // extend with default settings that were in original line.js
 settingsFractionLine.x = $.extend({

@@ -149,11 +149,17 @@ npm install cotui --save
 ```
 
 ## Map setup
-For maps **other than choropleth** maps, see [COT documentation](https://itdconfluence.csd.toronto.ca/display/DTSKS/Cot+Map). Uses function `cot_map` in `cot_map.js` that gets built into `main.js` with `gulp`. This map function is not yet part of COTUI, but you can check out this example to make sure your `cot_map` complies with accessibility standards:  
+For maps **other than choropleth** maps, see [COT documentation](https://itdconfluence.csd.toronto.ca/display/DTSKS/Cot+Map). Uses function `cot_map` in `cot_map.js` that gets built into `main.js` with `gulp`. Specifically, in `package.json`, turn `includeMap` to true:  
+
+```
+includeMap: true
+```
+
+The `cot_map` is not yet part of COTUI, but you can check out this example to make sure your `cot_map` complies with accessibility standards:  
 
 https://www.toronto.ca/community-people/health-wellness-care/health-programs-advice/hot-weather/cool-spaces-near-you/#location=&lat=43.716527&lng=-79.371414  
 
-For **choropleth** maps, use the map chart in described in the [COTUI widgets page](https://github.com/CityofToronto/COT_UI). See the Examples [here](http://cityoftoronto.github.io/COT_UI). 
+For **choropleth** maps, use the map chart in described in the [COTUI widgets page](https://github.com/CityofToronto/COT_UI). See the Examples [here](http://cityoftoronto.github.io/COT_UI).
 
 To get the map working (whichever version you use), add the following to `app.html`:  
 ```

@@ -1,18 +1,10 @@
 // -----------------------------------------------------------------------------
 // Fig 4b - PUDO map by wards
-let _config = {
-  MAP_CONTAINER:'cotmap',
-  MAP_HEIGHT:'400px',
-  MAP_BASEMAP:'Gray',
-  MAP_CENTER:[43.71885747416588, -79.50479239225389],
-  MAP_ZOOM:11,
-  MAP_MAXZOOM:18
-};
 
 pudoMapSettings = {
   enableControlBox: false,
   enableSearchBar: false,
-  // zoom: 11,  
+  // zoom: 11,
   mapHeight: 400,
   // isVectorBasemap: true,
   enableFullscreen: false,
@@ -25,6 +17,6 @@ pudoMapSettings = {
     color: "red",
     fillColor: "#f03",
     fillOpacity: 0.5,
-    radius: 500
+    radius: 200
   }
 };

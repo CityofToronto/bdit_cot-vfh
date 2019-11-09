@@ -5,5 +5,373 @@
 // Ex: background-image: url(/* @echo SRC_PATH*//img/sample.jpg)
 
 #bdit_cot-vfh_container {
+	text {
+	  font-size: 1.125em; // 22px;
+	}
+	.page-content {
+		font-size: 1.125em;
+	}
+	.myh3 {
+	  margin-top: 5px !important;
+	}
+	.form-control {
+	  margin: 20px;
+	}
+	.midtexts {
+	  margin-top: 20px;
+	}
+	/* all tables */
+	// .details .chart-data-table {
+	details {
+	  padding-bottom: 0em;
+		margin-top: 1em;
+		cursor: pointer;
+	}
+	details > summary {
+		display: list-item;
+		font-size: 85%;
+		font-weight: bold;
+	}
+	caption {
+		padding-bottom: 15px;
+		color: #000;
+		font-weight: bold;
+	}
+	.data table {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		border: 1px solid #ddd;
+	}
+	.data table th {
+		padding: 8px 16px !important;
+	  border: 1px solid #ddd !important;
+	  // border-bottom: 3px solid #165788 !important;
+	}
+	.data thead td {
+		font-weight: bold;
+		border-bottom: 2px solid #165788 !important;
+	}
+	.data thead th {
+		text-align: left;
+		border-bottom: 2px solid #165788 !important;
+	}
+	.data tbody th {
+		font-weight: normal;
+	}
+	.data tbody td {
+		text-align: left;
+		background-color: #f8f8f8f8 !important;
+	}
+
+	/* -----------*/
+	/* Intro section */
+	.row.cards > div{
+	    height: 180px;
+	    margin-bottom: 1em;
+	}
+	.chart__card {
+	   display:grid;
+	   height:100%;
+	   grid-template-rows:2fr 3.8fr 1fr
+	}
+	@media print {
+	   [card-style*=option1] a {
+	     font-size:smaller
+	   }
+	   [card-style*=option1] .chart--card {
+	     border:1px dotted var(--color-border-dark)
+	   }
+	   [card-style*=option1] .chart__card-heading {
+	     border-bottom:1px dashed var(--color-border-dark)
+	   }
+	}
+	.chart--card {
+	   height:100%;
+	   border: 2px solid rgba(208, 211, 213, 0.9);
+	   display:grid
+	}
+	@media print {
+	  .chart--card a[href]:after {
+	    font-size:16px
+	  }
+	}
+	.chart--card:hover .chart--value a {
+	  text-decoration:underline
+	}
+	.chart--card .image {
+	   opacity:.98;
+	   overflow:hidden;
+	   border-bottom-left-radius:3px;
+	   border-bottom-right-radius:3px
+	}
+	.chart--card .chart__card-heading {
+	   background-color: #D0D5DA;
+	   color: #000;
+	   font-size: 1.125em;
+	   padding:0 var(--padding-small);
+	   display:-webkit-box;
+	   display:-ms-flexbox;
+	   display:flex;
+	   -webkit-box-pack:center;
+	   -ms-flex-pack:center;
+	   justify-content:center
+	}
+	.chart--card .chart__card-body,
+	.chart--card .chart__card-heading {
+	   text-align:center;
+	   -webkit-box-align:center;
+	   -ms-flex-align:center;
+	   align-items:center
+	}
+	.chart--card .chart__card-body {
+	   display:grid;
+	   grid-template-rows:1fr auto;
+	   color:#fff;
+	   border-bottom-left-radius:3px;
+	   border-bottom-right-radius:3px
+	}
+	.chart--card__image {
+	   position:relative;
+	   text-Align:center
+	}
+	.chart--card__image .chart__card-body {
+	   width:100%;
+	   height:100%;
+	   position:absolute;
+	   top:50%;
+	   left:50%;
+	   -webkit-transform:translate(-50%,-50%);
+	   transform:translate(-50%,-50%);
+	   padding:0
+	}
+	@media screen and (max-width:600px) {
+	 .chart--card__image .chart__card-body {
+	  padding:10% 0
+	 }
+	}
+	.chart--card .chart--value {
+	  font-size:2em
+	}
+	.chart--card .chart--caption {
+	  font-size:85%
+	}
+
+	.chart__button-link {
+	  text-align: right;
+	  width: 98%;
+	  color: #2d699e;
+	}
+	.glyphicon-circle-arrow-right {
+	  color: #2d699e;
+	}
+
+	/* -----------*/
+	/* DV-related */
+	.text-center {
+	  text-align: center;
+	}
+	/* tooltip for Trip Fraction lineChart with hover line */
+	div.list-group {
+	  position: absolute;
+	  margin-bottom: 32px;
+	  // width: 200px;
+	  background: #fff;
+	  color: #000;
+	  border-radius: 3px !important;
+	  border: 1px solid #ddd;
+	  font: 24px;
+	  box-shadow: 0 3px 5px -1px rgba(0,0,0,.46);
+		z-index: 1000;
+	}
+	.list-group table {
+	  width: 200px;
+	  border-collapse:collapse;
+	}
+	.list-group table tr {
+	  background-color: #fff !important;
+	}
+	.list-group table td {
+	  height: 40px;
+	  padding: 8px;
+	}
+	/* http://jsfiddle.net/zLecmk67/ */
+	.table-striped tbody tr:nth-child(even) td {
+	   background-color: #f5f5f5;
+	 }
+
+	.hoverLine {
+	   stroke: #000;
+	   stroke-width: 1px;
+	   opacity: 1;
+	   pointer-events: none;
+	}
+	.panel {
+		border: none !important;
+	}
+
+	/* line chart PTC growth */
+	.line svg text {
+		fill: currentColor;
+	}
+
+	.line svg .tick line,
+	.line svg .domain {
+		stroke: currentColor;
+	}
+
+	.dline {
+		stroke: #000;
+		stroke-width: 1.5;
+	}
+
+	.dline1 {
+		stroke: #660159;
+	  stroke-width: 7px;
+	}
+
+	.dline2 {
+		stroke: #FF7F00;
+	}
+
+	.dline3 {
+		stroke: #28A026;
+	}
+
+	.dline4 {
+		stroke: #D82A23;
+	}
+
+	.dline5 {
+		stroke: #9364BE;
+	}
+
+	.dline6 {
+		stroke: #8C574B;
+	}
+
+	.dline7 {
+		stroke: #E474C2;
+	}
+
+	/* TOW line chart */
+	#towLine text {
+	  font-size: 14px;
+	}
+	#hr {
+	  position: relative;
+	  left: 1099px;
+	  top: 218px;
+	}
+	.dow-label {
+	  position: relative;
+	  top: -3px;
+	}
+	#mon {
+	  left: -21px;
+	}
+	#tues {
+	  left: -6px;
+	}
+	#wed {
+	  left: 15px;
+	}
+	#thurs {
+	  left: 28px;
+	}
+	#fri {
+	  left: 56px;
+	}
+	#sat {
+	  left: 73px;
+	}
+	#sun {
+	  left: 90px;
+	}
+
+	/* Trip Fraction line chart */
+	#fractionline text {
+	  font-size: 16px;
+	}
+	#fractionhr {
+	  // position: relative;
+	  // left: 734px;
+	  // top: 366px;
+	  font-size: 16px;
+	}
+	.fractionline-label {
+	  font-size: 16px;
+	  top: -28px;
+		border: 1px solid red;
+	}
+	#ward_mon {
+	  // left: -90px;
+	}
+	#ward_tues {
+	  // left: -63px;
+	}
+	#ward_wed {
+	  // left: -33px;
+	}
+	#ward_thurs {
+	  // left: -13px;
+	}
+	#ward_fri {
+	  // left: 26px;
+	}
+	#ward_sat {
+	  // left: 53px;
+	}
+	#ward_sun {
+	  // left: 78px;
+	}
+
+	/* pudo map legend */
+	.wkdayAMpeak {
+	  fill: #ff78b9;
+	}
+	.frisatNightI {
+	  fill: #660159;
+	}
+
+	/* PUDO map */
+	#cotmap {
+	  min-height: 400px;
+	}
+	#visionzero2018_container {
+	  // *:focus{
+	  //   outline: 5px auto rgb(49, 125, 157);
+	  //   outline-offset: -2px;
+	  // }
+
+		.leaflet-control{
+			margin:0;
+		}
+		.leaflet-bar{
+			border-radius:4px;
+			border-width: 1px;
+		}
+	  .leaflet-bar.leaflet-control{
+	    position:relative;
+	    width:100%;
+	    border:0;
+	  }
+	  .leaflet-bottom.leaflet-left{
+	    top: 0;
+	    bottom: 0;
+	    right: 0;
+	  }
+	  .leaflet-shadowWards-pane{
+	    z-index: 390;
+	  }
+	  .leaflet-right.leaflet-bottom {
+	  	bottom: 0;
+	    right:0;
+	    z-index: 999;
+		}
+	  .leaflet-control-scale.leaflet-control{
+	    margin:0 5px 5px 0;
+	  }
+	}
+
 
 }

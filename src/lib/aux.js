@@ -48,11 +48,11 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
         let d0;
         let d1;
         if (i === 0) { // handle edge case
-          d1 = chartObj.data[0].values[i].year;
+          d1 = chartObj.data[0].values[i].tod;
           d0 = d1;
         } else {
-          d0 = chartObj.data[0].values[i - 1].year;
-          d1 = chartObj.data[0].values[i].year;
+          d0 = chartObj.data[0].values[i - 1].tod;
+          d1 = chartObj.data[0].values[i].tod;
         }
 
         let d;
@@ -75,7 +75,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
         if (onMouseOverCb && typeof onMouseOverCb === "function") {
           const hr = i % 24;
           const hoverData = {};
-          hoverData.ward = [hr, data.linedata.w22[i], i];
+          hoverData.ward = [hr, data.fraction[i], i];
           onMouseOverCb(hoverData);
         }
       })
@@ -106,8 +106,8 @@ function hoverlineTip(settings, div, dataObj) {
 
   div.html(makeTable())
       .style("opacity", .999)
-      .style("left", ((d3.event.pageX + 10) + "px"))
-      .style("top", ((d3.event.pageY + 10) + "px"))
+      .style("left", ((d3.event.pageX - 50) + "px"))
+      .style("top", ((d3.event.pageY - 500) + "px"))
       .style("pointer-events", "none");
 }
 
