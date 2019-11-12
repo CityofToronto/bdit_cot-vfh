@@ -30,17 +30,17 @@ const pudoMap = {}; // PUDO map by ward
 
 // data selectors
 let ward = "w1";
-let fractionTableTitle;
-let day = "mon";
+let day = "mon"; // Ward trip fraction table menu selector
+let pudoDay = "week"; // Ward PUDO for whole week
+let pudoTOD = "all"; // Ward PUDO for all times of day
 
 // Chart names
 let fractionLineChart;
+let fractionTableTitle;
+let wardpudoMap;
 
 // Tooltip div names
 let divHoverLine;
-
-// -----------------------------------------------------------------------------
-
 
 // -----------------------------------------------------------------------------
 // Page texts
@@ -69,18 +69,13 @@ function showFractionLine() {
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, ptcFraction[ward], (d) => {
     hoverlineTip(settingsFractionLine, divHoverLine, d);
-    const idx = d.ward[2];
-    const hr = d.ward[0];
-    const friNoon = 108;
-    // if (hr >= 7 && hr <= 9) {
-    //   if (idx < friNoon) {
-    //     // weekday AM peak
-    //   }
-    // } else if (hr >= 19 && hr <= 23) {
-    //   if (idx >= 115 & idx < 144) {
-    //   }
-    // } else {
-    // }
+    const thisTOD = findTOD(d.ward);
+    console.log("thisTOD: ", thisTOD)
+    // Call corresponding PUDO map
+    pudoDay = thisTOD[0];
+    pudoTOD = thisTOD[1];
+    updateWardPUDOMap();
+
   }, () => {
     divHoverLine.style("opacity", 0);
   });
@@ -89,18 +84,33 @@ function showFractionLine() {
   const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
 }
 // Fig 4b - PUDO map
-function showWardPUDOMap() {
-  console.log("pudoMap[ward]: ", pudoMap[ward].latlon)
+function initWardPUDOMap() {
   pudoMapSettings = $.extend({
-    markerList:  pudoMap[ward].latlon
+    markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD]
   }, pudoMapSettings || {});
 
-  var wardpudoMap = new cot_map("cotmap", pudoMapSettings);
+  wardpudoMap = new cot_map("pudo_cotmap", pudoMapSettings);
   console.log("wardpudoMap: ", wardpudoMap )
   wardpudoMap.render();
   wardpudoMap.addCircle();
-
 }
+function updateWardPUDOMap() {
+  pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
+  console.log("new pudoMapSettings: ", pudoMapSettings)
+
+  console.log("wardpudoMap before: ", wardpudoMap )
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
+  wardpudoMap.options.circleOptions.color = "blue";
+  wardpudoMap.options.circleOptions.fillColor = "blue";
+  console.log("wardpudoMap after: ", wardpudoMap )
+
+
+  d3.select("#pudo_cotmap")
+    .selectAll(".leaflet-interactive")
+    .classed("pudomapMarkerOff", true);
+  wardpudoMap.addCircle();
+}
+
 
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
@@ -165,7 +175,8 @@ $(document).ready(function(){
     settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
+      // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
+      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1_wip.json") // pudo map ward 1
       .await(function(error, ptcfractionfile, pudomapfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
@@ -181,7 +192,7 @@ $(document).ready(function(){
         showFractionLine();
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
-        showWardPUDOMap();
+        initWardPUDOMap();
       });
   })
 })
