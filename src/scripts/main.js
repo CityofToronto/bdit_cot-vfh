@@ -100,8 +100,8 @@ function updateWardPUDOMap() {
 
   console.log("wardpudoMap before: ", wardpudoMap )
   wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
-  wardpudoMap.options.circleOptions.color = "blue";
-  wardpudoMap.options.circleOptions.fillColor = "blue";
+  wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
+  wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
   console.log("wardpudoMap after: ", wardpudoMap )
 
 
