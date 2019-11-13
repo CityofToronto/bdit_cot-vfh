@@ -221,16 +221,16 @@
 
 	.dline {
 		stroke: #000;
-		stroke-width: 1.5;
+		stroke-width: 7px;
 	}
 
-	.dline1 {
-		stroke: #660159;
-	  stroke-width: 7px;
+	.dline1 { /* city */
+		stroke: #6c776e;
+		stroke-width: 3px;
 	}
 
 	.dline2 {
-		stroke: #FF7F00;
+		stroke: #660159;
 	}
 
 	.dline3 {
@@ -292,16 +292,15 @@
 	#fractionline text {
 	  font-size: 16px;
 	}
+	#fractionline .line-label {
+	  opacity: 0;
+	}
+	#fr
 	#fractionhr {
 	  // position: relative;
 	  // left: 734px;
 	  // top: 366px;
 	  font-size: 16px;
-	}
-	.fractionline-label {
-	  font-size: 16px;
-	  top: -28px;
-		border: 1px solid red;
 	}
 	#ward_mon {
 	  // left: -90px;
