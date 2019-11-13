@@ -26,7 +26,6 @@ $(function () {
 
 // data objects
 const ptcFraction = {}; // PTC Trip Fraction by ward
-let ptcJunk;
 const pudoMap = {}; // PUDO map by ward
 
 // data selectors
@@ -59,17 +58,8 @@ function pageTexts() {
 }
 
 function showFractionLine() {
-  const newCar = Object.keys(ptcJunk).reduce((object, key) => {
-    if (key === "keys" || key === "city" || key === ward) {
-      object[key] = ptcJunk[key]
-      }
-      return object
-    }, {})
-
   console.log("orig: ", ptcFraction[ward])
-  console.log("newCar: ", newCar)
-  // const fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
-  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, newCar);
+  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
   // axis annotations
@@ -185,17 +175,14 @@ $(document).ready(function(){
     settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     d3.queue()
-    .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction.json") // trip fraction for city
+    .defer(d3.json, "/resources/data/fig4a_tripfraction.json") // trip fraction for city
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1_wip.json") // pudo map ward 1
       .await(function(error, ptcfractionfile, ptcfractionward, pudomapfile) {
         // Load data files into objects
-        ptcJunk = ptcfractionfile;
-        ptcFraction[ward] = ptcfractionward;
+        ptcFraction[ward] = getWard(ptcfractionfile);   // ptcfractionward;
         pudoMap[ward] = pudomapfile;
-
-        console.log("ptcJunk: ", ptcJunk)
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;

@@ -209,7 +209,7 @@ settingsFractionLine = {
     return this._selfFormatter.format(args);
   },
   filterData: function(d) {
-    const keys = this.z.getKeys(d);
+    const keys = this.z.getKeys(d); // [ "city", "w1" ]
     const skip = 6; // number of hours to skip in 24h; for x-axis ticks
     let xtickIdx = d.keys.values.map((q) => {
       if (q * skip <= 162) return q * skip;
@@ -317,8 +317,8 @@ settingsFractionLine = {
       // {"fraction": [0.28592435, 0.23656836, 0.17870272, …],
       // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
       // }
-      const keys = Object.keys(d); // [ "fraction" ]
-      keys.splice(keys.indexOf("keys"), 1); // [ "fraction" ]
+      const keys = Object.keys(d); // [ "keys", "city", "w1" ]
+      keys.splice(keys.indexOf("keys"), 1); // [ "city", "w1" ]
       return keys;
     },
     getxtickIdx: function(filteredData) {

@@ -9,6 +9,15 @@ mysett = {
 
 // -----------------------------------------------------------------------------
 // Small relations
+function getWard(o) {
+  return Object.keys(o).reduce((object, key) => {
+    if (key === "keys" || key === "city" || key === ward) {
+      object[key] = o[key]
+      }
+      return object
+    }, {})
+}
+
 function findTOD(...args) {
   let dow;
   let win;
@@ -103,7 +112,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
         if (onMouseOverCb && typeof onMouseOverCb === "function") {
           const hr = i % 24;
           const hoverData = {};
-          hoverData.ward = [hr, data.fraction[i], i];
+          hoverData.ward = [hr, data[ward][i], i];
           onMouseOverCb(hoverData);
         }
       })

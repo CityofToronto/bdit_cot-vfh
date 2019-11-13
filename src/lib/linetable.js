@@ -18,6 +18,7 @@ function lineTable(svg, settings, data, day) {
       ),
       details = parent.select("details"),
       keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
+      columns = sett.z.getKeys.call(sett, data), // sett.z.getDataPoints.call(sett, data[keys[0]]),
       setRow = function(d) { // d: [ "Monday 0h00", 0.3234158 ]
         var row = d3.select(this),
           cells = row.selectAll("*")
@@ -43,6 +44,9 @@ function lineTable(svg, settings, data, day) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
+
+      console.log("table filteredData: ", filteredData)
+      console.log("columns: ", columns)
 
     if (details.empty()) {
       details = parent
@@ -104,15 +108,17 @@ function lineTable(svg, settings, data, day) {
     // details.select("summary").text(sett.tableTitle || "Data");
 
     headerCols = header.selectAll("th")
-      .data(sett.z.getKeys.call(sett, data)); // [ "fraction" ]
+      .data(columns); // [ "city", "w1" ]
 
     headerCols
       .enter()
         .append("th")
-        .text(sett.y.label);
+        // .text(sett.y.label);
+        .text([ "city", "w1" ]);
 
     headerCols
-      .text(sett.y.label);
+      // .text(sett.y.label);
+      .text([ "city", "w1" ]);
 
     headerCols
       .exit()
