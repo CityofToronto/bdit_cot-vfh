@@ -8,6 +8,34 @@ mysett = {
 }
 
 // -----------------------------------------------------------------------------
+// Small relations
+function findTOD(...args) {
+  let dow;
+  let win;
+
+  // Find day of week
+  const idx = args[0][2];
+  if (idx < 24) dow = "Monday";
+  else if (idx < 48) dow = "Tuesday";
+  else if (idx < 72) dow = "Wednesday";
+  else if (idx < 96) dow = "Thursday";
+  else if (idx < 120) dow = "Friday";
+  else if (idx < 144) dow = "Saturday";
+  else dow = "Sunday";
+
+  // Find time window
+  const tod = args[0][0];
+  if (tod >= 0 && tod < 2) win = "nightII";
+  else if (tod >= 2 && tod < 6) win = "nightIII";
+  else if (tod >= 7 && tod < 9) win = "amPeak";
+  else if (tod >= 10 && tod < 15) win = "midday";
+  else if (tod >= 16 && tod < 18) win = "pmPeak";
+  else if (tod >= 19 && tod < 23) win = "nightI";
+
+  return [dow, win];
+}
+
+// -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
 function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
   chartObj.svg.datum(chartObj);

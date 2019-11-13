@@ -334,8 +334,11 @@
 	}
 
 	/* PUDO map */
-	#cotmap {
+	#pudo_cotmap {
 	  min-height: 400px;
+	}
+	.pudomapMarkerOff {
+		opacity: 0;
 	}
 	#visionzero2018_container {
 	  // *:focus{
