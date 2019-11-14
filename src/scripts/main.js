@@ -70,6 +70,7 @@ function showFractionLine() {
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, ptcFraction[ward], (d) => {
+    d3.select(".leaflet-popup").remove(); // remove any open map marker popups
     hoverlineTip(settingsFractionLine, divHoverLine, d);
     const thisTOD = findTOD(d.ward);
     console.log("thisTOD: ", thisTOD)
