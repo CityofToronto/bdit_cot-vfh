@@ -130,23 +130,28 @@ function lineTable(svg, settings, data, day) {
     if (sett.menuData) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
-        var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
-        pair = pair.map(function(d, i) {
-          return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
-        });
-        return pair;
+        var flatout = [];
+
+        for (idx = 0; idx < data.keys.values.length; idx++) {
+          flatout.push([data.keys.values[idx], data.city[idx], data.w1[idx]]);
+        }
+        return flatout;
       })
     }
     else {
       var flatout = [];
       dataRows = body.selectAll("tr")
         .data(function (d) {
+          console.log("body d: ", d)
+          console.log("filteredData: ", filteredData)
             filteredData[0].values.map(function(d, i) { // array of length 168
               return flatout.push(
                 [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
               );
             })
+            console.log("flatout: ", flatout)
           return flatout; //[ [ "Monday 0h00", 0.3234158 ], [ "Monday 1h00", 0.21998841 ], ..., [ "Friday 3h00", 0.14364915 ] ]
+          // return [[ "Monday 0h00", "0.39", "100" ]];
         })
     }
 

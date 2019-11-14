@@ -283,6 +283,7 @@ settingsFractionLine = {
           }
         }
       })
+      console.log("flatout: ", flatout)
       return flatout;
     },
     // ticks: 28,
