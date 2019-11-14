@@ -12,11 +12,11 @@ pudoMapSettings = {
   maxZoom: 18,
   // mapHeight: 1200,
   mapType: 'Gray',
-  // markerList: [[43.66, -79.373903], [43.706773, -79.398429]],
   circleOptions: {
+    enableClustering: true,
     color: "red",
     fillColor: "#f03",
     fillOpacity: 0.5,
-    radius: 200
+    radius: 20
   }
 };

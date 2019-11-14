@@ -77,7 +77,7 @@ function showFractionLine() {
     // Call corresponding PUDO map
     pudoDay = thisTOD[0];
     pudoTOD = thisTOD[1];
-    updateWardPUDOMap();
+    if (pudoTOD) updateWardPUDOMap();
 
   }, () => {
     divHoverLine.style("opacity", 0);
@@ -99,21 +99,27 @@ function initWardPUDOMap() {
   console.log("wardpudoMap: ", wardpudoMap )
   wardpudoMap.render();
   wardpudoMap.addCircle();
+
 }
 function updateWardPUDOMap() {
   pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
   console.log("new pudoMapSettings: ", pudoMapSettings)
 
   console.log("wardpudoMap before: ", wardpudoMap )
+  pudoMapSettings.clearCirle = false;
   wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
   wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
   wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
   console.log("wardpudoMap after: ", wardpudoMap )
 
 
-  d3.select("#pudoCOTmap")
-    .selectAll(".leaflet-interactive")
-    .classed("pudomapMarkerOff", true);
+  // d3.select("#pudoCOTmap")
+  //   .selectAll(".leaflet-interactive").remove();
+  //   // .classed("pudomapMarkerOff", true);
+  // d3.select("#pudoCOTmap").selectAll(".marker-cluster").remove();
+  // d3.selectAll(".leaflet-interactive").remove();
+  // d3.select(".leaflet-marker-pane").remove();
+  wardpudoMap.rmCircle();
   wardpudoMap.addCircle();
 }
 
@@ -140,9 +146,6 @@ function updateTableCaption() {
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
-  console.log("uiHandler: ", event)
-  console.log("event.target.id: ", event.target.id)
-  console.log("uiHandler valu: ", event.target.value)
 
   if (event.target.id === "ward-menu") {
     ward = event.target.value; // w22
