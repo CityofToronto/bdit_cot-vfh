@@ -135,11 +135,13 @@
       "ttpercent": "percentage change"
     },
     "towline": {
+      "alt": "TODO",
       "x_label": "",
       "y_label": "Trips/hour",
       "hr": "Hour"
     },
     "ward_towline": {
+      "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",
       "x_label": "Time of day",
       "y_label": "Trip fraction (%)",
       "hr": "Hour",

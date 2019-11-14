@@ -165,21 +165,9 @@ function lineTable(svg, settings, data, day) {
 
   rtnObj = {
     settings: mergedSettings,
-    clear: clear,
-    svg: svg
+    clear: clear
+    // svg: svg
   };
-
-  svg
-    .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .attr("role", "img")
-    .attr("aria-label", mergedSettings.altText);
-
-  if (chartInner.empty()) {
-    chartInner = svg.append("g")
-      .attr("class", "margin-offset")
-      .attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
-  }
 
   process = function() {
     if (mergedSettings.datatable === false) return;

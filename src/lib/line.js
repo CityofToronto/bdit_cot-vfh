@@ -173,7 +173,8 @@ function lineChart(svg, settings, data) {
     .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .attr("role", "img")
-    .attr("aria-label", mergedSettings.altText);
+    .attr("aria-label", mergedSettings.alt);
+
 
   if (chartInner.empty()) {
     chartInner = svg.append("g")
