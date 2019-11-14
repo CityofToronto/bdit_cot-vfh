@@ -334,8 +334,10 @@
 	}
 
 	/* PUDO map */
-	#pudo_cotmap {
-	  min-height: 400px;
+	#pudoCOTmap {
+		height: 400px;
+		position: relative;
+		background: rgb(207, 211, 212) none repeat scroll 0% 0%;
 	}
 	.pudomapMarkerOff {
 		opacity: 0;

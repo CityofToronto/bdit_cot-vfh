@@ -91,7 +91,10 @@ function initWardPUDOMap() {
     markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD]
   }, pudoMapSettings || {});
 
-  wardpudoMap = new cot_map("pudo_cotmap", pudoMapSettings);
+  wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
+  d3.select("#pudoCOTmap")
+    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}));
+
   console.log("wardpudoMap: ", wardpudoMap )
   wardpudoMap.render();
   wardpudoMap.addCircle();
@@ -107,7 +110,7 @@ function updateWardPUDOMap() {
   console.log("wardpudoMap after: ", wardpudoMap )
 
 
-  d3.select("#pudo_cotmap")
+  d3.select("#pudoCOTmap")
     .selectAll(".leaflet-interactive")
     .classed("pudomapMarkerOff", true);
   wardpudoMap.addCircle();

@@ -158,6 +158,7 @@
       "Sea": "Seattle"
     },
     "pudoMap": {
+      "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
       "wkdayAMpeak": "Weekday AM Peak",
       "frisatNightI": "Fri/Sat 19h-21h"
     }
