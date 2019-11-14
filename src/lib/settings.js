@@ -314,12 +314,17 @@ settingsFractionLine = {
       return d.id;
     },
     getKeys: function(d) {
-      // {"fraction": [0.28592435, 0.23656836, 0.17870272, …],
+      // {"city": [0.28592435, 0.23656836, 0.17870272, …],
       // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
       // }
       const keys = Object.keys(d); // [ "keys", "city", "w1" ]
       keys.splice(keys.indexOf("keys"), 1); // [ "city", "w1" ]
       return keys;
+    },
+    getKeyNames: function(d) {
+      const keys = Object.keys(d); // [ "keys", "city", "w1" ]
+      keys.splice(keys.indexOf("keys"), 1); // [ "city", "w1" ]
+      return [i18next.t(keys[0], {ns: "wardnum"}), i18next.t(keys[1], {ns: "wardnum"})];
     },
     getxtickIdx: function(filteredData) {
       return filteredData.map((d) => {

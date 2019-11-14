@@ -119,7 +119,8 @@
       "w22": "Ward 22",
       "w23": "Ward 23",
       "w24": "Ward 24",
-      "w25": "Ward 25"
+      "w25": "Ward 25",
+      "city": "City"
     },
     "line": {
       "x_label": "Month",
