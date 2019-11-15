@@ -112,7 +112,8 @@ function lineChart(svg, settings, data) {
       .exit()
         .remove();
 
-    if (xAxisObj.empty()) {
+    // if (xAxisObj.empty()) {
+    if (yAxisObj.empty()) {
       xAxisObj = chartInner.append("g")
       .attr("class", "x axis")
       .attr("aria-hidden", "true")
@@ -129,17 +130,16 @@ function lineChart(svg, settings, data) {
           .text(sett.x.label);
 
       if (sett.extraXlabel) {
-        var rectGroups = xAxisObj
+        var extraGroup = xAxisObj
           .attr("class", "extra-label")
           .selectAll(".xdow")
-          // .data(sett.extraXlabel);
           .data(Object.keys(sett.extraXlabel));
 
-        var newGroup = rectGroups
+        var eachGroup = extraGroup
           .enter()
           .append("g");
 
-        newGroup
+        eachGroup
           .append("text")
           .attr("fill", "#000")
           .attr("x", function(d, i) {
