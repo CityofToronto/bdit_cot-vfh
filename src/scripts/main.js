@@ -101,14 +101,10 @@ function initWardPUDOMap() {
 }
 function updateWardPUDOMap() {
   pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
-  console.log("new pudoMapSettings: ", pudoMapSettings)
-
-  console.log("wardpudoMap before: ", wardpudoMap )
   pudoMapSettings.clearCirle = false;
   wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
   wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
   wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
-  console.log("wardpudoMap after: ", wardpudoMap )
 
 
   // d3.select("#pudoCOTmap")
