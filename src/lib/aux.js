@@ -101,9 +101,14 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
         line.style("visibility", "visible");
 
         if (onMouseOverCb && typeof onMouseOverCb === "function") {
-          const hr = i % 24;
+          let hr = i % 24;
+          let val = data.fraction[i];
+          let idx = data.keys.values[i];
+          let thisTOD = findTOD([hr, val, idx]);
+
+          // Store info to pass to tooltip
           const hoverData = {};
-          hoverData.ward = [hr, data.fraction[i], i];
+          hoverData.ward = [data.fraction[i], hr, thisTOD];
           onMouseOverCb(hoverData);
         }
       })
@@ -122,12 +127,15 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
 }
 
 function hoverlineTip(settings, div, dataObj) {
-  const thisHr = `${dataObj.ward[0]}h00`;
-  const cityVal = d3.format("(.2f")(dataObj.ward[1]);
+  const cityVal = d3.format("(.2f")(dataObj.ward[0]);
+  const thisHr = `${dataObj.ward[1]}h00`;
+  const day = dataObj.ward[2][0];
+  const win = i18next.t(dataObj.ward[2][1], {ns: "timewin"});
 
   const makeTable = function() {
     let rtnTable = `<table class="table-striped"><tr><td>${i18next.t("y_label", {ns: "ward_towline"})}: ${cityVal}</td></tr>`
-    rtnTable = rtnTable.concat(`<tr><td>Hour: ${thisHr}</td></tr>`);
+    if (win) rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}, ${win}</td></tr>`);
+    else rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}</td></tr>`);
     rtnTable = rtnTable.concat("</table>");
     return rtnTable;
   };

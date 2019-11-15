@@ -121,6 +121,14 @@
       "w24": "Ward 24",
       "w25": "Ward 25"
     },
+    "timewin": {
+      "nightII": "Midnight",
+      "nightIII":"Overnight",
+      "amPeak": "AM peak",
+      "midday": "Midday",
+      "pmPeak": "PM Peak",
+      "nightI": "Evening"
+    },
     "line": {
       "x_label": "Month",
       "y_label": "PTC Trips/day"

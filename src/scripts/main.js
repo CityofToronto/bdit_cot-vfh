@@ -72,11 +72,9 @@ function showFractionLine() {
   createOverlay(fractionLine, ptcFraction[ward], (d) => {
     d3.select(".leaflet-popup").remove(); // remove any open map marker popups
     hoverlineTip(settingsFractionLine, divHoverLine, d);
-    const thisTOD = findTOD(d.ward);
-    console.log("thisTOD: ", thisTOD)
     // Call corresponding PUDO map
-    pudoDay = thisTOD[0];
-    pudoTOD = thisTOD[1];
+    pudoDay = d.ward[2][0];
+    pudoTOD = d.ward[2][1];
     if (pudoTOD) updateWardPUDOMap();
 
   }, () => {
