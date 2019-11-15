@@ -200,7 +200,7 @@ settingsFractionLine = {
   margin: {
     top: 0,
     right: 55,
-    bottom: 55,
+    bottom: 62,
     left: 100
   },
   aspectRatio: 16 / 8,
@@ -337,6 +337,8 @@ settingsFractionLine = {
     }
   },
   levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
+  // extraXlabel: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
+  extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
   width: 900,
   datatable: true,
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},

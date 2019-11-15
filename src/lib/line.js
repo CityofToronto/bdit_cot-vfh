@@ -123,9 +123,34 @@ function lineChart(svg, settings, data) {
           .attr("class", "chart-label")
           .attr("fill", "#000")
           .attr("x", innerWidth)
-          .attr("dy", "-0.5em")
+          // .attr("dy", "-0.5em")
+          .attr("dy", "40")
           .attr("text-anchor", "end")
           .text(sett.x.label);
+
+      if (sett.extraXlabel) {
+        var rectGroups = xAxisObj
+          .attr("class", "extra-label")
+          .selectAll(".xdow")
+          // .data(sett.extraXlabel);
+          .data(Object.keys(sett.extraXlabel));
+
+        var newGroup = rectGroups
+          .enter()
+          .append("g");
+
+        newGroup
+          .append("text")
+          .attr("fill", "#000")
+          .attr("x", function(d, i) {
+            return Object.values(sett.extraXlabel)[i];
+          })
+          .attr("dy", 60)
+          .attr("text-anchor", "end")
+          .text(function(d) {
+            return d;
+          })
+      }
     } else {
       xAxisObj.select("text").text(settings.x.label);
     }
