@@ -122,6 +122,9 @@ function changeWardPUDOMap() {
   // reset
   pudoDay = "week";
   pudoTOD = "all";
+  const mapState = d3.select("#pudoCOTmap")
+  mapState.classed("moveable", true);
+  divHoverLine.style("opacity", 0);
 
   wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
