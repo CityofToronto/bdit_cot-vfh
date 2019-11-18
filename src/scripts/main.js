@@ -97,15 +97,14 @@ function initWardPUDOMap() {
     markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD],
     mapCenter: pudoMap[ward].latlon.mapCentre
   }, pudoMapSettings || {});
-  console.log("puodMapSettings here: ", pudoMap[ward].latlon.mapCentre)
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
   d3.select("#pudoCOTmap")
     .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
     .classed("moveable", true);
 
-  console.log("wardpudoMap: ", wardpudoMap )
-  wardpudoMap.render();
+  // console.log("empty? ", d3.select("#pudoCOTmap").empty() )
+  if (d3.select("#pudoCOTmap").select(".leaflet-pane").empty()) wardpudoMap.render();
   wardpudoMap.addCircle();
 
 }
@@ -116,13 +115,19 @@ function updateWardPUDOMap() {
   wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
   wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
 
+  wardpudoMap.rmCircle();
+  wardpudoMap.addCircle();
+}
+function changeWardPUDOMap() {
+  // reset
+  pudoDay = "week";
+  pudoTOD = "all";
 
-  // d3.select("#pudoCOTmap")
-  //   .selectAll(".leaflet-interactive").remove();
-  //   // .classed("pudomapMarkerOff", true);
-  // d3.select("#pudoCOTmap").selectAll(".marker-cluster").remove();
-  // d3.selectAll(".leaflet-interactive").remove();
-  // d3.select(".leaflet-marker-pane").remove();
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
+  wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
+  wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
+  wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
+
   wardpudoMap.rmCircle();
   wardpudoMap.addCircle();
 }
@@ -133,8 +138,11 @@ const loadData = function(cb) {
   if (!ptcFraction[ward]) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      cb();
-    });
+      d3.json(`/resources/data/fig4b_dummy_pudoMap_${ward}.json`, function(err, pudomapfile) {
+        pudoMap[ward] = pudomapfile;
+        cb();
+      })
+    })
   } else {
     cb();
   }
@@ -156,6 +164,7 @@ function uiHandler(event) {
     updateTitles();
     loadData(() => {
       showFractionLine();
+      changeWardPUDOMap();
     });
   }
   // Menu for trip fraction lineChart table
@@ -190,7 +199,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1_wip.json") // pudo map ward 1
+      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .await(function(error, ptcfractionfile, pudomapfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
