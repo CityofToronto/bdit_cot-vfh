@@ -69,16 +69,23 @@ function showFractionLine() {
 
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
-  createOverlay(fractionLine, ptcFraction[ward], (d) => {
-    d3.select(".leaflet-popup").remove(); // remove any open map marker popups
-    hoverlineTip(settingsFractionLine, divHoverLine, d);
-    // Call corresponding PUDO map
-    pudoDay = d.ward[2][0];
-    pudoTOD = d.ward[2][1];
-    if (pudoTOD) updateWardPUDOMap();
-
-  }, () => {
-    divHoverLine.style("opacity", 0);
+  createOverlay(fractionLine, ptcFraction[ward], (d) => { // onMouseOverCb
+    // Allow moveable hoverLine only if not frozen by mouse click
+    if (d3.select("#pudoCOTmap").classed("moveable")) {
+      d3.select(".leaflet-popup").remove(); // remove any open map marker popups
+      hoverlineTip(settingsFractionLine, divHoverLine, d);
+      // Call corresponding PUDO map
+      pudoDay = d.ward[2][0];
+      pudoTOD = d.ward[2][1];
+      if (pudoTOD) updateWardPUDOMap();
+    }
+  }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
+    if (d3.select("#pudoCOTmap").classed("moveable")) {
+      divHoverLine.style("opacity", 0);
+    }
+  }, () => { // onMouseClickCb; toggle between moveable and frozen
+    const mapState = d3.select("#pudoCOTmap")
+    mapState.classed("moveable", !mapState.classed("moveable"));
   });
 
   // Data table for trip fraction
@@ -92,7 +99,8 @@ function initWardPUDOMap() {
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
   d3.select("#pudoCOTmap")
-    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}));
+    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
+    .classed("moveable", true);
 
   console.log("wardpudoMap: ", wardpudoMap )
   wardpudoMap.render();

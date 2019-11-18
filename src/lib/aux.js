@@ -37,7 +37,7 @@ function findTOD(...args) {
 
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
-function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
+function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClickCb) {
   chartObj.svg.datum(chartObj);
   chartObj.data = chartObj.settings.filterData(data);
 
@@ -69,53 +69,64 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb) {
       .attr("width", chartObj.settings.innerWidth)
       .attr("height", chartObj.settings.innerHeight)
       .on("mousemove", function(e) {
-        const chartObj = d3.select(this.ownerSVGElement).datum();
-        const x = d3.mouse(this)[0];
-        const xD = chartObj.x.invert(x);
-        const i = Math.round(xD);
-        let d0;
-        let d1;
-        if (i === 0) { // handle edge case
-          d1 = chartObj.data[0].values[i].tod;
-          d0 = d1;
-        } else {
-          d0 = chartObj.data[0].values[i - 1].tod;
-          d1 = chartObj.data[0].values[i].tod;
-        }
+        // Allow hoverLine movement only if not frozen by mouse click
+        if (d3.select("#pudoCOTmap").classed("moveable")) {
+          const chartObj = d3.select(this.ownerSVGElement).datum();
+          const x = d3.mouse(this)[0];
+          const xD = chartObj.x.invert(x);
+          const i = Math.round(xD);
+          let d0;
+          let d1;
+          if (i === 0) { // handle edge case
+            d1 = chartObj.data[0].values[i].tod;
+            d0 = d1;
+          } else {
+            d0 = chartObj.data[0].values[i - 1].tod;
+            d1 = chartObj.data[0].values[i].tod;
+          }
 
-        let d;
-        if (d0 && d1) {
-          // d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
-          d = xD - d0 > d1 - xD ? d1 : d0;
-        } else if (d0) {
-          d = d0;
-        } else {
-          d = d1;
-        }
+          let d;
+          if (d0 && d1) {
+            // d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
+            d = xD - d0 > d1 - xD ? d1 : d0;
+          } else if (d0) {
+            d = d0;
+          } else {
+            d = d1;
+          }
 
-        const sf = 4.467065868263473; // NOTE
-        d = d * sf;
+          const sf = 4.467065868263473; // NOTE
+          d = d * sf;
 
-        line.attr("x1", d);
-        line.attr("x2", d);
-        line.style("visibility", "visible");
+          line.attr("x1", d);
+          line.attr("x2", d);
+          line.style("visibility", "visible");
 
-        if (onMouseOverCb && typeof onMouseOverCb === "function") {
-          let hr = i % 24;
-          let val = data.fraction[i];
-          let idx = data.keys.values[i];
-          let thisTOD = findTOD([hr, val, idx]);
+          if (onMouseOverCb && typeof onMouseOverCb === "function") {
+            let hr = i % 24;
+            let val = data.fraction[i];
+            let idx = data.keys.values[i];
+            let thisTOD = findTOD([hr, val, idx]);
 
-          // Store info to pass to tooltip
-          const hoverData = {};
-          hoverData.ward = [data.fraction[i], hr, thisTOD];
-          onMouseOverCb(hoverData);
+            // Store info to pass to tooltip
+            const hoverData = {};
+            hoverData.ward = [data.fraction[i], hr, thisTOD];
+            onMouseOverCb(hoverData);
+          }
         }
       })
       .on("mouseout", function() {
-        line.style("visibility", "hidden");
+        // Clear line only if hoverLine is not frozen by mouse click
+        if (d3.select("#pudoCOTmap").classed("moveable")) {
+          line.style("visibility", "hidden");
+        }
         if (onMouseOutCb && typeof onMouseOutCb === "function") {
           onMouseOutCb();
+        }
+      })
+      .on("click", function() {
+        if (onMouseClickCb && typeof onMouseClickCb === "function") {
+          onMouseClickCb();
         }
       });
 
