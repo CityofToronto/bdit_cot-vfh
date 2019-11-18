@@ -18,6 +18,9 @@ Other areas of toronto.ca which should link to the new page within related infor
 **Mockup on EC2**  
 See the [current mockup](https://10.160.2.198/vfh-cot/) for reference.  
 
+**Ward Profiles on Heroku**  
+Also see the [Ward Profiles](https://10.160.2.198/vfh-cot/) `dash` app currently hosted on Heroku.  
+
 ## Build instructions
 From [COT documentation](https://itdconfluence.csd.toronto.ca/display/DTSKS/CotJS+Documentation).  
 
