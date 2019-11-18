@@ -15,7 +15,7 @@ Other areas of toronto.ca which should link to the new page within related infor
 * [Research & Reports](https://www.toronto.ca/city-government/data-research-maps/research-reports/) content: It could also be added within Data, Research & Maps, though there are currently no transportation related items in this section.
 ```
 
-**Mockup on EC2**
+**Mockup on EC2**  
 See the [current mockup](https://10.160.2.198/vfh-cot/) for reference.  
 
 ## Build instructions
