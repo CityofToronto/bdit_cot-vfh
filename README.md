@@ -2,7 +2,11 @@
 Visualization page for VFH to be used in the COT website. Michelle DaCruz, Senior Digital Content Advisor, Digital Communications, recommends linking the page to these locations on the COT website:  
 
 ```
-The home of the new page which houses the data should be a child of the Big Data Innovation Team page. The content of the first accordion should be revised to link to this new page. I would also suggest adding a highlight on the Big Data page that links to this new page as well. Here's an example of a highlight: [Road Safety](https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/). It would contain a link with one to two sentences describing the new page.  
+The home of the new page which houses the data should be a child of the Big Data Innovation Team page.  
+The content of the first accordion should be revised to link to this new page.  
+I would also suggest adding a highlight on the Big Data page that links to this new page as well.
+Here's an example of a highlight: [Road Safety](https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/). 
+It would contain a link with one to two sentences describing the new page.  
 
 Other areas of toronto.ca which should link to the new page within related information are:
 * Bylaw enforcement content: [Private Transportation Companies (Uber/Lyft) Bylaw](https://www.toronto.ca/city-government/public-notices-bylaws/bylaw-enforcement/private-transportation-company-drivers/)

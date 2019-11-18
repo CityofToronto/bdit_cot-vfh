@@ -94,8 +94,10 @@ function showFractionLine() {
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
   pudoMapSettings = $.extend({
-    markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD]
+    markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD],
+    mapCenter: pudoMap[ward].latlon.mapCentre
   }, pudoMapSettings || {});
+  console.log("puodMapSettings here: ", pudoMap[ward].latlon.mapCentre)
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
   d3.select("#pudoCOTmap")
