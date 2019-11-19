@@ -11,11 +11,12 @@ pudoMapSettings = {
   zoomControl: false,
   maxZoom: 18,
   // mapHeight: 1200,
-  mapType: 'Gray',
+  mapType: "Gray",
+  enableWardSelection: false,
+  enableControlBox: true,
+  controlBoxTitle: "Trip type",
   circleOptions: {
     enableClustering: true,
-    // color: "red",
-    // fillColor: "#f03",
     fillOpacity: 0.5,
     radius: 20
   }
