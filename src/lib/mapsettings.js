@@ -14,10 +14,9 @@ pudoMapSettings = {
   mapType: 'Gray',
   circleOptions: {
     enableClustering: true,
-    color: "red",
-    fillColor: "#f03",
+    // color: "red",
+    // fillColor: "#f03",
     fillOpacity: 0.5,
-    radius: 20,
-    className: "SOMECLASS"
+    radius: 20
   }
 };

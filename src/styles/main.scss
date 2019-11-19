@@ -342,6 +342,18 @@
 	.pudomapMarkerOff {
 		opacity: 0;
 	}
+	#pudoCOTmap path.myclass {
+		stroke: #9b59b6;
+		fill: #9b59b6;
+	}
+	#pudoCOTmap path.pickups {
+		stroke: #AA8F00;
+		fill: #AA8F00;
+	}
+	#pudoCOTmap path.dropoffs {
+		stroke: #9b59b6;
+		fill: #9b59b6;
+	}
 	#visionzero2018_container {
 	  // *:focus{
 	  //   outline: 5px auto rgb(49, 125, 157);
