@@ -93,10 +93,11 @@ function showFractionLine() {
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
+  console.log(pudoDay, pudoTOD)
   pudoMapSettings = $.extend({
     // markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD],
-    markerListPU:  pudoMap[ward].latlon["testweek"]["all"]["pickups"],
-    markerListDO:  pudoMap[ward].latlon["testweek"]["all"]["dropoffs"],
+    markerListPU:  pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"],
+    markerListDO:  pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"],
     mapCenter: pudoMap[ward].latlon.mapCentre,
     className: "myclass"
   }, pudoMapSettings || {});
@@ -112,11 +113,10 @@ function initWardPUDOMap() {
 
 }
 function updateWardPUDOMap() {
-  pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
+  // pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
   pudoMapSettings.clearCirle = false;
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
-  wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
-  wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
+  wardpudoMap.options.markerListPU = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+  wardpudoMap.options.markerListDO = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
 
   wardpudoMap.rmCircle();
   wardpudoMap.addCircle();
@@ -129,10 +129,9 @@ function changeWardPUDOMap() {
   mapState.classed("moveable", true);
   divHoverLine.style("opacity", 0);
 
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
+  wardpudoMap.options.markerListPU = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+  wardpudoMap.options.markerListDO = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
-  wardpudoMap.options.circleOptions.color = pudoMap[ward].latlon[pudoDay].color;
-  wardpudoMap.options.circleOptions.fillColor = pudoMap[ward].latlon[pudoDay].fillColor;
 
   wardpudoMap.rmCircle();
   wardpudoMap.addCircle();
