@@ -253,92 +253,16 @@
 		stroke: #E474C2;
 	}
 
-	/* TOW line chart */
-	#towLine text {
-	  font-size: 14px;
-	}
-	#hr {
-	  position: relative;
-	  left: 1099px;
-	  top: 218px;
-	}
-	.dow-label {
-	  position: relative;
-	  top: -3px;
-	}
-	#mon {
-	  left: -21px;
-	}
-	#tues {
-	  left: -6px;
-	}
-	#wed {
-	  left: 15px;
-	}
-	#thurs {
-	  left: 28px;
-	}
-	#fri {
-	  left: 56px;
-	}
-	#sat {
-	  left: 73px;
-	}
-	#sun {
-	  left: 90px;
-	}
+
 
 	/* Trip Fraction line chart */
-	#fractionline text {
-	  font-size: 16px;
-	}
-	#fractionhr {
-	  // position: relative;
-	  // left: 734px;
-	  // top: 366px;
-	  font-size: 16px;
-	}
-	.fractionline-label {
-	  font-size: 16px;
-	  top: -28px;
-		border: 1px solid red;
-	}
-	#ward_mon {
-	  // left: -90px;
-	}
-	#ward_tues {
-	  // left: -63px;
-	}
-	#ward_wed {
-	  // left: -33px;
-	}
-	#ward_thurs {
-	  // left: -13px;
-	}
-	#ward_fri {
-	  // left: 26px;
-	}
-	#ward_sat {
-	  // left: 53px;
-	}
-	#ward_sun {
-	  // left: 78px;
-	}
 
-	/* pudo map legend */
-	.wkdayAMpeak {
-	  fill: #ff78b9;
-	}
-	.frisatNightI {
-	  fill: #660159;
-	}
 
 	/* PUDO map */
-	// .marker-cluster-large div {
-	// 	background-color: RGB(21, 122, 23);
-	// }
+	/*.marker-cluster-large div {
+	 	background-color: RGB(21, 122, 23);
+	}*/
 	#pudoCOTmap {
-		height: 400px;
 		position: relative;
 		background: rgb(207, 211, 212) none repeat scroll 0% 0%;
 	}

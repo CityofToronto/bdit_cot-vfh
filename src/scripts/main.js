@@ -63,9 +63,6 @@ function showFractionLine() {
 
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
-  // axis annotations
-  d3.select("#fractionhr")
-      .text(i18next.t("hr", {ns: "towline"}));
 
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg

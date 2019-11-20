@@ -198,7 +198,7 @@ settingsTOWline = {
 settingsFractionLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
-    top: 0,
+    top: 55,
     right: 55,
     bottom: 62,
     left: 100
