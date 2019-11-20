@@ -154,7 +154,7 @@ function hoverlineTip(settings, div, dataObj) {
   div.html(makeTable())
       .style("opacity", .999)
       .style("left", ((d3.event.pageX - 50) + "px"))
-      .style("top", ((d3.event.pageY - 500) + "px"))
+      .style("top", ((d3.event.pageY - 300) + "px"))
       .style("pointer-events", "none");
 }
 

@@ -33,6 +33,7 @@ let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
 let pudoDay = "week"; // Ward PUDO for whole week
 let pudoTOD = "all"; // Ward PUDO for all times of day
+let whichPUDO = "pudos"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
 let fractionLineChart;
@@ -55,6 +56,10 @@ function pageTexts() {
   // ** ward dropdown menu
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
   d3.select("#ward-menu").node()[1].text = i18next.t("w22", {ns: "wards"});
+  // ** pudo menu
+  d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
+  d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
+  d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 }
 
 function showFractionLine() {
@@ -79,6 +84,7 @@ function showFractionLine() {
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       divHoverLine.style("opacity", 0);
+      changeWardPUDOMap();
     }
   }, () => { // onMouseClickCb; toggle between moveable and frozen
     const mapState = d3.select("#pudoCOTmap")
@@ -90,9 +96,7 @@ function showFractionLine() {
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
-  console.log(pudoDay, pudoTOD)
   pudoMapSettings = $.extend({
-    // markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD],
     mapCenter: pudoMap[ward].latlon.mapCentre
   }, pudoMapSettings || {});
 
@@ -103,29 +107,54 @@ function initWardPUDOMap() {
 
   if (d3.select("#pudoCOTmap").select(".leaflet-pane").empty()) wardpudoMap.render();
 
-  // Pick-ups
-  wardpudoMap.options.markerClass = "pickups";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.addCircle();
+  if (whichPUDO === "pudos") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
 
-  // Drop-offs
-  wardpudoMap.options.markerClass = "dropoffs";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-  wardpudoMap.addCircle();
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  } else if (whichPUDO === "pu") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
+  } else {
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  }
+
 }
 
 function updateWardPUDOMap() {
   wardpudoMap.rmCircle();
 
-  // Pick-ups
-  wardpudoMap.options.markerClass = "pickups";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.addCircle();
+  if (whichPUDO === "pudos") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
 
-  // Drop-offs
-  wardpudoMap.options.markerClass = "dropoffs";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-  wardpudoMap.addCircle();
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  } else if (whichPUDO === "pu") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
+  } else {
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  }
 }
 function changeWardPUDOMap() {
   // reset
@@ -138,15 +167,27 @@ function changeWardPUDOMap() {
 
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
 
-  // Pick-ups
-  wardpudoMap.options.markerClass = "pickups";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.addCircle();
+  if (whichPUDO === "pudos") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
 
-  // Drop-offs
-  wardpudoMap.options.markerClass = "dropoffs";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-  wardpudoMap.addCircle();
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  } else if (whichPUDO === "pu") {
+    // Pick-ups
+    wardpudoMap.options.markerClass = "pickups";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+    wardpudoMap.addCircle();
+  } else {
+    // Drop-offs
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+  }
 }
 
 
@@ -175,16 +216,20 @@ function updateTableCaption() {
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
+  if (event.target.id === "pudo-menu") {
+    whichPUDO = event.target.value; // pudos initially
+    updateWardPUDOMap();
+  }
 
   if (event.target.id === "ward-menu") {
-    ward = event.target.value; // w22
+    ward = event.target.value; // w1 initially
     updateTitles();
     loadData(() => {
       showFractionLine();
       changeWardPUDOMap();
     });
   }
-  // Menu for trip fraction lineChart table
+  // Table menu for trip fraction lineChart table
   else if (event.target.id === "fraction-menu") {
     day = event.target.value;
     updateTableCaption();
