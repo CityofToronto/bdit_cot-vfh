@@ -104,13 +104,13 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
 
           if (onMouseOverCb && typeof onMouseOverCb === "function") {
             let hr = i % 24;
-            let val = data.fraction[i];
+            let val = data[Object.keys(data)[1]][i];
             let idx = data.keys.values[i];
             let thisTOD = findTOD([hr, val, idx]);
 
             // Store info to pass to tooltip
             const hoverData = {};
-            hoverData.ward = [data.fraction[i], hr, thisTOD];
+            hoverData.ward = [val, hr, thisTOD];
             onMouseOverCb(hoverData);
           }
         }

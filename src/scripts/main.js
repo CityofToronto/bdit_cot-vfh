@@ -63,15 +63,25 @@ function pageTexts() {
 }
 
 function showFractionLine() {
-  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, ptcFraction[ward]);
+  // Keep only the timeseries data belonging to whichPUDO selection for the current ward
+  // This data will be passed into lineChart, createOverlay, and lineTable
+  let thisKey;
+  let thisData = Object.keys(ptcFraction[ward]).reduce((object, key) => {
+    if (key === "keys" || key === whichPUDO) {
+      thisKey = key === "keys" ? key : "fraction";
+      object[thisKey] = ptcFraction[ward][key]
+    }
+    return object
+  }, {})
 
+  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, thisData);
 
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
 
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
-  createOverlay(fractionLine, ptcFraction[ward], (d) => { // onMouseOverCb
+  createOverlay(fractionLine, thisData, (d) => { // onMouseOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
@@ -92,7 +102,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
+  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisData, day);
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
@@ -218,6 +228,7 @@ function updateTableCaption() {
 function uiHandler(event) {
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
+    showFractionLine();
     updateWardPUDOMap();
   }
 
