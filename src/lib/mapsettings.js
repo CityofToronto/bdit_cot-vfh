@@ -4,7 +4,7 @@
 pudoMapSettings = {
   enableControlBox: false,
   enableSearchBar: false,
-  // zoom: 11,
+  zoom: 12,
   mapHeight: 480,
   // isVectorBasemap: true,
   enableFullscreen: false,
