@@ -96,10 +96,7 @@ function initWardPUDOMap() {
   console.log(pudoDay, pudoTOD)
   pudoMapSettings = $.extend({
     // markerList:  pudoMap[ward].latlon[pudoDay][pudoTOD],
-    markerListPU:  pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"],
-    markerListDO:  pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"],
-    mapCenter: pudoMap[ward].latlon.mapCentre,
-    className: "myclass"
+    mapCenter: pudoMap[ward].latlon.mapCentre
   }, pudoMapSettings || {});
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
@@ -107,33 +104,51 @@ function initWardPUDOMap() {
     .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
     .classed("moveable", true);
 
-  // console.log("empty? ", d3.select("#pudoCOTmap").empty() )
   if (d3.select("#pudoCOTmap").select(".leaflet-pane").empty()) wardpudoMap.render();
+
+  // Pick-ups
+  wardpudoMap.options.markerClass = "pickups";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
   wardpudoMap.addCircle();
 
+  // Drop-offs
+  wardpudoMap.options.markerClass = "dropoffs";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+  wardpudoMap.addCircle();
 }
-function updateWardPUDOMap() {
-  // pudoMapSettings.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD];
-  pudoMapSettings.clearCirle = false;
-  wardpudoMap.options.markerListPU = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.options.markerListDO = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
 
+function updateWardPUDOMap() {
   wardpudoMap.rmCircle();
+
+  // Pick-ups
+  wardpudoMap.options.markerClass = "pickups";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+  wardpudoMap.addCircle();
+
+  // Drop-offs
+  wardpudoMap.options.markerClass = "dropoffs";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
   wardpudoMap.addCircle();
 }
 function changeWardPUDOMap() {
   // reset
+  wardpudoMap.rmCircle();
   pudoDay = "week";
   pudoTOD = "all";
   const mapState = d3.select("#pudoCOTmap")
   mapState.classed("moveable", true);
   divHoverLine.style("opacity", 0);
 
-  wardpudoMap.options.markerListPU = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.options.markerListDO = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
 
-  wardpudoMap.rmCircle();
+  // Pick-ups
+  wardpudoMap.options.markerClass = "pickups";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+  wardpudoMap.addCircle();
+
+  // Drop-offs
+  wardpudoMap.options.markerClass = "dropoffs";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
   wardpudoMap.addCircle();
 }
 
