@@ -26,6 +26,7 @@ $(function () {
 
 // data objects
 const ptcFraction = {}; // PTC Trip Fraction by ward
+let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
 
 // data selectors
@@ -67,7 +68,7 @@ function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
   // This data will be passed into lineChart, createOverlay, and lineTable
   let thisKey;
-  let thisData = Object.keys(ptcFraction[ward]).reduce((object, key) => {
+  thisPTC = Object.keys(ptcFraction[ward]).reduce((object, key) => {
     if (key === "keys" || key === whichPUDO) {
       thisKey = key === "keys" ? key : "fraction";
       object[thisKey] = ptcFraction[ward][key]
@@ -75,14 +76,14 @@ function showFractionLine() {
     return object
   }, {})
 
-  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, thisData);
+  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, thisPTC);
 
   // axes labels
   rotateLabels("fractionline", settingsFractionLine);
 
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
-  createOverlay(fractionLine, thisData, (d) => { // onMouseOverCb
+  createOverlay(fractionLine, thisPTC, (d) => { // onMouseOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
@@ -108,7 +109,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisData, day);
+  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
@@ -197,7 +198,7 @@ function uiHandler(event) {
   else if (event.target.id === "fraction-menu") {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settingsFractionLine, ptcFraction[ward], day);
+    lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
   }
 }
 
