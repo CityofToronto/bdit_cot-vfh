@@ -123,58 +123,22 @@ function initWardPUDOMap() {
 
   if (d3.select("#pudoCOTmap").select(".leaflet-pane").empty()) wardpudoMap.render();
 
-  if (whichPUDO === "pudos") {
-    // Pick-ups
-    wardpudoMap.options.markerClass = "pickups";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-    wardpudoMap.addCircle();
+  // Pick-ups
+  wardpudoMap.options.markerClass = "pickups";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
+  wardpudoMap.addCircle();
 
-    // Drop-offs
-    wardpudoMap.options.markerClass = "dropoffs";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    wardpudoMap.addCircle();
-  } else if (whichPUDO === "pu") {
-    // Pick-ups
-    wardpudoMap.options.markerClass = "pickups";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-    wardpudoMap.addCircle();
-  } else {
-    // Drop-offs
-    wardpudoMap.options.markerClass = "dropoffs";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    wardpudoMap.addCircle();
-  }
-
+  // Drop-offs
+  wardpudoMap.options.markerClass = "dropoffs";
+  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+  wardpudoMap.addCircle();
 }
 
-function updateWardPUDOMap() {
+function updateWardPUDOMap() { // called by moving hoverLine
   wardpudoMap.rmCircle();
-
-  if (pudoTOD) {
-    if (whichPUDO === "pudos") {
-      // Pick-ups
-      wardpudoMap.options.markerClass = "pickups";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-      wardpudoMap.addCircle();
-
-      // Drop-offs
-      wardpudoMap.options.markerClass = "dropoffs";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-      wardpudoMap.addCircle();
-    } else if (whichPUDO === "pu") {
-      // Pick-ups
-      wardpudoMap.options.markerClass = "pickups";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-      wardpudoMap.addCircle();
-    } else {
-      // Drop-offs
-      wardpudoMap.options.markerClass = "dropoffs";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-      wardpudoMap.addCircle();
-    }
-  }
+  showPudoLayer();
 }
-function changeWardPUDOMap() {
+function changeWardPUDOMap() { // called when new ward selected
   // reset
   wardpudoMap.rmCircle();
   pudoDay = "week";
@@ -185,27 +149,7 @@ function changeWardPUDOMap() {
 
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
 
-  if (whichPUDO === "pudos") {
-    // Pick-ups
-    wardpudoMap.options.markerClass = "pickups";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-    wardpudoMap.addCircle();
-
-    // Drop-offs
-    wardpudoMap.options.markerClass = "dropoffs";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    wardpudoMap.addCircle();
-  } else if (whichPUDO === "pu") {
-    // Pick-ups
-    wardpudoMap.options.markerClass = "pickups";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-    wardpudoMap.addCircle();
-  } else {
-    // Drop-offs
-    wardpudoMap.options.markerClass = "dropoffs";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    wardpudoMap.addCircle();
-  }
+  showPudoLayer();
 }
 
 
