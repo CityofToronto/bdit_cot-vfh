@@ -42,6 +42,7 @@ let wardpudoMap;
 
 // Tooltip div names
 let divHoverLine;
+let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // -----------------------------------------------------------------------------
 // Page texts
@@ -95,10 +96,15 @@ function showFractionLine() {
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       divHoverLine.style("opacity", 0);
       changeWardPUDOMap();
+    } else {
+      saveHoverLinePos();
     }
   }, () => { // onMouseClickCb; toggle between moveable and frozen
     const mapState = d3.select("#pudoCOTmap")
     mapState.classed("moveable", !mapState.classed("moveable"));
+    if (!d3.select("#pudoCOTmap").classed("moveable")) {
+      saveHoverLinePos();
+    }
   });
 
   // Data table for trip fraction
@@ -232,6 +238,7 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     showFractionLine();
     updateWardPUDOMap();
+    if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine();
   }
 
   if (event.target.id === "ward-menu") {

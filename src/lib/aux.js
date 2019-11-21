@@ -35,6 +35,23 @@ function findTOD(...args) {
   return [dow, win];
 }
 
+// Save hoverLine position when frozen
+function saveHoverLinePos() {
+  saveHoverPos = []; // clear
+  let x1 = d3.select(".hoverLine").attr("x1");
+  let x2 = d3.select(".hoverLine").attr("x2");
+  let y1 = d3.select(".hoverLine").attr("y1");
+  let y2 = d3.select(".hoverLine").attr("y2");
+  saveHoverPos.push(x1, x2, y1, y2);
+}
+// Hold frozen hoverLine when PUDO menu toggled
+function holdHoverLine() {
+  d3.select(".hoverLine").attr("x1", saveHoverPos[0]);
+  d3.select(".hoverLine").attr("x2", saveHoverPos[1]);
+  d3.select(".hoverLine").attr("y1", saveHoverPos[2]);
+  d3.select(".hoverLine").attr("y2", saveHoverPos[3]);
+}
+
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
 function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClickCb) {
