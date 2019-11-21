@@ -11,7 +11,7 @@ pudoMapSettings = {
   zoomControl: false,
   maxZoom: 18,
   // mapHeight: 1200,
-  mapType: "Gray",
+  mapType: "Streets",
   enableWardSelection: false,
   enableControlBox: true,
   controlBoxTitle: "Trip type",
