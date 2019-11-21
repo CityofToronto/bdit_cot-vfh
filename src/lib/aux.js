@@ -133,10 +133,10 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
         }
       })
       .on("mouseout", function() {
-        // Clear line only if hoverLine is not frozen by mouse click
-        if (d3.select("#pudoCOTmap").classed("moveable")) {
-          line.style("visibility", "hidden");
-        }
+        // // Clear line only if hoverLine is not frozen by mouse click
+        // if (d3.select("#pudoCOTmap").classed("moveable")) {
+        //   line.style("visibility", "hidden");
+        // }
         if (onMouseOutCb && typeof onMouseOutCb === "function") {
           onMouseOutCb();
         }

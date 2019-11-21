@@ -115,8 +115,11 @@ function showFractionLine() {
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
+  const initCentre = [43.727839, -79.601726]; // w1 Humber College
+  const initZoom = 16;
   pudoMapSettings = $.extend({
-    mapCenter: pudoMap[ward].latlon.mapCentre
+    mapCenter: initCentre,
+    zoom: initZoom
   }, pudoMapSettings || {});
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
