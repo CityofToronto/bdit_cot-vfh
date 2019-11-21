@@ -45,11 +45,11 @@ function saveHoverLinePos() {
   saveHoverPos.push(x1, x2, y1, y2);
 }
 // Hold frozen hoverLine when PUDO menu toggled
-function holdHoverLine() {
-  d3.select(".hoverLine").attr("x1", saveHoverPos[0]);
-  d3.select(".hoverLine").attr("x2", saveHoverPos[1]);
-  d3.select(".hoverLine").attr("y1", saveHoverPos[2]);
-  d3.select(".hoverLine").attr("y2", saveHoverPos[3]);
+function holdHoverLine(ptArray) {
+  d3.select(".hoverLine").attr("x1", ptArray[0]);
+  d3.select(".hoverLine").attr("x2", ptArray[1]);
+  d3.select(".hoverLine").attr("y1", ptArray[2]);
+  d3.select(".hoverLine").attr("y2", ptArray[3]);
 }
 
 // -----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
     line = overlay.append("line")
         .attr("class", "hoverLine")
         .style("display", "inline")
-        .style("visibility", "hidden");
+        .style("visibility", "visible");  // .style("visibility", "hidden");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");

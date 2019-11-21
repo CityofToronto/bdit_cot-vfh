@@ -31,8 +31,8 @@ const pudoMap = {}; // PUDO map by ward
 // data selectors
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
-let pudoDay = "week"; // Ward PUDO for whole week
-let pudoTOD = "all"; // Ward PUDO for all times of day
+let pudoDay = "Monday"; // Ward PUDO for whole week
+let pudoTOD = "amPeak"; // Ward PUDO for all times of day
 let whichPUDO = "pudos"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
@@ -43,6 +43,9 @@ let wardpudoMap;
 // Tooltip div names
 let divHoverLine;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
+
+// PUDO map defaults
+const defaultZoom = 12;
 
 // -----------------------------------------------------------------------------
 // Page texts
@@ -95,7 +98,7 @@ function showFractionLine() {
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       divHoverLine.style("opacity", 0);
-      changeWardPUDOMap();
+      // changeWardPUDOMap();
     } else {
       saveHoverLinePos();
     }
@@ -148,6 +151,8 @@ function changeWardPUDOMap() { // called when new ward selected
   divHoverLine.style("opacity", 0);
 
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
+  wardpudoMap.options.zoom = defaultZoom;
+  wardpudoMap.gotoFocus();
 
   showPudoLayer();
 }
@@ -182,7 +187,7 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     showFractionLine();
     updateWardPUDOMap();
-    if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine();
+    if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
   }
 
   if (event.target.id === "ward-menu") {
@@ -241,6 +246,10 @@ $(document).ready(function(){
         showFractionLine();
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+
+        const initArray = [35.73652694610779, 35.73652694610779, 0, 333];
+        holdHoverLine(initArray);
+
         initWardPUDOMap();
       });
   })
