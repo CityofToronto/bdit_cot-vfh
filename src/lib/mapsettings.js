@@ -11,7 +11,7 @@ pudoMapSettings = {
   zoomControl: false,
   maxZoom: 18,
   // mapHeight: 1200,
-  mapType: "Streets",
+  mapType: "NationalGeographic",
   enableWardSelection: false,
   enableControlBox: true,
   controlBoxTitle: "Trip type",
@@ -21,3 +21,6 @@ pudoMapSettings = {
     radius: 20
   }
 };
+
+// Possible mapTypes:
+// Topographic, Streets, NationalGeographic, Oceans, Gray, DarkGray, Imagery, ImageryClarity, ShadedRelief
