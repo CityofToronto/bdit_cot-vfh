@@ -57,7 +57,9 @@ function pageTexts() {
 
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
-  d3.select("#section4-text1").html(i18next.t("section4-text1", {ns: "indexhtml"}));
+  d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
+  d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
+  // d3.select("#section4-text1c").html(i18next.t("section4-text1c", {ns: "indexhtml"}));
   // ** ward dropdown menu
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
   d3.select("#ward-menu").node()[1].text = i18next.t("w22", {ns: "wards"});
