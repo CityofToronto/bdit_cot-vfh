@@ -259,12 +259,29 @@
 
 
 	/* PUDO map */
-	/*.marker-cluster-large div {
-	 	background-color: RGB(21, 122, 23);
-	}*/
+	/* There are: marker-cluster-small, marker-cluster-medium, largemarker-cluster-large */
+	.marker-cluster-large div {
+		background-color: #54278f; // passes AA with white text
+		border-radius: 1px;
+		// font-size: 18px;
+	}
+	.marker-cluster-medium div {
+		background-color: #756bb1; // passes AA with white text
+		width: 35px;
+	}
+	.marker-cluster-small div {
+		background-color: #a6611a; // passes AA with white text
+		-webkit-text-fill-color: white;
+	}
+	.leaflet-marker-icon {
+		background-clip: text;
+		-webkit-text-fill-color: white;
+	}
+
 	#pudoCOTmap {
 		position: relative;
-		background: rgb(207, 211, 212) none repeat scroll 0% 0%;
+		background: rgb(207, 211, 212)
+		none repeat scroll 0% 0%;
 	}
 	.pudomapMarkerOff {
 		opacity: 0;
