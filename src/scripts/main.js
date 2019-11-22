@@ -67,6 +67,20 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
+
+  // Interactive text for Section 4
+  d3.selectAll(".section-text .highlight-total")
+    .on("click", function() {
+      d3.event.preventDefault();
+    })
+    .on("mouseover", function() {
+      d3.selectAll(".marker-cluster:not(#humberDropoffs)")
+        .style("opacity", 0.3);
+
+    })
+    .on("mouseout", function() {
+      console.log("mouseout")
+    });
 }
 
 function showFractionLine() {
@@ -141,6 +155,14 @@ function initWardPUDOMap() {
   wardpudoMap.options.markerClass = "dropoffs";
   wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
   wardpudoMap.addCircle();
+
+  // Label certain clusters for story
+  d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
+    if (d3.select(this).text() == humberDropoffs) {
+      d3.select(this.parentNode.parentNode)
+        .attr("id", "humberDropoffs");
+    }
+  })
 }
 
 function updateWardPUDOMap() { // called by moving hoverLine
