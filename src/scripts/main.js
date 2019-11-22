@@ -46,7 +46,8 @@ let divHoverLine;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
-const defaultZoom = 12;
+let currentCentre; // stores current centre of map moved by user
+
 
 // -----------------------------------------------------------------------------
 // Page texts
@@ -67,6 +68,11 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
+}
+
+// Text story interactions
+function storyTexts() {
+  humberStory();
 }
 
 function showFractionLine() {
@@ -118,11 +124,9 @@ function showFractionLine() {
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
-  const initCentre = [43.727839, -79.601726]; // w1 Humber College
-  const initZoom = 16;
   pudoMapSettings = $.extend({
-    mapCenter: initCentre,
-    zoom: initZoom
+    mapCenter: pudoMapSettings.w1Centre, // w1 Humber College
+    zoom: pudoMapSettings.initZoom
   }, pudoMapSettings || {});
 
   wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
@@ -145,8 +149,14 @@ function initWardPUDOMap() {
 
 function updateWardPUDOMap() { // called by moving hoverLine
   wardpudoMap.rmCircle();
+
+  // keep current map centre
+  currentCentre = wardpudoMap.map.getCenter();
+  wardpudoMap.options.focus = currentCentre;
+
   showPudoLayer();
 }
+
 function changeWardPUDOMap() { // called when new ward selected
   // reset
   wardpudoMap.rmCircle();
@@ -157,7 +167,7 @@ function changeWardPUDOMap() { // called when new ward selected
   divHoverLine.style("opacity", 0);
 
   wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
-  wardpudoMap.options.zoom = defaultZoom;
+  wardpudoMap.options.zoom = pudoMapSettings.defaultZoom;
   wardpudoMap.gotoFocus();
 
   showPudoLayer();
@@ -253,10 +263,12 @@ $(document).ready(function(){
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 
-        const initArray = [35.73652694610779, 35.73652694610779, 0, 333];
-        holdHoverLine(initArray);
+        // const initArray = [35.73652694610779, 35.73652694610779, 0, 333];
+        holdHoverLine(settingsFractionLine.initHoverLineArray);
 
         initWardPUDOMap();
+
+        storyTexts();        
       });
   })
 })
