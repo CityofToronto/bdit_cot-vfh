@@ -1,6 +1,7 @@
 "use strict";
 
 var cot_map = function cot_map(container, o) {
+  console.log("o: ", o)
   this.container = container;
   var controleBoxOptions;
 
@@ -57,7 +58,7 @@ var cot_map = function cot_map(container, o) {
   this.options = $.extend({
     // mapCenter: [43.66, -79.373903],
     maxBounds: [[43.390, -80.290], [44, -78.600]],
-    zoom: 12, // 12,
+    // zoom: 12, // read from input options o
     mapType: 'Topographic',
     mapHeight: 400,
     isVectorBasemap: false
@@ -70,6 +71,7 @@ var cot_map = function cot_map(container, o) {
 };
 
 cot_map.prototype.render = function () {
+  console.log("this.options: ", this.options)
   var that = this;
   var mapOptions = {
     zoom: this.options.zoom,
@@ -586,22 +588,20 @@ cot_map.prototype.addCircle = function (o) {
   // { defaultLayer: {…} }
   this.markerList[o.addToLayer] = !!o.enableClustering ? L.markerClusterGroup() : L.layerGroup();
 
-  // loop through Pickups and Dropoffs
-  var currentObj, currentList, thisClass;
-  for (idx = 0; idx < 2; idx++) {
-    currentObj = idx === 0 ? this.options.markerListPU : this.options.markerListDO;
-    currentList = idx === 0 ? this.options.markerListPU : this.options.markerListDO;
-    thisClass = idx === 0 ? "pickups" : "dropoffs";
-
-    currentObj[o.addToLayer] = !!o.enableClustering ? L.markerClusterGroup() : L.layerGroup();
-
-    for (var jdx = 0; jdx < currentList.length; jdx++) {
-       L.circle(currentList[jdx]).setStyle({className: thisClass})
-        .bindPopup('<h3>' + o.title + '</h3><div>' + o.description + '</div>')
-        .addTo(this.markerList[o.addToLayer]);
-      this.map.addLayer(this.markerList[o.addToLayer]);
-    }
+  var currentList = this.options.markerList;
+  for (var jdx = 0; jdx < currentList.length; jdx++) {
+     L.circle(currentList[jdx]).setStyle({className: this.options.markerClass})
+      .bindPopup('<h3>' + o.title + '</h3><div>' + o.description + '</div>')
+      .addTo(this.markerList[o.addToLayer]);
+    this.map.addLayer(this.markerList[o.addToLayer]);
   }
+
+};
+
+cot_map.prototype.gotoFocus = function (o) {
+  console.log(this.options.focus)
+  console.log(this.options.zoom)
+  this.map.setView(this.options.focus, this.options.zoom);
 };
 
 cot_map.prototype.rmCircle = function () {
