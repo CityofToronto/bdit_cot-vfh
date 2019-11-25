@@ -158,7 +158,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("y2", chartObj.settings.innerHeight);
 }
 
-function hoverlineTip(settings, div, dataObj) {
+function hoverlineTip(div, dataObj) {
   const cityVal = d3.format("(.2f")(dataObj.ward[0]);
   const thisHr = `${dataObj.ward[1]}h00`;
   const day = dataObj.ward[2][0];
@@ -228,6 +228,18 @@ function showPudoLayer() {
 }
 
 // -----------------------------------------------------------------------------
+function showLineHover(lineCoords, hoverText, hoverCoords) {
+  // Move hoverLine to specified coordinates
+  holdHoverLine(lineCoords);
+
+  // Show tooltip
+  divHoverLine.html(hoverText)
+    .style("opacity", .999)
+    .style("left", ((hoverCoords[0] - 50) + "px"))
+    .style("top", ((hoverCoords[1] - 300) + "px"))
+    .style("pointer-events", "none");
+}
+
 // Text stories
 function humberStory() {
   
@@ -240,9 +252,6 @@ function humberStory() {
     pudoDay = "Monday"; 
     pudoTOD = "amPeak";
 
-    // Move hoverLine to Monday, amPeak
-    holdHoverLine(settingsFractionLine.initHoverLineArray);
-
     // Display ward 1 in ward-menu; Drop-offs in pudo-menu
     d3.select("#ward-menu").node()[0].selected = true;
     d3.select("#pudo-menu").node()[2].selected = true;
@@ -254,12 +263,9 @@ function humberStory() {
 
     // Clear any previously frozen hoverLine tooltips
     divHoverLine.style("opacity", 0);
-    // Show tooltip
-    divHoverLine.html(settingsFractionLine.initToolTipText)
-      .style("opacity", .999)
-      .style("left", ((settingsFractionLine.initToolTipPosn[0] - 50) + "px"))
-      .style("top", ((settingsFractionLine.initToolTipPosn[1] - 300) + "px"))
-      .style("pointer-events", "none");
+    // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
+    showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, 
+      settingsFractionLine.initToolTipPosn);
 
     // Set focus and zoom to Humber College
     wardpudoMap.rmCircle();

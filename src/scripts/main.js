@@ -98,7 +98,7 @@ function showFractionLine() {
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
-      hoverlineTip(settingsFractionLine, divHoverLine, d);
+      hoverlineTip(divHoverLine, d);
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
@@ -263,8 +263,8 @@ $(document).ready(function(){
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 
-        // const initArray = [35.73652694610779, 35.73652694610779, 0, 333];
-        holdHoverLine(settingsFractionLine.initHoverLineArray);
+        // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
+        showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, settingsFractionLine.initToolTipPosn);
 
         initWardPUDOMap();
 

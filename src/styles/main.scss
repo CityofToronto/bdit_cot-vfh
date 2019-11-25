@@ -183,7 +183,6 @@
 	div.list-group {
 	  position: absolute;
 	  margin-bottom: 32px;
-	  // width: 200px;
 	  background: #fff;
 	  color: #000;
 	  border-radius: 3px !important;
@@ -193,7 +192,7 @@
 		z-index: 1000;
 	}
 	.list-group table {
-	  width: 200px;
+	  width: 225px;
 	  border-collapse:collapse;
 	}
 	.list-group table tr {
