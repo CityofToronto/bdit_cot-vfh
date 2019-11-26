@@ -241,6 +241,14 @@ function uiHandler(event) {
     day = event.target.value;
     updateTableCaption();
     lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+
+    d3.select("#fraction-action")
+      .on("click", function() {
+        console.log("show table")
+        d3.select(".fractionline .chart-data-table")
+          .select("table")
+          .style("display", "table");
+      });
     // d3.select(".fractionline .chart-data-table").select("table").style("display", "table")
     // d3.select(".fractionline .chart-data-table").select("table").style("display", "none")
   }

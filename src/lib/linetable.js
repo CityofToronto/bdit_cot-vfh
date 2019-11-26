@@ -80,9 +80,6 @@ function lineTable(svg, settings, data, day) {
           .attr("class", "btn btn-primary")
           .attr("type","submit")
           .text("Show");
-
-        // button.append("")
-
       }
       //
 
@@ -92,7 +89,8 @@ function lineTable(svg, settings, data, day) {
       table = details
         .append("table")
           .attr("class", "table")
-          .attr("aria-labelledby", summaryId);
+          .attr("aria-labelledby", summaryId)
+          .style("display", "none");
 
       table
         .append("caption");
