@@ -73,6 +73,16 @@ function lineTable(svg, settings, data, day) {
             .text(function(d) {
               return d.text;
             })
+
+        button = details.append("div").attr("class", "col-md-3")
+          .append("button")
+          .attr("id", "fraction-action")
+          .attr("class", "btn btn-primary")
+          .attr("type","submit")
+          .text("Show");
+
+        // button.append("")
+
       }
       //
 

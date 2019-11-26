@@ -241,6 +241,8 @@ function uiHandler(event) {
     day = event.target.value;
     updateTableCaption();
     lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+    // d3.select(".fractionline .chart-data-table").select("table").style("display", "table")
+    // d3.select(".fractionline .chart-data-table").select("table").style("display", "none")
   }
 }
 
@@ -290,7 +292,7 @@ $(document).ready(function(){
 
         initWardPUDOMap();
 
-        storyTexts();        
+        storyTexts();
       });
   })
 })
