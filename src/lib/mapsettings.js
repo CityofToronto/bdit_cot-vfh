@@ -19,7 +19,10 @@ pudoMapSettings = {
     enableClustering: true,
     fillOpacity: 0.5,
     radius: 20
-  }
+  },
+  initZoom: 16,
+  defaultZoom: 12,
+  w1Centre: [43.727839, -79.601726]
 };
 
 // Possible mapTypes:

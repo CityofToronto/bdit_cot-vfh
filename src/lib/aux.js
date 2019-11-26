@@ -158,7 +158,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("y2", chartObj.settings.innerHeight);
 }
 
-function hoverlineTip(settings, div, dataObj) {
+function hoverlineTip(div, dataObj) {
   const cityVal = d3.format("(.2f")(dataObj.ward[0]);
   const thisHr = `${dataObj.ward[1]}h00`;
   const day = dataObj.ward[2][0];
@@ -197,6 +197,11 @@ function rotateLabels(chartId, sett) {
 // -----------------------------------------------------------------------------
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function showPudoLayer() {
+  // keep current zoom
+  let currentZoom = wardpudoMap.map._zoom;
+   wardpudoMap.options.zoom = currentZoom;
+
+
   if (pudoTOD) {
     if (whichPUDO === "pudos") {
       // Pick-ups
@@ -220,4 +225,71 @@ function showPudoLayer() {
       wardpudoMap.addCircle();
     }
   }
+}
+
+// -----------------------------------------------------------------------------
+function showLineHover(lineCoords, hoverText, hoverCoords) {
+  // Move hoverLine to specified coordinates
+  holdHoverLine(lineCoords);
+
+  // Show tooltip
+  divHoverLine.html(hoverText)
+    .style("opacity", .999)
+    .style("left", ((hoverCoords[0] - 50) + "px"))
+    .style("top", ((hoverCoords[1] - 300) + "px"))
+    .style("pointer-events", "none");
+}
+
+// Text stories
+function humberStory() {
+  
+  d3.selectAll(".section-text .highlight-humber")
+    .on("click", function() {
+      d3.event.preventDefault();
+  })
+  .on("mouseover", function() {
+    ward = "w1";
+    pudoDay = "Monday"; 
+    pudoTOD = "amPeak";
+
+    // Display ward 1 in ward-menu; Drop-offs in pudo-menu
+    d3.select("#ward-menu").node()[0].selected = true;
+    d3.select("#pudo-menu").node()[2].selected = true;
+
+    // Unfreeze hoverLine if it was previously frozen
+    if (!d3.select("#pudoCOTmap").classed("moveable")) {
+      d3.select("#pudoCOTmap").classed("moveable", true);
+    }
+
+    // Clear any previously frozen hoverLine tooltips
+    divHoverLine.style("opacity", 0);
+    // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
+    showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, 
+      settingsFractionLine.initToolTipPosn);
+
+    // Set focus and zoom to Humber College
+    wardpudoMap.rmCircle();
+    wardpudoMap.options.focus = pudoMapSettings.w1Centre;
+    wardpudoMap.options.zoom = pudoMapSettings.initZoom;
+    wardpudoMap.gotoFocus();
+
+    // Highlight Humber dropoffs and dim the other markers 
+    wardpudoMap.options.markerClass = "dropoffs";
+    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    wardpudoMap.addCircle();
+
+    d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
+      if (d3.select(this).text() == humberDropoffs) {
+        d3.select(this.parentNode.parentNode)
+          .attr("id", "humberDropoffs");
+      }
+    })
+
+    d3.selectAll(".marker-cluster:not(#humberDropoffs)")
+      .classed("dim-trips", true);
+  })
+  .on("mouseout", function() {
+    d3.selectAll(".marker-cluster")
+      .classed("dim-trips", false);
+  });
 }
