@@ -56,6 +56,18 @@ function holdHoverLine(ptArray) {
   d3.select(".hoverLine").attr("y2", ptArray[3]);
 }
 
+// Hide table and close details (to be opened with action button)
+function hideTable(divClassName) {
+  console.log()
+  // Hide table until action button is clicked
+  d3.select(`.${divClassName} .chart-data-table`)
+    .select("table")
+    .style("display", "none");
+  // close details
+  d3.select(`.${divClassName} details`)
+    .attr("open", null);
+}
+
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
 function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClickCb) {
@@ -137,10 +149,6 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
         }
       })
       .on("mouseout", function() {
-        // // Clear line only if hoverLine is not frozen by mouse click
-        // if (d3.select("#pudoCOTmap").classed("moveable")) {
-        //   line.style("visibility", "hidden");
-        // }
         if (onMouseOutCb && typeof onMouseOutCb === "function") {
           onMouseOutCb();
         }
@@ -242,14 +250,14 @@ function showLineHover(lineCoords, hoverText, hoverCoords) {
 
 // Text stories
 function humberStory() {
-  
+
   d3.selectAll(".section-text .highlight-humber")
     .on("click", function() {
       d3.event.preventDefault();
   })
   .on("mouseover", function() {
     ward = "w1";
-    pudoDay = "Monday"; 
+    pudoDay = "Monday";
     pudoTOD = "amPeak";
 
     // Display ward 1 in ward-menu; Drop-offs in pudo-menu
@@ -264,7 +272,7 @@ function humberStory() {
     // Clear any previously frozen hoverLine tooltips
     divHoverLine.style("opacity", 0);
     // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-    showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, 
+    showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
       settingsFractionLine.initToolTipPosn);
 
     // Set focus and zoom to Humber College
@@ -273,7 +281,7 @@ function humberStory() {
     wardpudoMap.options.zoom = pudoMapSettings.initZoom;
     wardpudoMap.gotoFocus();
 
-    // Highlight Humber dropoffs and dim the other markers 
+    // Highlight Humber dropoffs and dim the other markers
     wardpudoMap.options.markerClass = "dropoffs";
     wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
     wardpudoMap.addCircle();

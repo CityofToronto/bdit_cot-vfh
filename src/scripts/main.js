@@ -48,7 +48,6 @@ let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu i
 // PUDO map defaults
 let currentCentre; // stores current centre of map moved by user
 
-
 // -----------------------------------------------------------------------------
 // Page texts
 function pageTexts() {
@@ -234,20 +233,15 @@ function uiHandler(event) {
     showFractionLine();
     updateWardPUDOMap();
     if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
+
+    hideTable("fractionline");
   }
 
   if (event.target.id === "ward-menu") {
     ward = event.target.value; // w1 initially
     updateTitles();
 
-    // Hide table until action button is clicked
-    d3.select(".fractionline .chart-data-table")
-      .select("table")
-      .style("display", "none");
-
-    // close ward trips table
-    d3.select(".fractionline details")
-      .attr("open", null);
+    hideTable("fractionline");
 
     loadData(() => {
       showFractionLine();
