@@ -10,6 +10,7 @@
 	}
 	.page-content {
 		font-size: 1.125em;
+		font-family: "Roboto";
 	}
 	.myh3 {
 	  margin-top: 5px !important;
@@ -24,7 +25,9 @@
 	  margin-top: 20px;
 	}
 	/* all tables */
-	// .details .chart-data-table {
+	.chart-data-table {
+		font-size: 15.3px;
+	}
 	details {
 	  padding-bottom: 0em;
 		margin-top: 1em;
@@ -32,7 +35,7 @@
 	}
 	details > summary {
 		display: list-item;
-		font-size: 85%;
+		// font-size: 85%;
 		font-weight: bold;
 	}
 	caption {
@@ -261,16 +264,18 @@
 		stroke: #E474C2;
 	}
 
-
-
 	/* Trip Fraction line chart */
  /* table button */
+
  #fraction-action {
 	 background-color: #175689;
 	 border-color: #175689;
 	 margin-top: 20px;
  }
-
+ #dow-label {
+	margin-top: 25px;
+	text-align: end;
+ }
 
 	/* PUDO map */
 	/* There are: marker-cluster-small, marker-cluster-medium, largemarker-cluster-large */

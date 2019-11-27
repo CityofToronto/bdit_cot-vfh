@@ -244,7 +244,7 @@ function uiHandler(event) {
     d3.select(".fractionline .chart-data-table")
       .select("table")
       .style("display", "none");
-      
+
     // close ward trips table
     d3.select(".fractionline details")
       .attr("open", null);

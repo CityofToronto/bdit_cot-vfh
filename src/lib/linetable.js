@@ -53,6 +53,13 @@ function lineTable(svg, settings, data, day) {
       if (sett.menuData) {
         var menu, options;
 
+        details.append("div")
+          .attr("class", "col-md-2")
+          .attr("id", "dow-label")
+          .append("label")
+            .attr("for", "day")
+            .text("Select Day");
+
         menu = details.append("div").attr("class", "col-md-3")
           .append("select")
             .attr("id", "fraction-menu")
@@ -79,7 +86,7 @@ function lineTable(svg, settings, data, day) {
           .attr("id", "fraction-action")
           .attr("class", "btn btn-primary")
           .attr("type","submit")
-          .text("Show");
+          .text("Show Data");
       }
       //
 
