@@ -76,10 +76,6 @@ function pageTexts() {
     .on("mouseover", function() {
       d3.selectAll(".marker-cluster:not(#humberDropoffs)")
         .style("opacity", 0.3);
-
-    })
-    .on("mouseout", function() {
-      console.log("mouseout")
     });
 }
 
