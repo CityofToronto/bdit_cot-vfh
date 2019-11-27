@@ -135,6 +135,14 @@ function showFractionLine() {
 
   // Data table for trip fraction
   const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+
+  // Only show table if action button is clicked
+  d3.select("#fraction-action")
+    .on("click", function() {
+      d3.select(".fractionline .chart-data-table")
+        .select("table")
+        .style("display", "table");
+    });
 }
 // Fig 4b - PUDO map
 function initWardPUDOMap() {
@@ -231,6 +239,16 @@ function uiHandler(event) {
   if (event.target.id === "ward-menu") {
     ward = event.target.value; // w1 initially
     updateTitles();
+
+    // Hide table until action button is clicked
+    d3.select(".fractionline .chart-data-table")
+      .select("table")
+      .style("display", "none");
+      
+    // close ward trips table
+    d3.select(".fractionline details")
+      .attr("open", null);
+
     loadData(() => {
       showFractionLine();
       changeWardPUDOMap();
@@ -242,15 +260,10 @@ function uiHandler(event) {
     updateTableCaption();
     lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
 
-    d3.select("#fraction-action")
-      .on("click", function() {
-        console.log("show table")
-        d3.select(".fractionline .chart-data-table")
-          .select("table")
-          .style("display", "table");
-      });
-    // d3.select(".fractionline .chart-data-table").select("table").style("display", "table")
-    // d3.select(".fractionline .chart-data-table").select("table").style("display", "none")
+    // Hide table until action button is clicked
+    d3.select(".fractionline .chart-data-table")
+      .select("table")
+      .style("display", "none");
   }
 }
 
