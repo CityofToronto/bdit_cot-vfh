@@ -231,7 +231,7 @@ settingsFractionLine = {
     });
   },
   x: {
-    label: i18next.t("tod", {ns: "ward_towline"}),
+    label: i18next.t("x_label", {ns: "ward_towline"}), // "Time of day"
     type: "linear",
     getValue: function(d) {
       return d.tod;
@@ -294,7 +294,7 @@ settingsFractionLine = {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "ward_towline"}),
+    label: i18next.t("y_label", {ns: "ward_towline"}), // "Trip fraction (%)"
     getValue: function(d) {
       return d.value;
     },

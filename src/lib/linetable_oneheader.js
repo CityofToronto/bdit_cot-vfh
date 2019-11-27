@@ -49,7 +49,7 @@ function lineTable(svg, settings, data, day) {
         .append("details")
           .attr("class", "chart-data-table");
 
-      // Dropdown menu for table
+      // ** Dropdown menu for table
       if (sett.menuData) {
         var menu, options;
 
@@ -92,7 +92,7 @@ function lineTable(svg, settings, data, day) {
           .attr("type","submit")
           .text("Show Data");
       }
-      //
+      // ** end dropdown menu
 
       details.append("summary")
         .attr("id", summaryId);
@@ -110,60 +110,40 @@ function lineTable(svg, settings, data, day) {
       header = table.append("thead").append("tr");
       body = table.append("tbody");
 
-      console.log("sett.tableheader!!!!!!!!!!!!!!! ", sett.tableheader)
-      if (sett.tableheader === 1) {
-        headerCols = header.selectAll("th")
-          .data([sett.x.label, sett.y.label]);
-
-        headerCols
-          .enter()
-            .append("th")
-            .text(function(d, i) {
-              console.log("d here: ", d)
-              return d;
-            });
-
-        headerCols
-          .text(function(d, i) {
-            return d;
-          });
-
-      } else {
-        header
-          .append("td")
-          .text(sett.x.label);
-      }
-
-    } else {
-      console.log("sett.tableheader NOT 1")
-      header = details.select("thead tr");
-      body = details.select("tbody");
-
       headerCols = header.selectAll("th")
-        .data(sett.z.getKeys.call(sett, data)); // [ "fraction" ]
+        .data([sett.x.label, sett.y.label]);
 
       headerCols
         .enter()
           .append("th")
-          .text(sett.y.label);
+          .text(function(d) {
+            return d;
+          });
 
       headerCols
-        .text(sett.y.label);
+        .text(function(d) {
+          return d;
+        });
+
+    } else { // details not empty
+      header = details.select("thead tr");
+      body = details.select("tbody");
+
+      headerCols = header.selectAll("th")
+        .data([sett.x.label, sett.y.label]);
+
+      headerCols
+        .enter()
+          .append("th")
+          .text(function(d) {
+            return d;
+          });
+
+      headerCols
+      .text(function(d) {
+        return d;
+      });
     }
-
-    // Set in main.js - changes with dropdown menu selection
-    // details.select("summary").text(sett.tableTitle || "Data");
-
-    // headerCols = header.selectAll("th")
-    //   .data(sett.z.getKeys.call(sett, data)); // [ "fraction" ]
-    //
-    // headerCols
-    //   .enter()
-    //     .append("th")
-    //     .text(sett.y.label);
-    //
-    // headerCols
-    //   .text(sett.y.label);
 
     headerCols
       .exit()
