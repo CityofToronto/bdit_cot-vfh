@@ -51,7 +51,7 @@
 	.data table th {
 		padding: 8px 16px !important;
 	  border: 1px solid #ddd !important;
-	  // border-bottom: 3px solid #165788 !important;
+	  border-bottom: 1px solid #165788 !important;
 	}
 	.data thead td {
 		font-weight: bold;
@@ -67,6 +67,7 @@
 	.data tbody td {
 		text-align: left;
 		background-color: #f8f8f8f8 !important;
+		border-bottom: 1px solid #165788 !important;
 	}
 
 	/* -----------*/
