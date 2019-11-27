@@ -198,6 +198,14 @@ function changeWardPUDOMap() { // called when new ward selected
   showPudoLayer();
 }
 
+function testMapBox() {
+  var mapbox = new mapboxgl.Map({
+    container: 'mapbox', // container id
+    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+    center: [43.727839, -79.601726], // starting position [lng, lat]
+    zoom: 16 // starting zoom
+  });
+}
 
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
@@ -259,6 +267,9 @@ function uiHandler(event) {
 
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
+
+  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
+  
   // -----------------------------------------------------------------------------
   // Chart SVGs
   // Fig 4a - Trip Fraction line chart
@@ -305,6 +316,8 @@ $(document).ready(function(){
         initWardPUDOMap();
 
         storyTexts();
+
+        testMapBox();
       });
   })
 })

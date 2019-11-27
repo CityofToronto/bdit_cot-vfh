@@ -9,7 +9,9 @@ See examples below in the boilerplate code
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/main.css">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
     <!-- core_print:css -->
@@ -68,6 +70,12 @@ See examples below in the boilerplate code
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-6 page-content">
+      <div id='mapbox'></div>
+    </div>
+  </div>
+
 </div>
 <!-- cot-app:body end-->
 
@@ -89,6 +97,8 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="/resources/lib/aux.js"></script>
   <script type="text/javascript" src="/resources/lib/settings.js"></script>
   <script type="text/javascript" src="/resources/lib/mapsettings.js"></script>
+
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
     console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');

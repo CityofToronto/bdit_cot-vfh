@@ -290,6 +290,8 @@
  }
 
 	/* PUDO map */
+	#mapbox { position: absolute; top: 0; bottom: 0; width: 100%; };
+
 	/* There are: marker-cluster-small, marker-cluster-medium, largemarker-cluster-large */
 	.marker-cluster-large div {
 		background-color: #54278f; // passes AA with white text
