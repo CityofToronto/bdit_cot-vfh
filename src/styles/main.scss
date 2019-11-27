@@ -5,6 +5,18 @@
 // Ex: background-image: url(/* @echo SRC_PATH*//img/sample.jpg)
 
 #bdit_cot-vfh_container {
+	/* https://formden.com/blog/input-color */
+	.form-control:focus {
+		border-color: #ec9f09; /* COT orange */
+		border-width: 2px;
+		box-shadow: none;
+		-webkit-box-shadow: none;
+	}
+	/* .has-error .form-control:focus {
+		box-shadow: none;
+		-webkit-box-shadow: none;
+	} */
+
 	text {
 	  font-size: 1.125em; // 22px;
 	}
