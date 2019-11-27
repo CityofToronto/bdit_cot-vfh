@@ -121,6 +121,7 @@ function lineTable(svg, settings, data, day) {
     headerCols
       .enter()
         .append("th")
+        .attr("scope", "col")
         .text(function(d) {
           return d;
         });
