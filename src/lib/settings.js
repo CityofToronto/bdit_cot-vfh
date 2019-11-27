@@ -343,6 +343,7 @@ settingsFractionLine = {
   initToolTipPosn: [232, 858],
   width: 900,
   datatable: true,
+  menuLabel: i18next.t("menuLabel", {ns: "ward_towline"}),
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},

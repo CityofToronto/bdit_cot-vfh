@@ -282,6 +282,7 @@ $(document).ready(function(){
     settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
+    settingsFractionLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1

@@ -55,10 +55,10 @@ function lineTable(svg, settings, data, day) {
 
         details.append("div")
           .attr("class", "col-md-2")
-          .attr("id", "dow-label")
+          .attr("id", "submenu-label")
           .append("label")
             .attr("for", "day")
-            .text("Select Day");
+            .text(sett.menuLabel);
 
         menu = details.append("div").attr("class", "col-md-3")
           .append("select")

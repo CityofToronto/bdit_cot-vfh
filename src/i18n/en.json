@@ -160,7 +160,8 @@
       "x_label": "Time of day",
       "y_label": "Trip fraction (%)",
       "hr": "Hour",
-      "tabletitle": "Percentage of trips per hour out of total weekly trips"
+      "tabletitle": "Percentage of trips per hour out of total weekly trips",
+      "menuLabel": "Select Day"
     },
     "scatter": {
       "x_label": "Year of First PTC Trip",

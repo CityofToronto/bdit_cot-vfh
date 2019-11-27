@@ -1,12 +1,3 @@
-mysett = {
-  mymargin: {
-    top: 20,
-    right: 10,
-    bottom: 80,
-    left: 125
-  }
-}
-
 // -----------------------------------------------------------------------------
 // Story values
 const humberDropoffs = 169;
