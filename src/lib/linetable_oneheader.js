@@ -110,40 +110,25 @@ function lineTable(svg, settings, data, day) {
       header = table.append("thead").append("tr");
       body = table.append("tbody");
 
-      headerCols = header.selectAll("th")
-        .data([sett.x.label, sett.y.label]);
+    } else { // details not empty
+      header = details.select("thead tr");
+      body = details.select("tbody");
+    }
 
-      headerCols
-        .enter()
-          .append("th")
-          .text(function(d) {
-            return d;
-          });
+    headerCols = header.selectAll("th")
+      .data([sett.x.label, sett.y.label]);
 
-      headerCols
+    headerCols
+      .enter()
+        .append("th")
         .text(function(d) {
           return d;
         });
 
-    } else { // details not empty
-      header = details.select("thead tr");
-      body = details.select("tbody");
-
-      headerCols = header.selectAll("th")
-        .data([sett.x.label, sett.y.label]);
-
-      headerCols
-        .enter()
-          .append("th")
-          .text(function(d) {
-            return d;
-          });
-
-      headerCols
-      .text(function(d) {
-        return d;
-      });
-    }
+    headerCols
+    .text(function(d) {
+      return d;
+    });
 
     headerCols
       .exit()
