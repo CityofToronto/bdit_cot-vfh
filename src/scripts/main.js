@@ -199,11 +199,13 @@ function changeWardPUDOMap() { // called when new ward selected
 }
 
 function testMapBox() {
-  var mapbox = new mapboxgl.Map({
-    container: 'mapbox', // container id
+  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
+
+  var map = new mapboxgl.Map({
+    container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [43.727839, -79.601726], // starting position [lng, lat]
-    zoom: 16 // starting zoom
+    center: [-79.601726, 43.727839], // starting position [lng, lat]
+    zoom: 9 // starting zoom
   });
 }
 
@@ -268,7 +270,7 @@ function uiHandler(event) {
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
 
-  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
+  
   
   // -----------------------------------------------------------------------------
   // Chart SVGs
