@@ -12,10 +12,6 @@
 		box-shadow: none;
 		-webkit-box-shadow: none;
 	}
-	/* .has-error .form-control:focus {
-		box-shadow: none;
-		-webkit-box-shadow: none;
-	} */
 
 	text {
 	  font-size: 1.125em; // 22px;
@@ -278,6 +274,9 @@
 	}
 
 	/* Trip Fraction line chart */
+	.fractionline text {
+		font-size: 18px;
+	}
  /* table button */
  #fraction-action {
 	 background-color: #175689;
