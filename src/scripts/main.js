@@ -28,6 +28,7 @@ $(function () {
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
+let mygeo;
 
 // data selectors
 let ward = "w1";
@@ -204,8 +205,40 @@ function testMapBox() {
   var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [-79.601726, 43.727839], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    center: [-74.0059, 40.7128], // starting position [lng, lat]
+    zoom: 12 // starting zoom
+  });
+
+  map.on('load', function() {
+    map.addLayer({
+      id: 'collisions',
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: mygeo // './collisions1601.geojson' // replace this with the url of your own geojson
+      },
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['number', ['get', 'Casualty']],
+          0, 4,
+          5, 24
+        ],
+        'circle-color': [
+          'interpolate',
+          ['linear'],
+          ['number', ['get', 'Casualty']],
+          0, '#2DC4B2',
+          1, '#3BB3C3',
+          2, '#669EC4',
+          3, '#8B88B6',
+          4, '#A2719B',
+          5, '#AA5E79'
+        ],
+        'circle-opacity': 0.8
+      }
+    });
   });
 }
 
@@ -297,10 +330,11 @@ $(document).ready(function(){
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/geojson/collisions1601.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
-      .await(function(error, ptcfractionfile, pudomapfile, junk) {
+      .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
+        mygeo = mapboxgeojson;
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
