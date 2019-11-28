@@ -45,4 +45,10 @@ gulp.task('data', () => {
     .pipe(gulp.dest('dist' + dir + '/data'));
 });
 
-gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data']);
+gulp.task('geojson', () => {
+  console.log('adding geojson files');
+  return gulp.src(['src/geojson/*.geojson'])
+    .pipe(gulp.dest('dist' + dir + '/geojson'));
+});
+
+gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data', 'geojson']);

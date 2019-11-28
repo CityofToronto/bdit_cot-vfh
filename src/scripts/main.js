@@ -270,8 +270,8 @@ function uiHandler(event) {
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
 
-  
-  
+
+
   // -----------------------------------------------------------------------------
   // Chart SVGs
   // Fig 4a - Trip Fraction line chart
@@ -296,7 +296,8 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .await(function(error, ptcfractionfile, pudomapfile) {
+      .defer(d3.json, "/resources/geojson/collisions1601.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
+      .await(function(error, ptcfractionfile, pudomapfile, junk) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
