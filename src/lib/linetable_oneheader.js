@@ -8,7 +8,6 @@ function lineTable(svg, settings, data, day) {
   dataLayer = chartInner.select(".data"),
 
   drawTable = function() {
-    console.log("DAY: ", day)
     var sett = this.settings,
       summaryId = "chrt-dt-tbl",
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
