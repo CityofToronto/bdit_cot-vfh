@@ -298,6 +298,11 @@ function uiHandler(event) {
       showFractionLine();
       changeWardPUDOMap();
     });
+
+    // test changing mapbox centre
+    map.flyTo({
+      center: [-79.601726, 43.727839]
+    })
   }
   // Table menu for trip fraction lineChart table
   else if (event.target.id === "fraction-menu") {
