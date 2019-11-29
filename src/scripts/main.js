@@ -28,6 +28,7 @@ $(function () {
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
+let map;
 let mygeo;
 
 // data selectors
@@ -113,6 +114,12 @@ function showFractionLine() {
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
       updateWardPUDOMap();
+
+      console.log("day, hour: ", pudoDay, pudoTOD)
+      const hour = 18;
+      filterHour = ['==', ['number', ['get', 'Hour']], hour];
+      filterDay = ['match', ['get', 'Day'], ['Sat', 'Sun'], false, true];
+      map.setFilter('collisions', ['all', filterHour, filterDay]);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
@@ -202,7 +209,10 @@ function changeWardPUDOMap() { // called when new ward selected
 function testMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
-  var map = new mapboxgl.Map({
+  var filterHour = ['==', ['number',['get', 'Hour']], 12];
+  var filterDay = ['!=', ['string',['get', 'Day']], 'placeholder'];
+
+  map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
     center: [-74.0059, 40.7128], // starting position [lng, lat]
@@ -238,7 +248,8 @@ function testMapBox() {
         ],
         'circle-opacity': 0.8
       },
-      filter: ['==', ['number', ['get', 'Hour']], 12]
+      // filter: ['==', ['number', ['get', 'Hour']], 12]
+      'filter': ['all', filterHour, filterDay]
     });
   });
 }
