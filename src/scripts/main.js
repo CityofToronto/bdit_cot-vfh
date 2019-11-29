@@ -237,7 +237,8 @@ function testMapBox() {
           5, '#AA5E79'
         ],
         'circle-opacity': 0.8
-      }
+      },
+      filter: ['==', ['number', ['get', 'Hour']], 12]
     });
   });
 }
