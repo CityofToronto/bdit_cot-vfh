@@ -1,5 +1,8 @@
 #A gitignore file. Customize as you like
 
+*.geojson
+*.topojson
+
 #ignore IDE related files
 .idea
 .settings
