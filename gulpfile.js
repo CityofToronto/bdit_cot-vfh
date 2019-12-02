@@ -51,4 +51,10 @@ gulp.task('geojson', () => {
     .pipe(gulp.dest('dist' + dir + '/geojson'));
 });
 
-gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data', 'geojson']);
+gulp.task('topojson', () => {
+  console.log('adding topojson files');
+  return gulp.src(['src/topojson/*.topojson'])
+    .pipe(gulp.dest('dist' + dir + '/topojson'));
+});
+
+gulp.task('build', ['_html_styles_scripts', '_images', '_fonts', '_extras', '_bower_extras', '_data', 'lib', 'i18n', 'settings', 'data', 'geojson', 'topojson']);

@@ -116,9 +116,9 @@ function showFractionLine() {
       updateWardPUDOMap();
 
       console.log("day, hour: ", pudoDay, pudoTOD)
-      const hour = 18;
-      filterHour = ['==', ['number', ['get', 'Hour']], hour];
-      filterDay = ['match', ['get', 'Day'], ['Sat', 'Sun'], false, true];
+      // const hour = 8;
+      filterHour = ['==', ['string', ['get', 'timewindow']], pudoTOD];
+      filterDay = ['match', ['get', 'dow'], ['Sat', 'Sun'], false, true];
       map.setFilter('collisions', ['all', filterHour, filterDay]);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
@@ -209,14 +209,16 @@ function changeWardPUDOMap() { // called when new ward selected
 function testMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
-  var filterHour = ['==', ['number',['get', 'Hour']], 12];
-  var filterDay = ['!=', ['string',['get', 'Day']], 'placeholder'];
+  // var filterHour = ['==', ['number',['get', 'Hour']], 8];
+  // var filterHour = ['==', ['number',['get', 'Hour']], "amPeak"];
+  var filterHour = ['==', ['string',['get', 'timewindow']], "amPeak"];
+  var filterDay = ['==', ['string',['get', 'dow']], 'Monday'];
 
   map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [-74.0059, 40.7128], // starting position [lng, lat]
-    zoom: 12 // starting zoom
+    center: [-79.605, 43.727839],  // [-74.0059, 40.7128], // starting position [lng, lat]
+    zoom: 15 // starting zoom
   });
 
   map.on('load', function() {
@@ -231,14 +233,14 @@ function testMapBox() {
         'circle-radius': [
           'interpolate',
           ['linear'],
-          ['number', ['get', 'Casualty']],
-          0, 4,
-          5, 24
+          ['number', ['get', 'type']],
+          0, 1,
+          2, 10
         ],
         'circle-color': [
           'interpolate',
           ['linear'],
-          ['number', ['get', 'Casualty']],
+          ['number', ['get', 'type']],
           0, '#2DC4B2',
           1, '#3BB3C3',
           2, '#669EC4',
@@ -346,7 +348,7 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/collisions1601.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
+      .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
       .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
