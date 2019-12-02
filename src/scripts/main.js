@@ -29,7 +29,7 @@ const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
 let map;
-let mygeo;
+let mygeo = {}; // PUDO map by ward FOR MAPBOX
 
 // data selectors
 let ward = "w1";
@@ -113,13 +113,17 @@ function showFractionLine() {
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-      updateWardPUDOMap();
+      // updateWardPUDOMap();
 
-      console.log("day, hour: ", pudoDay, pudoTOD)
-      // const hour = 8;
-      filterHour = ['==', ['string', ['get', 'timewindow']], pudoTOD];
-      filterDay = ['match', ['get', 'dow'], ['Sat', 'Sun'], false, true];
-      map.setFilter('collisions', ['all', filterHour, filterDay]);
+      if (!mygeo[ward]) console.log("READ IN NEW GEO")
+      else {
+        console.log("day, hour: ", pudoDay, pudoTOD)
+        filterHour = ['==', ['string', ['get', 'timewindow']], pudoTOD];
+        // filterDay = ['match', ['get', 'dow'], ['Sat', 'Sun'], false, true];
+        filterDay = ['==', ['string', ['get', 'dow']], pudoDay];
+        console.log("filterDay: ", filterDay)
+        map.setFilter('collisions', ['all', filterHour, filterDay]);
+      }
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
@@ -227,7 +231,7 @@ function testMapBox() {
       type: 'circle',
       source: {
         type: 'geojson',
-        data: mygeo // './collisions1601.geojson' // replace this with the url of your own geojson
+        data: mygeo[ward] // './collisions1601.geojson' // replace this with the url of your own geojson
       },
       paint: {
         'circle-radius': [
@@ -351,9 +355,11 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
       .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson) {
         // Load data files into objects
+        console.log(pudoDay, pudoTOD)
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
-        mygeo = mapboxgeojson;
+        mygeo[ward] = mapboxgeojson;
+
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
