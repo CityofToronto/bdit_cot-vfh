@@ -234,13 +234,14 @@ function testMapBox() {
         data: mygeo[ward] // './collisions1601.geojson' // replace this with the url of your own geojson
       },
       paint: {
-        'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['number', ['get', 'type']],
-          0, 1,
-          2, 10
-        ],
+        // 'circle-radius': [
+        //   'interpolate',
+        //   ['linear'],
+        //   ['number', ['get', 'type']],
+        //   0, 1,
+        //   2, 10
+        // ],
+        'circle-radius': 10,
         'circle-color': [
           'interpolate',
           ['linear'],
@@ -352,7 +353,7 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
+      .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak_agg.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
       .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson) {
         // Load data files into objects
         console.log(pudoDay, pudoTOD)
