@@ -215,8 +215,8 @@ function testMapBox() {
 
   // var filterHour = ['==', ['number',['get', 'Hour']], 8];
   // var filterHour = ['==', ['number',['get', 'Hour']], "amPeak"];
-  var filterHour = ['==', ['string',['get', 'timewindow']], "amPeak"];
-  var filterDay = ['==', ['string',['get', 'dow']], 'Monday'];
+  // var filterHour = ['==', ['string',['get', 'timewindow']], "amPeak"];
+  // var filterDay = ['==', ['string',['get', 'dow']], 'Monday'];
 
   map = new mapboxgl.Map({
     container: 'map', // container id
@@ -256,7 +256,7 @@ function testMapBox() {
         'circle-opacity': 0.8
       },
       // filter: ['==', ['number', ['get', 'Hour']], 12]
-      'filter': ['all', filterHour, filterDay]
+      // 'filter': ['all', filterHour, filterDay]
     });
   });
 }
