@@ -113,14 +113,20 @@ function showFractionLine() {
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-      updateWardPUDOMap();
+
+      let puLayer = "w1-Monday-amPeak-pu";
+      let doLayer = "w1-Monday-amPeak-do";
 
       if (!geoMap[ward]) console.log("READ IN NEW WARD GEOJSON")
 
        // for testing
       if (pudoDay === "Monday") {
         if (pudoTOD === "pmPeak") {
-          map.setLayoutProperty("pickups", 'visibility', 'none');
+          // junk = map.getLayoutProperty(id, 'visibility')
+          // console.log("Junk: ", junk)
+          map.setLayoutProperty(puLayer, 'visibility', 'none');
+          map.setLayoutProperty(doLayer, 'visibility', 'none');
+          updateMapbox();
         }  
 
 
@@ -190,12 +196,16 @@ function initWardPUDOMap() {
 
 function updateWardPUDOMap() { // called by moving hoverLine
   wardpudoMap.rmCircle();
-
   // keep current map centre
   currentCentre = wardpudoMap.map.getCenter();
   wardpudoMap.options.focus = currentCentre;
-
   showPudoLayer();
+}
+function updateMapbox() { // called by moving hoverLine
+  let layerObj = map.getStyle().layers; // cobj containing all layers
+  // find id of all id: "w1-Monday-amPeaid: "w1-Monday-amPeak-pu"k-do", 
+  console.log("layerObj: ", layerObj)
+ 
 }
 
 function changeWardPUDOMap() { // called when new ward selected
@@ -213,21 +223,35 @@ function changeWardPUDOMap() { // called when new ward selected
 
   showPudoLayer();
 }
+function changeMapboxLayer() { // called by moving hoverLine
+  let keepID;
+  if (whichPUDO === "pudos") {
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "visible");
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "visible");
+  } else {
+    keepID = `${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`;
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "none");
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "none");
 
-function testMapBox() {
+    // Make visible only selected layer
+    map.setLayoutProperty(keepID, "visibility", "visible");
+  }
+}
+
+function initMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
   map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [-79.605, 43.727839],  // [-74.0059, 40.7128], // starting position [lng, lat]
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-79.605, 43.727839],
     zoom: 15 // starting zoom
   });
 
   // Pickups layer
   map.on('load', function() {
     map.addLayer({
-      id: 'pickups',
+      id: `${ward}-${pudoDay}-${pudoTOD}-pu`,
       type: 'circle',
       source: {
         type: 'geojson',
@@ -238,11 +262,14 @@ function testMapBox() {
         'circle-color': '#3BB3C3',
         'circle-opacity': 0.8
       },
+      layout: {
+          "visibility": "visible"
+      }
     });
 
     // Dropoffs layer
     map.addLayer({
-      id: 'dropoffs',
+      id: `${ward}-${pudoDay}-${pudoTOD}-do`,
       type: 'circle',
       source: {
         type: 'geojson',
@@ -252,9 +279,11 @@ function testMapBox() {
         'circle-radius': 10,
         'circle-color': '#AA5E79',
         'circle-opacity': 0.8
+      },
+      layout: {
+          "visibility": "visible"
       }
     });
-
 
   });
 }
@@ -288,6 +317,7 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     showFractionLine();
     updateWardPUDOMap();
+    changeMapboxLayer();
     if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
 
     hideTable("fractionline");
@@ -377,7 +407,7 @@ $(document).ready(function(){
 
         storyTexts();
 
-        testMapBox();
+        initMapBox();
       });
   })
 })
