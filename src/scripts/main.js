@@ -29,7 +29,8 @@ const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
 let map;
-let mygeo = {}; // PUDO map by ward FOR MAPBOX
+let mygeo = {}; // PUDO map by ward FOR MAPBOX, one day and one timewindow only
+let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 
 // data selectors
 let ward = "w1";
@@ -213,11 +214,6 @@ function changeWardPUDOMap() { // called when new ward selected
 function testMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
-  // var filterHour = ['==', ['number',['get', 'Hour']], 8];
-  // var filterHour = ['==', ['number',['get', 'Hour']], "amPeak"];
-  // var filterHour = ['==', ['string',['get', 'timewindow']], "amPeak"];
-  // var filterDay = ['==', ['string',['get', 'dow']], 'Monday'];
-
   map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
@@ -225,39 +221,38 @@ function testMapBox() {
     zoom: 15 // starting zoom
   });
 
+  // Pickups layer
   map.on('load', function() {
     map.addLayer({
-      id: 'collisions',
+      id: 'pickups',
       type: 'circle',
       source: {
         type: 'geojson',
-        data: mygeo[ward] // './collisions1601.geojson' // replace this with the url of your own geojson
+        data: geoMap[ward][pudoDay][pudoTOD]["pickups"] // './collisions1601.geojson' // replace this with the url of your own geojson
       },
       paint: {
-        // 'circle-radius': [
-        //   'interpolate',
-        //   ['linear'],
-        //   ['number', ['get', 'type']],
-        //   0, 1,
-        //   2, 10
-        // ],
         'circle-radius': 10,
-        'circle-color': [
-          'interpolate',
-          ['linear'],
-          ['number', ['get', 'type']],
-          0, '#2DC4B2',
-          1, '#3BB3C3',
-          2, '#669EC4',
-          3, '#8B88B6',
-          4, '#A2719B',
-          5, '#AA5E79'
-        ],
+        'circle-color': '#3BB3C3',
         'circle-opacity': 0.8
       },
-      // filter: ['==', ['number', ['get', 'Hour']], 12]
-      // 'filter': ['all', filterHour, filterDay]
     });
+
+    // Dropoffs layer
+    map.addLayer({
+      id: 'dropoffs',
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: geoMap[ward][pudoDay][pudoTOD]["dropoffs"]
+      },
+      paint: {
+        'circle-radius': 10,
+        'circle-color': '#AA5E79',
+        'circle-opacity': 0.8
+      }
+    });
+
+
   });
 }
 
@@ -354,12 +349,14 @@ $(document).ready(function(){
       // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak_agg.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
-      .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson) {
+      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
+      .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson, mapboxfile) {
         // Load data files into objects
         console.log(pudoDay, pudoTOD)
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
         mygeo[ward] = mapboxgeojson;
+        geoMap[ward] = mapboxfile;
 
 
         // initial titles
