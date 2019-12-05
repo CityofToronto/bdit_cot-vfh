@@ -114,26 +114,12 @@ function showFractionLine() {
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
 
-      let puLayer = "w1-Monday-amPeak-pu";
-      let doLayer = "w1-Monday-amPeak-do";
-
       if (!geoMap[ward]) console.log("READ IN NEW WARD GEOJSON")
 
-       // for testing
-      if (pudoDay === "Monday") {
-        if (pudoTOD === "pmPeak") {
-          // junk = map.getLayoutProperty(id, 'visibility')
-          // console.log("Junk: ", junk)
-          map.setLayoutProperty(puLayer, 'visibility', 'none');
-          map.setLayoutProperty(doLayer, 'visibility', 'none');
-          updateMapbox();
-        }  
-
-
-      
+      updateMapbox();
 
         // map.setFilter('collisions', ['all', filterHour, filterDay]);
-      }
+
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
@@ -202,10 +188,44 @@ function updateWardPUDOMap() { // called by moving hoverLine
   showPudoLayer();
 }
 function updateMapbox() { // called by moving hoverLine
+  // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers; // cobj containing all layers
-  // find id of all id: "w1-Monday-amPeaid: "w1-Monday-amPeak-pu"k-do", 
-  console.log("layerObj: ", layerObj)
- 
+  layerObj.filter((d) => {
+    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1) {
+      map.setLayoutProperty(d.id, "visibility", "none");
+    }
+  });
+  let layerExists;
+  let layerArray = [];
+  let thisType = [];
+
+  if (pudoTOD) { // can be undefined
+    if (whichPUDO === "pudos") {
+      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-pu`, `${ward}-${pudoDay}-${pudoTOD}-do`];
+      thisType = ["pu", "do"];
+
+    } else {
+      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`];
+      thisType = [whichPUDO];
+    }
+
+    for (let idx = 0; idx < layerArray.length; idx++) {
+      layerObj.filter((d) => {
+        if (d.id === layerArray[idx]) {
+          map.setLayoutProperty(d.id, "visibility", "visible");
+          layerExists = true;
+        }
+      });
+
+      if (!layerExists) {
+        thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
+        let circleColour = thisType[idx] === "pu" ? "#3BB3C3" : "#AA5E79";
+        makeLayer(layerArray[idx], thisData, circleColour);
+      }
+    }
+    // Clear
+    layerExists = false;
+  }
 }
 
 function changeWardPUDOMap() { // called when new ward selected
@@ -255,11 +275,11 @@ function initMapBox() {
       type: 'circle',
       source: {
         type: 'geojson',
-        data: geoMap[ward][pudoDay][pudoTOD]["pickups"] // './collisions1601.geojson' // replace this with the url of your own geojson
+        data: geoMap[ward][pudoDay][pudoTOD]["pu"] // './collisions1601.geojson' // replace this with the url of your own geojson
       },
       paint: {
         'circle-radius': 10,
-        'circle-color': '#3BB3C3',
+        'circle-color': "#3BB3C3",
         'circle-opacity': 0.8
       },
       layout: {
@@ -273,11 +293,11 @@ function initMapBox() {
       type: 'circle',
       source: {
         type: 'geojson',
-        data: geoMap[ward][pudoDay][pudoTOD]["dropoffs"]
+        data: geoMap[ward][pudoDay][pudoTOD]["do"]
       },
       paint: {
         'circle-radius': 10,
-        'circle-color': '#AA5E79',
+        'circle-color': "#AA5E79",
         'circle-opacity': 0.8
       },
       layout: {

@@ -226,6 +226,26 @@ function showPudoLayer() {
   }
 }
 
+// Plot PUDO map according to whichPUDO selected in pudo-menu
+function makeLayer(layerId, mapData, circleColour) {
+  map.addLayer({
+    id: layerId,
+    type: 'circle',
+    source: {
+      type: 'geojson',
+      data: mapData
+    },
+    paint: {
+      'circle-radius': 10,
+      'circle-color': circleColour,
+      'circle-opacity': 0.8
+    },
+    layout: {
+        "visibility": "visible"
+    }
+  });
+}
+
 // -----------------------------------------------------------------------------
 function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Move hoverLine to specified coordinates
