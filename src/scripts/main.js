@@ -29,7 +29,6 @@ const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
 let map;
-let mygeo = {}; // PUDO map by ward FOR MAPBOX, one day and one timewindow only
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 
 // data selectors
@@ -114,16 +113,20 @@ function showFractionLine() {
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-      // updateWardPUDOMap();
+      updateWardPUDOMap();
 
-      if (!mygeo[ward]) console.log("READ IN NEW GEO")
-      else {
-        console.log("day, hour: ", pudoDay, pudoTOD)
-        filterHour = ['==', ['string', ['get', 'timewindow']], pudoTOD];
-        // filterDay = ['match', ['get', 'dow'], ['Sat', 'Sun'], false, true];
-        filterDay = ['==', ['string', ['get', 'dow']], pudoDay];
-        console.log("filterDay: ", filterDay)
-        map.setFilter('collisions', ['all', filterHour, filterDay]);
+      if (!geoMap[ward]) console.log("READ IN NEW WARD GEOJSON")
+
+       // for testing
+      if (pudoDay === "Monday") {
+        if (pudoTOD === "pmPeak") {
+          map.setLayoutProperty("pickups", 'visibility', 'none');
+        }  
+
+
+      
+
+        // map.setFilter('collisions', ['all', filterHour, filterDay]);
       }
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
@@ -346,16 +349,13 @@ $(document).ready(function(){
     settingsFractionLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
-      // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_092018_Monday_amPeak_agg.geojson") // https://docs.mapbox.com/help/tutorials/show-changes-over-time/#create-an-html-file
       .defer(d3.json, "/resources/geojson/w1_agg.geojson")
-      .await(function(error, ptcfractionfile, pudomapfile, mapboxgeojson, mapboxfile) {
+      .await(function(error, ptcfractionfile, pudomapfile, mapboxfile) {
         // Load data files into objects
         console.log(pudoDay, pudoTOD)
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
-        mygeo[ward] = mapboxgeojson;
         geoMap[ward] = mapboxfile;
 
 
