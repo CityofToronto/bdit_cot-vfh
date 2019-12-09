@@ -17,7 +17,7 @@ $(function () {
   //     {"name": "bdit_cot-vfh", "link": "#"}
   //   ]).render();
   // }
-  let container = $('#bdit_cot-vfh_container');
+  let container = $("#bdit_cot-vfh_container");
 });
 
 // -----------------------------------------------------------------------------
@@ -213,8 +213,11 @@ function updateMapbox() { // called by moving hoverLine
 
       if (!layerExists) {
         thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
-        let circleColour = thisType[idx] === "pu" ? "#3BB3C3" : "#AA5E79";
-        makeLayer(layerArray[idx], thisData, circleColour);
+        let circleColour = thisType[idx] === "pu" ? pudoMapSettings.puColour :
+                                                    pudoMapSettings.doColour;
+        let strokeColour = thisType[idx] === "pu" ? pudoMapSettings.puStrokeColour :
+                                                    pudoMapSettings.doStrokeColour;
+        makeLayer(layerArray[idx], thisData, circleColour, strokeColour);
       }
     }
     // Clear
@@ -264,9 +267,11 @@ function initMapBox() {
 
   map.on('load', function() {
     // Pickups layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"], "#3BB3C3");
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
+      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
     // Dropoffs layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"], "#AA5E79");
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
+      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
   });
 }
 

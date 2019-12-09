@@ -227,18 +227,20 @@ function showPudoLayer() {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(layerId, mapData, circleColour) {
+function makeLayer(layerId, mapData, circleColour, strokeColour) {
   map.addLayer({
     id: layerId,
-    type: 'circle',
+    type: "circle",
     source: {
-      type: 'geojson',
+      type: "geojson",
       data: mapData
     },
     paint: {
-      'circle-radius': 10,
-      'circle-color': circleColour,
-      'circle-opacity': 0.8
+      "circle-radius": 10,
+      "circle-color": circleColour,
+      "circle-stroke-color": strokeColour,
+      "circle-stroke-width": 2,
+      "circle-opacity": 0.8
     },
     layout: {
         "visibility": "visible"
