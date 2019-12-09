@@ -259,13 +259,13 @@ function initMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
   map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
+    container: "map",
+    style: "mapbox://styles/mapbox/light-v10",
     center: pudoMapSettings[`${ward}Focus`],
     zoom: 15 // starting zoom
   });
 
-  map.on('load', function() {
+  map.on("load", function() {
     // Pickups layer
     makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
       pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
@@ -324,7 +324,6 @@ function uiHandler(event) {
     });
 
     // test changing mapbox centre
-    console.log("flyto: ", pudoMapSettings[`${ward}Focus`])
     map.flyTo({
       center: pudoMapSettings[`${ward}Focus`]
     })
@@ -373,7 +372,6 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/w1_agg.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile) {
         // Load data files into objects
-        console.log(pudoDay, pudoTOD)
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
         geoMap[ward] = mapboxfile;

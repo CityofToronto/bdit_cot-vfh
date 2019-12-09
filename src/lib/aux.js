@@ -49,7 +49,6 @@ function holdHoverLine(ptArray) {
 
 // Hide table and close details (to be opened with action button)
 function hideTable(divClassName) {
-  console.log()
   // Hide table until action button is clicked
   d3.select(`.${divClassName} .chart-data-table`)
     .select("table")
@@ -248,6 +247,7 @@ function makeLayer(layerId, mapData, circleColour, strokeColour) {
   });
 }
 
+// Remove all map layers except those belonging to current ward
 function rmLayer() {
   let layerObj = map.getStyle().layers; // obj containing all layers
   layerObj.filter((d) => {
