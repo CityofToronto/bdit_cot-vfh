@@ -268,43 +268,11 @@ function initMapBox() {
     zoom: 15 // starting zoom
   });
 
-  // Pickups layer
   map.on('load', function() {
-    map.addLayer({
-      id: `${ward}-${pudoDay}-${pudoTOD}-pu`,
-      type: 'circle',
-      source: {
-        type: 'geojson',
-        data: geoMap[ward][pudoDay][pudoTOD]["pu"] // './collisions1601.geojson' // replace this with the url of your own geojson
-      },
-      paint: {
-        'circle-radius': 10,
-        'circle-color': "#3BB3C3",
-        'circle-opacity': 0.8
-      },
-      layout: {
-          "visibility": "visible"
-      }
-    });
-
+    // Pickups layer
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"], "#3BB3C3");
     // Dropoffs layer
-    map.addLayer({
-      id: `${ward}-${pudoDay}-${pudoTOD}-do`,
-      type: 'circle',
-      source: {
-        type: 'geojson',
-        data: geoMap[ward][pudoDay][pudoTOD]["do"]
-      },
-      paint: {
-        'circle-radius': 10,
-        'circle-color': "#AA5E79",
-        'circle-opacity': 0.8
-      },
-      layout: {
-          "visibility": "visible"
-      }
-    });
-
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"], "#AA5E79");
   });
 }
 
