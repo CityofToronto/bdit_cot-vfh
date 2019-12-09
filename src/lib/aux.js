@@ -246,6 +246,16 @@ function makeLayer(layerId, mapData, circleColour) {
   });
 }
 
+function rmLayer() {
+  let layerObj = map.getStyle().layers; // obj containing all layers
+  layerObj.filter((d) => {
+    if (d.id.indexOf(`${ward}-`) === -1) {
+      if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1) {
+        map.removeLayer(d.id).removeSource(d.id);
+      }
+    }
+  });
+}
 // -----------------------------------------------------------------------------
 function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Move hoverLine to specified coordinates

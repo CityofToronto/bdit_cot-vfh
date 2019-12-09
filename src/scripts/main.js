@@ -64,7 +64,8 @@ function pageTexts() {
   // d3.select("#section4-text1c").html(i18next.t("section4-text1c", {ns: "indexhtml"}));
   // ** ward dropdown menu
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
-  d3.select("#ward-menu").node()[1].text = i18next.t("w22", {ns: "wards"});
+  d3.select("#ward-menu").node()[1].text = i18next.t("w10", {ns: "wards"});
+  d3.select("#ward-menu").node()[2].text = i18next.t("w22", {ns: "wards"});
   // ** pudo menu
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
@@ -113,18 +114,11 @@ function showFractionLine() {
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-
-      if (!geoMap[ward]) console.log("READ IN NEW WARD GEOJSON")
-
       updateMapbox();
-
-        // map.setFilter('collisions', ['all', filterHour, filterDay]);
-
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
       divHoverLine.style("opacity", 0);
-      // changeWardPUDOMap();
     } else {
       saveHoverLinePos();
     }
@@ -185,11 +179,11 @@ function updateWardPUDOMap() { // called by moving hoverLine
   // keep current map centre
   currentCentre = wardpudoMap.map.getCenter();
   wardpudoMap.options.focus = currentCentre;
-  showPudoLayer();
+  // showPudoLayer();
 }
 function updateMapbox() { // called by moving hoverLine
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
-  let layerObj = map.getStyle().layers; // cobj containing all layers
+  let layerObj = map.getStyle().layers; // obj containing all layers
   layerObj.filter((d) => {
     if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1) {
       map.setLayoutProperty(d.id, "visibility", "none");
@@ -264,7 +258,7 @@ function initMapBox() {
   map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-79.605, 43.727839],
+    center: pudoMapSettings[`${ward}Focus`],
     zoom: 15 // starting zoom
   });
 
@@ -281,8 +275,9 @@ const loadData = function(cb) {
   if (!ptcFraction[ward]) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      d3.json(`/resources/data/fig4b_dummy_pudoMap_${ward}.json`, function(err, pudomapfile) {
-        pudoMap[ward] = pudomapfile;
+      d3.json(`/resources/geojson/${ward}_agg.geojson`, function(err, wardmapfile) {
+        // pudoMap[ward] = pudomapfile;
+        geoMap[ward] = wardmapfile;
         cb();
       })
     })
@@ -318,13 +313,15 @@ function uiHandler(event) {
     hideTable("fractionline");
 
     loadData(() => {
+      rmLayer();
       showFractionLine();
-      changeWardPUDOMap();
+      // changeWardPUDOMap();
     });
 
     // test changing mapbox centre
+    console.log("flyto: ", pudoMapSettings[`${ward}Focus`])
     map.flyTo({
-      center: [-79.601726, 43.727839]
+      center: pudoMapSettings[`${ward}Focus`]
     })
   }
   // Table menu for trip fraction lineChart table
