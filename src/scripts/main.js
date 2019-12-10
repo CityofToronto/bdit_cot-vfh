@@ -65,7 +65,6 @@ function pageTexts() {
   // ** ward dropdown menu
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
   d3.select("#ward-menu").node()[1].text = i18next.t("w10", {ns: "wards"});
-  d3.select("#ward-menu").node()[2].text = i18next.t("w22", {ns: "wards"});
   // ** pudo menu
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
@@ -385,7 +384,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg_test.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
