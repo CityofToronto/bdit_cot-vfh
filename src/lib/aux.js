@@ -225,6 +225,22 @@ function showPudoLayer() {
   }
 }
 
+// Get the appropriate circle marker colour based on trip type
+function pudoColours(tripType) {
+  let circleColours = {};
+  if (tripType === "pu") {
+    circleColours["fill"] = pudoMapSettings.puColour;
+    circleColours["stroke"] = pudoMapSettings.puStrokeColour;
+  } else if (tripType === "do") {
+    circleColours["fill"] = pudoMapSettings.doColour;
+    circleColours["stroke"] = pudoMapSettings.doStrokeColour;
+  } else if (tripType === "pudo") {
+    circleColours["fill"] = pudoMapSettings.pudoColour;
+    circleColours["stroke"] = pudoMapSettings.pudoStrokeColour;
+  }
+  return circleColours;
+}
+
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(layerId, mapData, circleColour, strokeColour) {
   map.addLayer({

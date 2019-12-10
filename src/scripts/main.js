@@ -173,6 +173,28 @@ function initWardPUDOMap() {
     }
   })
 }
+function initMapBox() {
+  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
+
+  map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/light-v10",
+    center: pudoMapSettings[`${ward}Focus`],
+    zoom: 15 // starting zoom
+  });
+
+  map.on("load", function() {
+    // Unique pickups layer
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
+      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
+    // Unique dropoffs layer
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
+      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
+    // Overlapping PUDOs
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+  });
+}
 
 function updateWardPUDOMap() { // called by moving hoverLine
   wardpudoMap.rmCircle();
@@ -185,22 +207,26 @@ function updateMapbox() { // called by moving hoverLine
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers; // obj containing all layers
   layerObj.filter((d) => {
-    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1) {
+    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1 ||
+        d.id.indexOf("-pudo") !== -1) {
       map.setLayoutProperty(d.id, "visibility", "none");
     }
   });
   let layerExists;
   let layerArray = [];
   let thisType = [];
+  let thisData;
+  let thisColour;
 
   if (pudoTOD) { // can be undefined
     if (whichPUDO === "pudos") {
-      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-pu`, `${ward}-${pudoDay}-${pudoTOD}-do`];
-      thisType = ["pu", "do"];
+      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-pu`,
+                    `${ward}-${pudoDay}-${pudoTOD}-do`, `${ward}-${pudoDay}-${pudoTOD}-pudo`];
+      thisType = ["pu", "do", "pudo"];
 
     } else {
-      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`];
-      thisType = [whichPUDO];
+      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`, `${ward}-${pudoDay}-${pudoTOD}-pudo`];
+      thisType = [whichPUDO, "pudo"];
     }
 
     for (let idx = 0; idx < layerArray.length; idx++) {
@@ -213,15 +239,38 @@ function updateMapbox() { // called by moving hoverLine
 
       if (!layerExists) {
         thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
-        let circleColour = thisType[idx] === "pu" ? pudoMapSettings.puColour :
-                                                    pudoMapSettings.doColour;
-        let strokeColour = thisType[idx] === "pu" ? pudoMapSettings.puStrokeColour :
-                                                    pudoMapSettings.doStrokeColour;
-        makeLayer(layerArray[idx], thisData, circleColour, strokeColour);
+        thisColour = pudoColours(thisType[idx]);
+        makeLayer(layerArray[idx], thisData, thisColour.fill, thisColour.stroke);
       }
     }
     // Clear
     layerExists = false;
+  }
+}
+
+function changeMapboxLayer() { // called by pudo-menu selection
+  let keepID;
+  let pudoID = `${ward}-${pudoDay}-${pudoTOD}-pudo`;
+  if (whichPUDO === "pudos") {
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "visible");
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "visible");
+    // Remove pudo layer and replot with pudoColours
+    map.removeLayer(pudoID).removeSource(pudoID);
+    makeLayer(pudoID, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+              pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+  } else {
+    keepID = `${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`;
+
+    // Make visible only selected layer
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "none");
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "none");
+    map.setLayoutProperty(keepID, "visibility", "visible");
+
+    // Remove pudo layer and re-plot with appropriate colour (pu or do)
+    map.removeLayer(pudoID).removeSource(pudoID);
+    let thisColour = pudoColours(whichPUDO);
+    makeLayer(pudoID, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+              thisColour.fill, thisColour.stroke);
   }
 }
 
@@ -240,40 +289,7 @@ function changeWardPUDOMap() { // called when new ward selected
 
   showPudoLayer();
 }
-function changeMapboxLayer() { // called by moving hoverLine
-  let keepID;
-  if (whichPUDO === "pudos") {
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "visible");
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "visible");
-  } else {
-    keepID = `${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`;
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "none");
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "none");
 
-    // Make visible only selected layer
-    map.setLayoutProperty(keepID, "visibility", "visible");
-  }
-}
-
-function initMapBox() {
-  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
-
-  map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/light-v10",
-    center: pudoMapSettings[`${ward}Focus`],
-    zoom: 15 // starting zoom
-  });
-
-  map.on("load", function() {
-    // Pickups layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
-      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
-    // Dropoffs layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
-      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
-  });
-}
 
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
@@ -369,7 +385,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg_test.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;

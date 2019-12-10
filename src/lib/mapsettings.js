@@ -26,14 +26,20 @@ pudoMapSettings = {
   doColour: "#660c2c",
   puStrokeColour: "#000",
   doStrokeColour: "#808080",
+  pudoColour: "#808080",
+  pudoStrokeColour: "#747474",
   w1Centre: [43.727839, -79.601726],
   w1Focus: [-79.601726, 43.727839],
   w2Focus: [-79.548153, 43.661765],
   w3Focus: [-79.517973, 43.623204],
   w4Focus: [-79.459995, 43.654720],
-  w10Focus: [-79.383501, 43.645112],
+  w10Focus: [-79.403219, 43.645168],
   w22Focus: [-79.304402, 43.795302]
 };
 
 // Possible mapTypes:
 // Topographic, Streets, NationalGeographic, Oceans, Gray, DarkGray, Imagery, ImageryClarity, ShadedRelief
+
+
+// stroke #747474 passes with pu outline
+// fill #808080  passes with do fill
