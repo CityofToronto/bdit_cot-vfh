@@ -30,6 +30,7 @@ let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
 let map;
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
+let wardLayer = {}; // ward shapefiles
 
 // data selectors
 let ward = "w1";
@@ -183,15 +184,17 @@ function initMapBox() {
   });
 
   map.on("load", function() {
-    // Unique pickups layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
-      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
-    // Unique dropoffs layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
-      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
-    // Overlapping PUDOs
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
-      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+    // // Unique pickups layer
+    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
+    //   pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
+    // // Unique dropoffs layer
+    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
+    //   pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
+    // // Overlapping PUDOs
+    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+    //   pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+    // Ward boundary
+    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
 }
 
@@ -385,12 +388,13 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/geojson/w1_agg.geojson")
-      .await(function(error, ptcfractionfile, pudomapfile, mapboxfile) {
+      .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
+      .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
         geoMap[ward] = mapboxfile;
-
+        wardLayer[ward] = wardlayerfile;
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;

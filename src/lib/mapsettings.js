@@ -22,6 +22,7 @@ pudoMapSettings = {
   },
   initZoom: 16,
   defaultZoom: 12,
+  wardLayerColour: "#000",
   puColour: "#3BB3C3",
   doColour: "#660c2c",
   puStrokeColour: "#000",
