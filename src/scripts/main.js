@@ -184,15 +184,15 @@ function initMapBox() {
   });
 
   map.on("load", function() {
-    // // Unique pickups layer
-    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
-    //   pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
-    // // Unique dropoffs layer
-    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
-    //   pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
-    // // Overlapping PUDOs
-    // makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
-    //   pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+    // Unique pickups layer
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
+      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
+    // Unique dropoffs layer
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
+      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
+    // Overlapping PUDOs
+    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
@@ -299,9 +299,12 @@ const loadData = function(cb) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
       d3.json(`/resources/geojson/${ward}_agg.geojson`, function(err, wardmapfile) {
-        // pudoMap[ward] = pudomapfile;
-        geoMap[ward] = wardmapfile;
-        cb();
+        d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
+          // pudoMap[ward] = pudomapfile;
+          geoMap[ward] = wardmapfile;
+          wardLayer[ward] = wardlayerfile;
+          cb();
+        })
       })
     })
   } else {
@@ -337,6 +340,7 @@ function uiHandler(event) {
 
     loadData(() => {
       rmLayer();
+      updateWardLayer();
       showFractionLine();
       // changeWardPUDOMap();
     });
