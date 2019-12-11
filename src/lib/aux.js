@@ -201,7 +201,7 @@ function showPudoLayer() {
 
 
   if (pudoTOD) {
-    if (whichPUDO === "pudos") {
+    if (whichPUDO === "pudo") {
       // Pick-ups
       wardpudoMap.options.markerClass = "pickups";
       wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
@@ -231,35 +231,61 @@ function pudoColours(tripType) {
   if (tripType === "pu") {
     circleColours["fill"] = pudoMapSettings.puColour;
     circleColours["stroke"] = pudoMapSettings.puStrokeColour;
+    circleColours["text"] = pudoMapSettings.textColour;
   } else if (tripType === "do") {
     circleColours["fill"] = pudoMapSettings.doColour;
     circleColours["stroke"] = pudoMapSettings.doStrokeColour;
+    circleColours["text"] = pudoMapSettings.textColourLight;
   } else if (tripType === "pudo") {
     circleColours["fill"] = pudoMapSettings.pudoColour;
     circleColours["stroke"] = pudoMapSettings.pudoStrokeColour;
+    circleColours["text"] = pudoMapSettings.textColour;
   }
   return circleColours;
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, fill, strokeColour) {
-  map.addLayer({
-    id: id,
-    type: "circle",
-    source: {
+function makeLayer(id, data, fill, strokeColour, textColour) {
+  const thisSource = `cl-${id}`;
+
+  // Add source only if it does not exist
+  if (!map.getSource(thisSource)) {
+    map.addSource(thisSource, {
       type: "geojson",
       data: data
+      }
+    );
+  }
+
+  map.addLayer({
+      "id": id,
+      "type": "circle",
+      "source": thisSource,
+      "paint": {
+          "circle-radius": 18,
+          "circle-color": fill,
+          "circle-stroke-color": strokeColour,
+          "circle-stroke-width": 2,
+          "circle-opacity": 0.8
+      }
+  });
+
+  map.addLayer({
+    "id": `${id}-label`,
+    "type": "symbol",
+    "source": thisSource,
+    "layout": {
+      "text-field": "{counts}",
+      "text-font": [
+        "Open Sans Regular",
+        "Arial Unicode MS Bold"
+      ],
+      "text-size": 16
+      // "text-allow-overlap" : true
     },
     paint: {
-      "circle-radius": 10,
-      "circle-color": fill,
-      "circle-stroke-color": strokeColour,
-      "circle-stroke-width": 2,
-      "circle-opacity": 0.8
-    },
-    layout: {
-        "visibility": "visible"
-    }
+       "text-color": textColour,
+     }
   });
 }
 
@@ -280,24 +306,29 @@ function makeWardLayer(id, geojson, lineColour) {
   });
 }
 
-// Remove all map layers except those belonging to current ward
-function rmLayer() {
-  let layerObj = map.getStyle().layers; // obj containing all layers
+// Hide map layers either for all previous wards or all previous selections
+// of current ward
+function hideLayers(layerObj, clearPrevWard) {
   layerObj.filter((d) => {
-    if (d.id.indexOf(`${ward}-`) === -1) {
-      if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1) {
-        map.removeLayer(d.id).removeSource(d.id);
+    // Hide -pu, -do, and -pudo layers
+    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
+                                   || d.id.indexOf("-pudo") !== -1) {
+      if (clearPrevWard) { // Hide previous ward layers
+        if (d.id.indexOf(`${ward}-`) === -1) {
+          map.setLayoutProperty(d.id, "visibility", "none");
+        }
+      } else { // Hide current ward's previous layers
+        map.setLayoutProperty(d.id, "visibility", "none");
       }
     }
   });
 }
-// Hide ward layers except for current ward
-function updateWardLayer() {
+// Hide ward boundary layers except for current ward
+function showWardBoundary() {
   let layerExists = false;
   let layerObj = map.getStyle().layers; // obj containing all layers
   layerObj.filter((d) => {
     if (d.id.indexOf(`-layer`) !== -1 && d.id.indexOf(`${ward}-layer`) === -1) {
-      console.log("d.id HERE: ", d.id)
       map.setLayoutProperty(d.id, "visibility", "none");
     } else if (d.id === `${ward}-layer`) {
       map.setLayoutProperty(d.id, "visibility", "visible");

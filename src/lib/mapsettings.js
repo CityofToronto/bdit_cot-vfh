@@ -29,6 +29,8 @@ pudoMapSettings = {
   doStrokeColour: "#808080",
   pudoColour: "#808080",
   pudoStrokeColour: "#747474",
+  textColour: "#000",
+  textColourLight: "#fff",
   w1Centre: [43.727839, -79.601726],
   w1Focus: [-79.601726, 43.727839],
   w2Focus: [-79.548153, 43.661765],

@@ -37,7 +37,7 @@ let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Ward PUDO for all times of day
-let whichPUDO = "pudos"; // Get both pickups and dropoffs for ward fraction
+let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
 let fractionLineChart;
@@ -67,7 +67,7 @@ function pageTexts() {
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
   d3.select("#ward-menu").node()[1].text = i18next.t("w10", {ns: "wards"});
   // ** pudo menu
-  d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
+  d3.select("#pudo-menu").node()[0].text = i18next.t("pudo", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
@@ -186,13 +186,13 @@ function initMapBox() {
   map.on("load", function() {
     // Unique pickups layer
     makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
-      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour);
-    // Unique dropoffs layer
+      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour, pudoMapSettings.textColour);
+    // // Unique dropoffs layer
     makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
-      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour);
+      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour, pudoMapSettings.textColourLight);
     // Overlapping PUDOs
     makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
-      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour, pudoMapSettings.textColour);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
@@ -207,73 +207,85 @@ function updateWardPUDOMap() { // called by moving hoverLine
 }
 function updateMapbox() { // called by moving hoverLine
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
-  let layerObj = map.getStyle().layers; // obj containing all layers
-  layerObj.filter((d) => {
-    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1 ||
-        d.id.indexOf("-pudo") !== -1) {
-      map.setLayoutProperty(d.id, "visibility", "none");
-    }
-  });
-  let layerExists;
+  let layerObj = map.getStyle().layers;
+  const clearPrevWard = false;
+  hideLayers(layerObj, clearPrevWard);
+
+  let layerExists = false;
   let layerArray = [];
   let thisType = [];
   let thisData;
   let thisColour;
 
   if (pudoTOD) { // can be undefined
-    if (whichPUDO === "pudos") {
+    if (whichPUDO === "pudo") {
       layerArray = [`${ward}-${pudoDay}-${pudoTOD}-pu`,
-                    `${ward}-${pudoDay}-${pudoTOD}-do`, `${ward}-${pudoDay}-${pudoTOD}-pudo`];
+                    `${ward}-${pudoDay}-${pudoTOD}-do`,
+                    `${ward}-${pudoDay}-${pudoTOD}-pudo`];
       thisType = ["pu", "do", "pudo"];
-
     } else {
-      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`, `${ward}-${pudoDay}-${pudoTOD}-pudo`];
+      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`,
+                    `${ward}-${pudoDay}-${pudoTOD}-pudo`];
       thisType = [whichPUDO, "pudo"];
     }
 
     for (let idx = 0; idx < layerArray.length; idx++) {
+      // If layer exists, make circles and circle labels visible
       layerObj.filter((d) => {
         if (d.id === layerArray[idx]) {
+          map.setLayoutProperty(`${d.id}-label`, "visibility", "visible");
           map.setLayoutProperty(d.id, "visibility", "visible");
           layerExists = true;
         }
       });
-
+      // If layer does not exist, create new circles and circle-label layers
       if (!layerExists) {
         thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
         thisColour = pudoColours(thisType[idx]);
-        makeLayer(layerArray[idx], thisData, thisColour.fill, thisColour.stroke);
+        makeLayer(layerArray[idx], thisData, thisColour.fill, thisColour.stroke,
+          thisColour.text);
       }
     }
-    // Clear
-    layerExists = false;
   }
 }
 
 function changeMapboxLayer() { // called by pudo-menu selection
   let keepID;
   let pudoID = `${ward}-${pudoDay}-${pudoTOD}-pudo`;
-  if (whichPUDO === "pudos") {
+  if (whichPUDO === "pudo") {
     map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "visible");
     map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "visible");
-    // Remove pudo layer and replot with pudoColours
-    map.removeLayer(pudoID).removeSource(pudoID);
-    makeLayer(pudoID, geoMap[ward][pudoDay][pudoTOD]["pudo"],
-              pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour);
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu-label`, "visibility", "visible");
+    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do-label`, "visibility", "visible");
+    map.setPaintProperty(pudoID, "circle-color", pudoColours(whichPUDO).fill);
+    map.setPaintProperty(pudoID, "circle-stroke-color", pudoColours(whichPUDO).stroke);
+    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoColours(whichPUDO).text);
   } else {
     keepID = `${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`;
 
     // Make visible only selected layer
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "none");
-    map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "none");
-    map.setLayoutProperty(keepID, "visibility", "visible");
+    if (whichPUDO === "pu") {
+      map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "none");
+      map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do-label`, "visibility", "none");
+    } else if (whichPUDO === "do") {
+      map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu`, "visibility", "none");
+      map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu-label`, "visibility", "none");
+    }
 
-    // Remove pudo layer and re-plot with appropriate colour (pu or do)
-    map.removeLayer(pudoID).removeSource(pudoID);
-    let thisColour = pudoColours(whichPUDO);
-    makeLayer(pudoID, geoMap[ward][pudoDay][pudoTOD]["pudo"],
-              thisColour.fill, thisColour.stroke);
+    map.setLayoutProperty(keepID, "visibility", "visible");
+    map.setLayoutProperty(`${keepID}-label`, "visibility", "visible");
+
+    // Colour the overlapping PUDOs according to whichPUDO
+    map.setPaintProperty(pudoID, "circle-color", pudoColours(whichPUDO).fill);
+    map.setPaintProperty(pudoID, "circle-stroke-color", pudoColours(whichPUDO).stroke);
+    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoColours(whichPUDO).text);
   }
+}
+
+function showWardPUDO() { // called by pudo-menu selection
+  const clearPrevWard = true;
+  hideLayers(map.getStyle().layers, clearPrevWard); // SHOULD REMOVE THEM!!!
+  updateMapbox();
 }
 
 function changeWardPUDOMap() { // called when new ward selected
@@ -339,9 +351,9 @@ function uiHandler(event) {
     hideTable("fractionline");
 
     loadData(() => {
-      rmLayer();
-      updateWardLayer();
-      showFractionLine();
+      showWardBoundary();
+      showWardPUDO();
+      showFractionLine(); // calls updateMapbox();
       // changeWardPUDOMap();
     });
 
