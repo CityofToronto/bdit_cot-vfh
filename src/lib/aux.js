@@ -226,7 +226,7 @@ function showPudoLayer() {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, fill, strokeColour, textColour) {
+function makeLayer(id, data, circleStyle) {
   const thisSource = `src-${id}`;
 
   // Add source only if it does not exist
@@ -246,8 +246,8 @@ function makeLayer(id, data, fill, strokeColour, textColour) {
       filter: ["!", ["has", "point_count"]],
       "paint": {
         "circle-radius": 16,
-        "circle-color": fill,
-        "circle-stroke-color": strokeColour,
+        "circle-color": circleStyle.fill,
+        "circle-stroke-color": circleStyle.stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 0.8
       }
@@ -267,8 +267,58 @@ function makeLayer(id, data, fill, strokeColour, textColour) {
       // "text-allow-overlap" : true
     },
     paint: {
-       "text-color": textColour,
+       "text-color": circleStyle.text,
      }
+  });
+}
+
+function showLayer(rootLayer, layerObj) {
+  if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {      
+    if (whichPUDO === "pudo") {
+      map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-do-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
+    } else {
+      map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");      
+    }
+    // colour pudo layer according to whichPUDO
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+    map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
+    // make PUDO layer visible
+    map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
+    map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
+  } else { // layer does not exist
+    console.log("Mk layer")
+    // Make layer for whichPUDO
+    if (whichPUDO === "pudo") {
+      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
+      makeLayer(`${rootLayer}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"], pudoMapSettings.circleStyle["pu"]);
+      makeLayer(`${rootLayer}-do`, geoMap[ward][pudoDay][pudoTOD]["do"], pudoMapSettings.circleStyle["do"]);
+    } else {
+      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
+      makeLayer(`${rootLayer}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"], pudoMapSettings.circleStyle[whichPUDO]);
+    }
+  }
+}
+
+// Hide map layers either for all previous wards or all previous selections
+// of current ward
+function hideLayers(layerObj, clearPrevWard) {
+  layerObj.filter((d) => {
+    // Hide -pu, -do, and -pudo layers
+    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
+                                   || d.id.indexOf("-pudo") !== -1) {
+      if (clearPrevWard) { // Hide previous ward layers
+        if (d.id.indexOf(`${ward}-`) === -1) {
+          map.setLayoutProperty(d.id, "visibility", "none");
+        }
+      } else { // Hide current ward's previous layers
+        map.setLayoutProperty(d.id, "visibility", "none");
+      }
+    }
   });
 }
 
@@ -289,23 +339,6 @@ function makeWardLayer(id, geojson, lineColour) {
   });
 }
 
-// Hide map layers either for all previous wards or all previous selections
-// of current ward
-function hideLayers(layerObj, clearPrevWard) {
-  layerObj.filter((d) => {
-    // Hide -pu, -do, and -pudo layers
-    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
-                                   || d.id.indexOf("-pudo") !== -1) {
-      if (clearPrevWard) { // Hide previous ward layers
-        if (d.id.indexOf(`${ward}-`) === -1) {
-          map.setLayoutProperty(d.id, "visibility", "none");
-        }
-      } else { // Hide current ward's previous layers
-        map.setLayoutProperty(d.id, "visibility", "none");
-      }
-    }
-  });
-}
 // Hide ward boundary layers except for current ward
 function showWardBoundary() {
   let layerExists = false;
