@@ -66,7 +66,13 @@ See examples below in the boilerplate code
     </div>
     <!-- Ward PUDO map -->
     <div class="col-md-6 page-content">
-      <div id="pudoCOTmap" chart-type="map" chart-title="Pick-ups and Drop-offs"></div>
+      <div id="map"></div>
+      <div id='pudomap-legend' class='legend'>
+        <h4>Trip type</h4>
+        <div><span class="legend-pu"></span>Pick-ups</div>
+        <div><span class="legend-do"></span>Drop-offs</div>
+        <div><span class="legend-pudo"></span>Overlap</div>
+      </div>      
     </div>
   </div>
 
@@ -74,27 +80,7 @@ See examples below in the boilerplate code
   <div class="row">
     <div class="col-md-6 page-content"></div>
     <div class="col-md-6 page-content">
-      <div id="map"></div>
-      <!-- <div id="console">
-        <div class="session">
-          <h2>Type</h2>
-          <div class="row colors">
-          </div>
-          <div class="row labels">
-            <div class="label">Pick-ups</div>
-            <div class="label">Drop-offs</div>
-          </div>
-        </div>
-      </div> -->
-
-      <div id='state-legend' class='legend'>
-        <h4>Trip type</h4>
-        <div><span class="legend-pu"></span>Pick-ups</div>
-        <div><span class="legend-do"></span>Drop-offs</div>
-        <div><span class="legend-pudo"></span>Overlap</div>
-      </div>
-
-
+      <div id="pudoCOTmap" chart-type="map" chart-title="Pick-ups and Drop-offs"></div>
     </div>
   </div>
 
