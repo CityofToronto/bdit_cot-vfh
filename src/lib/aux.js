@@ -226,7 +226,7 @@ function showPudoLayer() {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, fill, strokeColour, textColour) {
+function makeLayer(id, data, circleStyle) {
   const thisSource = `src-${id}`;
 
   // Add source only if it does not exist
@@ -246,8 +246,8 @@ function makeLayer(id, data, fill, strokeColour, textColour) {
       filter: ["!", ["has", "point_count"]],
       "paint": {
         "circle-radius": 16,
-        "circle-color": fill,
-        "circle-stroke-color": strokeColour,
+        "circle-color": circleStyle.fill,
+        "circle-stroke-color": circleStyle.stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 0.8
       }
@@ -267,7 +267,7 @@ function makeLayer(id, data, fill, strokeColour, textColour) {
       // "text-allow-overlap" : true
     },
     paint: {
-       "text-color": textColour,
+       "text-color": circleStyle.text,
      }
   });
 }
@@ -296,6 +296,7 @@ function hideLayers(layerObj, clearPrevWard) {
     // Hide -pu, -do, and -pudo layers
     if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
                                    || d.id.indexOf("-pudo") !== -1) {
+      console.log("clear ", d.id)
       if (clearPrevWard) { // Hide previous ward layers
         if (d.id.indexOf(`${ward}-`) === -1) {
           map.setLayoutProperty(d.id, "visibility", "none");

@@ -189,17 +189,11 @@ function initMapBox() {
     const pudoId = `${ward}-${pudoDay}-${pudoTOD}-pudo`;
     const root = geoMap[ward][pudoDay][pudoTOD];
     // Unique pickups layer
-    makeLayer(puId, root["pu"],
-      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour,
-      pudoMapSettings.textColour);
+    makeLayer(puId, root["pu"], pudoMapSettings.circleStyle["pu"]);
     // Unique dropoffs layer
-    makeLayer(doId, root["do"],
-      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour,
-      pudoMapSettings.textColourLight);
+    makeLayer(doId, root["do"], pudoMapSettings.circleStyle["do"]);
     // Overlapping PUDOs
-    makeLayer(pudoId, root["pudo"],
-      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour,
-      pudoMapSettings.textColour);
+    makeLayer(pudoId, root["pudo"], pudoMapSettings.circleStyle["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
@@ -218,39 +212,36 @@ function updateMapbox() { // called by moving hoverLine
   const clearPrevWard = false;
   hideLayers(layerObj, clearPrevWard);
 
-  let layerExists = false;
-  let layerArray = [];
-  let thisType = [];
-  let thisData;
-  let thisColour;
+  let root = geoMap[ward][pudoDay][pudoTOD];
+  let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
 
   if (pudoTOD) { // can be undefined
-    if (whichPUDO === "pudo") {
-      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-pu`,
-                    `${ward}-${pudoDay}-${pudoTOD}-do`,
-                    `${ward}-${pudoDay}-${pudoTOD}-pudo`];
-      thisType = ["pu", "do", "pudo"];
-    } else {
-      layerArray = [`${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`,
-                    `${ward}-${pudoDay}-${pudoTOD}-pudo`];
-      thisType = [whichPUDO, "pudo"];
-    }
+    if (whichPUDO === "pudo") { // overlapping circles coloured in gray
+      console.log("TODO")
 
-    for (let idx = 0; idx < layerArray.length; idx++) {
-      // If layer exists, make circles and circle labels visible
-      layerObj.filter((d) => {
-        if (d.id === layerArray[idx]) {
-          map.setLayoutProperty(`${d.id}-label`, "visibility", "visible");
-          map.setLayoutProperty(d.id, "visibility", "visible");
-          layerExists = true;
+    } else { // overlapping circles coloured by whichPUDO
+      if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {
+        console.log("layer exists")
+        map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
+        map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");
+        map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+        map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+        map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
+        map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
+        map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
+      } else {
+        // Make whichPUDO layer
+        makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
+        if (layerObj.find(({ id }) => id === `${rootLayer}-pudo`)) {
+          // Make PUDO layer visible
+          map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+          map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+          map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
+          map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
+          map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
+        } else { // Make PUDO layer
+          makeLayer(`${rootLayer}-pudo`, root["pudo"], pudoMapSettings.circleStyle[whichPUDO]);
         }
-      });
-      // If layer does not exist, create new circles and circle-label layers
-      if (!layerExists) {
-        thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
-        thisColour = pudoMapSettings.circleStyle[thisType[idx]];
-        makeLayer(layerArray[idx], thisData, thisColour.fill, thisColour.stroke,
-          thisColour.text);
       }
     }
   }
@@ -345,7 +336,8 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     showFractionLine();
     updateWardPUDOMap();
-    changeMapboxLayer();
+    // changeMapboxLayer();
+    updateMapbox();
     if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
 
     hideTable("fractionline");
