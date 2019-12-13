@@ -191,15 +191,15 @@ function initMapBox() {
     // Unique pickups layer
     makeLayer(puId, root["pu"],
       pudoMapSettings.puColour, pudoMapSettings.puStrokeColour,
-      pudoMapSettings.textColour, pudoMapSettings.clusterStyle["pu"]);
+      pudoMapSettings.textColour);
     // Unique dropoffs layer
     makeLayer(doId, root["do"],
       pudoMapSettings.doColour, pudoMapSettings.doStrokeColour,
-      pudoMapSettings.textColourLight, pudoMapSettings.clusterStyle["do"]);
+      pudoMapSettings.textColourLight);
     // Overlapping PUDOs
     makeLayer(pudoId, root["pudo"],
       pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour,
-      pudoMapSettings.textColour, pudoMapSettings.clusterStyle["pudo"]);
+      pudoMapSettings.textColour);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
