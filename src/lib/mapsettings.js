@@ -31,6 +31,17 @@ pudoMapSettings = {
   pudoStrokeColour: "#747474",
   textColour: "#000",
   textColourLight: "#fff",
+  clusterStyle: {
+    "pu": {
+      fillMin: "#2b8cbe", fillMid: "#045a8d", fillMax: "#421b5f"
+    },
+    "do": {
+      fillMin: "#f768a1", fillMid: "#c51b8a", fillMax: "#7a0177"
+    },
+    "pudo": {
+      fillMin: "#969696", fillMid: "#636363", fillMax: "#252525"
+    }
+  },
   w1Centre: [43.727839, -79.601726],
   w1Focus: [-79.601726, 43.727839],
   w2Focus: [-79.548153, 43.661765],

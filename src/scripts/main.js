@@ -190,13 +190,16 @@ function initMapBox() {
     const root = geoMap[ward][pudoDay][pudoTOD];
     // Unique pickups layer
     makeLayer(puId, root["pu"],
-      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour, pudoMapSettings.textColour);
-    // // Unique dropoffs layer
+      pudoMapSettings.puColour, pudoMapSettings.puStrokeColour,
+      pudoMapSettings.textColour, pudoMapSettings.clusterStyle["pu"]);
+    // Unique dropoffs layer
     makeLayer(doId, root["do"],
-      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour, pudoMapSettings.textColourLight);
+      pudoMapSettings.doColour, pudoMapSettings.doStrokeColour,
+      pudoMapSettings.textColourLight, pudoMapSettings.clusterStyle["do"]);
     // Overlapping PUDOs
     makeLayer(pudoId, root["pudo"],
-      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour, pudoMapSettings.textColour);
+      pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour,
+      pudoMapSettings.textColour, pudoMapSettings.clusterStyle["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });

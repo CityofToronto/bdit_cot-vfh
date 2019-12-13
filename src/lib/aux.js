@@ -245,28 +245,74 @@ function pudoColours(tripType) {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, fill, strokeColour, textColour) {
-  const thisSource = `cl-${id}`;
+function makeLayer(id, data, fill, strokeColour, textColour, clusterStyle) {
+  const thisSource = `src-${id}`;
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
     map.addSource(thisSource, {
       type: "geojson",
-      data: data
+      data: data,
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
       }
     );
   }
 
+  // CLUSTERED LAYER
+  map.addLayer({
+    id: `cl-${id}`,
+    type: "circle",
+    source: thisSource,
+    filter: ["has", "point_count"],
+    paint: {
+      // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+      // with three steps to implement three types of circles:
+      //   * Blue, 20px circles when point count is less than 100
+      //   * Yellow, 30px circles when point count is between 100 and 750
+      //   * Pink, 40px circles when point count is greater than or equal to 750
+      "circle-color": [
+        "step",
+        ["get", "point_count"],
+        clusterStyle.fillMin, 12, clusterStyle.fillMid, 50, clusterStyle.fillMax
+      ],
+      "circle-radius": [
+        "step",
+        ["get", "point_count"],
+        20, 12, // 20px, < threshold 12
+        30, 50, // 30px, threshold 12 - 50
+        40] // 40px, threshold >= 50
+    }
+  });
+
+  map.addLayer({
+    id: `cl-count-${id}`,
+    type: "symbol",
+    source: thisSource,
+    filter: ["has", "point_count_abbreviated"],
+    layout: {
+    "text-field": "{point_count}",
+    "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
+    "text-size": 16
+    },
+    paint: {
+       "text-color": "#fff",
+     }
+  });
+
+  // UNCLUSTERED LAYER
   map.addLayer({
       "id": id,
       "type": "circle",
       "source": thisSource,
+      filter: ["!", ["has", "point_count"]],
       "paint": {
-          "circle-radius": 18,
-          "circle-color": fill,
-          "circle-stroke-color": strokeColour,
-          "circle-stroke-width": 2,
-          "circle-opacity": 0.8
+        "circle-radius": 10,
+        "circle-color": fill,
+        "circle-stroke-color": strokeColour,
+        "circle-stroke-width": 2,
+        "circle-opacity": 0.8
       }
   });
 
