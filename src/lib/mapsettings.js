@@ -23,6 +23,17 @@ pudoMapSettings = {
   initZoom: 16,
   defaultZoom: 12,
   wardLayerColour: "#000",
+  circleStyle: {
+    "pu": {
+      fill: "#3BB3C3", stroke: "#000", text: "#000"
+    },
+    "do": {
+      fill: "#660c2c", stroke: "#808080", text: "#fff"
+    },
+    "pudo": {
+      fill: "#808080", stroke: "#747474", text: "#000"
+    }
+  },
   puColour: "#3BB3C3",
   doColour: "#660c2c",
   puStrokeColour: "#000",

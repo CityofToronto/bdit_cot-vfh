@@ -248,7 +248,7 @@ function updateMapbox() { // called by moving hoverLine
       // If layer does not exist, create new circles and circle-label layers
       if (!layerExists) {
         thisData = geoMap[ward][pudoDay][pudoTOD][thisType[idx]];
-        thisColour = pudoColours(thisType[idx]);
+        thisColour = pudoMapSettings.circleStyle[thisType[idx]];
         makeLayer(layerArray[idx], thisData, thisColour.fill, thisColour.stroke,
           thisColour.text);
       }
@@ -264,9 +264,9 @@ function changeMapboxLayer() { // called by pudo-menu selection
     map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do`, "visibility", "visible");
     map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-pu-label`, "visibility", "visible");
     map.setLayoutProperty(`${ward}-${pudoDay}-${pudoTOD}-do-label`, "visibility", "visible");
-    map.setPaintProperty(pudoID, "circle-color", pudoColours(whichPUDO).fill);
-    map.setPaintProperty(pudoID, "circle-stroke-color", pudoColours(whichPUDO).stroke);
-    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoColours(whichPUDO).text);
+    map.setPaintProperty(pudoID, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+    map.setPaintProperty(pudoID, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
   } else {
     keepID = `${ward}-${pudoDay}-${pudoTOD}-${whichPUDO}`;
 
@@ -283,9 +283,9 @@ function changeMapboxLayer() { // called by pudo-menu selection
     map.setLayoutProperty(`${keepID}-label`, "visibility", "visible");
 
     // Colour the overlapping PUDOs according to whichPUDO
-    map.setPaintProperty(pudoID, "circle-color", pudoColours(whichPUDO).fill);
-    map.setPaintProperty(pudoID, "circle-stroke-color", pudoColours(whichPUDO).stroke);
-    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoColours(whichPUDO).text);
+    map.setPaintProperty(pudoID, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+    map.setPaintProperty(pudoID, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+    map.setPaintProperty(`${pudoID}-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
   }
 }
 
