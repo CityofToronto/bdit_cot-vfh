@@ -292,16 +292,16 @@ function makeLayer(id, data, fill, strokeColour, textColour) {
 // Plot ward layer
 function makeWardLayer(id, geojson, lineColour) {
   map.addLayer({
-    'id': id,
-    'type': 'line',
-    'source': {
-      'type': 'geojson',
-      'data': geojson
+    "id": id,
+    "type": "line",
+    "source": {
+      "type": "geojson",
+      "data": geojson
     },
-    'layout': {},
-    'paint': {
-      'line-color': lineColour,
-      'line-width': 2
+    "layout": {},
+    "paint": {
+      "line-color": lineColour,
+      "line-width": 2
     }
   });
 }
