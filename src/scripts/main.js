@@ -184,14 +184,18 @@ function initMapBox() {
   });
 
   map.on("load", function() {
+    const puId = `${ward}-${pudoDay}-${pudoTOD}-pu`;
+    const doId = `${ward}-${pudoDay}-${pudoTOD}-do`;
+    const pudoId = `${ward}-${pudoDay}-${pudoTOD}-pudo`;
+    const root = geoMap[ward][pudoDay][pudoTOD];
     // Unique pickups layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"],
+    makeLayer(puId, root["pu"],
       pudoMapSettings.puColour, pudoMapSettings.puStrokeColour, pudoMapSettings.textColour);
     // // Unique dropoffs layer
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-do`, geoMap[ward][pudoDay][pudoTOD]["do"],
+    makeLayer(doId, root["do"],
       pudoMapSettings.doColour, pudoMapSettings.doStrokeColour, pudoMapSettings.textColourLight);
     // Overlapping PUDOs
-    makeLayer(`${ward}-${pudoDay}-${pudoTOD}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"],
+    makeLayer(pudoId, root["pudo"],
       pudoMapSettings.pudoColour, pudoMapSettings.pudoStrokeColour, pudoMapSettings.textColour);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
