@@ -34,14 +34,6 @@ pudoMapSettings = {
       fill: "#808080", stroke: "#747474", text: "#000"
     }
   },
-  puColour: "#3BB3C3",
-  doColour: "#660c2c",
-  puStrokeColour: "#000",
-  doStrokeColour: "#808080",
-  pudoColour: "#808080",
-  pudoStrokeColour: "#747474",
-  textColour: "#000",
-  textColourLight: "#fff",
   clusterStyle: {
     "pu": {
       fillMin: "#2b8cbe", fillMid: "#045a8d", fillMax: "#421b5f"
