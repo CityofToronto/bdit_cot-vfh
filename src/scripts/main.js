@@ -114,7 +114,8 @@ function showFractionLine() {
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-      updateMapbox();
+      const clearPrevWard = false;
+      updateMapbox(clearPrevWard);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
     if (d3.select("#pudoCOTmap").classed("moveable")) {
@@ -206,10 +207,10 @@ function updateWardPUDOMap() { // called by moving hoverLine
   wardpudoMap.options.focus = currentCentre;
   // showPudoLayer();
 }
-function updateMapbox() { // called by moving hoverLine
+function updateMapbox(clearPrevWard) { // called by moving hoverLine
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
-  const clearPrevWard = false;
+  // const clearPrevWard = false;
   hideLayers(layerObj, clearPrevWard);
 
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
@@ -217,12 +218,6 @@ function updateMapbox() { // called by moving hoverLine
   if (pudoTOD) { // can be undefined
     showLayer(rootLayer, layerObj);
   }
-}
-
-function showWardPUDO() { // called by pudo-menu selection
-  const clearPrevWard = true;
-  hideLayers(map.getStyle().layers, clearPrevWard); // SHOULD REMOVE THEM!!!
-  updateMapbox();
 }
 
 function changeWardPUDOMap() { // called when new ward selected
@@ -273,9 +268,10 @@ function updateTableCaption() {
 function uiHandler(event) {
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
+    const clearPrevWard = false;
     showFractionLine();
     updateWardPUDOMap();
-    updateMapbox();
+    updateMapbox(clearPrevWard);
     if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
 
     hideTable("fractionline");
@@ -283,18 +279,18 @@ function uiHandler(event) {
 
   if (event.target.id === "ward-menu") {
     ward = event.target.value; // w1 initially
+    const clearPrevWard = true;
     updateTitles();
 
     hideTable("fractionline");
 
     loadData(() => {
       showWardBoundary();
-      showWardPUDO();
-      showFractionLine(); // calls updateMapbox();
-      // changeWardPUDOMap();
+      updateMapbox(clearPrevWard);
+      showFractionLine(); // calls updateMapbox() for hoverLine;
     });
 
-    // test changing mapbox centre
+    // Change mapbox centre
     map.flyTo({
       center: pudoMapSettings[`${ward}Focus`]
     })

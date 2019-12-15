@@ -291,7 +291,6 @@ function showLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
   } else { // layer does not exist
-    console.log("Mk layer")
     // Make layer for whichPUDO
     if (whichPUDO === "pudo") {
       makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
