@@ -93,7 +93,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("height", chartObj.settings.innerHeight)
       .on("mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
-        if (d3.select("#pudoCOTmap").classed("moveable")) {
+        if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
           const chartObj = d3.select(this.ownerSVGElement).datum();
           const x = d3.mouse(this)[0];
           const xD = chartObj.x.invert(x);
@@ -387,8 +387,8 @@ function humberStory() {
     d3.select("#pudo-menu").node()[2].selected = true;
 
     // Unfreeze hoverLine if it was previously frozen
-    if (!d3.select("#pudoCOTmap").classed("moveable")) {
-      d3.select("#pudoCOTmap").classed("moveable", true);
+    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+      d3.select(".mapboxgl-canvas-container").classed("moveable", true);
     }
 
     // Clear any previously frozen hoverLine tooltips

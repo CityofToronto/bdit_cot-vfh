@@ -107,8 +107,8 @@ function showFractionLine() {
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, thisPTC, (d) => { // onMouseOverCb
-    // Allow moveable hoverLine only if not frozen by mouse click
-    if (d3.select("#pudoCOTmap").classed("moveable")) {
+    // Allow moveable hoverLine only if not frozen by mouse click    
+    if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
       hoverlineTip(divHoverLine, d);
       // Call corresponding PUDO map
@@ -118,15 +118,15 @@ function showFractionLine() {
       updateMapbox(clearPrevWard);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
-    if (d3.select("#pudoCOTmap").classed("moveable")) {
+    if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       divHoverLine.style("opacity", 0);
     } else {
       saveHoverLinePos();
     }
   }, () => { // onMouseClickCb; toggle between moveable and frozen
-    const mapState = d3.select("#pudoCOTmap")
+    const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
-    if (!d3.select("#pudoCOTmap").classed("moveable")) {
+    if (!mapState.classed("moveable")) {
       saveHoverLinePos();
     }
   });
@@ -198,6 +198,11 @@ function initMapBox() {
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
+
+  // Assign map aria label and moveable state
+  d3.select(".mapboxgl-canvas-container")
+    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
+    .classed("moveable", true);
 }
 
 function updateWardPUDOMap() { // called by moving hoverLine
@@ -272,8 +277,11 @@ function uiHandler(event) {
     showFractionLine();
     updateWardPUDOMap();
     updateMapbox(clearPrevWard);
-    if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
-
+    // if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
+    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+      holdHoverLine(saveHoverPos);
+    }
+    
     hideTable("fractionline");
   }
 
