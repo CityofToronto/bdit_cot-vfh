@@ -206,13 +206,6 @@ function initMapBox() {
     .classed("moveable", true);
 }
 
-function updateWardPUDOMap() { // called by moving hoverLine
-  wardpudoMap.rmCircle();
-  // keep current map centre
-  currentCentre = wardpudoMap.map.getCenter();
-  wardpudoMap.options.focus = currentCentre;
-  // showPudoLayer();
-}
 function updateMapbox(clearPrevWard) { // called by moving hoverLine
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
@@ -225,23 +218,6 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine
     showLayer(rootLayer, layerObj);
   }
 }
-
-function changeWardPUDOMap() { // called when new ward selected
-  // reset
-  wardpudoMap.rmCircle();
-  pudoDay = "week";
-  pudoTOD = "all";
-  const mapState = d3.select("#pudoCOTmap")
-  mapState.classed("moveable", true);
-  divHoverLine.style("opacity", 0);
-
-  wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
-  wardpudoMap.options.zoom = pudoMapSettings.defaultZoom;
-  wardpudoMap.gotoFocus();
-
-  showPudoLayer();
-}
-
 
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
@@ -276,7 +252,6 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
     showFractionLine();
-    updateWardPUDOMap();
     updateMapbox(clearPrevWard);
     // if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
     if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
@@ -348,7 +323,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg_bk.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
       .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
         // Load data files into objects
