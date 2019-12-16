@@ -187,16 +187,15 @@ function initMapBox() {
   });
 
   map.on("load", function() {
-    const puId = `${ward}-${pudoDay}-${pudoTOD}-pu`;
-    const doId = `${ward}-${pudoDay}-${pudoTOD}-do`;
-    const pudoId = `${ward}-${pudoDay}-${pudoTOD}-pudo`;
+    const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
     const root = geoMap[ward][pudoDay][pudoTOD];
+    const sett = pudoMapSettings.circleStyle;
     // Unique pickups layer
-    makeLayer(puId, root["pu"], pudoMapSettings.circleStyle["pu"]);
+    makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
     // Unique dropoffs layer
-    makeLayer(doId, root["do"], pudoMapSettings.circleStyle["do"]);
+    makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
     // Overlapping PUDOs
-    makeLayer(pudoId, root["pudo"], pudoMapSettings.circleStyle["pudo"]);
+    makeLayer(`${rootLayer}-pudo`, root["pudo"], sett["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
@@ -349,7 +348,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg_bk.geojson")
       .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
         // Load data files into objects

@@ -226,7 +226,7 @@ function showPudoLayer() {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, circleStyle) {
+function makeLayer(id, data, sett) {
   const thisSource = `src-${id}`;
 
   // Add source only if it does not exist
@@ -246,8 +246,8 @@ function makeLayer(id, data, circleStyle) {
       filter: ["!", ["has", "point_count"]],
       "paint": {
         "circle-radius": 16,
-        "circle-color": circleStyle.fill,
-        "circle-stroke-color": circleStyle.stroke,
+        "circle-color": sett.fill,
+        "circle-stroke-color": sett.stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 0.8
       }
@@ -258,7 +258,7 @@ function makeLayer(id, data, circleStyle) {
     "type": "symbol",
     "source": thisSource,
     "layout": {
-      "text-field": "{counts}",
+      "text-field": `{${sett.count}}`, // "{counts}",
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
@@ -267,12 +267,13 @@ function makeLayer(id, data, circleStyle) {
       // "text-allow-overlap" : true
     },
     paint: {
-       "text-color": circleStyle.text,
+       "text-color": sett.text
      }
   });
 }
 
 function showLayer(rootLayer, layerObj) {
+  const sett = pudoMapSettings.circleStyle;
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {
     if (whichPUDO === "pudo") {
       map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
@@ -284,21 +285,22 @@ function showLayer(rootLayer, layerObj) {
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");
     }
     // colour pudo layer according to whichPUDO
-    map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
-    map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
-    map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", sett[whichPUDO].fill);
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
+    map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", sett[whichPUDO].text);
     // make PUDO layer visible
     map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
   } else { // layer does not exist
+    const root = geoMap[ward][pudoDay][pudoTOD];
     // Make layer for whichPUDO
     if (whichPUDO === "pudo") {
-      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
-      makeLayer(`${rootLayer}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"], pudoMapSettings.circleStyle["pu"]);
-      makeLayer(`${rootLayer}-do`, geoMap[ward][pudoDay][pudoTOD]["do"], pudoMapSettings.circleStyle["do"]);
+      makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], sett[whichPUDO]);
+      makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
+      makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
     } else {
-      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
-      makeLayer(`${rootLayer}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"], pudoMapSettings.circleStyle[whichPUDO]);
+      makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], sett[whichPUDO]);
+      makeLayer(`${rootLayer}-pudo`, root["pudo"], sett[whichPUDO]);
     }
   }
 }

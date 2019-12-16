@@ -25,13 +25,13 @@ pudoMapSettings = {
   wardLayerColour: "#000",
   circleStyle: {
     "pu": {
-      fill: "#3BB3C3", stroke: "#000", text: "#000"
+      fill: "#3BB3C3", stroke: "#000", text: "#000", count: "counts"
     },
     "do": {
-      fill: "#660c2c", stroke: "#808080", text: "#fff"
+      fill: "#660c2c", stroke: "#808080", text: "#fff", count: "counts"
     },
     "pudo": {
-      fill: "#808080", stroke: "#747474", text: "#000"
+      fill: "#808080", stroke: "#747474", text: "#000", count: "counts"
     }
   },
   clusterStyle: {
