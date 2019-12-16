@@ -24,14 +24,11 @@ pudoMapSettings = {
   defaultZoom: 12,
   wardLayerColour: "#000",
   circleStyle: {
-    "pu": {
-      fill: "#3BB3C3", stroke: "#000", text: "#000", count: "counts"
-    },
-    "do": {
-      fill: "#660c2c", stroke: "#808080", text: "#fff", count: "counts"
-    },
+    "pu": {fill: "#3BB3C3", stroke: "#000", text: "#000", count: "{pcounts}"},
+    "do": {fill: "#660c2c", stroke: "#808080", text: "#fff", count: "{dcounts}"},
     "pudo": {
-      fill: "#808080", stroke: "#747474", text: "#000", count: "counts"
+      fill: "#808080", stroke: "#747474", text: "#000",
+      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },
   clusterStyle: {

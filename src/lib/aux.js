@@ -228,6 +228,7 @@ function showPudoLayer() {
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(id, data, sett) {
   const thisSource = `src-${id}`;
+  console.log("WHICH COUNT: ", sett.count)
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -253,12 +254,15 @@ function makeLayer(id, data, sett) {
       }
   });
 
+
+// ["+", ["get", "pcount"], ["get", "dcount"]]
+
   map.addLayer({
     "id": `${id}-label`,
     "type": "symbol",
     "source": thisSource,
     "layout": {
-      "text-field": `{${sett.count}}`, // "{counts}",
+      "text-field": sett.count, // { sum: ['+', ['get', 'cnt']] }
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
