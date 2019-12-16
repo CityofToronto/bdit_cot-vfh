@@ -37,7 +37,7 @@ function saveHoverLinePos() {
   let x2 = d3.select(".hoverLine").attr("x2");
   let y1 = d3.select(".hoverLine").attr("y1");
   let y2 = d3.select(".hoverLine").attr("y2");
-  saveHoverPos.push(x1, x2, y1, y2);
+  return saveHoverPos.push(x1, x2, y1, y2);
 }
 // Hold frozen hoverLine when PUDO menu toggled
 function holdHoverLine(ptArray) {
@@ -273,7 +273,7 @@ function makeLayer(id, data, circleStyle) {
 }
 
 function showLayer(rootLayer, layerObj) {
-  if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {      
+  if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {
     if (whichPUDO === "pudo") {
       map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
@@ -281,7 +281,7 @@ function showLayer(rootLayer, layerObj) {
       map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
     } else {
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
-      map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");      
+      map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");
     }
     // colour pudo layer according to whichPUDO
     map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
@@ -310,7 +310,6 @@ function hideLayers(layerObj, clearPrevWard) {
     // Hide -pu, -do, and -pudo layers
     if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
                                    || d.id.indexOf("-pudo") !== -1) {
-      console.log("clear ", d.id)
       if (clearPrevWard) { // Hide previous ward layers
         if (d.id.indexOf(`${ward}-`) === -1) {
           map.setLayoutProperty(d.id, "visibility", "none");

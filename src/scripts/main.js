@@ -118,11 +118,13 @@ function showFractionLine() {
       updateMapbox(clearPrevWard);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
-    if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-      divHoverLine.style("opacity", 0);
-    } else {
-      saveHoverLinePos();
-    }
+    // if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+    //   divHoverLine.style("opacity", 0);
+    // } else {
+    //   saveHoverLinePos();
+    // }
+    divHoverLine.style("opacity", 1);
+    saveHoverLinePos();
   }, () => { // onMouseClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
@@ -296,6 +298,9 @@ function uiHandler(event) {
       showWardBoundary();
       updateMapbox(clearPrevWard);
       showFractionLine(); // calls updateMapbox() for hoverLine;
+      if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
+      else holdHoverLine(settingsFractionLine.initHoverLineArray);
+
     });
 
     // Change mapbox centre
