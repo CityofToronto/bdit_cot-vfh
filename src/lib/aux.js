@@ -93,7 +93,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("height", chartObj.settings.innerHeight)
       .on("mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
-        if (d3.select("#pudoCOTmap").classed("moveable")) {
+        if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
           const chartObj = d3.select(this.ownerSVGElement).datum();
           const x = d3.mouse(this)[0];
           const xD = chartObj.x.invert(x);
@@ -272,21 +272,35 @@ function makeLayer(id, data, circleStyle) {
   });
 }
 
-// Plot ward layer
-function makeWardLayer(id, geojson, lineColour) {
-  map.addLayer({
-    "id": id,
-    "type": "line",
-    "source": {
-      "type": "geojson",
-      "data": geojson
-    },
-    "layout": {},
-    "paint": {
-      "line-color": lineColour,
-      "line-width": 2
+function showLayer(rootLayer, layerObj) {
+  if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}`)) {      
+    if (whichPUDO === "pudo") {
+      map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-do-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
+    } else {
+      map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");      
     }
-  });
+    // colour pudo layer according to whichPUDO
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-color", pudoMapSettings.circleStyle[whichPUDO].fill);
+    map.setPaintProperty(`${rootLayer}-pudo`, "circle-stroke-color", pudoMapSettings.circleStyle[whichPUDO].stroke);
+    map.setPaintProperty(`${rootLayer}-pudo-label`, "text-color", pudoMapSettings.circleStyle[whichPUDO].text);
+    // make PUDO layer visible
+    map.setLayoutProperty(`${rootLayer}-pudo-label`, "visibility", "visible");
+    map.setLayoutProperty(`${rootLayer}-pudo`, "visibility", "visible");
+  } else { // layer does not exist
+    // Make layer for whichPUDO
+    if (whichPUDO === "pudo") {
+      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
+      makeLayer(`${rootLayer}-pu`, geoMap[ward][pudoDay][pudoTOD]["pu"], pudoMapSettings.circleStyle["pu"]);
+      makeLayer(`${rootLayer}-do`, geoMap[ward][pudoDay][pudoTOD]["do"], pudoMapSettings.circleStyle["do"]);
+    } else {
+      makeLayer(`${rootLayer}-${whichPUDO}`, geoMap[ward][pudoDay][pudoTOD][whichPUDO], pudoMapSettings.circleStyle[whichPUDO]);
+      makeLayer(`${rootLayer}-pudo`, geoMap[ward][pudoDay][pudoTOD]["pudo"], pudoMapSettings.circleStyle[whichPUDO]);
+    }
+  }
 }
 
 // Hide map layers either for all previous wards or all previous selections
@@ -307,6 +321,24 @@ function hideLayers(layerObj, clearPrevWard) {
     }
   });
 }
+
+// Plot ward layer
+function makeWardLayer(id, geojson, lineColour) {
+  map.addLayer({
+    "id": id,
+    "type": "line",
+    "source": {
+      "type": "geojson",
+      "data": geojson
+    },
+    "layout": {},
+    "paint": {
+      "line-color": lineColour,
+      "line-width": 2
+    }
+  });
+}
+
 // Hide ward boundary layers except for current ward
 function showWardBoundary() {
   let layerExists = false;
@@ -356,8 +388,8 @@ function humberStory() {
     d3.select("#pudo-menu").node()[2].selected = true;
 
     // Unfreeze hoverLine if it was previously frozen
-    if (!d3.select("#pudoCOTmap").classed("moveable")) {
-      d3.select("#pudoCOTmap").classed("moveable", true);
+    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+      d3.select(".mapboxgl-canvas-container").classed("moveable", true);
     }
 
     // Clear any previously frozen hoverLine tooltips
