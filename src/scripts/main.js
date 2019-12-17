@@ -195,7 +195,7 @@ function initMapBox() {
     // Unique dropoffs layer
     makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
     // Overlapping PUDOs
-    makeLayer(`${rootLayer}-pudo`, root["pudo"], sett["pudo"]);
+    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], sett["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
@@ -224,7 +224,7 @@ const loadData = function(cb) {
   if (!ptcFraction[ward]) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      d3.json(`/resources/geojson/${ward}_agg.geojson`, function(err, wardmapfile) {
+      d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
         d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
           // pudoMap[ward] = pudomapfile;
           geoMap[ward] = wardmapfile;
