@@ -183,7 +183,7 @@ function initMapBox() {
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
     center: pudoMapSettings[`${ward}Focus`],
-    zoom: 15 // starting zoom
+    zoom: 14 // starting zoom
   });
 
   map.on("load", function() {
@@ -323,7 +323,7 @@ $(document).ready(function(){
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
       .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
       .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
         // Load data files into objects
