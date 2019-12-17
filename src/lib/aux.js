@@ -283,6 +283,7 @@ function showLayer(rootLayer, layerObj) {
   // Handle pu-pudo, do-pudo, or pudo-pudo layer
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
     // colour pudo layer according to whichPUDO
+    console.log("colour -pudo according to ", whichPUDO)
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett[whichPUDO].fill);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett[whichPUDO].text);
@@ -290,7 +291,7 @@ function showLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
-    console.log("rootLayer in here: ", rootLayer)
+    console.log("make layer: ", `${rootLayer}-${whichPUDO}-pudo`)
     makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], sett[whichPUDO]);
   }
 
@@ -304,18 +305,20 @@ function showLayer(rootLayer, layerObj) {
     }
   } else { // -pu and -do for whichPUDO === pudo
     if (layerObj.find(({ id }) => id === `${rootLayer}-pu`)) {
-      console.log("found pu layer ", rootLayer)
+      console.log("VIS visible: ", `${rootLayer}-pu`)
       map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
     } else {
+      console.log("make layer ", `${rootLayer}-pu`)
       makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
     }
 
     if (layerObj.find(({ id }) => id === `${rootLayer}-do`)) {
-      console.log("found do layer ", rootLayer)
+      console.log("VIS visible: ", `${rootLayer}-do`)
       map.setLayoutProperty(`${rootLayer}-do-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
     } else {
+      console.log("make layer ", `${rootLayer}-do`)
       makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
     }
   }
