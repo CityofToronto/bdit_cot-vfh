@@ -254,9 +254,6 @@ function makeLayer(id, data, sett) {
       }
   });
 
-
-// ["+", ["get", "pcount"], ["get", "dcount"]]
-
   map.addLayer({
     "id": `${id}-label`,
     "type": "symbol",
@@ -277,13 +274,14 @@ function makeLayer(id, data, sett) {
 }
 
 function showLayer(rootLayer, layerObj) {
+  // w1, nightII, do is EMPTY
+  // w1, nightIII, pudo is EMPTY
   const sett = pudoMapSettings.circleStyle;
   const root = geoMap[ward][pudoDay][pudoTOD];
-  
+
   // Handle pu-pudo, do-pudo, or pudo-pudo layer
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
     // colour pudo layer according to whichPUDO
-    console.log("colour -pudo according to ", whichPUDO)
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett[whichPUDO].fill);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett[whichPUDO].text);
@@ -291,8 +289,7 @@ function showLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
-    console.log("make layer: ", `${rootLayer}-${whichPUDO}-pudo`)
-    makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], sett[whichPUDO]);
+    if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], sett[whichPUDO]);
   }
 
   // Handle -pu or -do layer
@@ -301,25 +298,21 @@ function showLayer(rootLayer, layerObj) {
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");
     } else {
-      makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], sett[whichPUDO]);
+      if (root[whichPUDO]) makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], sett[whichPUDO]);
     }
   } else { // -pu and -do for whichPUDO === pudo
     if (layerObj.find(({ id }) => id === `${rootLayer}-pu`)) {
-      console.log("VIS visible: ", `${rootLayer}-pu`)
       map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
     } else {
-      console.log("make layer ", `${rootLayer}-pu`)
-      makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
+      if (root["pu"]) makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
     }
 
     if (layerObj.find(({ id }) => id === `${rootLayer}-do`)) {
-      console.log("VIS visible: ", `${rootLayer}-do`)
       map.setLayoutProperty(`${rootLayer}-do-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
     } else {
-      console.log("make layer ", `${rootLayer}-do`)
-      makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
+      if (root["do"]) makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
     }
   }
 }

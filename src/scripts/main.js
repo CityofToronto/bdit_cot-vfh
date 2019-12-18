@@ -183,7 +183,7 @@ function initMapBox() {
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
     center: pudoMapSettings[`${ward}Focus`],
-    zoom: 14 // starting zoom
+    zoom: 11 // starting zoom
   });
 
   map.on("load", function() {
