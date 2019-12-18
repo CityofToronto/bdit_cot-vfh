@@ -24,19 +24,27 @@ pudoMapSettings = {
   defaultZoom: 12,
   wardLayerColour: "#000",
   circleStyle: {
-    "pu": {fill: "#3BB3C3", stroke: "#000", text: "#000", count: "{pcounts}"},
-    "do": {fill: "#660c2c", stroke: "#808080", text: "#fff", count: "{dcounts}"},
+    "pu": {
+      fill: "#3BB3C3", stroke: "#000", text: "#000",
+      count: "{pcounts}"
+    },
+    "do": {
+      fill: "#660c2c", stroke: "#808080", text: "#fff",
+      count: "{dcounts}"
+    },
     "pudo": {
       fill: "#808080", stroke: "#747474", text: "#000",
-      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
+      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]    
     }
   },
   clusterStyle: {
     "pu": {
-      fillMin: "#2b8cbe", fillMid: "#045a8d", fillMax: "#421b5f"
+      fillMin: "#2b8cbe", fillMid: "#045a8d", fillMax: "#421b5f",
+      cluster: ["+", ["get", "pcounts"]]
     },
     "do": {
-      fillMin: "#f768a1", fillMid: "#c51b8a", fillMax: "#7a0177"
+      fillMin: "#f768a1", fillMid: "#c51b8a", fillMax: "#7a0177",
+      cluster: ["+", ["get", "dcounts"]]
     },
     "pudo": {
       fillMin: "#969696", fillMid: "#636363", fillMax: "#252525"

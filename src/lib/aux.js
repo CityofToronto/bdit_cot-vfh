@@ -226,7 +226,7 @@ function showPudoLayer() {
 }
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, sett) {
+function makeLayer(id, data, sett, clsett) {
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.count)
 
@@ -234,18 +234,66 @@ function makeLayer(id, data, sett) {
   if (!map.getSource(thisSource)) {
     map.addSource(thisSource, {
       type: "geojson",
-      data: data
+      data: data,
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      clusterProperties: {
+        sum: clsett.cluster
       }
-    );
+    });
   }
+
+  // CLUSTERED LAYER
+   map.addLayer({
+     id: `cl-${id}`,
+     type: "circle",
+     source: thisSource,
+     filter: ["==", "cluster", true],
+     paint: {
+       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+       // with three steps to implement three types of circles:
+       //   * Blue, 20px circles when point count is less than 100
+       //   * Yellow, 30px circles when point count is between 100 and 750
+       //   * Pink, 40px circles when point count is greater than or equal to 750
+       "circle-color": [
+         "step",
+         ["get", "point_count"],
+         clsett.fillMin, 12, clsett.fillMid, 50, clsett.fillMax
+       ],
+       "circle-radius": [
+         "step",
+         ["get", "point_count"],
+         20, 12, // 20px, < threshold 12
+         30, 50, // 30px, threshold 12 - 50
+         40] // 40px, threshold >= 50
+     }
+   });
+  // CLUSTERED LAYER LABEL
+   map.addLayer({
+    id: `cl-count-${id}`,
+    type: "symbol",
+    source: thisSource,
+    filter: ["==", "cluster", true],
+    layout: {
+      "text-field": "{point_count} ({sum})",
+      "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
+      "text-size": 16
+      // "text-allow-overlap": true,
+      // "text-ignore-placement": true
+    },
+    paint: {
+       "text-color": "#fff",
+     }
+  });
 
   // UNCLUSTERED LAYER
   map.addLayer({
-      "id": id,
-      "type": "circle",
-      "source": thisSource,
-      filter: ["!", ["has", "point_count"]],
-      "paint": {
+      id: id,
+      type: "circle",
+      source: thisSource,
+      filter: ["!=", "cluster", true],
+      paint: {
         "circle-radius": 16,
         "circle-color": sett.fill,
         "circle-stroke-color": sett.stroke,
@@ -259,7 +307,7 @@ function makeLayer(id, data, sett) {
     "type": "symbol",
     "source": thisSource,
     "layout": {
-      "text-field": sett.count, // { sum: ['+', ['get', 'cnt']] }
+      "text-field": sett.count,
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
