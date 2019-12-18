@@ -259,14 +259,14 @@ function makeLayer(id, data, sett, clsett) {
        "circle-color": [
          "step",
          ["get", "point_count"],
-         clsett.fillMin, 12, clsett.fillMid, 50, clsett.fillMax
+         clsett.fillMin, 50, clsett.fillMid, 100, clsett.fillMax
        ],
        "circle-radius": [
          "step",
          ["get", "point_count"],
-         20, 12, // 20px, < threshold 12
-         30, 50, // 30px, threshold 12 - 50
-         40] // 40px, threshold >= 50
+         31, 50, // 31px, < threshold 50
+         50, 100, // 50px, threshold 50 - 100
+         60] // 60px, threshold >= 100
      }
    });
   // CLUSTERED LAYER LABEL
@@ -283,7 +283,7 @@ function makeLayer(id, data, sett, clsett) {
       // "text-ignore-placement": true
     },
     paint: {
-       "text-color": "#fff",
+       "text-color": sett.text
      }
   });
 
@@ -298,7 +298,7 @@ function makeLayer(id, data, sett, clsett) {
         "circle-color": sett.fill,
         "circle-stroke-color": sett.stroke,
         "circle-stroke-width": 2,
-        "circle-opacity": 0.8
+        "circle-opacity": 1 // 0.8
       }
   });
 
@@ -325,6 +325,7 @@ function showLayer(rootLayer, layerObj) {
   // w1, nightII, do is EMPTY
   // w1, nightIII, pudo is EMPTY
   const sett = pudoMapSettings.circleStyle;
+  const clsett = pudoMapSettings.clusterStyle;
   const root = geoMap[ward][pudoDay][pudoTOD];
 
   // Handle pu-pudo, do-pudo, or pudo-pudo layer
@@ -337,7 +338,8 @@ function showLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
-    if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], sett[whichPUDO]);
+    if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"],
+        sett[whichPUDO], clsett[whichPUDO]);
   }
 
   // Handle -pu or -do layer
@@ -346,21 +348,24 @@ function showLayer(rootLayer, layerObj) {
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-${whichPUDO}`, "visibility", "visible");
     } else {
-      if (root[whichPUDO]) makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO], sett[whichPUDO]);
+      if (root[whichPUDO]) makeLayer(`${rootLayer}-${whichPUDO}`, root[whichPUDO],
+          sett[whichPUDO], clsett[whichPUDO]);
     }
   } else { // -pu and -do for whichPUDO === pudo
     if (layerObj.find(({ id }) => id === `${rootLayer}-pu`)) {
       map.setLayoutProperty(`${rootLayer}-pu-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-pu`, "visibility", "visible");
     } else {
-      if (root["pu"]) makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"]);
+      if (root["pu"]) makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"],
+          clsett["pu"]);
     }
 
     if (layerObj.find(({ id }) => id === `${rootLayer}-do`)) {
       map.setLayoutProperty(`${rootLayer}-do-label`, "visibility", "visible");
       map.setLayoutProperty(`${rootLayer}-do`, "visibility", "visible");
     } else {
-      if (root["do"]) makeLayer(`${rootLayer}-do`, root["do"], sett["do"]);
+      if (root["do"]) makeLayer(`${rootLayer}-do`, root["do"], sett["do"],
+          clsett["do"]);
     }
   }
 }

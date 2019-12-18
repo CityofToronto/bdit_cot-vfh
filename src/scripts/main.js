@@ -183,7 +183,7 @@ function initMapBox() {
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
     center: pudoMapSettings[`${ward}Focus`],
-    zoom: 11 // starting zoom
+    zoom: 15 // starting zoom
   });
 
   map.on("load", function() {
@@ -192,11 +192,11 @@ function initMapBox() {
     const sett = pudoMapSettings.circleStyle;
     const clsett = pudoMapSettings.clusterStyle;
     // Unique pickups layer
-    // makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"], clsett["pu"]);
+    makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"], clsett["pu"]);
     // Unique dropoffs layer
     makeLayer(`${rootLayer}-do`, root["do"], sett["do"], clsett["do"]);
     // Overlapping PUDOs
-    // makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], sett["pudo"]);
+    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], sett["pudo"], clsett["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });
