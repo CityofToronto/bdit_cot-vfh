@@ -325,15 +325,17 @@ function makeLayer(id, data, sett, clsett) {
 }
 
 function showLayer(rootLayer, layerObj, thisPUDO) {
-  // Outputs ${whichPUDO} layer
+  // Outputs -pu or -do layer, never -pudo layer
   const sett = pudoMapSettings.circleStyle;
   const clsett = pudoMapSettings.clusterStyle;
   const root = geoMap[ward][pudoDay][pudoTOD];
 
-  // Handle -pu or -do layer
   if (layerObj.find(({ id }) => id === `${rootLayer}-${thisPUDO}`)) {
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}`, "visibility", "visible");
+    // cluster layers
+    map.setLayoutProperty(`cl-${rootLayer}-${thisPUDO}`, "visibility", "visible");
+    map.setLayoutProperty(`cl-count-${rootLayer}-${thisPUDO}`, "visibility", "visible");
   } else {
     if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO],
         sett[thisPUDO], clsett[thisPUDO]);
@@ -351,9 +353,12 @@ function showOverlapLayer(rootLayer, layerObj) {
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett[whichPUDO].fill);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
     map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett[whichPUDO].text);
-    // make PUDO layer visible
+    // make visible
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
+    // cluster layers
+    map.setLayoutProperty(`cl-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
+    map.setLayoutProperty(`cl-count-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
     if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"],
         sett[whichPUDO], clsett[whichPUDO]);
