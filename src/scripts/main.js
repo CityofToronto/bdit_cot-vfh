@@ -216,7 +216,14 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
 
   if (pudoTOD) { // can be undefined
-    showLayer(rootLayer, layerObj);
+    if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
+      showLayer(rootLayer, layerObj, "pu"); // pu
+      showLayer(rootLayer, layerObj, "do"); // do
+      showOverlapLayer(rootLayer, layerObj, "pudo-pudo"); // pudo-pudo
+    } else { // display whichPUDO layer and whichPUDO-pudo layer
+      showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
+      showOverlapLayer(rootLayer, layerObj); // pu-pudo or do-pudo layer
+    }
   }
 }
 
