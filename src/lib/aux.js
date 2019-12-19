@@ -227,6 +227,7 @@ function showPudoLayer() {
 
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(id, data, sett, clsett) {
+  console.log("makeLayer() for ", id)
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.count)
 
@@ -321,6 +322,49 @@ function makeLayer(id, data, sett, clsett) {
     paint: {
        "text-color": sett.text
      }
+  });
+
+  map.on('click', id, function(e) {
+    console.log("click id: ", id)
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      console.log("pcount: ", e.features[0].properties.pcounts)
+      console.log("dcount: ", e.features[0].properties.dcounts)
+      console.log("sett.count: ", sett.count)
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      const makeTable = function() {
+        let rtnTable;
+        if (whichPUDO === "pudo") {
+          rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
+          rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
+          rtnTable = rtnTable.concat("</table>");
+        }
+
+        return rtnTable;
+      };
+      console.log("makeTable(): ", makeTable())
+
+      new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          // .setHTML(description)
+          .setHTML(makeTable())
+          .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', id, function() {
+      map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', id, function() {
+      map.getCanvas().style.cursor = '';
   });
 }
 
