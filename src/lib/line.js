@@ -125,7 +125,7 @@ function lineChart(svg, settings, data) {
           .attr("fill", "#000")
           .attr("x", innerWidth)
           // .attr("dy", "-0.5em")
-          .attr("dy", "40")
+          .attr("dy", "48")
           .attr("text-anchor", "end")
           .text(sett.x.label);
 
@@ -145,7 +145,7 @@ function lineChart(svg, settings, data) {
           .attr("x", function(d, i) {
             return Object.values(sett.extraXlabel)[i];
           })
-          .attr("dy", 60)
+          .attr("dy", 70)
           .attr("text-anchor", "end")
           .text(function(d) {
             return d;

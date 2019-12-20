@@ -200,7 +200,7 @@ settingsFractionLine = {
   margin: {
     top: 55,
     right: 55,
-    bottom: 62,
+    bottom: 70,
     left: 100
   },
   aspectRatio: 16 / 8,
