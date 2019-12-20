@@ -9,6 +9,7 @@ See examples below in the boilerplate code
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/main.css">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
@@ -16,6 +17,7 @@ See examples below in the boilerplate code
     <!-- endinject -->
     <!-- place any application print-only stylesheet references here -->
   <!-- endbuild -->
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
   <script type="text/javascript" src="/resources/cdn/cotui/cotui.js"></script>
   <link rel="stylesheet" type="text/css" href="/resources/cdn/cotui/cotui.css">
 <!-- cot-app:head end-->
@@ -44,12 +46,12 @@ See examples below in the boilerplate code
     <div class="col-md-2">
       <select id="ward-menu" class="form-control">
         <option value="w1" selected="selected"></option>
-          <option value="w22"></option>
+        <option value="w10"></option>
       </select>
     </div>
     <div class="col-md-2">
       <select id="pudo-menu" class="form-control">
-        <option value="pudos" selected="selected"></option>
+        <option value="pudo" selected="selected"></option>
           <option value="pu"></option>
           <option value="do"></option>
       </select>
@@ -63,6 +65,20 @@ See examples below in the boilerplate code
       <div class="col-md-12 fractionline data"></div>
     </div>
     <!-- Ward PUDO map -->
+    <div class="col-md-6 page-content">
+      <div id="map"></div>
+      <div id='pudomap-legend' class='legend'>
+        <h4>Trip type</h4>
+        <div><span class="legend-pu"></span>Pick-ups</div>
+        <div><span class="legend-do"></span>Drop-offs</div>
+        <div><span class="legend-pudo"></span>Overlap</div>
+      </div>      
+    </div>
+  </div>
+
+  <!-- Mapbox -->
+  <div class="row">
+    <div class="col-md-6 page-content"></div>
     <div class="col-md-6 page-content">
       <div id="pudoCOTmap" chart-type="map" chart-title="Pick-ups and Drop-offs"></div>
     </div>
@@ -89,6 +105,8 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="/resources/lib/aux.js"></script>
   <script type="text/javascript" src="/resources/lib/settings.js"></script>
   <script type="text/javascript" src="/resources/lib/mapsettings.js"></script>
+
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
     console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');

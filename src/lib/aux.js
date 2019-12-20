@@ -37,7 +37,7 @@ function saveHoverLinePos() {
   let x2 = d3.select(".hoverLine").attr("x2");
   let y1 = d3.select(".hoverLine").attr("y1");
   let y2 = d3.select(".hoverLine").attr("y2");
-  saveHoverPos.push(x1, x2, y1, y2);
+  return saveHoverPos.push(x1, x2, y1, y2);
 }
 // Hold frozen hoverLine when PUDO menu toggled
 function holdHoverLine(ptArray) {
@@ -49,7 +49,6 @@ function holdHoverLine(ptArray) {
 
 // Hide table and close details (to be opened with action button)
 function hideTable(divClassName) {
-  console.log()
   // Hide table until action button is clicked
   d3.select(`.${divClassName} .chart-data-table`)
     .select("table")
@@ -94,7 +93,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("height", chartObj.settings.innerHeight)
       .on("mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
-        if (d3.select("#pudoCOTmap").classed("moveable")) {
+        if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
           const chartObj = d3.select(this.ownerSVGElement).datum();
           const x = d3.mouse(this)[0];
           const xD = chartObj.x.invert(x);
@@ -202,7 +201,7 @@ function showPudoLayer() {
 
 
   if (pudoTOD) {
-    if (whichPUDO === "pudos") {
+    if (whichPUDO === "pudo") {
       // Pick-ups
       wardpudoMap.options.markerClass = "pickups";
       wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
@@ -226,6 +225,244 @@ function showPudoLayer() {
   }
 }
 
+// Plot PUDO map according to whichPUDO selected in pudo-menu
+function makeLayer(id, data, sett, clsett) {
+  console.log("makeLayer() for ", id)
+  const thisSource = `src-${id}`;
+  console.log("WHICH COUNT: ", sett.count)
+
+  // Add source only if it does not exist
+  if (!map.getSource(thisSource)) {
+    map.addSource(thisSource, {
+      type: "geojson",
+      data: data,
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      clusterProperties: {
+        sum: clsett.cluster
+      }
+    });
+  }
+
+  // CLUSTERED LAYER
+   map.addLayer({
+     id: `cl-${id}`,
+     type: "circle",
+     source: thisSource,
+     filter: ["==", "cluster", true],
+     paint: {
+       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+       // with three steps to implement three types of circles:
+       //   * Blue, 20px circles when point count is less than 100
+       //   * Yellow, 30px circles when point count is between 100 and 750
+       //   * Pink, 40px circles when point count is greater than or equal to 750
+       "circle-color": [
+         "step",
+         ["get", "point_count"],
+         clsett.fillMid, 100, clsett.fillMax
+       ],
+       "circle-radius": [
+         "step",
+         ["get", "point_count"],
+         // 31, 50, // 31px, < threshold 50
+         30, 100, // 50px, threshold 50 - 100
+         40] // 60px, threshold >= 100
+     }
+   });
+  // CLUSTERED LAYER LABEL
+   map.addLayer({
+    id: `cl-count-${id}`,
+    type: "symbol",
+    source: thisSource,
+    filter: ["==", "cluster", true],
+    layout: {
+      "text-field": "{point_count} ({sum})",
+      "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
+      "text-size": 16
+      // "text-allow-overlap": true,
+      // "text-ignore-placement": true
+    },
+    paint: {
+       "text-color": sett.text
+     }
+  });
+
+  // UNCLUSTERED LAYER
+  map.addLayer({
+      id: id,
+      type: "circle",
+      source: thisSource,
+      filter: ["!=", "cluster", true],
+      paint: {
+        "circle-radius": 16,
+        "circle-color": sett.fill,
+        "circle-stroke-color": sett.stroke,
+        "circle-stroke-width": 2,
+        "circle-opacity": 1 // 0.8
+      },
+      layout: {
+        "visibility": "visible"
+      }
+  });
+
+  map.addLayer({
+    "id": `${id}-label`,
+    "type": "symbol",
+    "source": thisSource,
+    "layout": {
+      "text-field": sett.count,
+      "text-font": [
+        "Open Sans Regular",
+        "Arial Unicode MS Bold"
+      ],
+      "text-size": 16
+      // "text-allow-overlap" : true
+    },
+    paint: {
+       "text-color": sett.text
+     }
+  });
+
+  map.on('click', id, function(e) {
+    console.log("click id: ", id)
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      console.log("pcount: ", e.features[0].properties.pcounts)
+      console.log("dcount: ", e.features[0].properties.dcounts)
+      console.log("sett.count: ", sett.count)
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      const makeTable = function() {
+        let rtnTable;
+        if (whichPUDO === "pudo") {
+          rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
+          rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
+          rtnTable = rtnTable.concat("</table>");
+        }
+
+        return rtnTable;
+      };
+      console.log("makeTable(): ", makeTable())
+
+      new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          // .setHTML(description)
+          .setHTML(makeTable())
+          .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', id, function() {
+      map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', id, function() {
+      map.getCanvas().style.cursor = '';
+  });
+}
+
+function showLayer(rootLayer, layerObj, thisPUDO) {
+  // Outputs -pu or -do layer, never -pudo layer
+  const sett = pudoMapSettings.circleStyle;
+  const clsett = pudoMapSettings.clusterStyle;
+  const root = geoMap[ward][pudoDay][pudoTOD];
+
+  if (layerObj.find(({ id }) => id === `${rootLayer}-${thisPUDO}`)) {
+    map.setLayoutProperty(`${rootLayer}-${thisPUDO}-label`, "visibility", "visible");
+    map.setLayoutProperty(`${rootLayer}-${thisPUDO}`, "visibility", "visible");
+    // cluster layers
+    map.setLayoutProperty(`cl-${rootLayer}-${thisPUDO}`, "visibility", "visible");
+    map.setLayoutProperty(`cl-count-${rootLayer}-${thisPUDO}`, "visibility", "visible");
+  } else {
+    if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO],
+        sett[thisPUDO], clsett[thisPUDO]);
+  }
+}
+
+function showOverlapLayer(rootLayer, layerObj) {
+  // Outputs ${whichPUDO}-pudo layer
+  const sett = pudoMapSettings.circleStyle;
+  const clsett = pudoMapSettings.clusterStyle;
+  const root = geoMap[ward][pudoDay][pudoTOD];
+
+  if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
+    // colour pudo layer according to whichPUDO
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett[whichPUDO].fill);
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett[whichPUDO].text);
+    // make visible
+    map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
+    map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
+    // cluster layers
+    map.setLayoutProperty(`cl-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
+    map.setLayoutProperty(`cl-count-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
+  } else {
+    if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"],
+        sett[whichPUDO], clsett[whichPUDO]);
+  }
+}
+
+// Hide map layers either for all previous wards or all previous selections
+// of current ward
+function hideLayers(layerObj, clearPrevWard) {
+  layerObj.filter((d) => {
+    // Hide -pu, -do, and -pudo layers
+    if (d.id.indexOf("-pu") !== -1 || d.id.indexOf("-do") !== -1
+                                   || d.id.indexOf("-pudo") !== -1) {
+      if (clearPrevWard) { // Hide previous ward layers
+        if (d.id.indexOf(`${ward}-`) === -1) {
+          map.setLayoutProperty(d.id, "visibility", "none");
+        }
+      } else { // Hide current ward's previous layers
+        map.setLayoutProperty(d.id, "visibility", "none");
+      }
+    }
+  });
+}
+
+// Plot ward layer
+function makeWardLayer(id, geojson, lineColour) {
+  map.addLayer({
+    "id": id,
+    "type": "line",
+    "source": {
+      "type": "geojson",
+      "data": geojson
+    },
+    "layout": {},
+    "paint": {
+      "line-color": lineColour,
+      "line-width": 2
+    }
+  });
+}
+
+// Hide ward boundary layers except for current ward
+function showWardBoundary() {
+  let layerExists = false;
+  let layerObj = map.getStyle().layers; // obj containing all layers
+  layerObj.filter((d) => {
+    if (d.id.indexOf(`-layer`) !== -1 && d.id.indexOf(`${ward}-layer`) === -1) {
+      map.setLayoutProperty(d.id, "visibility", "none");
+    } else if (d.id === `${ward}-layer`) {
+      map.setLayoutProperty(d.id, "visibility", "visible");
+      layerExists = true;
+    }
+  });
+
+  if (!layerExists) {
+    makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSettings.wardLayerColour);
+  }
+  // clear
+  layerExists = false;
+}
 // -----------------------------------------------------------------------------
 function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Move hoverLine to specified coordinates
@@ -256,8 +493,8 @@ function humberStory() {
     d3.select("#pudo-menu").node()[2].selected = true;
 
     // Unfreeze hoverLine if it was previously frozen
-    if (!d3.select("#pudoCOTmap").classed("moveable")) {
-      d3.select("#pudoCOTmap").classed("moveable", true);
+    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+      d3.select(".mapboxgl-canvas-container").classed("moveable", true);
     }
 
     // Clear any previously frozen hoverLine tooltips

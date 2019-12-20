@@ -17,7 +17,7 @@ $(function () {
   //     {"name": "bdit_cot-vfh", "link": "#"}
   //   ]).render();
   // }
-  let container = $('#bdit_cot-vfh_container');
+  let container = $("#bdit_cot-vfh_container");
 });
 
 // -----------------------------------------------------------------------------
@@ -28,13 +28,16 @@ $(function () {
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
+let map;
+let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
+let wardLayer = {}; // ward shapefiles
 
 // data selectors
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Ward PUDO for all times of day
-let whichPUDO = "pudos"; // Get both pickups and dropoffs for ward fraction
+let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
 let fractionLineChart;
@@ -62,9 +65,9 @@ function pageTexts() {
   // d3.select("#section4-text1c").html(i18next.t("section4-text1c", {ns: "indexhtml"}));
   // ** ward dropdown menu
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
-  d3.select("#ward-menu").node()[1].text = i18next.t("w22", {ns: "wards"});
+  d3.select("#ward-menu").node()[1].text = i18next.t("w10", {ns: "wards"});
   // ** pudo menu
-  d3.select("#pudo-menu").node()[0].text = i18next.t("pudos", {ns: "pudo"});
+  d3.select("#pudo-menu").node()[0].text = i18next.t("pudo", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
@@ -105,25 +108,27 @@ function showFractionLine() {
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, thisPTC, (d) => { // onMouseOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
-    if (d3.select("#pudoCOTmap").classed("moveable")) {
+    if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
       hoverlineTip(divHoverLine, d);
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
-      updateWardPUDOMap();
+      const clearPrevWard = false;
+      updateMapbox(clearPrevWard);
     }
   }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
-    if (d3.select("#pudoCOTmap").classed("moveable")) {
-      divHoverLine.style("opacity", 0);
-      // changeWardPUDOMap();
-    } else {
-      saveHoverLinePos();
-    }
+    // if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+    //   divHoverLine.style("opacity", 0);
+    // } else {
+    //   saveHoverLinePos();
+    // }
+    divHoverLine.style("opacity", 1);
+    saveHoverLinePos();
   }, () => { // onMouseClickCb; toggle between moveable and frozen
-    const mapState = d3.select("#pudoCOTmap")
+    const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
-    if (!d3.select("#pudoCOTmap").classed("moveable")) {
+    if (!mapState.classed("moveable")) {
       saveHoverLinePos();
     }
   });
@@ -171,42 +176,68 @@ function initWardPUDOMap() {
     }
   })
 }
+function initMapBox() {
+  mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
-function updateWardPUDOMap() { // called by moving hoverLine
-  wardpudoMap.rmCircle();
+  map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/light-v10",
+    center: pudoMapSettings[`${ward}Focus`],
+    zoom: 15 // starting zoom
+  });
 
-  // keep current map centre
-  currentCentre = wardpudoMap.map.getCenter();
-  wardpudoMap.options.focus = currentCentre;
+  map.on("load", function() {
+    const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
+    const root = geoMap[ward][pudoDay][pudoTOD];
+    const sett = pudoMapSettings.circleStyle;
+    const clsett = pudoMapSettings.clusterStyle;
+    // Unique pickups layer
+    makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"], clsett["pu"]);
+    // Unique dropoffs layer
+    makeLayer(`${rootLayer}-do`, root["do"], sett["do"], clsett["do"]);
+    // Overlapping PUDOs
+    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], sett["pudo"], clsett["pudo"]);
+    // Ward boundary
+    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
+  });
 
-  showPudoLayer();
+  // Assign map aria label and moveable state
+  d3.select(".mapboxgl-canvas-container")
+    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
+    .classed("moveable", true);
 }
 
-function changeWardPUDOMap() { // called when new ward selected
-  // reset
-  wardpudoMap.rmCircle();
-  pudoDay = "week";
-  pudoTOD = "all";
-  const mapState = d3.select("#pudoCOTmap")
-  mapState.classed("moveable", true);
-  divHoverLine.style("opacity", 0);
+function updateMapbox(clearPrevWard) { // called by moving hoverLine
+  // Clear any visible layers before making current pudoDay-pudoTOD layer visible
+  let layerObj = map.getStyle().layers;
+  // const clearPrevWard = false;
+  hideLayers(layerObj, clearPrevWard);
 
-  wardpudoMap.options.focus = pudoMap[ward].latlon.mapCentre;
-  wardpudoMap.options.zoom = pudoMapSettings.defaultZoom;
-  wardpudoMap.gotoFocus();
+  let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
 
-  showPudoLayer();
+  if (pudoTOD) { // can be undefined
+    if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
+      showLayer(rootLayer, layerObj, "pu"); // pu
+      showLayer(rootLayer, layerObj, "do"); // do
+    } else { // display whichPUDO layer and whichPUDO-pudo layer
+      showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
+    }
+    showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
+  }
 }
-
 
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
   if (!ptcFraction[ward]) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      d3.json(`/resources/data/fig4b_dummy_pudoMap_${ward}.json`, function(err, pudomapfile) {
-        pudoMap[ward] = pudomapfile;
-        cb();
+      d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
+        d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
+          // pudoMap[ward] = pudomapfile;
+          geoMap[ward] = wardmapfile;
+          wardLayer[ward] = wardlayerfile;
+          cb();
+        })
       })
     })
   } else {
@@ -226,23 +257,37 @@ function updateTableCaption() {
 function uiHandler(event) {
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
+    const clearPrevWard = false;
     showFractionLine();
-    updateWardPUDOMap();
-    if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
+    updateMapbox(clearPrevWard);
+    // if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
+    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+      holdHoverLine(saveHoverPos);
+    }
 
     hideTable("fractionline");
   }
 
   if (event.target.id === "ward-menu") {
     ward = event.target.value; // w1 initially
+    const clearPrevWard = true;
     updateTitles();
 
     hideTable("fractionline");
 
     loadData(() => {
-      showFractionLine();
-      changeWardPUDOMap();
+      showWardBoundary();
+      updateMapbox(clearPrevWard);
+      showFractionLine(); // calls updateMapbox() for hoverLine;
+      if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
+      else holdHoverLine(settingsFractionLine.initHoverLineArray);
+
     });
+
+    // Change mapbox centre
+    map.flyTo({
+      center: pudoMapSettings[`${ward}Focus`]
+    })
   }
   // Table menu for trip fraction lineChart table
   else if (event.target.id === "fraction-menu") {
@@ -259,6 +304,9 @@ function uiHandler(event) {
 
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
+
+
+
   // -----------------------------------------------------------------------------
   // Chart SVGs
   // Fig 4a - Trip Fraction line chart
@@ -281,12 +329,15 @@ $(document).ready(function(){
     settingsFractionLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
-      // .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
-      .await(function(error, ptcfractionfile, pudomapfile) {
+      .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
+      .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
+      .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         pudoMap[ward] = pudomapfile;
+        geoMap[ward] = mapboxfile;
+        wardLayer[ward] = wardlayerfile;
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
@@ -305,6 +356,8 @@ $(document).ready(function(){
         initWardPUDOMap();
 
         storyTexts();
+
+        initMapBox();
       });
   })
 })

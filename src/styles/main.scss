@@ -277,6 +277,7 @@
 	.fractionline text {
 		font-size: 18px;
 	}
+
  /* table button */
  #fraction-action {
 	 background-color: #175689;
@@ -287,6 +288,85 @@
 	margin-top: 25px;
 	text-align: end;
  }
+
+	/* Mapbox */
+	#map {
+		/* position: absolute; */
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		height: 500px;
+	}
+	// .mapboxgl-popup {
+	// 	max-width: 200px;
+	// }
+	#map table {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		border: none !important;
+	}
+	#map table td {
+		// padding: 8px 16px !important;
+		border: none !important;
+	}
+	#map table th {
+		// padding: 8px 16px !important;
+		border: none !important;
+	}
+	#map thead td {
+		font-weight: bold;
+		border-bottom: none !important;
+	}
+	#map thead th {
+		text-align: left;
+		border-bottom: none !important;
+	}
+/*	#maptbody th {
+		font-weight: normal;
+	} */
+	#map tbody td {
+		text-align: left;
+		border-bottom: none !important;
+	}
+
+	/* PUDO map legend */
+  /* https://docs.mapbox.com/mapbox-gl-js/example/updating-choropleth/ */
+	.legend {
+		background-color: #fff;
+		border-radius: 3px;
+		bottom: 30px;
+		box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+		font: 14px 'Roboto', sans-serif;
+		padding: 10px;
+		position: absolute;
+		right: 24px;
+		z-index: 1;
+	}
+	.legend-pu {
+		border: 1px solid #000;
+		background-color: #3BB3C3;
+	}
+	.legend-do {
+		border: 1px solid #808080;
+		background-color: #660c2c;
+	}
+	.legend-pudo {
+		border: 1px solid #747474;
+		background-color: #808080;
+	}
+
+	.legend h4 {
+		margin: 0 0 10px;
+	}
+
+	.legend div span {
+		border-radius: 50%;
+		display: inline-block;
+		height: 12px;
+		margin-right: 5px;
+		width: 12px;
+	}
+
 
 	/* PUDO map */
 	/* There are: marker-cluster-small, marker-cluster-medium, largemarker-cluster-large */
@@ -312,6 +392,7 @@
 		position: relative;
 		background: rgb(207, 211, 212)
 		none repeat scroll 0% 0%;
+		margin-top: 22px;
 	}
 	.pudomapMarkerOff {
 		opacity: 0;
@@ -363,6 +444,5 @@
 	    margin:0 5px 5px 0;
 	  }
 	}
-
 
 }
