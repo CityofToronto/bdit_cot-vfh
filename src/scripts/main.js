@@ -64,9 +64,12 @@ function pageTexts() {
   d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
   // d3.select("#section4-text1c").html(i18next.t("section4-text1c", {ns: "indexhtml"}));
   // ** ward dropdown menu
+  d3.select("#for-ward label").text(i18next.t("ward-menu", {ns: "menus"}));
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
+  d3.select("#ward-menu").node()[1].text = i18next.t("w1", {ns: "wards"});
   d3.select("#ward-menu").node()[1].text = i18next.t("w10", {ns: "wards"});
   // ** pudo menu
+  d3.select("#for-type label").text(i18next.t("pudo-menu", {ns: "menus"}));
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudo", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});

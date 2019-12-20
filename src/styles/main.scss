@@ -26,11 +26,14 @@
 	.section-text {
 		margin-top: 20px;
 	}
-	.form-control {
-	  margin-top: 20px;
-	}
+	// .form-control {
+	//   margin-top: 20px;
+	// }
 	.midtexts {
 	  margin-top: 20px;
+	}
+	.menu label {
+		font-weight: 500;
 	}
 	/* all tables */
 	.chart-data-table {
@@ -274,6 +277,10 @@
 	}
 
 	/* Trip Fraction line chart */
+	.fractionline {
+		margin-top: 65px;
+	}
+
 	.fractionline text {
 		font-size: 18px;
 	}
