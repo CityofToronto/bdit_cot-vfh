@@ -77,8 +77,9 @@ function pageTexts() {
       d3.event.preventDefault();
     })
     .on("mouseover", function() {
-      d3.selectAll(".marker-cluster:not(#humberDropoffs)")
-        .style("opacity", 0.3);
+      console.log("DIM MARKERS !== MARKER OF INTEREST")
+      // d3.selectAll(".marker-cluster:not(#humberDropoffs)")
+      //   .style("opacity", 0.3);
     });
 }
 
@@ -145,37 +146,6 @@ function showFractionLine() {
     });
 }
 // Fig 4b - PUDO map
-function initWardPUDOMap() {
-  pudoMapSettings = $.extend({
-    mapCenter: pudoMapSettings.w1Centre, // w1 Humber College
-    zoom: pudoMapSettings.initZoom
-  }, pudoMapSettings || {});
-
-  wardpudoMap = new cot_map("pudoCOTmap", pudoMapSettings);
-  d3.select("#pudoCOTmap")
-    .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
-    .classed("moveable", true);
-
-  if (d3.select("#pudoCOTmap").select(".leaflet-pane").empty()) wardpudoMap.render();
-
-  // Pick-ups
-  wardpudoMap.options.markerClass = "pickups";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-  wardpudoMap.addCircle();
-
-  // Drop-offs
-  wardpudoMap.options.markerClass = "dropoffs";
-  wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-  wardpudoMap.addCircle();
-
-  // Label certain clusters for story
-  d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
-    if (d3.select(this).text() == humberDropoffs) {
-      d3.select(this.parentNode.parentNode)
-        .attr("id", "humberDropoffs");
-    }
-  })
-}
 function initMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
@@ -183,7 +153,7 @@ function initMapBox() {
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
     center: pudoMapSettings[`${ward}Focus`],
-    zoom: 15 // starting zoom
+    zoom: pudoMapSettings.initZoom
   });
 
   map.on("load", function() {
@@ -205,6 +175,15 @@ function initMapBox() {
   d3.select(".mapboxgl-canvas-container")
     .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
     .classed("moveable", true);
+
+  // TO DO: Humber story
+  // // Label certain clusters for story
+  // d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
+  //   if (d3.select(this).text() == humberDropoffs) {
+  //     d3.select(this.parentNode.parentNode)
+  //       .attr("id", "humberDropoffs");
+  //   }
+  // })
 }
 
 function updateMapbox(clearPrevWard) { // called by moving hoverLine
@@ -260,7 +239,6 @@ function uiHandler(event) {
     const clearPrevWard = false;
     showFractionLine();
     updateMapbox(clearPrevWard);
-    // if (!d3.select("#pudoCOTmap").classed("moveable")) holdHoverLine(saveHoverPos);
     if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       holdHoverLine(saveHoverPos);
     }
@@ -304,10 +282,7 @@ function uiHandler(event) {
 
 // -----------------------------------------------------------------------------
 $(document).ready(function(){
-
-
-
-  // -----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Chart SVGs
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
@@ -353,9 +328,7 @@ $(document).ready(function(){
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, settingsFractionLine.initToolTipPosn);
 
-        initWardPUDOMap();
-
-        storyTexts();
+        // storyTexts();
 
         initMapBox();
       });

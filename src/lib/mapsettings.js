@@ -2,26 +2,7 @@
 // Fig 4b - PUDO map by wards
 
 pudoMapSettings = {
-  enableControlBox: false,
-  enableSearchBar: false,
-  // zoom: 12,
-  mapHeight: 480,
-  // isVectorBasemap: true,
-  enableFullscreen: false,
-  zoomControl: false,
-  maxZoom: 18,
-  // mapHeight: 1200,
-  mapType: "NationalGeographic",
-  enableWardSelection: false,
-  enableControlBox: true,
-  controlBoxTitle: "Trip type",
-  circleOptions: {
-    enableClustering: true,
-    fillOpacity: 0.5,
-    radius: 20
-  },
-  initZoom: 16,
-  defaultZoom: 12,
+  initZoom: 15,
   wardLayerColour: "#000",
   circleStyle: {
     "pu": {
@@ -51,7 +32,6 @@ pudoMapSettings = {
       cluster: ["+", ["+", ["get", "pcounts"], ["get", "dcounts"]]]
     }
   },
-  w1Centre: [43.728635, -79.607443],
   w1Focus: [-79.607443, 43.728635],
   w2Focus: [-79.548153, 43.661765],
   w3Focus: [-79.517973, 43.623204],

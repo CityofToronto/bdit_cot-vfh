@@ -194,40 +194,7 @@ function rotateLabels(chartId, sett) {
 
 // -----------------------------------------------------------------------------
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function showPudoLayer() {
-  // keep current zoom
-  let currentZoom = wardpudoMap.map._zoom;
-   wardpudoMap.options.zoom = currentZoom;
-
-
-  if (pudoTOD) {
-    if (whichPUDO === "pudo") {
-      // Pick-ups
-      wardpudoMap.options.markerClass = "pickups";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-      wardpudoMap.addCircle();
-
-      // Drop-offs
-      wardpudoMap.options.markerClass = "dropoffs";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-      wardpudoMap.addCircle();
-    } else if (whichPUDO === "pu") {
-      // Pick-ups
-      wardpudoMap.options.markerClass = "pickups";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["pickups"];
-      wardpudoMap.addCircle();
-    } else {
-      // Drop-offs
-      wardpudoMap.options.markerClass = "dropoffs";
-      wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-      wardpudoMap.addCircle();
-    }
-  }
-}
-
-// Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(id, data, sett, clsett) {
-  console.log("makeLayer() for ", id)
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.count)
 
