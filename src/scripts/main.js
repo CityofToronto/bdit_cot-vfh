@@ -187,6 +187,9 @@ function initMapBox() {
   //       .attr("id", "humberDropoffs");
   //   }
   // })
+
+  // Data table for map
+  const mapTable = lineTableMap(pudoMapSettings);
 }
 
 function updateMapbox(clearPrevWard) { // called by moving hoverLine

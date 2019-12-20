@@ -37,7 +37,16 @@ pudoMapSettings = {
   w3Focus: [-79.517973, 43.623204],
   w4Focus: [-79.459995, 43.654720],
   w10Focus: [-79.403219, 43.645168],
-  w22Focus: [-79.304402, 43.795302]
+  w22Focus: [-79.304402, 43.795302],
+  submenuLabel: "mapsubmenu-label",
+  labelFor: "this-map",
+  menuLabel: i18next.t("menuDayLabel", {ns: "pudoMap"}),
+  subMenuId: "day-submenu",
+  menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
+            {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
+            {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
+            {val:"sun", text: "Sunday"}],
+  actionId: "mapday-action"
 };
 
 // Possible mapTypes:
