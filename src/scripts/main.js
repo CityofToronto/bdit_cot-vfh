@@ -196,9 +196,15 @@ function initMapBox() {
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
   //
-  // d3.select(".maptable").select("summary").text(pudoMapTableTitle);
-  // const mapTable = lineTable(".maptable", pudoMapSettings, mockNN, mapday);
+  const mapTable = lineTable(".maptable", pudoMapSettings, mockNN, mapday);
 
+  // Only show table if action button is clicked
+  d3.select(`#${pudoMapSettings.actionId}`)
+    .on("click", function() {
+      d3.select(".maptable .chart-data-table")
+        .select("table")
+        .style("display", "table");
+    });
 }
 
 function updateMapbox(clearPrevWard) { // called by moving hoverLine
@@ -249,6 +255,7 @@ function updateTableCaption() {
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
+  console.log(event.target.id)
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
@@ -287,6 +294,23 @@ function uiHandler(event) {
     day = event.target.value;
     updateTableCaption();
     lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+
+    // Hide table until action button is clicked
+    d3.select(".fractionline .chart-data-table")
+      .select("table")
+      .style("display", "none");
+  }
+  // Table menu for PUDO map table
+  else if (event.target.id === pudoMapSettings.menuId) {
+    console.log(event.target.id)
+    mapboxday = event.target.value;
+    // updateTableCaption();
+
+    let mockNN = [
+      {"values": [{"nn":"NN1", "value": 390},
+      {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
+    ]
+    lineTable(".maptable", pudoMapSettings, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -350,6 +374,8 @@ $(document).ready(function(){
         // storyTexts();
 
         initMapBox();
+        d3.select(".maptable").select("summary").text(pudoMapSettings.tableTitle);
+        d3.select(".maptable").select("caption").text(`${pudoMapSettings.tableTitle}, ${i18next.t(day, {ns: "days"})}`);
       });
   })
 })

@@ -138,11 +138,14 @@ function lineTable(svg, settings, data, day) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
           });
           console.log("pair: ", pair)
-          return pair;
         } else {
-          var pair = [["nn1", "390"], ["nn2", "227"],["nn3", "152"],["nn4","339"]];
+          var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
+          ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
+          ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
+          ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
         }
         console.log("pair: ", pair)
+        return pair;
       })
     }
     else {

@@ -127,6 +127,16 @@
       "w24": "Ward 24",
       "w25": "Ward 25"
     },
+    "nhoods": {
+      "1": "West Humber-Clairville",
+      "2": "Mount Olive-Silverstone Jamestown",
+      "3": "Thistledown-Beaumond Heights",
+      "4": "Rexdale-Kipling",
+      "5": "Elms-Old Rexdale",
+      "6": "Kingview Village-The West Way",
+      "7": "Willowridge Martingrove-Richview",
+      "8": "Humber Hights West Mount"
+    },
     "pudo": {
       "pudo": "Pick-ups & Drop-offs",
       "pu": "Pick-ups",

@@ -50,7 +50,6 @@ pudoMapSettings = {
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
             {val:"sun", text: "Sunday"}],
-  actionId: "mapday-action",
   x: {
     label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
   },

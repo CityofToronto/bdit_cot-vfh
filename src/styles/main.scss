@@ -36,9 +36,11 @@
 		font-weight: 500;
 	}
 	/* all tables */
-	.fractionline .chart-data-table {
+	.chart-data-table {
 		font-size: 15.3px;
-		margin-top: 138px; /*9em;*/
+	}
+	.fractionline .chart-data-table {
+		margin-top: 133px; /*9em;*/
 	}
 	details {
 	  padding-bottom: 0em;
@@ -48,12 +50,14 @@
 	details > summary {
 		display: list-item;
 		// font-size: 85%;
+		font-size: 15.3px;
 		font-weight: bold;
 	}
 	caption {
 		padding-bottom: 15px;
 		color: #000;
 		font-weight: bold;
+		font-size: 15.3px;
 	}
 	.data table {
 		margin-top: 15px;
