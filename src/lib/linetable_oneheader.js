@@ -1,13 +1,5 @@
 function lineTable(svg, settings, data, day) {
-  var mergedSettings = settings,
-  outerWidth = mergedSettings.width,
-  outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
-  innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom,
-  innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right,
-  chartInner = svg.select("g.margin-offset"),
-  dataLayer = chartInner.select(".data"),
-
-  drawTable = function() {
+  var drawTable = function() {
     var sett = this.settings,
       summaryId = "chrt-dt-tbl",
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
@@ -174,23 +166,18 @@ function lineTable(svg, settings, data, day) {
       $(".chart-data-table summary").trigger("wb-init.wb-details");
     }
   },
-  clear = function() {
-    dataLayer.remove();
-  },
   x, y, rtnObj, process;
 
   rtnObj = {
-    settings: mergedSettings,
-    clear: clear
-    // svg: svg
+    settings: settings
   };
 
   process = function() {
-    if (mergedSettings.datatable === false) return;
+    if (settings.datatable === false) return;
     drawTable.apply(rtnObj);
   };
   if (data === undefined) {
-    d3.json(mergedSettings.url, function(error, xhr) {
+    d3.json(settings.url, function(error, xhr) {
       data = xhr;
       process();
     });
