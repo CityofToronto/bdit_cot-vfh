@@ -336,14 +336,19 @@ settingsFractionLine = {
       return i18next.t(d.id, {ns: "towline"});
     }
   },
-  levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
-  extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
+  // levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
+  // extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
   initHoverLineArray: [35.73652694610779, 35.73652694610779, 0, 333],
   initToolTipText: '<table class="table-striped"><tr><td>Trip fraction (%): 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
   initToolTipPosn: [232, 858],
   width: 900,
   datatable: true,
+  attachedToSvg: true,
+  summaryId: "chrt-dt-tbl",
+  labelFor:"day",
   menuLabel: i18next.t("menuLabel", {ns: "ward_towline"}),
+  menuId: "fraction-submenu",
+  actionId: "fraction-action",
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},

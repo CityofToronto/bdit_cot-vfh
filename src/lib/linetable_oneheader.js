@@ -1,12 +1,12 @@
 function lineTable(svg, settings, data, day) {
   var drawTable = function() {
     var sett = this.settings,
-      summaryId = "chrt-dt-tbl",
+      summaryId = sett.summaryId,
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
-      parent = svg.select(
+      parent = sett.attachedToSvg ? svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
-      ),
+      ) : d3.select(svg),
       details = parent.select("details"),
       keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
       setRow = function(d) { // d: [ "Monday 0h00", 0.3234158 ]
@@ -35,6 +35,9 @@ function lineTable(svg, settings, data, day) {
       },
       table, header, headerCols, body, dataRows;
 
+      console.log("data: ", data)
+      console.log("filteredData: ", filteredData)
+
     if (details.empty()) {
       details = parent
         .append("details")
@@ -46,16 +49,15 @@ function lineTable(svg, settings, data, day) {
 
         // Text label for sub-menu
         details.append("div")
-          .attr("class", "col-md-2")
-          .attr("id", "submenu-label")
+          .attr("class", "col-md-2 submenu-label")
           .append("label")
-            .attr("for", "day")
+            .attr("for", sett.labelFor)
             .text(sett.menuLabel);
 
         // Details setup
         menu = details.append("div").attr("class", "col-md-3")
           .append("select")
-            .attr("id", "fraction-menu")
+            .attr("id", sett.menuId)
             .attr("class", "form-control");
 
         // Dropdown sub-menu
@@ -78,7 +80,7 @@ function lineTable(svg, settings, data, day) {
         // Action button to execute selection in sub-menu
         button = details.append("div").attr("class", "col-md-3")
           .append("button")
-          .attr("id", "fraction-action")
+          .attr("id", sett.actionId)
           .attr("class", "btn btn-primary")
           .attr("type","submit")
           .text("Show Data");
@@ -130,11 +132,17 @@ function lineTable(svg, settings, data, day) {
     if (sett.menuData) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
-        var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
-        pair = pair.map(function(d, i) {
-          return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
-        });
-        return pair;
+        if (sett.attachedToSvg) {
+          var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
+          pair = pair.map(function(d, i) {
+            return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
+          });
+          console.log("pair: ", pair)
+          return pair;
+        } else {
+          var pair = [["nn1", "390"], ["nn2", "227"],["nn3", "152"],["nn4","339"]];
+        }
+        console.log("pair: ", pair)
       })
     }
     else {
@@ -146,7 +154,7 @@ function lineTable(svg, settings, data, day) {
                 [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
               );
             })
-          return flatout; //[ [ "Monday 0h00", 0.3234158 ], [ "Monday 1h00", 0.21998841 ], ..., [ "Friday 3h00", 0.14364915 ] ]
+          return flatout; //[ [ "0h00", 0.3234158 ], [ "1h00", 0.21998841 ], ..., [ "3h00", 0.14364915 ] ]
         })
     }
 

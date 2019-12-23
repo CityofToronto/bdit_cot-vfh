@@ -38,15 +38,26 @@ pudoMapSettings = {
   w4Focus: [-79.459995, 43.654720],
   w10Focus: [-79.403219, 43.645168],
   w22Focus: [-79.304402, 43.795302],
+  attachedToSvg: false,
+  summaryId: "pudomap-chrt-dt-tbl",
+  labelFor:"day",
   submenuLabel: "mapsubmenu-label",
   labelFor: "this-map",
   menuLabel: i18next.t("menuDayLabel", {ns: "pudoMap"}),
-  subMenuId: "day-submenu",
+  menuId: "day-submenu",
+  actionId: "pudo-action",
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
             {val:"sun", text: "Sunday"}],
-  actionId: "mapday-action"
+  actionId: "mapday-action",
+  x: {
+    label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
+  },
+  y: {
+    label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
+  },
+  tableTitle: i18next.t("tabletitle", {ns: "pudoMap"})
 };
 
 // Possible mapTypes:

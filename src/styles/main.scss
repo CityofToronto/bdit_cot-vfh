@@ -36,9 +36,9 @@
 		font-weight: 500;
 	}
 	/* all tables */
-	.chart-data-table {
+	.fractionline .chart-data-table {
 		font-size: 15.3px;
-		margin-top: 8em;
+		margin-top: 138px; /*9em;*/
 	}
 	details {
 	  padding-bottom: 0em;
@@ -287,14 +287,17 @@
 	}
 
  /* table button */
- #fraction-action {
+ #fraction-action, #pudo-action {
 	 background-color: #175689;
 	 border-color: #175689;
 	 margin-top: 20px;
  }
- #submenu-label {
-	margin-top: 25px;
-	text-align: end;
+.submenu-label {
+	 text-align: end;
+	 font-size: 15.3px;
+ }
+ .fractionline .submenu-label {
+		margin-top: 25px;
  }
 
 	/* Mapbox */

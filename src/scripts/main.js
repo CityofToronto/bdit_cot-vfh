@@ -35,6 +35,7 @@ let wardLayer = {}; // ward shapefiles
 // data selectors
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
+let mapday = "mon"; // Day for map table menu
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Ward PUDO for all times of day
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
@@ -42,6 +43,7 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 // Chart names
 let fractionLineChart;
 let fractionTableTitle;
+let pudoMapTableTitle;
 let wardpudoMap;
 
 // Tooltip div names
@@ -141,7 +143,7 @@ function showFractionLine() {
   const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
 
   // Only show table if action button is clicked
-  d3.select("#fraction-action")
+  d3.select(`#${settingsFractionLine.actionId}`)
     .on("click", function() {
       d3.select(".fractionline .chart-data-table")
         .select("table")
@@ -189,7 +191,14 @@ function initMapBox() {
   // })
 
   // Data table for map
-  const mapTable = lineTableMap(pudoMapSettings);
+  let mockNN = [
+    {"values": [{"nn":"NN1", "value": 390},
+    {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
+  ]
+  //
+  // d3.select(".maptable").select("summary").text(pudoMapTableTitle);
+  // const mapTable = lineTable(".maptable", pudoMapSettings, mockNN, mapday);
+
 }
 
 function updateMapbox(clearPrevWard) { // called by moving hoverLine
@@ -274,7 +283,7 @@ function uiHandler(event) {
     })
   }
   // Table menu for trip fraction lineChart table
-  else if (event.target.id === "fraction-menu") {
+  else if (event.target.id === settingsFractionLine.menuId) {
     day = event.target.value;
     updateTableCaption();
     lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
@@ -308,6 +317,9 @@ $(document).ready(function(){
     settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     settingsFractionLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
+    pudoMapSettings.y.label = i18next.t("y_label", {ns: "pudoMap"}),
+    pudoMapSettings.x.label = i18next.t("x_label", {ns: "pudoMap"}),
+    pudoMapSettings.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
@@ -322,6 +334,7 @@ $(document).ready(function(){
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+        pudoMapTableTitle = `${pudoMapSettings.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
 
         // Display texts
         pageTexts();

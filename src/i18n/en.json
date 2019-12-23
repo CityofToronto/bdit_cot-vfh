@@ -179,8 +179,9 @@
     },
     "pudoMap": {
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
-      "wkdayAMpeak": "Weekday AM Peak",
-      "frisatNightI": "Fri/Sat 19h-21h"
+      "tabletitle": "PUDO map table title",
+      "x_label": "Neighbourhood",
+      "y_label": "Total trip count"
     }
 
   }
