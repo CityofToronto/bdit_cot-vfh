@@ -161,6 +161,8 @@ function initMapBox() {
     zoom: pudoMapSettings.initZoom
   });
 
+  map.addControl(new mapboxgl.NavigationControl());
+
   map.on("load", function() {
     const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
     const root = geoMap[ward][pudoDay][pudoTOD];
