@@ -244,8 +244,13 @@ function makeLayer(id, data, sett, clsett) {
     source: thisSource,
     filter: ["==", "cluster", true],
     layout: {
-      // "text-field": "{point_count} ({sum})",
-      "text-field": "{sum}",
+      // "text-field": "{point_count} ({sum})"
+      // "text-field": ["to-string", ["get", "sum"]], // "{sum}",
+      'text-field': [
+        'number-format',
+          ["get", "sum"],
+          { 'min-fraction-digits': 0, 'max-fraction-digits': 0 }
+      ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16
       // "text-allow-overlap": true,
