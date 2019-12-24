@@ -252,9 +252,9 @@ function makeLayer(id, data, sett, clsett) {
           { 'min-fraction-digits': 0, 'max-fraction-digits': 0 }
       ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
-      "text-size": 16
-      // "text-allow-overlap": true,
-      // "text-ignore-placement": true
+      "text-size": 16,
+      "text-allow-overlap": true,
+      "text-ignore-placement": true
     },
     paint: {
        "text-color": sett.text
