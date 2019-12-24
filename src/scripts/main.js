@@ -166,14 +166,12 @@ function initMapBox() {
   map.on("load", function() {
     const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
     const root = geoMap[ward][pudoDay][pudoTOD];
-    const sett = pudoMapSettings.circleStyle;
-    const clsett = pudoMapSettings.clusterStyle;
     // Unique pickups layer
-    makeLayer(`${rootLayer}-pu`, root["pu"], sett["pu"], clsett["pu"]);
+    makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
     // Unique dropoffs layer
-    makeLayer(`${rootLayer}-do`, root["do"], sett["do"], clsett["do"]);
+    makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
-    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], sett["pudo"], clsett["pudo"]);
+    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"],"pudo");
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });

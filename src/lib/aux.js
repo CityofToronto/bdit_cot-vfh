@@ -194,9 +194,11 @@ function rotateLabels(chartId, sett) {
 
 // -----------------------------------------------------------------------------
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makeLayer(id, data, sett, clsett) {
+function makeLayer(id, data, type) {
+  const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.count)
+  console.log(sett.clusterStyle[type].cluster)
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -207,7 +209,7 @@ function makeLayer(id, data, sett, clsett) {
       clusterMaxZoom: 14, // Max zoom to cluster points on
       clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       clusterProperties: {
-        sum: clsett.cluster
+        sum: sett.clusterStyle[type].cluster
       }
     });
   }
@@ -227,7 +229,7 @@ function makeLayer(id, data, sett, clsett) {
        "circle-color": [
          "step",
          ["get", "point_count"],
-         clsett.fillMid, 100, clsett.fillMax
+         sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
        ],
        "circle-radius": [
          "step",
@@ -257,7 +259,7 @@ function makeLayer(id, data, sett, clsett) {
       "text-ignore-placement": true
     },
     paint: {
-       "text-color": sett.text
+       "text-color": sett.circleStyle[type].text
      }
   });
 
@@ -269,8 +271,8 @@ function makeLayer(id, data, sett, clsett) {
       filter: ["!=", "cluster", true],
       paint: {
         "circle-radius": 16,
-        "circle-color": sett.fill,
-        "circle-stroke-color": sett.stroke,
+        "circle-color": sett.circleStyle[type].fill,
+        "circle-stroke-color": sett.circleStyle[type].stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 1 // 0.8
       },
@@ -284,7 +286,7 @@ function makeLayer(id, data, sett, clsett) {
     "type": "symbol",
     "source": thisSource,
     "layout": {
-      "text-field": sett.count,
+      "text-field": sett.circleStyle[type].count,
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
@@ -293,7 +295,7 @@ function makeLayer(id, data, sett, clsett) {
       // "text-allow-overlap" : true
     },
     paint: {
-       "text-color": sett.text
+       "text-color": sett.circleStyle[type].text
      }
   });
 
@@ -302,7 +304,7 @@ function makeLayer(id, data, sett, clsett) {
       var coordinates = e.features[0].geometry.coordinates.slice();
       console.log("pcount: ", e.features[0].properties.pcounts)
       console.log("dcount: ", e.features[0].properties.dcounts)
-      console.log("sett.count: ", sett.count)
+      console.log("sett.count: ", sett.circleStyle[type].count)
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -343,8 +345,6 @@ function makeLayer(id, data, sett, clsett) {
 
 function showLayer(rootLayer, layerObj, thisPUDO) {
   // Outputs -pu or -do layer, never -pudo layer
-  const sett = pudoMapSettings.circleStyle;
-  const clsett = pudoMapSettings.clusterStyle;
   const root = geoMap[ward][pudoDay][pudoTOD];
 
   if (layerObj.find(({ id }) => id === `${rootLayer}-${thisPUDO}`)) {
@@ -354,22 +354,20 @@ function showLayer(rootLayer, layerObj, thisPUDO) {
     map.setLayoutProperty(`cl-${rootLayer}-${thisPUDO}`, "visibility", "visible");
     map.setLayoutProperty(`cl-count-${rootLayer}-${thisPUDO}`, "visibility", "visible");
   } else {
-    if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO],
-        sett[thisPUDO], clsett[thisPUDO]);
+    if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO], thisPUDO);
   }
 }
 
 function showOverlapLayer(rootLayer, layerObj) {
   // Outputs ${whichPUDO}-pudo layer
-  const sett = pudoMapSettings.circleStyle;
-  const clsett = pudoMapSettings.clusterStyle;
+  const sett = pudoMapSettings;
   const root = geoMap[ward][pudoDay][pudoTOD];
 
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
     // colour pudo layer according to whichPUDO
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett[whichPUDO].fill);
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett[whichPUDO].stroke);
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett[whichPUDO].text);
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett.circleStyle[whichPUDO].fill);
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett.circleStyle[whichPUDO].stroke);
+    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett.circleStyle[whichPUDO].text);
     // make visible
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
@@ -378,7 +376,7 @@ function showOverlapLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`cl-count-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
     if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"],
-        sett[whichPUDO], clsett[whichPUDO]);
+        whichPUDO);
   }
 }
 
