@@ -195,7 +195,6 @@ function rotateLabels(chartId, sett) {
 // -----------------------------------------------------------------------------
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(id, data, type) {
-  console.log("makeLayerissa")
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.circleStyle[type].count)
@@ -417,10 +416,7 @@ function makePUDOLayer(id, data, type) {
   });
 
   // UNCLUSTERED LAYER
-  // var mag1 = ['get', 'pcounts'];
-  // var mag1 = ["+", ["get", "pcounts"], ["get", "dcounts"]];
-  var mag1 = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
-  console.log("**************** mag1: ", mag1)
+  var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
 
   map.addLayer({
       id: id,
@@ -429,12 +425,11 @@ function makePUDOLayer(id, data, type) {
       filter: ["!=", "cluster", true],
       paint: {
         "circle-radius": 16,
-        'circle-color': [
-          'interpolate', ['linear'],
-          mag1,
-          0.45, '#d7191c',
-          0.55, '#ffffbf',
-          1, '#2c7bb6'
+        "circle-color": [
+          "step", pFraction,
+          "#d7191c",  0.45,
+          "#ffffbf",  0.55,
+          "#2c7bb6"
         ],
         "circle-stroke-color": sett.circleStyle[type].stroke,
         "circle-stroke-width": 2,
@@ -494,7 +489,6 @@ function showOverlapLayer(rootLayer, layerObj) {
   } else {
     if (root["pudo"]) {
       if (whichPUDO === "pudo") {
-        console.log("call makePUDOLayer")
         makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
       } else {
         makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
