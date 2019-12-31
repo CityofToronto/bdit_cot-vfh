@@ -207,7 +207,7 @@ function initMapBox() {
     });
 }
 
-function updateMapbox(clearPrevWard) { // called by moving hoverLine
+function updateMapbox(clearPrevWard) { // called by moving hoverLine and pudo-menu selection
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
   // const clearPrevWard = false;

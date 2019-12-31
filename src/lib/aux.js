@@ -195,6 +195,7 @@ function rotateLabels(chartId, sett) {
 // -----------------------------------------------------------------------------
 // Plot PUDO map according to whichPUDO selected in pudo-menu
 function makeLayer(id, data, type) {
+  console.log("makeLayerissa")
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
   console.log("WHICH COUNT: ", sett.circleStyle[type].count)
@@ -419,6 +420,7 @@ function makePUDOLayer(id, data, type) {
   // var mag1 = ['get', 'pcounts'];
   // var mag1 = ["+", ["get", "pcounts"], ["get", "dcounts"]];
   var mag1 = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
+  console.log("**************** mag1: ", mag1)
 
   map.addLayer({
       id: id,
@@ -483,10 +485,6 @@ function showOverlapLayer(rootLayer, layerObj) {
   const root = geoMap[ward][pudoDay][pudoTOD];
 
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
-    // colour pudo layer according to whichPUDO
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-color", sett.circleStyle[whichPUDO].fill);
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo`, "circle-stroke-color", sett.circleStyle[whichPUDO].stroke);
-    map.setPaintProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "text-color", sett.circleStyle[whichPUDO].text);
     // make visible
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
@@ -494,8 +492,14 @@ function showOverlapLayer(rootLayer, layerObj) {
     map.setLayoutProperty(`cl-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
     map.setLayoutProperty(`cl-count-${rootLayer}-${whichPUDO}-pudo`, "visibility", "visible");
   } else {
-    if (root["pudo"]) makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"],
-        whichPUDO);
+    if (root["pudo"]) {
+      if (whichPUDO === "pudo") {
+        console.log("call makePUDOLayer")
+        makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
+      } else {
+        makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
+      }      
+    }
   }
 }
 
