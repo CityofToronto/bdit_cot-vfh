@@ -299,49 +299,6 @@ function makeLayer(id, data, type) {
        "text-color": sett.circleStyle[type].text
      }
   });
-
-  map.on('click', id, function(e) {
-    console.log("click id: ", id)
-      var coordinates = e.features[0].geometry.coordinates.slice();
-      console.log("pcount: ", e.features[0].properties.pcounts)
-      console.log("dcount: ", e.features[0].properties.dcounts)
-      console.log("sett.count: ", sett.circleStyle[type].count)
-
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-
-      const makeTable = function() {
-        let rtnTable;
-        if (whichPUDO === "pudo") {
-          rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
-          rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
-          rtnTable = rtnTable.concat("</table>");
-        }
-
-        return rtnTable;
-      };
-      console.log("makeTable(): ", makeTable())
-
-      new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          // .setHTML(description)
-          .setHTML(makeTable())
-          .addTo(map);
-  });
-
-  // Change the cursor to a pointer when the mouse is over the places layer.
-  map.on('mouseenter', id, function() {
-      map.getCanvas().style.cursor = 'pointer';
-  });
-
-  // Change it back to a pointer when it leaves.
-  map.on('mouseleave', id, function() {
-      map.getCanvas().style.cursor = '';
-  });
 }
 // PUDO layer only
 // Plot PUDO map according to whichPUDO selected in pudo-menu
@@ -350,6 +307,11 @@ function makePUDOLayer(id, data, type) {
   const thisSource = `src-${id}`;
   // ratio of pcounts to total counts
   var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
+  var ptot = ["get", "pcounts"];
+  var tot = ["+", ["get", "pcounts"], ["get", "dcounts"]];
+
+  // const hydro = ['==', ['get', 'pcounts'], 'Hydro'];
+  // const solar = ['==', ['get', 'dcounts'], 'Solar'];
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -360,15 +322,20 @@ function makePUDOLayer(id, data, type) {
       clusterMaxZoom: 14, // Max zoom to cluster points on
       clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       clusterProperties: {
-        sum: sett.clusterStyle[type].cluster
+        // sum: sett.clusterStyle[type].cluster
+        sum: ["+", ["/", ptot, tot]]
+        // pf: ["+", ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]]],
+
+        // keep separate counts for each magnitude category in a cluster
+        // 'mag1': ['+', ['case', mag1, 1, 0]],
+        // 'mag5': ['+', ['case', mag5, 1, 0]]
+        // 'hydro': ['+', ['case', hydro, 1, 0]],
+        // 'solar': ['+', ['case', solar, 1, 0]]
       }
     });
   }
 
   // CLUSTERED LAYER
-  // var mag1 = ['<', ['get', 'mag'], 2];
-  // var mag2 = ['all', ['>=', ['get', 'mag'], 2], ['<', ['get', 'mag'], 3]];
-  // var mag3 = ['all', ['>=', ['get', 'mag'], 3], ['<', ['get', 'mag'], 4]];
    map.addLayer({
      id: `cl-${id}`,
      type: "circle",
@@ -385,6 +352,11 @@ function makePUDOLayer(id, data, type) {
          ["get", "point_count"],
          sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
        ],
+       // 'circle-color': [
+       //    'case',
+       //    mag1, "#d7191c",
+       //    "#2c7bb6"
+       //  ],
        "circle-radius": [
          "step",
          ["get", "point_count"],
@@ -456,6 +428,48 @@ function makePUDOLayer(id, data, type) {
     paint: {
        "text-color": sett.circleStyle[type].text
      }
+  });
+
+  map.on('click', id, function(e) {
+    console.log("click id: ", id)
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      // console.log("pcount: ", e.features[0].properties.pcounts)
+      // console.log("dcount: ", e.features[0].properties.dcounts)
+      // console.log("sett.count: ", sett.circleStyle[type].count)
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      const makeTable = function() {
+        let rtnTable;
+        if (whichPUDO === "pudo") {
+          rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
+          rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
+          rtnTable = rtnTable.concat("</table>");
+        }
+
+        return rtnTable;
+      };
+
+      new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          // .setHTML(description)
+          .setHTML(makeTable())
+          .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', id, function() {
+      map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', id, function() {
+      map.getCanvas().style.cursor = '';
   });
 }
 
