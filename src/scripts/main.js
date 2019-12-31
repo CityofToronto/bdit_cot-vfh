@@ -171,7 +171,7 @@ function initMapBox() {
     // Unique dropoffs layer
     makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
-    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"],"pudo");
+    makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"],"pudo");
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
   });

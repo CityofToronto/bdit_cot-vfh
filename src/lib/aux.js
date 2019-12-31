@@ -197,7 +197,7 @@ function rotateLabels(chartId, sett) {
 function makeLayer(id, data, type) {
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
-  console.log("WHICH COUNT: ", sett.count)
+  console.log("WHICH COUNT: ", sett.circleStyle[type].count)
   console.log(sett.clusterStyle[type].cluster)
 
   // Add source only if it does not exist
@@ -340,6 +340,125 @@ function makeLayer(id, data, type) {
   // Change it back to a pointer when it leaves.
   map.on('mouseleave', id, function() {
       map.getCanvas().style.cursor = '';
+  });
+}
+// PUDO layer only
+// Plot PUDO map according to whichPUDO selected in pudo-menu
+function makePUDOLayer(id, data, type) {
+  const sett = pudoMapSettings;
+  const thisSource = `src-${id}`;
+
+  // ratio of pcounts/dcounts
+  // var r = ["/", ["+", ["get", "pcounts"], ["get", "dcounts"]]];
+  var r = ["+", ["get", "pcounts"]];
+
+  // Add source only if it does not exist
+  if (!map.getSource(thisSource)) {
+    map.addSource(thisSource, {
+      type: "geojson",
+      data: data,
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      clusterProperties: {
+        sum: sett.clusterStyle[type].cluster
+      }
+    });
+  }
+
+  // CLUSTERED LAYER
+   map.addLayer({
+     id: `cl-${id}`,
+     type: "circle",
+     source: thisSource,
+     filter: ["==", "cluster", true],
+     paint: {
+       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+       // with three steps to implement three types of circles:
+       //   * Blue, 20px circles when point count is less than 100
+       //   * Yellow, 30px circles when point count is between 100 and 750
+       //   * Pink, 40px circles when point count is greater than or equal to 750
+       "circle-color": [
+         "step",
+         ["get", "point_count"],
+         sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
+       ],
+       "circle-radius": [
+         "step",
+         ["get", "point_count"],
+         // 31, 50, // 31px, < threshold 50
+         30, 100, // 50px, threshold 50 - 100
+         40] // 60px, threshold >= 100
+     }
+   });
+  // CLUSTERED LAYER LABEL
+   map.addLayer({
+    id: `cl-count-${id}`,
+    type: "symbol",
+    source: thisSource,
+    filter: ["==", "cluster", true],
+    layout: {
+      // "text-field": "{point_count} ({sum})"
+      // "text-field": ["to-string", ["get", "sum"]], // "{sum}",
+      'text-field': [
+        'number-format',
+          ["get", "sum"],
+          { 'min-fraction-digits': 0, 'max-fraction-digits': 0 }
+      ],
+      "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
+      "text-size": 16,
+      "text-allow-overlap": true,
+      "text-ignore-placement": true
+    },
+    paint: {
+       "text-color": sett.circleStyle[type].text
+     }
+  });
+
+  // UNCLUSTERED LAYER
+  // var mag1 = ['get', 'pcounts'];
+  // var mag1 = ["+", ["get", "pcounts"], ["get", "dcounts"]];
+  var mag1 = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
+
+  map.addLayer({
+      id: id,
+      type: "circle",
+      source: thisSource,
+      filter: ["!=", "cluster", true],
+      paint: {
+        "circle-radius": 16,
+        'circle-color': [
+          'interpolate', ['linear'],
+          mag1,
+          0.45, '#d7191c',
+          0.55, '#ffffbf',
+          1, '#2c7bb6'
+        ],
+        "circle-stroke-color": sett.circleStyle[type].stroke,
+        "circle-stroke-width": 2,
+        "circle-opacity": 1 // 0.8
+      },
+      layout: {
+        "visibility": "visible"
+      }
+  });
+
+  map.addLayer({
+    "id": `${id}-label`,
+    "type": "symbol",
+    "source": thisSource,
+    "layout": {
+      "text-field": sett.circleStyle[type].count,
+      "text-font": [
+        "Open Sans Regular",
+        "Arial Unicode MS Bold"
+      ],
+      "text-size": 16
+      // "text-allow-overlap" : true
+    },
+    paint: {
+       "text-color": sett.circleStyle[type].text
+     }
   });
 }
 
