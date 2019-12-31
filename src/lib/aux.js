@@ -226,11 +226,12 @@ function makeLayer(id, data, type) {
        //   * Blue, 20px circles when point count is less than 100
        //   * Yellow, 30px circles when point count is between 100 and 750
        //   * Pink, 40px circles when point count is greater than or equal to 750
-       "circle-color": [
-         "step",
-         ["get", "point_count"],
-         sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
-       ],
+       // "circle-color": [
+       //   "step",
+       //   ["get", "point_count"],
+       //   sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
+       // ],
+       "circle-color": sett.circleStyle[type].fill,
        "circle-radius": [
          "step",
          ["get", "point_count"],
@@ -347,10 +348,8 @@ function makeLayer(id, data, type) {
 function makePUDOLayer(id, data, type) {
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
-
-  // ratio of pcounts/dcounts
-  // var r = ["/", ["+", ["get", "pcounts"], ["get", "dcounts"]]];
-  var r = ["+", ["get", "pcounts"]];
+  // ratio of pcounts to total counts
+  var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -367,6 +366,9 @@ function makePUDOLayer(id, data, type) {
   }
 
   // CLUSTERED LAYER
+  // var mag1 = ['<', ['get', 'mag'], 2];
+  // var mag2 = ['all', ['>=', ['get', 'mag'], 2], ['<', ['get', 'mag'], 3]];
+  // var mag3 = ['all', ['>=', ['get', 'mag'], 3], ['<', ['get', 'mag'], 4]];
    map.addLayer({
      id: `cl-${id}`,
      type: "circle",
@@ -416,8 +418,6 @@ function makePUDOLayer(id, data, type) {
   });
 
   // UNCLUSTERED LAYER
-  var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
-
   map.addLayer({
       id: id,
       type: "circle",
