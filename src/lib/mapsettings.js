@@ -6,23 +6,23 @@ pudoMapSettings = {
   wardLayerColour: "#000",
   circleStyle: {
     "pu": {
-      fill: "#3BB3C3", stroke: "#000", text: "#000",
+      fill: "#e66101", stroke: "#000", text: "#000",
       count: "{pcounts}"
     },
     "do": {
-      fill: "#660c2c", stroke: "#808080", text: "#fff",
+      fill: "#5e3c99", stroke: "#808080", text: "#fff",
       count: "{dcounts}"
     },
     "pudo": {
-      fill: "#808080", stroke: "#747474", text: "#000",
+      stroke: "#747474", text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
     "do": {cluster: ["+", ["get", "dcounts"]]},
-    "pudo": {
-      fillMin: "#d7191c", fillMid: "#ffffbf", fillMax: "#2c7bb6",
+    "pudo": {stroke: "#000",
+      puMin: "#b2abd2", puMid: "#f7f7f7", puMax: "#fdb863",
     }
   },
   w1Focus: [-79.607443, 43.728635],

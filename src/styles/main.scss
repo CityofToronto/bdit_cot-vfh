@@ -359,15 +359,23 @@
 	}
 	.legend-pu {
 		border: 1px solid #000;
-		background-color: #3BB3C3;
+		background-color: #e66101;
 	}
 	.legend-do {
 		border: 1px solid #808080;
-		background-color: #660c2c;
+		background-color: #5e3c99;
 	}
-	.legend-pudo {
+	.legend-puMax {
 		border: 1px solid #747474;
-		background-color: #808080;
+		background-color: #fdb863;
+	}
+	.legend-puMid {
+		border: 1px solid #747474;
+		background-color: #f7f7f7;
+	}
+	.legend-puMin {
+		border: 1px solid #747474;
+		background-color: #b2abd2;
 	}
 
 	.legend h4 {

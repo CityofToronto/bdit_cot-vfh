@@ -193,7 +193,7 @@ function rotateLabels(chartId, sett) {
 }
 
 // -----------------------------------------------------------------------------
-// Plot PUDO map according to whichPUDO selected in pudo-menu
+// Plot PUDO map for either PUs or DOs as selected in pudo-menu
 function makeLayer(id, data, type) {
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
@@ -287,7 +287,7 @@ function makeLayer(id, data, type) {
   });
 }
 // PUDO layer only
-// Plot PUDO map according to whichPUDO selected in pudo-menu
+// Plot PUDO map for pudo-pudo layer
 function makePUDOLayer(id, data) {
   const type = "pudo";
   const sett = pudoMapSettings;
@@ -325,10 +325,12 @@ function makePUDOLayer(id, data) {
        "circle-color": [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
-         sett.clusterStyle[type].fillMin, 0.45,
-         sett.clusterStyle[type].fillMid, 0.55,
-         sett.clusterStyle[type].fillMax
+         sett.clusterStyle[type].puMin, 0.45,
+         sett.clusterStyle[type].puMid, 0.55,
+         sett.clusterStyle[type].puMax
        ],
+       "circle-stroke-color": sett.circleStyle[type].stroke,
+       "circle-stroke-width": 2,
        "circle-radius": [
          "step",
          ["get", "point_count"],
@@ -371,9 +373,9 @@ function makePUDOLayer(id, data) {
         "circle-radius": 16,
         "circle-color": [
           "step", pFraction,
-          sett.clusterStyle[type].fillMin, 0.45,
-          sett.clusterStyle[type].fillMid, 0.55,
-          sett.clusterStyle[type].fillMax
+          sett.clusterStyle[type].puMin, 0.45,
+          sett.clusterStyle[type].puMid, 0.55,
+          sett.clusterStyle[type].puMax
         ],
         "circle-stroke-color": sett.circleStyle[type].stroke,
         "circle-stroke-width": 2,
