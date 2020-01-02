@@ -330,7 +330,7 @@ function makePUDOLayer(id, data) {
          sett.clusterStyle[type].puMax
        ],
        "circle-stroke-color": sett.circleStyle[type].stroke,
-       "circle-stroke-width": 2,
+       "circle-stroke-width": 1,
        "circle-radius": [
          "step",
          ["get", "point_count"],
