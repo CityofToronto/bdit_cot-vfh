@@ -4,17 +4,20 @@
 pudoMapSettings = {
   initZoom: 15,
   wardLayerColour: "#000",
+  storyOpacity: 0.5,
+  dim: "#BEBEBE",
   circleStyle: {
+    "stroke": "#000",
     "pu": {
-      fill: "#e66101", stroke: "#000", text: "#000",
+      fill: "#e66101", text: "#000",
       count: "{pcounts}"
     },
     "do": {
-      fill: "#5e3c99", stroke: "#808080", text: "#fff",
+      fill: "#5e3c99", text: "#fff",
       count: "{dcounts}"
     },
     "pudo": {
-      stroke: "#747474", text: "#000",
+      text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },

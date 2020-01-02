@@ -259,7 +259,7 @@ function makeLayer(id, data, type) {
       paint: {
         "circle-radius": 16,
         "circle-color": sett.circleStyle[type].fill,
-        "circle-stroke-color": sett.circleStyle[type].stroke,
+        "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 1
       },
@@ -329,7 +329,7 @@ function makePUDOLayer(id, data) {
          sett.clusterStyle[type].puMid, 0.55,
          sett.clusterStyle[type].puMax
        ],
-       "circle-stroke-color": sett.circleStyle[type].stroke,
+       "circle-stroke-color": sett.circleStyle.stroke,
        "circle-stroke-width": 1,
        "circle-radius": [
          "step",
@@ -377,7 +377,7 @@ function makePUDOLayer(id, data) {
           sett.clusterStyle[type].puMid, 0.55,
           sett.clusterStyle[type].puMax
         ],
-        "circle-stroke-color": sett.circleStyle[type].stroke,
+        "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
         "circle-opacity": 1
       },
@@ -565,18 +565,22 @@ function humberStory() {
     const layerObj = map.getStyle().layers;
     const rootLayer = "w1-Monday-amPeak";
 
-    // Clear ward boundary and markers if not in ward 1
-    if (ward !== "w1" || whichPUDO !== "pudo") {
-      hideLayers(layerObj, false);
-      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
-      map.setLayoutProperty("w1-layer", "visibility", "visible");
-    }
-
-    // reset
-    ward = "w1";
+    // reset    
     pudoDay = "Monday";
     pudoTOD = "amPeak";
     whichPUDO = "pudo";
+
+    // Clear ward boundary and markers if not in ward 1
+    // if (ward !== "w1" || whichPUDO !== "pudo" || pudoTOD !== "amPeak" || pudoDay !== "Monday") {
+    if (ward !== "w1") {
+      hideLayers(layerObj, false);
+      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
+      map.setLayoutProperty("w1-layer", "visibility", "visible");
+      showLayer(rootLayer, layerObj, "pu");
+      showLayer(rootLayer, layerObj, "do");
+      showOverlapLayer(rootLayer, layerObj);
+      ward = "w1";
+    }
 
     // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
     d3.select("#ward-menu").node()[0].selected = true;
@@ -596,9 +600,15 @@ function humberStory() {
     // Set focus and zoom to Humber College
     map.flyTo({center: pudoMapSettings["w1Focus"]});
     if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
-    showLayer(rootLayer, layerObj, "pu");
-    showLayer(rootLayer, layerObj, "do");
-    showOverlapLayer(rootLayer, layerObj); // pudo-pudo layer
+
+    // Dim all circles and labels
+    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
+
+    // showLayer(rootLayer, layerObj, "pu");
+    // showLayer(rootLayer, layerObj, "do");
+    // showOverlapLayer(rootLayer, layerObj); // pudo-pudo layer
 
     // https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/
     // https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
@@ -619,7 +629,10 @@ function humberStory() {
     //   .classed("dim-trips", true);
   })
   .on("mouseout", function() {
-    // d3.selectAll(".marker-cluster")
-    //   .classed("dim-trips", false);
+    // Restore
+    // Dim all circles and labels
+    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 1);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
   });
 }
