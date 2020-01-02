@@ -371,7 +371,7 @@ $(document).ready(function(){
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, settingsFractionLine.initToolTipPosn);
 
-        // storyTexts();
+        storyTexts();
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSettings.tableTitle);

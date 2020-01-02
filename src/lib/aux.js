@@ -560,13 +560,25 @@ function humberStory() {
       d3.event.preventDefault();
   })
   .on("mouseover", function() {
+    const layerObj = map.getStyle().layers;
+    const rootLayer = "w1-Monday-amPeak";
+
+    // Clear ward boundary and markers if not in ward 1
+    if (ward !== "w1" || whichPUDO !== "pudo") {
+      hideLayers(layerObj, false);
+      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
+      map.setLayoutProperty("w1-layer", "visibility", "visible");
+    }
+
+    // reset
     ward = "w1";
     pudoDay = "Monday";
     pudoTOD = "amPeak";
+    whichPUDO = "pudo";
 
-    // Display ward 1 in ward-menu; Drop-offs in pudo-menu
+    // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
     d3.select("#ward-menu").node()[0].selected = true;
-    d3.select("#pudo-menu").node()[2].selected = true;
+    d3.select("#pudo-menu").node()[0].selected = true;
 
     // Unfreeze hoverLine if it was previously frozen
     if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
@@ -580,28 +592,29 @@ function humberStory() {
       settingsFractionLine.initToolTipPosn);
 
     // Set focus and zoom to Humber College
-    wardpudoMap.rmCircle();
-    wardpudoMap.options.focus = pudoMapSettings.w1Centre;
-    wardpudoMap.options.zoom = pudoMapSettings.initZoom;
-    wardpudoMap.gotoFocus();
+    map.flyTo({center: pudoMapSettings["w1Focus"]});
+    if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
+    showLayer(rootLayer, layerObj, "pu");
+    showLayer(rootLayer, layerObj, "do");
+    showOverlapLayer(rootLayer, layerObj); // pudo-pudo layer
 
-    // Highlight Humber dropoffs and dim the other markers
-    wardpudoMap.options.markerClass = "dropoffs";
-    wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    wardpudoMap.addCircle();
+    // // Highlight Humber dropoffs and dim the other markers
+    // wardpudoMap.options.markerClass = "dropoffs";
+    // wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
+    // wardpudoMap.addCircle();
 
-    d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
-      if (d3.select(this).text() == humberDropoffs) {
-        d3.select(this.parentNode.parentNode)
-          .attr("id", "humberDropoffs");
-      }
-    })
-
-    d3.selectAll(".marker-cluster:not(#humberDropoffs)")
-      .classed("dim-trips", true);
+    // d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
+    //   if (d3.select(this).text() == humberDropoffs) {
+    //     d3.select(this.parentNode.parentNode)
+    //       .attr("id", "humberDropoffs");
+    //   }
+    // })
+    //
+    // d3.selectAll(".marker-cluster:not(#humberDropoffs)")
+    //   .classed("dim-trips", true);
   })
   .on("mouseout", function() {
-    d3.selectAll(".marker-cluster")
-      .classed("dim-trips", false);
+    // d3.selectAll(".marker-cluster")
+    //   .classed("dim-trips", false);
   });
 }
