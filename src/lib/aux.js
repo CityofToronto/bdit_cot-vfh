@@ -302,16 +302,12 @@ function makeLayer(id, data, type) {
 }
 // PUDO layer only
 // Plot PUDO map according to whichPUDO selected in pudo-menu
-function makePUDOLayer(id, data, type) {
+function makePUDOLayer(id, data) {
+  const type = "pudo";
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
-  // ratio of pcounts to total counts
+  // ratio of pcounts to total counts for single circle markers
   var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
-  var ptot = ["get", "pcounts"];
-  var tot = ["+", ["get", "pcounts"], ["get", "dcounts"]];
-
-  // const hydro = ['==', ['get', 'pcounts'], 'Hydro'];
-  // const solar = ['==', ['get', 'dcounts'], 'Solar'];
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -324,15 +320,6 @@ function makePUDOLayer(id, data, type) {
       clusterProperties: {
         sum: sett.clusterStyle[type].cluster,
         pcount: ["+", ["get", "pcounts"]]
-        // sum: ["+", ["/", ptot, tot]]
-        // sum: ["+", ["get", "pcounts"]]
-        // pf: ["+", ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]]],
-
-        // keep separate counts for each magnitude category in a cluster
-        // 'mag1': ['+', ['case', mag1, 1, 0]],
-        // 'mag5': ['+', ['case', mag5, 1, 0]]
-        // 'hydro': ['+', ['case', hydro, 1, 0]],
-        // 'solar': ['+', ['case', solar, 1, 0]]
       }
     });
   }
@@ -348,12 +335,7 @@ function makePUDOLayer(id, data, type) {
        // with three steps to implement three types of circles:
        //   * Blue, 20px circles when point count is less than 100
        //   * Yellow, 30px circles when point count is between 100 and 750
-       //   * Pink, 40px circles when point count is greater than or equal to 750
-       // "circle-color": [
-       //   "step",
-       //   ["get", "point_count"],
-       //   sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
-       // ],
+       //   * Pink, 40px circles when point count is greater than or equal to 750,
        "circle-color": [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
@@ -361,11 +343,6 @@ function makePUDOLayer(id, data, type) {
          "#ffffbf",  0.55,
          "#2c7bb6"
        ],
-       // 'circle-color': [
-       //    'case',
-       //    mag1, "#d7191c",
-       //    "#2c7bb6"
-       //  ],
        "circle-radius": [
          "step",
          ["get", "point_count"],
@@ -382,11 +359,10 @@ function makePUDOLayer(id, data, type) {
     filter: ["==", "cluster", true],
     layout: {
       // "text-field": "{point_count} ({sum})"
-      // "text-field": ["to-string", ["get", "sum"]], // "{sum}",
+      // "text-field": ["to-string", ["get", "sum"]],
       'text-field': [
         'number-format',
           ["get", "sum"],
-          // ["/", ["get", "pcount"], ["get", "sum"]],
           { 'min-fraction-digits': 0, 'max-fraction-digits':0 }
       ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
@@ -513,7 +489,7 @@ function showOverlapLayer(rootLayer, layerObj) {
   } else {
     if (root["pudo"]) {
       if (whichPUDO === "pudo") {
-        makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
+        makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"]);
       } else {
         makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
       }
