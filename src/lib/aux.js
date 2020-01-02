@@ -322,8 +322,10 @@ function makePUDOLayer(id, data, type) {
       clusterMaxZoom: 14, // Max zoom to cluster points on
       clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       clusterProperties: {
-        // sum: sett.clusterStyle[type].cluster
-        sum: ["+", ["/", ptot, tot]]
+        sum: sett.clusterStyle[type].cluster,
+        pcount: ["+", ["get", "pcounts"]]
+        // sum: ["+", ["/", ptot, tot]]
+        // sum: ["+", ["get", "pcounts"]]
         // pf: ["+", ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]]],
 
         // keep separate counts for each magnitude category in a cluster
@@ -347,10 +349,17 @@ function makePUDOLayer(id, data, type) {
        //   * Blue, 20px circles when point count is less than 100
        //   * Yellow, 30px circles when point count is between 100 and 750
        //   * Pink, 40px circles when point count is greater than or equal to 750
+       // "circle-color": [
+       //   "step",
+       //   ["get", "point_count"],
+       //   sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
+       // ],
        "circle-color": [
          "step",
-         ["get", "point_count"],
-         sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
+         ["/", ["get", "pcount"], ["get", "sum"]],
+         "#d7191c",  0.45,
+         "#ffffbf",  0.55,
+         "#2c7bb6"
        ],
        // 'circle-color': [
        //    'case',
@@ -377,7 +386,8 @@ function makePUDOLayer(id, data, type) {
       'text-field': [
         'number-format',
           ["get", "sum"],
-          { 'min-fraction-digits': 0, 'max-fraction-digits': 0 }
+          // ["/", ["get", "pcount"], ["get", "sum"]],
+          { 'min-fraction-digits': 0, 'max-fraction-digits':0 }
       ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16,
@@ -506,7 +516,7 @@ function showOverlapLayer(rootLayer, layerObj) {
         makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
       } else {
         makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
-      }      
+      }
     }
   }
 }
