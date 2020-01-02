@@ -580,22 +580,18 @@ function humberStory() {
     showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
       settingsFractionLine.initToolTipPosn);
 
+    // Set focus and zoom to Humber College
+    map.flyTo({center: pudoMapSettings["w1Focus"]});
+    if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
+
+    // Dim all circles and labels
+    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
+
+    // Handle layers
     // Clear ward boundary and markers if not in ward 1
-    // if (ward !== "w1" || whichPUDO !== "pudo" || pudoTOD !== "amPeak" || pudoDay !== "Monday") {
-    if (ward === "w1") {
-      if (pudoDay !== "Monday" || pudoTOD !== "amPeak") {
-        hideLayers(layerObj, false);
-
-        // reset
-        pudoDay = "Monday";
-        pudoTOD = "amPeak";
-        whichPUDO = "pudo";
-
-        showLayer(rootLayer, layerObj, "pu");
-        showLayer(rootLayer, layerObj, "do");
-        showOverlapLayer(rootLayer, layerObj);
-      }
-    } else {
+    if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak") || ward !== "w1") {
       hideLayers(layerObj, false);
       map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
       map.setLayoutProperty("w1-layer", "visibility", "visible");
@@ -611,14 +607,7 @@ function humberStory() {
       showOverlapLayer(rootLayer, layerObj);
     }
 
-    // Set focus and zoom to Humber College
-    map.flyTo({center: pudoMapSettings["w1Focus"]});
-    if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
 
-    // Dim all circles and labels
-    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
 
     // https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/
     // https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
