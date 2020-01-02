@@ -405,35 +405,37 @@ function makePUDOLayer(id, data) {
   });
 
   map.on('click', id, function(e) {
-    console.log("click id: ", id)
-      var coordinates = e.features[0].geometry.coordinates.slice();
-      // console.log("pcount: ", e.features[0].properties.pcounts)
-      // console.log("dcount: ", e.features[0].properties.dcounts)
-      // console.log("sett.count: ", sett.circleStyle[type].count)
+    var feature = e.features[0];
+    console.log("feature: ", feature)
 
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    // console.log("pcount: ", e.features[0].properties.pcounts)
+    // console.log("dcount: ", e.features[0].properties.dcounts)
+    // console.log("sett.count: ", sett.circleStyle[type].count)
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    const makeTable = function() {
+      let rtnTable;
+      if (whichPUDO === "pudo") {
+        rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
+        rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
+        rtnTable = rtnTable.concat("</table>");
       }
 
-      const makeTable = function() {
-        let rtnTable;
-        if (whichPUDO === "pudo") {
-          rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
-          rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
-          rtnTable = rtnTable.concat("</table>");
-        }
+      return rtnTable;
+    };
 
-        return rtnTable;
-      };
-
-      new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          // .setHTML(description)
-          .setHTML(makeTable())
-          .addTo(map);
+    new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        // .setHTML(description)
+        .setHTML(makeTable())
+        .addTo(map);
   });
 
   // Change the cursor to a pointer when the mouse is over the places layer.
@@ -597,6 +599,9 @@ function humberStory() {
     showLayer(rootLayer, layerObj, "pu");
     showLayer(rootLayer, layerObj, "do");
     showOverlapLayer(rootLayer, layerObj); // pudo-pudo layer
+
+    // https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/
+    // https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
 
     // // Highlight Humber dropoffs and dim the other markers
     // wardpudoMap.options.markerClass = "dropoffs";
