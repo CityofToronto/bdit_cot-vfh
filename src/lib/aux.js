@@ -565,23 +565,6 @@ function humberStory() {
     const layerObj = map.getStyle().layers;
     const rootLayer = "w1-Monday-amPeak";
 
-    // reset    
-    pudoDay = "Monday";
-    pudoTOD = "amPeak";
-    whichPUDO = "pudo";
-
-    // Clear ward boundary and markers if not in ward 1
-    // if (ward !== "w1" || whichPUDO !== "pudo" || pudoTOD !== "amPeak" || pudoDay !== "Monday") {
-    if (ward !== "w1") {
-      hideLayers(layerObj, false);
-      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
-      map.setLayoutProperty("w1-layer", "visibility", "visible");
-      showLayer(rootLayer, layerObj, "pu");
-      showLayer(rootLayer, layerObj, "do");
-      showOverlapLayer(rootLayer, layerObj);
-      ward = "w1";
-    }
-
     // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
     d3.select("#ward-menu").node()[0].selected = true;
     d3.select("#pudo-menu").node()[0].selected = true;
@@ -597,6 +580,37 @@ function humberStory() {
     showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
       settingsFractionLine.initToolTipPosn);
 
+    // Clear ward boundary and markers if not in ward 1
+    // if (ward !== "w1" || whichPUDO !== "pudo" || pudoTOD !== "amPeak" || pudoDay !== "Monday") {
+    if (ward === "w1") {
+      if (pudoDay !== "Monday" || pudoTOD !== "amPeak") {
+        hideLayers(layerObj, false);
+
+        // reset
+        pudoDay = "Monday";
+        pudoTOD = "amPeak";
+        whichPUDO = "pudo";
+
+        showLayer(rootLayer, layerObj, "pu");
+        showLayer(rootLayer, layerObj, "do");
+        showOverlapLayer(rootLayer, layerObj);
+      }
+    } else {
+      hideLayers(layerObj, false);
+      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
+      map.setLayoutProperty("w1-layer", "visibility", "visible");
+
+      // reset
+      pudoDay = "Monday";
+      pudoTOD = "amPeak";
+      whichPUDO = "pudo";
+      ward = "w1";
+
+      showLayer(rootLayer, layerObj, "pu");
+      showLayer(rootLayer, layerObj, "do");
+      showOverlapLayer(rootLayer, layerObj);
+    }
+
     // Set focus and zoom to Humber College
     map.flyTo({center: pudoMapSettings["w1Focus"]});
     if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
@@ -606,27 +620,8 @@ function humberStory() {
     // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
     // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
 
-    // showLayer(rootLayer, layerObj, "pu");
-    // showLayer(rootLayer, layerObj, "do");
-    // showOverlapLayer(rootLayer, layerObj); // pudo-pudo layer
-
     // https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/
     // https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
-
-    // // Highlight Humber dropoffs and dim the other markers
-    // wardpudoMap.options.markerClass = "dropoffs";
-    // wardpudoMap.options.markerList = pudoMap[ward].latlon[pudoDay][pudoTOD]["dropoffs"];
-    // wardpudoMap.addCircle();
-
-    // d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
-    //   if (d3.select(this).text() == humberDropoffs) {
-    //     d3.select(this.parentNode.parentNode)
-    //       .attr("id", "humberDropoffs");
-    //   }
-    // })
-    //
-    // d3.selectAll(".marker-cluster:not(#humberDropoffs)")
-    //   .classed("dim-trips", true);
   })
   .on("mouseout", function() {
     // Restore
