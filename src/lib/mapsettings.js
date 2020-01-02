@@ -19,17 +19,10 @@ pudoMapSettings = {
     }
   },
   clusterStyle: {
-    "pu": {
-      fillMin: "#3BB3C3", fillMid: "#3BB3C3", fillMax: "#3BB3C3",
-      cluster: ["+", ["get", "pcounts"]]
-    },
-    "do": {
-      fillMin: "#660c2c", fillMid: "#660c2c", fillMax: "#660c2c",
-      cluster: ["+", ["get", "dcounts"]]
-    },
+    "pu": {cluster: ["+", ["get", "pcounts"]]},
+    "do": {cluster: ["+", ["get", "dcounts"]]},
     "pudo": {
-      fillMin: "#808080", fillMid: "#808080", fillMax: "#808080",
-      cluster: ["+", ["+", ["get", "pcounts"], ["get", "dcounts"]]]
+      fillMin: "#d7191c", fillMid: "#ffffbf", fillMax: "#2c7bb6",
     }
   },
   w1Focus: [-79.607443, 43.728635],

@@ -197,8 +197,6 @@ function rotateLabels(chartId, sett) {
 function makeLayer(id, data, type) {
   const sett = pudoMapSettings;
   const thisSource = `src-${id}`;
-  console.log("WHICH COUNT: ", sett.circleStyle[type].count)
-  console.log(sett.clusterStyle[type].cluster)
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -221,16 +219,6 @@ function makeLayer(id, data, type) {
      source: thisSource,
      filter: ["==", "cluster", true],
      paint: {
-       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-       // with three steps to implement three types of circles:
-       //   * Blue, 20px circles when point count is less than 100
-       //   * Yellow, 30px circles when point count is between 100 and 750
-       //   * Pink, 40px circles when point count is greater than or equal to 750
-       // "circle-color": [
-       //   "step",
-       //   ["get", "point_count"],
-       //   sett.clusterStyle[type].fillMid, 100, sett.clusterStyle[type].fillMax
-       // ],
        "circle-color": sett.circleStyle[type].fill,
        "circle-radius": [
          "step",
@@ -247,8 +235,6 @@ function makeLayer(id, data, type) {
     source: thisSource,
     filter: ["==", "cluster", true],
     layout: {
-      // "text-field": "{point_count} ({sum})"
-      // "text-field": ["to-string", ["get", "sum"]], // "{sum}",
       'text-field': [
         'number-format',
           ["get", "sum"],
@@ -275,7 +261,7 @@ function makeLayer(id, data, type) {
         "circle-color": sett.circleStyle[type].fill,
         "circle-stroke-color": sett.circleStyle[type].stroke,
         "circle-stroke-width": 2,
-        "circle-opacity": 1 // 0.8
+        "circle-opacity": 1
       },
       layout: {
         "visibility": "visible"
@@ -318,7 +304,7 @@ function makePUDOLayer(id, data) {
       clusterMaxZoom: 14, // Max zoom to cluster points on
       clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       clusterProperties: {
-        sum: sett.clusterStyle[type].cluster,
+        sum: ["+", ["+", ["get", "pcounts"], ["get", "dcounts"]]],
         pcount: ["+", ["get", "pcounts"]]
       }
     });
@@ -339,9 +325,9 @@ function makePUDOLayer(id, data) {
        "circle-color": [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
-         "#d7191c",  0.45,
-         "#ffffbf",  0.55,
-         "#2c7bb6"
+         sett.clusterStyle[type].fillMin, 0.45,
+         sett.clusterStyle[type].fillMid, 0.55,
+         sett.clusterStyle[type].fillMax
        ],
        "circle-radius": [
          "step",
@@ -385,13 +371,13 @@ function makePUDOLayer(id, data) {
         "circle-radius": 16,
         "circle-color": [
           "step", pFraction,
-          "#d7191c",  0.45,
-          "#ffffbf",  0.55,
-          "#2c7bb6"
+          sett.clusterStyle[type].fillMin, 0.45,
+          sett.clusterStyle[type].fillMid, 0.55,
+          sett.clusterStyle[type].fillMax
         ],
         "circle-stroke-color": sett.circleStyle[type].stroke,
         "circle-stroke-width": 2,
-        "circle-opacity": 1 // 0.8
+        "circle-opacity": 1
       },
       layout: {
         "visibility": "visible"
