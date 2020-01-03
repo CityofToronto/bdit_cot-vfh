@@ -105,9 +105,9 @@ function makeStoryLayer(id, src, type, whichStory) {
         "circle-radius": 16,
         "circle-color": [
           "step", pFraction,
-          sett.clusterStyle[type].puMin, 0.45,
-          sett.clusterStyle[type].puMid, 0.55,
-          sett.clusterStyle[type].puMax
+          sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
+          sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
+          sett.pudoRanges.puMax.colour
         ],
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
@@ -174,9 +174,9 @@ function makePUDOLayer(id, data) {
        "circle-color": [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
-         sett.clusterStyle[type].puMin, 0.45,
-         sett.clusterStyle[type].puMid, 0.55,
-         sett.clusterStyle[type].puMax
+         sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
+         sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
+         sett.pudoRanges.puMax.colour
        ],
        "circle-stroke-color": sett.circleStyle.stroke,
        "circle-stroke-width": 1,
@@ -222,9 +222,9 @@ function makePUDOLayer(id, data) {
         "circle-radius": 16,
         "circle-color": [
           "step", pFraction,
-          sett.clusterStyle[type].puMin, 0.45,
-          sett.clusterStyle[type].puMid, 0.55,
-          sett.clusterStyle[type].puMax
+          sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
+          sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
+          sett.pudoRanges.puMax.colour
         ],
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,

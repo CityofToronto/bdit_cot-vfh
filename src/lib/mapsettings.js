@@ -1,32 +1,23 @@
 // -----------------------------------------------------------------------------
-// Fig 4b - PUDO map by wards
-
 pudoMapSettings = {
   initZoom: 15,
   wardLayerColour: "#000",
-  storyOpacity: 0.5,
-  dim: "#BEBEBE",
+  pudoRanges: {
+    puMin: {colour: "#b2abd2", range: 0.45},
+    puMid: {colour: "#f7f7f7", range: 0.55},
+    puMax: {colour: "#fdb863"}
+  },
   circleStyle: {
     "stroke": "#000",
-    "pu": {
-      fill: "#e66101", text: "#000",
-      count: "{pcounts}"
-    },
-    "do": {
-      fill: "#5e3c99", text: "#fff",
-      count: "{dcounts}"
-    },
-    "pudo": {
-      text: "#000",
+    "pu": {fill: "#e66101", text: "#000", count: "{pcounts}"},
+    "do": {fill: "#5e3c99", text: "#fff", count: "{dcounts}"},
+    "pudo": { text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
-    "do": {cluster: ["+", ["get", "dcounts"]]},
-    "pudo": {stroke: "#000",
-      puMin: "#b2abd2", puMid: "#f7f7f7", puMax: "#fdb863",
-    }
+    "do": {cluster: ["+", ["get", "dcounts"]]}
   },
   w1Focus: [-79.607443, 43.728635],
   w2Focus: [-79.548153, 43.661765],
@@ -54,10 +45,3 @@ pudoMapSettings = {
   },
   tableTitle: i18next.t("tabletitle", {ns: "pudoMap"})
 };
-
-// Possible mapTypes:
-// Topographic, Streets, NationalGeographic, Oceans, Gray, DarkGray, Imagery, ImageryClarity, ShadedRelief
-
-
-// stroke #747474 passes with pu outline
-// fill #808080  passes with do fill
