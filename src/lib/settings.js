@@ -200,7 +200,7 @@ settingsFractionLine = {
   margin: {
     top: 55,
     right: 55,
-    bottom: 70,
+    bottom: 100,
     left: 100
   },
   aspectRatio: 16 / 8,
@@ -336,8 +336,7 @@ settingsFractionLine = {
       return i18next.t(d.id, {ns: "towline"});
     }
   },
-  // levels: ["wkdayAMpeak", "frisatNightI"], // for map colour bar rects
-  // extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
+  extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
   initHoverLineArray: [35.73652694610779, 35.73652694610779, 0, 333],
   initToolTipText: '<table class="table-striped"><tr><td>Trip fraction (%): 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
   initToolTipPosn: [232, 858],
