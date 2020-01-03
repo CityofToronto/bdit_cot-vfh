@@ -315,7 +315,28 @@
 	// .mapboxgl-popup {
 	// 	max-width: 200px;
 	// }
-	#map table {
+	.mapboxgl-popup-content {
+		box-shadow: 0 3px 14px rgba(0,0,0,.4) !important;
+		border-radius: 12px;
+	}
+	.markerPopup dd, .markerPopup dt {
+    display: inline-block;
+    vertical-align: text-top;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+	}
+	.markerPopup dl {
+    margin: 0 20px;
+	}
+	.markerPopup dd {
+    width: 50%;
+	}
+	.markerPopup dt {
+    width: 50%;
+		font-weight: 700;
+	}
+
+	#map .chart-data-table table {
 		margin-top: 15px;
 		margin-bottom: 15px;
 		border: none !important;

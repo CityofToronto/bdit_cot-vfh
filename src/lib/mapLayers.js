@@ -254,13 +254,8 @@ function makePUDOLayer(id, data) {
   });
 
   map.on("click", id, function(e) {
-    var feature = e.features[0];
-    console.log("feature: ", feature)
-
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    // console.log("pcount: ", e.features[0].properties.pcounts)
-    // console.log("dcount: ", e.features[0].properties.dcounts)
-    // console.log("sett.count: ", sett.circleStyle[type].count)
+    const feature = e.features[0];
+    const coordinates = e.features[0].geometry.coordinates.slice();
 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
@@ -269,21 +264,19 @@ function makePUDOLayer(id, data) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    const makeTable = function() {
-      let rtnTable;
+    const makePopup = function() {
+      let rtnPopup;
       if (whichPUDO === "pudo") {
-        rtnTable = `<table class="table"><tr><td><b>Pick-ups</b>: ${e.features[0].properties.pcounts}</td></tr>`
-        rtnTable = rtnTable.concat(`<tr><td><b>Drop-offs</b>: ${e.features[0].properties.dcounts}</td></tr>`);
-        rtnTable = rtnTable.concat("</table>");
+        rtnPopup = `<div class="markerPopup"><dl><dt>Pick-ups:</dt><dd>${e.features[0].properties.pcounts}</dd>`
+        rtnPopup = rtnPopup.concat(`<dt>Drop-offs:</dt><dd>${e.features[0].properties.dcounts}</dd>`);
+        rtnPopup = rtnPopup.concat("</dl></div>");
       }
-
-      return rtnTable;
+      return rtnPopup;
     };
 
     new mapboxgl.Popup()
         .setLngLat(coordinates)
-        // .setHTML(description)
-        .setHTML(makeTable())
+        .setHTML(makePopup())
         .addTo(map);
   });
 
