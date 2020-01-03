@@ -75,17 +75,6 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudo", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
-
-  // Interactive text for Section 4
-  d3.selectAll(".section-text .highlight-total")
-    .on("click", function() {
-      d3.event.preventDefault();
-    })
-    .on("mouseover", function() {
-      console.log("DIM MARKERS !== MARKER OF INTEREST")
-      // d3.selectAll(".marker-cluster:not(#humberDropoffs)")
-      //   .style("opacity", 0.3);
-    });
 }
 
 // Text story interactions
@@ -181,15 +170,6 @@ function initMapBox() {
     .attr("aria-label", i18next.t("alt", {ns: "pudoMap"}))
     .classed("moveable", true);
 
-  // TO DO: Humber story
-  // // Label certain clusters for story
-  // d3.select("#pudoCOTmap").selectAll("span").each(function(d, i) {
-  //   if (d3.select(this).text() == humberDropoffs) {
-  //     d3.select(this.parentNode.parentNode)
-  //       .attr("id", "humberDropoffs");
-  //   }
-  // })
-
   // Data table for map
   let mockNN = [
     {"values": [{"nn":"NN1", "value": 390},
@@ -233,7 +213,6 @@ const loadData = function(cb) {
       ptcFraction[ward] = todfile;
       d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
         d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
-          // pudoMap[ward] = pudomapfile;
           geoMap[ward] = wardmapfile;
           wardLayer[ward] = wardlayerfile;
           cb();
@@ -255,7 +234,6 @@ function updateTableCaption() {
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
-  console.log(event.target.id)
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
@@ -264,7 +242,6 @@ function uiHandler(event) {
     if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       holdHoverLine(saveHoverPos);
     }
-
     hideTable("fractionline");
   }
 
@@ -302,7 +279,6 @@ function uiHandler(event) {
   }
   // Table menu for PUDO map table
   else if (event.target.id === pudoMapSettings.menuId) {
-    console.log(event.target.id)
     mapboxday = event.target.value;
     // updateTableCaption();
 
