@@ -286,6 +286,49 @@ function makeLayer(id, data, type) {
      }
   });
 }
+function makeStoryLayer(id, src, type, whichStory) {
+  const sett = pudoMapSettings;
+  let pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
+
+  map.addLayer({
+      id: id,
+      type: "circle",
+      source: src,
+      filter: ["==", ["string", ["get", "story"]], whichStory],
+      paint: {
+        "circle-radius": 16,
+        "circle-color": [
+          "step", pFraction,
+          sett.clusterStyle[type].puMin, 0.45,
+          sett.clusterStyle[type].puMid, 0.55,
+          sett.clusterStyle[type].puMax
+        ],
+        "circle-stroke-color": sett.circleStyle.stroke,
+        "circle-stroke-width": 2,
+        "circle-opacity": 1
+      },
+      layout: {
+        "visibility": "visible"
+      }
+  });
+
+  map.addLayer({
+    "id": `${id}-label`,
+    "type": "symbol",
+    "source": src,
+    "layout": {
+      "text-field": sett.circleStyle[type].count,
+      "text-font": [
+        "Open Sans Regular",
+        "Arial Unicode MS Bold"
+      ],
+      "text-size": 16
+    },
+    paint: {
+       "text-color": sett.circleStyle[type].text
+     }
+  });
+}
 // PUDO layer only
 // Plot PUDO map for pudo-pudo layer
 function makePUDOLayer(id, data) {
@@ -556,6 +599,8 @@ function showLineHover(lineCoords, hoverText, hoverCoords) {
 
 // Text stories
 function humberStory() {
+  const hbId = "hb-w1-Monday-amPeak-pudo-pudo";
+  const hbSrc = "src-w1-Monday-amPeak-pudo-pudo";
 
   d3.selectAll(".section-text .highlight-humber")
     .on("click", function() {
@@ -564,6 +609,7 @@ function humberStory() {
   .on("mouseover", function() {
     const layerObj = map.getStyle().layers;
     const rootLayer = "w1-Monday-amPeak";
+    const type = "pudo";
 
     // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
     d3.select("#ward-menu").node()[0].selected = true;
@@ -584,13 +630,8 @@ function humberStory() {
     map.flyTo({center: pudoMapSettings["w1Focus"]});
     if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
 
-    // Dim all circles and labels
-    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
-
-    // Handle layers
-    // Clear ward boundary and markers if not in ward 1
+    // Handle layers: Clear ward boundary and markers if not in ward 1 or if in
+    // another Day or TOD in ward 1
     if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak") || ward !== "w1") {
       hideLayers(layerObj, false);
       map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
@@ -602,12 +643,24 @@ function humberStory() {
       whichPUDO = "pudo";
       ward = "w1";
 
+      // Display marker layers for w1-Monday-amPeak
       showLayer(rootLayer, layerObj, "pu");
       showLayer(rootLayer, layerObj, "do");
       showOverlapLayer(rootLayer, layerObj);
     }
 
+    // Dim all circles and labels of w1-Monday-amPeak
+    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
+    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
 
+    // Highlight Humber College PUDO marker only
+    if (layerObj.find(({ id }) => id === hbId)) {
+      map.setLayoutProperty(hbId, "visibility", "visible");
+      map.setLayoutProperty(`${hbId}-label`, "visibility", "visible");
+    } else {
+        makeStoryLayer(hbId, hbSrc, "pudo","humber");
+    }
 
     // https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/
     // https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
@@ -616,7 +669,7 @@ function humberStory() {
     // Restore
     // Dim all circles and labels
     map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 1);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-stroke-color", pudoMapSettings.dim);
-    // map.setPaintProperty("w1-Monday-amPeak-pudo-pudo-label", 'text-color', pudoMapSettings.dim);
+    map.setLayoutProperty(hbId, "visibility", "none");
+    map.setLayoutProperty(`${hbId}-label`, "visibility", "none");
   });
 }
