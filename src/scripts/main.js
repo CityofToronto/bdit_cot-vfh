@@ -239,9 +239,8 @@ function uiHandler(event) {
     const clearPrevWard = false;
     showFractionLine();
     updateMapbox(clearPrevWard);
-    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-      holdHoverLine(saveHoverPos);
-    }
+    if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
+    else holdHoverLine(settingsFractionLine.initHoverLineArray);
     hideTable("fractionline");
   }
 
