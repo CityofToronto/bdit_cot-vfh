@@ -212,11 +212,11 @@ const loadData = function(cb) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
       d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
-        d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
+        // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
           geoMap[ward] = wardmapfile;
-          wardLayer[ward] = wardlayerfile;
+          // wardLayer[ward] = wardlayerfile;
           cb();
-        })
+        // })
       })
     })
   } else {
@@ -261,10 +261,7 @@ function uiHandler(event) {
 
     });
 
-    // Change mapbox centre
-    map.flyTo({
-      center: pudoMapSettings[`${ward}Focus`]
-    })
+    map.flyTo({center: pudoMapSettings[`${ward}Focus`]})
   }
   // Table menu for trip fraction lineChart table
   else if (event.target.id === settingsFractionLine.menuId) {
@@ -322,15 +319,13 @@ $(document).ready(function(){
     pudoMapSettings.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/resources/data/fig4b_dummy_pudoMap_w1.json") // pudo map ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
-      .defer(d3.json, "/resources/geojson/w1_boundary.geojson")
-      .await(function(error, ptcfractionfile, pudomapfile, mapboxfile, wardlayerfile) {
+      .defer(d3.json, "/resources/geojson/wards.geojson")
+      .await(function(error, ptcfractionfile, mapboxfile, wardlayerfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
-        pudoMap[ward] = pudomapfile;
         geoMap[ward] = mapboxfile;
-        wardLayer[ward] = wardlayerfile;
+        wardLayer = wardlayerfile;
 
         // initial titles
         fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;

@@ -189,7 +189,7 @@
     },
     "pudoMap": {
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
-      "tabletitle": "PUDO map table title",
+      "tabletitle": "Map table title",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count"
     }
