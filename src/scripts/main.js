@@ -75,6 +75,8 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[0].text = i18next.t("pudo", {ns: "pudo"});
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
+
+  d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
 }
 
 // Text story interactions
