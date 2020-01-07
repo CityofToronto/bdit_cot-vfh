@@ -50,7 +50,7 @@ function lineChart(svg, settings, data) {
       lineFn = function() {
         return line(sett.z.getDataPoints.apply(sett, arguments));
       },
-      lines, labels;    
+      lines, labels;
 
     x = rtnObj.x = getXScale().range(sett.x.getRange.call(sett, flatData));
     y = rtnObj.y = d3.scaleLinear().range([innerHeight, 0]);
@@ -112,7 +112,8 @@ function lineChart(svg, settings, data) {
       .exit()
         .remove();
 
-    if (xAxisObj.empty()) {
+    // if (xAxisObj.empty()) {
+    if (yAxisObj.empty()) {
       xAxisObj = chartInner.append("g")
       .attr("class", "x axis")
       .attr("aria-hidden", "true")
@@ -123,9 +124,33 @@ function lineChart(svg, settings, data) {
           .attr("class", "chart-label")
           .attr("fill", "#000")
           .attr("x", innerWidth)
-          .attr("dy", "-0.5em")
+          // .attr("dy", "-0.5em")
+          .attr("dy", "48")
           .attr("text-anchor", "end")
           .text(sett.x.label);
+
+      if (sett.extraXlabel) {
+        var extraGroup = xAxisObj
+          .attr("class", "extra-label")
+          .selectAll(".xdow")
+          .data(Object.keys(sett.extraXlabel));
+
+        var eachGroup = extraGroup
+          .enter()
+          .append("g");
+
+        eachGroup
+          .append("text")
+          .attr("fill", "#000")
+          .attr("x", function(d, i) {
+            return Object.values(sett.extraXlabel)[i];
+          })
+          .attr("dy", 70)
+          .attr("text-anchor", "end")
+          .text(function(d) {
+            return d;
+          })
+      }
     } else {
       xAxisObj.select("text").text(settings.x.label);
     }
@@ -173,7 +198,8 @@ function lineChart(svg, settings, data) {
     .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .attr("role", "img")
-    .attr("aria-label", mergedSettings.altText);
+    .attr("aria-label", mergedSettings.alt);
+
 
   if (chartInner.empty()) {
     chartInner = svg.append("g")
@@ -183,9 +209,7 @@ function lineChart(svg, settings, data) {
 
   process = function() {
     draw.apply(rtnObj);
-    // d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-    // if (mergedSettings.datatable === false) return;
-    // drawTable.apply(rtnObj);
+    d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
   };
   if (data === undefined) {
     d3.json(mergedSettings.url, function(error, xhr) {

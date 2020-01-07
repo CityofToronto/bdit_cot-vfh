@@ -1,5 +1,5 @@
 {
-  "en": {
+  "en-US": {
     "indexhtml": {
       "pagetitle": "The Transportation Impacts of Vehicle-for-Hire in the City of Toronto",
       "introp": "<dfn id='ptc'>Private Tranpsportation Companies</dfn> <span role='definition' aria-labelledby='ptc'>(PTC)</span> trips have grown rapidly since the service was first licensed by the City in September 2016. Understanding these new services and their impact is key to developing policies that support the benefits of these services while minimizing adverse effects on traffic, the environment and the equity of mobility services.",
@@ -39,7 +39,7 @@
 
       "section4": "Why do people use PTCs?",
       "section4-text1a": "While we don't have data about individual trips, we do know total pick-up and drop-off locations and times. Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs. The line chart below shows the number of trips in September 2018 made in each hour of the week, averaged by day of week, for a selected ward. The location of these trips is shown on the corresponding map. A second menu allows the option of seeing the data for all trips within the selected ward, only pick-ups from the ward, or only drop-offs into the ward.",
-      "section4-text1b": "In Etobicoke North, during the Monday morning peak (7&ndash;9 am), <a href='#' class='hover-link highlight-humber' data-highlight='simPop'>a considerable number of drop-offs were made at Humber College</a> compared with the number of pick-ups (169 vs. 13, respectively). Most of these drop-offs arrived from the same ward (647 out of 1370, or 47%), followed by Etobicoke Centre (142, (10%)), Humber River-Black Creek (120 (9%)), Etobicoke-Lakeshore (111 (8%)). So, many people who live near Humber College use PTCs to get to school in the mornings.",
+      "section4-text1b": "In Etobicoke North, during the Monday morning peak (7&ndash;9 am), <a href='#' class='hover-link highlight-humber' data-highlight='simPop'>a considerable number of drop-offs were made at Humber College</a> compared with the number of pick-ups (151 vs. 12, respectively). Most of these drop-offs arrived from the same ward (647 out of 1370, or 47%), followed by Etobicoke Centre (142, (10%)), Humber River-Black Creek (120 (9%)), Etobicoke-Lakeshore (111 (8%)). So, many people who live near Humber College use PTCs to get to school in the mornings.",
       "section4-text1c": "In the suburbs, trips are more commuter-focused, since their Friday night and weekend profiles are smaller compared with the city average which is dominated by downtown activity. For example, selecting Scarborough-Agincourt from the dropdown menu shows that there are strong peaks on weekday mornings and reduced Friday/Saturday night activity compared with the city average. Moving the cursor over the Monday morning peak shows on the adjacent map several drop-off locations (pink circles) around Sunnybrook Health Sciences Centre and the Hollands Broadview Rehabilliation Hospital, whereas on Friday or Saturday evening the dropoffs (purple circles) clustered around the Don Mills entertainment complex.",
 
       "hover-freeze": "Click on the hoverline to freeze/unfreeze it over a particular hour."
@@ -209,6 +209,5 @@
       "puMin": "Pick-ups < 45%",
       "doOnly": "Drop-offs only"
     }
-
   }
 }

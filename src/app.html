@@ -9,6 +9,7 @@ See examples below in the boilerplate code
     <!-- core:css -->
     <!-- endinject -->
     <!-- place your application stylesheet references here: -->
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" type="text/css" href="<!-- @echo SRC_PATH -->/styles/main.css">
   <!-- endbuild -->
   <!--@exec startBuildTagWithCacheBuster('styles/core_print.css', 'media="print"')-->
@@ -16,10 +17,84 @@ See examples below in the boilerplate code
     <!-- endinject -->
     <!-- place any application print-only stylesheet references here -->
   <!-- endbuild -->
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+  <script type="text/javascript" src="/resources/cdn/cotui/cotui.js"></script>
+  <link rel="stylesheet" type="text/css" href="/resources/cdn/cotui/cotui.css">
 <!-- cot-app:head end-->
 
 <!-- cot-app:body -->
-<div id="bdit_cot-vfh_container"></div>
+<div id="bdit_cot-vfh_container">
+
+  <!-- Intro texts -->
+  <div class="row">
+      <div class="col-md-12 page-content">
+        <div id="introp"></div><br>
+      </div>
+  </div>
+
+  <!-- Ward patterns -->
+  <div class="row">
+    <div class="col-md-12 page-content">
+      <h3 id="section4" class="myh3"></h3>
+      <div id="section4-text1a" class="section-text"></div>
+      <div id="section4-text1b" class="section-text"></div>
+      <div id="section4-text1c" class="section-text"></div>
+    </div>
+  </div>
+  <!-- Ward dropdown menu -->
+  <div class="row">
+    <div class="col-md-2">
+      <div class="menu" id="for-ward">
+        <label for="ward"></label>
+        <select id="ward-menu" class="form-control">
+          <option value="w1" selected="selected"></option>
+          <option value="w10"></option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="menu" id="for-type">
+        <label for="tod"></label>
+        <select id="pudo-menu" class="form-control">
+          <option value="pudo" selected="selected"></option>
+            <option value="pu"></option>
+            <option value="do"></option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+      <div id="pudoMapTitle"><h4></h4></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Ward trip fraction lineChart -->
+    <div class="col-md-6 page-content">
+      <div id="for-hover" class="menu hoverInstruct">
+        <label for="freezeHover"></label>
+      </div>
+      <div class="fractionline data"></div>
+    </div>
+    <!-- Ward PUDO map -->
+    <div class="col-md-6 page-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="map"></div>
+          <div id="pudomap-legend" class="legend">
+            <div id="puOnly"><span class="legend-pu"></span></div>
+            <div id="puMax"><span class="legend-puMax"></span></div>
+            <div id="puMid"><span class="legend-puMid"></span></div>
+            <div id="puMin"><span class="legend-puMin"></span></div>
+            <div id="doOnly"><span class="legend-do"></span></div>
+          </div>
+        </div>
+        <div class="col-md-12 maptable data">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- cot-app:body end-->
 
 <!-- cot-app:footer -->
@@ -29,6 +104,20 @@ See examples below in the boilerplate code
     <!-- place your application script references here: -->
     <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/main.js"></script>
   <!-- endbuild -->
+  <script type="text/javascript" src="/resources/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="/resources/lib/i18next.min.js"></script>
+  <script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/resources/lib/d3.v4.min.js"></script>
+  <script type="text/javascript" src="/resources/lib/queue.v1.min.js"></script>
+  <script type="text/javascript" src="/resources/lib/utils.js"></script>
+  <script type="text/javascript" src="/resources/lib/line.js"></script>
+  <script type="text/javascript" src="/resources/lib/linetable_oneheader.js"></script>
+  <script type="text/javascript" src="/resources/lib/aux.js"></script>
+  <script type="text/javascript" src="/resources/lib/mapLayers.js"></script>
+  <script type="text/javascript" src="/resources/lib/settings.js"></script>
+  <script type="text/javascript" src="/resources/lib/mapsettings.js"></script>
+
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
     console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');
