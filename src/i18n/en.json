@@ -152,6 +152,14 @@
       "pmPeak": "PM Peak",
       "nightI": "Evening"
     },
+    "timewinSpan": {
+      "nightII": "Midnight (00h00&ndash;02h00)",
+      "nightIII":"Overnight (03h00&ndash;06h00)",
+      "amPeak": "AM peak (07h00&ndash;09h00)",
+      "midday": "Midday (10h00&ndash;15h00)",
+      "pmPeak": "PM Peak (16h00&ndash;18h00)",
+      "nightI": "Evening (19h00&ndash;23h00)"
+    },
     "line": {
       "x_label": "Month",
       "y_label": "PTC Trips/day"
@@ -194,6 +202,7 @@
       "tabletitle": "Map table title",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",
+      "title": "Trip locations for Monday, AM Peak (7h00&ndash;09h00)",
       "puOnly": "Pick-ups only",
       "puMax": "Pick-ups > 55%",
       "puMid": "Pick-ups 45&ndash;55%",

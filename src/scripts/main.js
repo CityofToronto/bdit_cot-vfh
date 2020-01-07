@@ -71,6 +71,7 @@ function pageTexts() {
     })
     .on("mouseover", function() {
       humberStory();
+      updatePudoMapTitle();
     })
     .on("mouseout", function() {
       // Restore orig layer and hide story layer
@@ -90,12 +91,13 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
   d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
-  // ** PUDO map legend
-  d3.select("#puOnly").append("text").text(i18next.t("puOnly", {ns: "pudoMap"}));
-  d3.select("#puMax").append("text").text(i18next.t("puMax", {ns: "pudoMap"}));
-  d3.select("#puMid").append("text").text(i18next.t("puMid", {ns: "pudoMap"}));
-  d3.select("#puMin").append("text").text(i18next.t("puMin", {ns: "pudoMap"}));
-  d3.select("#doOnly").append("text").text(i18next.t("doOnly", {ns: "pudoMap"}));
+  // ** PUDO map
+  d3.select("#pudoMapTitle h4").html(i18next.t("title", {ns: "pudoMap"}));
+  d3.select("#puOnly").append("text").html(i18next.t("puOnly", {ns: "pudoMap"}));
+  d3.select("#puMax").append("text").html(i18next.t("puMax", {ns: "pudoMap"}));
+  d3.select("#puMid").append("text").html(i18next.t("puMid", {ns: "pudoMap"}));
+  d3.select("#puMin").append("text").html(i18next.t("puMin", {ns: "pudoMap"}));
+  d3.select("#doOnly").append("text").html(i18next.t("doOnly", {ns: "pudoMap"}));
 }
 
 function showFractionLine() {
@@ -126,6 +128,7 @@ function showFractionLine() {
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
       const clearPrevWard = false;
+      updatePudoMapTitle();
       updateMapbox(clearPrevWard);
     }
   }, () => { // onMsOutCb; hide tooltip on exit only if hoverLine not frozen
@@ -247,6 +250,13 @@ function updateTitles() {
 }
 function updateTableCaption() {
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+}
+function updatePudoMapTitle() {
+  if (pudoTOD) {
+    d3.select("#pudoMapTitle h4")
+      .html(`Trip locations for ${pudoDay},
+            ${i18next.t(pudoTOD, {ns: "timewinSpan"})}`);
+  } else d3.select("#pudoMapTitle h4").html("");
 }
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
