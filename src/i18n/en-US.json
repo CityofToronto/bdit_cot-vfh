@@ -193,7 +193,12 @@
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
       "tabletitle": "Map table title",
       "x_label": "Neighbourhood",
-      "y_label": "Total trip count"
+      "y_label": "Total trip count",
+      "puOnly": "Pick-ups only",
+      "puMax": "Pick-ups > 55%",
+      "puMid": "Pick-ups 45&ndash;55%",
+      "puMin": "Pick-ups < 45%",
+      "doOnly": "Drop-offs only"
     }
   }
 }

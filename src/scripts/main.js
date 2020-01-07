@@ -90,6 +90,12 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
   d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
+  // ** PUDO map legend
+  d3.select("#puOnly").append("text").text(i18next.t("puOnly", {ns: "pudoMap"}));
+  d3.select("#puMax").append("text").text(i18next.t("puMax", {ns: "pudoMap"}));
+  d3.select("#puMid").append("text").text(i18next.t("puMid", {ns: "pudoMap"}));
+  d3.select("#puMin").append("text").text(i18next.t("puMin", {ns: "pudoMap"}));
+  d3.select("#doOnly").append("text").text(i18next.t("doOnly", {ns: "pudoMap"}));
 }
 
 function showFractionLine() {
