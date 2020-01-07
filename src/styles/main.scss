@@ -32,16 +32,20 @@
 	.midtexts {
 	  margin-top: 20px;
 	}
-	.menu label, .hoverInstruct label {
+	.menu label {
 		font-weight: 500;
 		font-family: 'Roboto', sans-serif;
+		font-size: 18px;
+	}
+	#for-hover label {
+		font-weight: normal;
 	}
 	/* all tables */
 	.chart-data-table {
 		font-size: 15.3px;
 	}
 	.fractionline .chart-data-table {
-		margin-top: 133px; /*9em;*/
+		margin-top: 84px;
 	}
 	details {
 	  padding-bottom: 0em;
@@ -375,10 +379,10 @@
 	.legend {
 		background-color: #fff;
 		border-radius: 3px;
-		bottom: 30px;
+		bottom: 62px;
 		box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 		font: 14px 'Roboto', sans-serif;
-		padding: 10px;
+		padding: 12px;
 		position: absolute;
 		right: 24px;
 		z-index: 1;
