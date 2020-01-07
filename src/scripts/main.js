@@ -379,6 +379,3 @@ $(document).ready(function(){
 })
 
 $(document).on("change", uiHandler);
-
-// EMPTY
-// w1, Mon, nightI/nightII/nightIII, pu and do

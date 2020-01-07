@@ -1,7 +1,4 @@
-#A gitignore file. Customize as you like
-
-*.geojson
-*.topojson
+#A gitignore file. Customize as you like:
 
 #ignore IDE related files
 .idea
