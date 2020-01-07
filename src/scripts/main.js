@@ -160,7 +160,7 @@ function initMapBox() {
     zoom: pudoMapSett[`${ward}Focus`].zoom
   });
 
-  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.NavigationControl({showCompass: false}));
 
   map.on("load", function() {
     const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
