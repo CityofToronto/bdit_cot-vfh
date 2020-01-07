@@ -22,7 +22,7 @@ $(function () {
 
 // -----------------------------------------------------------------------------
 // CUSTOM CODE
-// import settingsFractionLine from "./settings_fractionLine.js";
+// import settPudoLine from "./settings_fractionLine.js";
 
 // data objects
 const ptcFraction = {}; // PTC Trip Fraction by ward
@@ -104,14 +104,14 @@ function showFractionLine() {
     return object
   }, {})
 
-  const fractionLine = lineChart(fractionLineChart, settingsFractionLine, thisPTC);
+  const fractionLine = lineChart(fractionLineChart, settPudoLine, thisPTC);
 
   // axes labels
-  rotateLabels("fractionline", settingsFractionLine);
+  rotateLabels("fractionline", settPudoLine);
 
   // hover line
   fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
-  createOverlay(fractionLine, thisPTC, (d) => { // onMouseOverCb
+  createOverlay(fractionLine, thisPTC, (d) => { // onMsOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
@@ -122,7 +122,7 @@ function showFractionLine() {
       const clearPrevWard = false;
       updateMapbox(clearPrevWard);
     }
-  }, () => { // onMouseOutCb; hide tooltip on exit only if hoverLine not frozen
+  }, () => { // onMsOutCb; hide tooltip on exit only if hoverLine not frozen
     // if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
     //   divHoverLine.style("opacity", 0);
     // } else {
@@ -130,7 +130,7 @@ function showFractionLine() {
     // }
     divHoverLine.style("opacity", 1);
     saveHoverLinePos();
-  }, () => { // onMouseClickCb; toggle between moveable and frozen
+  }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
     if (!mapState.classed("moveable")) {
@@ -139,10 +139,10 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
   // Only show table if action button is clicked
-  d3.select(`#${settingsFractionLine.actionId}`)
+  d3.select(`#${settPudoLine.actionId}`)
     .on("click", function() {
       d3.select(".fractionline .chart-data-table")
         .select("table")
@@ -156,8 +156,8 @@ function initMapBox() {
   map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
-    center: pudoMapSettings[`${ward}Focus`],
-    zoom: pudoMapSettings.initZoom
+    center: pudoMapSett[`${ward}Focus`],
+    zoom: pudoMapSett.initZoom
   });
 
   map.addControl(new mapboxgl.NavigationControl());
@@ -172,7 +172,7 @@ function initMapBox() {
     // Overlapping PUDOs
     makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
-    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSettings.wardLayerColour);
+    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.wardLayerColour);
   });
 
   // Assign map aria label and moveable state
@@ -186,10 +186,10 @@ function initMapBox() {
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
   //
-  const mapTable = lineTable(".maptable", pudoMapSettings, mockNN, mapday);
+  const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
   // Only show table if action button is clicked
-  d3.select(`#${pudoMapSettings.actionId}`)
+  d3.select(`#${pudoMapSett.actionId}`)
     .on("click", function() {
       d3.select(".maptable .chart-data-table")
         .select("table")
@@ -235,7 +235,7 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
-  fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+  fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 }
@@ -250,7 +250,7 @@ function uiHandler(event) {
     showFractionLine();
     updateMapbox(clearPrevWard);
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
-    else holdHoverLine(settingsFractionLine.initHoverLineArray);
+    else holdHoverLine(settPudoLine.initHoverLinePos);
     hideTable("fractionline");
   }
 
@@ -266,17 +266,17 @@ function uiHandler(event) {
       updateMapbox(clearPrevWard);
       showFractionLine(); // calls updateMapbox() for hoverLine;
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
-      else holdHoverLine(settingsFractionLine.initHoverLineArray);
+      else holdHoverLine(settPudoLine.initHoverLinePos);
 
     });
 
-    map.flyTo({center: pudoMapSettings[`${ward}Focus`]})
+    map.flyTo({center: pudoMapSett[`${ward}Focus`]})
   }
   // Table menu for trip fraction lineChart table
-  else if (event.target.id === settingsFractionLine.menuId) {
+  else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settingsFractionLine, thisPTC, day);
+    lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -284,7 +284,7 @@ function uiHandler(event) {
       .style("display", "none");
   }
   // Table menu for PUDO map table
-  else if (event.target.id === pudoMapSettings.menuId) {
+  else if (event.target.id === pudoMapSett.menuId) {
     mapboxday = event.target.value;
     // updateTableCaption();
 
@@ -292,7 +292,7 @@ function uiHandler(event) {
       {"values": [{"nn":"NN1", "value": 390},
       {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
     ]
-    lineTable(".maptable", pudoMapSettings, mockNN, mapday);
+    lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -318,14 +318,14 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
-    settingsFractionLine.alt = i18next.t("alt", {ns: "ward_towline"}),
-    settingsFractionLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
-    settingsFractionLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
-    settingsFractionLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
-    settingsFractionLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
-    pudoMapSettings.y.label = i18next.t("y_label", {ns: "pudoMap"}),
-    pudoMapSettings.x.label = i18next.t("x_label", {ns: "pudoMap"}),
-    pudoMapSettings.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
+    settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
+    settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
+    settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
+    settPudoLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
+    settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
+    pudoMapSett.y.label = i18next.t("y_label", {ns: "pudoMap"}),
+    pudoMapSett.x.label = i18next.t("x_label", {ns: "pudoMap"}),
+    pudoMapSett.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
@@ -337,8 +337,8 @@ $(document).ready(function(){
         wardLayer = wardlayerfile;
 
         // initial titles
-        fractionTableTitle = `${settingsFractionLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
-        pudoMapTableTitle = `${pudoMapSettings.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+        fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+        pudoMapTableTitle = `${pudoMapSett.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
 
         // Display texts
         pageTexts();
@@ -349,11 +349,11 @@ $(document).ready(function(){
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, settingsFractionLine.initToolTipPosn);
+        showLineHover(settPudoLine.initHoverLinePos, settPudoLine.initTipText, settPudoLine.initTipPosn);
 
         initMapBox();
-        d3.select(".maptable").select("summary").text(pudoMapSettings.tableTitle);
-        d3.select(".maptable").select("caption").text(`${pudoMapSettings.tableTitle}, ${i18next.t(day, {ns: "days"})}`);
+        d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
+        d3.select(".maptable").select("caption").text(`${pudoMapSett.tableTitle}, ${i18next.t(day, {ns: "days"})}`);
       });
   })
 })

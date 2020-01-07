@@ -35,9 +35,6 @@ function lineTable(svg, settings, data, day) {
       },
       table, header, headerCols, body, dataRows;
 
-      console.log("data: ", data)
-      console.log("filteredData: ", filteredData)
-
     if (details.empty()) {
       details = parent
         .append("details")
@@ -137,14 +134,12 @@ function lineTable(svg, settings, data, day) {
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
           });
-          console.log("pair: ", pair)
         } else {
           var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
           ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
           ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
           ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
         }
-        console.log("pair: ", pair)
         return pair;
       })
     }

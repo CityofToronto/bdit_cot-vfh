@@ -195,7 +195,7 @@ settingsTOWline = {
 };
 // -----------------------------------------------------------------------------
 // Fig 4a - Trips fraction over Time Of Week lineChart
-settingsFractionLine = {
+settPudoLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
     top: 55,
@@ -337,9 +337,9 @@ settingsFractionLine = {
     }
   },
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
-  initHoverLineArray: [35.73652694610779, 35.73652694610779, 0, 333],
-  initToolTipText: '<table class="table-striped"><tr><td>Trip fraction (%): 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
-  initToolTipPosn: [232, 858],
+  initHoverLinePos: [35.73652694610779, 35.73652694610779, 0, 333],
+  initTipText: '<table class="table-striped"><tr><td>Trip fraction (%): 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
+  initTipPosn: [232, 858],
   width: 900,
   datatable: true,
   attachedToSvg: true,
@@ -356,15 +356,15 @@ settingsFractionLine = {
   tableCaption: i18next.t("tablecaption", {ns: "ward_towline"})
 };
 // extend with default settings that were in original line.js
-settingsFractionLine.x = $.extend({
+settPudoLine.x = $.extend({
   getDomain: function(flatData) {
     return d3.extent(flatData, this.x.getValue.bind(this));
   },
   getRange: function() {
     return [0, this.innerWidth];
   }
-}, settingsFractionLine.x || {});
-settingsFractionLine.y = $.extend({
+}, settPudoLine.x || {});
+settPudoLine.y = $.extend({
   getDomain: function(flatData) {
     var min = d3.min(flatData, this.y.getValue.bind(this));
     return [
@@ -372,4 +372,4 @@ settingsFractionLine.y = $.extend({
       d3.max(flatData, this.y.getValue.bind(this))
     ];
   }
-}, settingsFractionLine.y || {});
+}, settPudoLine.y || {});

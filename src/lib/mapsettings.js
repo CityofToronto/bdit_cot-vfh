@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
-pudoMapSettings = {
+pudoMapSett = {
   initZoom: 12,
-  humberZoom: 15,
+  hbZoom: 15,
   wardLayerColour: "#000",
   pudoRanges: {
     puMin: {colour: "#b2abd2", range: 0.45},

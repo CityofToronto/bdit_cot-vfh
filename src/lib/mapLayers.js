@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // Plot PUDO map for either PUs or DOs as selected in pudo-menu
 function makeLayer(id, data, type) {
-  const sett = pudoMapSettings;
+  const sett = pudoMapSett;
   const thisSource = `src-${id}`;
 
   // Add source only if it does not exist
@@ -93,7 +93,7 @@ function makeLayer(id, data, type) {
   });
 }
 function makeStoryLayer(id, src, type, whichStory) {
-  const sett = pudoMapSettings;
+  const sett = pudoMapSett;
   let pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
 
   map.addLayer({
@@ -139,7 +139,7 @@ function makeStoryLayer(id, src, type, whichStory) {
 // Plot PUDO map for pudo-pudo layer
 function makePUDOLayer(id, data) {
   const type = "pudo";
-  const sett = pudoMapSettings;
+  const sett = pudoMapSett;
   const thisSource = `src-${id}`;
   // ratio of pcounts to total counts for single circle markers
   var pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
@@ -308,7 +308,7 @@ function showLayer(rootLayer, layerObj, thisPUDO) {
 
 function showOverlapLayer(rootLayer, layerObj) {
   // Outputs ${whichPUDO}-pudo layer
-  const sett = pudoMapSettings;
+  const sett = pudoMapSett;
   const root = geoMap[ward][pudoDay][pudoTOD];
 
   if (layerObj.find(({ id }) => id === `${rootLayer}-${whichPUDO}-pudo`)) {
@@ -378,7 +378,7 @@ function showWardBoundary() {
   });
 
   if (!layerExists) {
-    makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSettings.wardLayerColour);
+    makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSett.wardLayerColour);
   }
   // clear
   layerExists = false;

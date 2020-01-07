@@ -56,16 +56,16 @@ function hideTable(divClassName) {
 
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
-function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClickCb) {
-  chartObj.svg.datum(chartObj);
-  chartObj.data = chartObj.settings.filterData(data);
+function createOverlay(chrtObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
+  chrtObj.svg.datum(chrtObj);
+  chrtObj.data = chrtObj.settings.filterData(data);
 
-  let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
+  let overlay = chrtObj.svg.select(`#${chrtObj.svg.id} .data .overlay`);
   let rect;
   let line;
 
   if (overlay.empty()) {
-    overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
+    overlay = chrtObj.svg.select(`#${chrtObj.svg.id} .data`)
         .append("g")
         .attr("class", "overlay");
 
@@ -78,35 +78,34 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
     line = overlay.append("line")
         .attr("class", "hoverLine")
         .style("display", "inline")
-        .style("visibility", "visible");  // .style("visibility", "hidden");
+        .style("visibility", "visible");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
   }
 
   rect
-      .attr("width", chartObj.settings.innerWidth)
-      .attr("height", chartObj.settings.innerHeight)
+      .attr("width", chrtObj.settings.innerWidth)
+      .attr("height", chrtObj.settings.innerHeight)
       .on("mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
         if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-          const chartObj = d3.select(this.ownerSVGElement).datum();
+          const chrtObj = d3.select(this.ownerSVGElement).datum();
           const x = d3.mouse(this)[0];
-          const xD = chartObj.x.invert(x);
+          const xD = chrtObj.x.invert(x);
           const i = Math.round(xD);
           let d0;
           let d1;
           if (i === 0) { // handle edge case
-            d1 = chartObj.data[0].values[i].tod;
+            d1 = chrtObj.data[0].values[i].tod;
             d0 = d1;
           } else {
-            d0 = chartObj.data[0].values[i - 1].tod;
-            d1 = chartObj.data[0].values[i].tod;
+            d0 = chrtObj.data[0].values[i - 1].tod;
+            d1 = chrtObj.data[0].values[i].tod;
           }
 
           let d;
           if (d0 && d1) {
-            // d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
             d = xD - d0 > d1 - xD ? d1 : d0;
           } else if (d0) {
             d = d0;
@@ -121,7 +120,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
           line.attr("x2", d);
           line.style("visibility", "visible");
 
-          if (onMouseOverCb && typeof onMouseOverCb === "function") {
+          if (onMsOverCb && typeof onMsOverCb === "function") {
             let hr = i % 24;
             let val = data[Object.keys(data)[1]][i];
             let idx = data.keys.values[i];
@@ -130,18 +129,18 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
             // Store info to pass to tooltip
             const hoverData = {};
             hoverData.ward = [val, hr, thisTOD];
-            onMouseOverCb(hoverData);
+            onMsOverCb(hoverData);
           }
         }
       })
       .on("mouseout", function() {
-        if (onMouseOutCb && typeof onMouseOutCb === "function") {
-          onMouseOutCb();
+        if (onMsOutCb && typeof onMsOutCb === "function") {
+          onMsOutCb();
         }
       })
       .on("click", function() {
-        if (onMouseClickCb && typeof onMouseClickCb === "function") {
-          onMouseClickCb();
+        if (onMsClickCb && typeof onMsClickCb === "function") {
+          onMsClickCb();
         }
       });
 
@@ -149,7 +148,7 @@ function createOverlay(chartObj, data, onMouseOverCb, onMouseOutCb, onMouseClick
       .attr("x1", 0)
       .attr("x2", 0)
       .attr("y1", 0)
-      .attr("y2", chartObj.settings.innerHeight);
+      .attr("y2", chrtObj.settings.innerHeight);
 }
 
 function hoverlineTip(div, dataObj) {
@@ -176,15 +175,18 @@ function hoverlineTip(div, dataObj) {
 // -----------------------------------------------------------------------------
 // Chart axis label rotation
 function rotateLabels(chartId, sett) {
-  // axes labels
-  d3.select(`#${chartId}`).select(".y.axis").select(".chart-label").attr("transform", function(d) {
-    return "translate(" + (sett.y.translateXY[0]) + " " + (sett.y.translateXY[1]) + ")rotate(-90)";
-  });
+  d3.select(`#${chartId}`).select(".y.axis").select(".chart-label")
+    .attr("transform", function(d) {
+      return "translate(" + (sett.y.translateXY[0]) + " "
+              + (sett.y.translateXY[1]) + ")rotate(-90)";
+    });
 
   if (sett.x.translateXY) {
-    d3.select(`#${chartId}`).select(".x.axis").select(".chart-label").attr("transform", function(d) {
-      return "translate(" + (sett.x.translateXY[0]) + " " + (sett.x.translateXY[1]) + ")";
-    });
+    d3.select(`#${chartId}`).select(".x.axis").select(".chart-label")
+      .attr("transform", function(d) {
+        return "translate(" + (sett.x.translateXY[0]) + " "
+                + (sett.x.translateXY[1]) + ")";
+      });
   }
 }
 
@@ -223,15 +225,16 @@ function humberStory() {
   // Clear any previously frozen hoverLine tooltips
   divHoverLine.style("opacity", 0);
   // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-  showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
-    settingsFractionLine.initToolTipPosn);
+  showLineHover(settPudoLine.initHoverLinePos, settPudoLine.initTipText,
+    settPudoLine.initTipPosn);
 
   // Set focus and zoom to Humber College
-  map.flyTo({center: pudoMapSettings["humberFocus"]});
-  if (map.getZoom() !== pudoMapSettings.humberZoom) map.setZoom(pudoMapSettings.humberZoom);
+  map.flyTo({center: pudoMapSett["humberFocus"]});
+  if (map.getZoom() !== pudoMapSett.hbZoom) map.setZoom(pudoMapSett.hbZoom);
 
   // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
-  if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak") || ward !== "w1") {
+  if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak")
+    || ward !== "w1") {
     hideLayers(layerObj, false);
     map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
     map.setLayoutProperty("w1-layer", "visibility", "visible");
