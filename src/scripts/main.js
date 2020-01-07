@@ -156,8 +156,8 @@ function initMapBox() {
   map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/light-v10",
-    center: pudoMapSett[`${ward}Focus`],
-    zoom: pudoMapSett.initZoom
+    center: pudoMapSett[`${ward}Focus`].xy,
+    zoom: pudoMapSett[`${ward}Focus`].zoom
   });
 
   map.addControl(new mapboxgl.NavigationControl());
@@ -197,7 +197,7 @@ function initMapBox() {
     });
 }
 
-function updateMapbox(clearPrevWard) { // called by moving hoverLine and pudo-menu selection
+function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
   // const clearPrevWard = false;
@@ -270,7 +270,10 @@ function uiHandler(event) {
 
     });
 
-    map.flyTo({center: pudoMapSett[`${ward}Focus`]})
+    map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
+    if (map.getZoom() !== pudoMapSett[`${ward}Focus`].zoom) {
+      map.setZoom(pudoMapSett[`${ward}Focus`].zoom);
+    }
   }
   // Table menu for trip fraction lineChart table
   else if (event.target.id === settPudoLine.menuId) {

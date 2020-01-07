@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
 pudoMapSett = {
   initZoom: 12,
-  hbZoom: 15,
   wardLayerColour: "#000",
   pudoRanges: {
     puMin: {colour: "#b2abd2", range: 0.45},
@@ -20,13 +19,18 @@ pudoMapSett = {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
     "do": {cluster: ["+", ["get", "dcounts"]]}
   },
-  humberFocus: [-79.605800, 43.728970],
-  w1Focus: [-79.607443, 43.728635],
-  w2Focus: [-79.548153, 43.661765],
-  w3Focus: [-79.517973, 43.623204],
-  w4Focus: [-79.459995, 43.654720],
-  w10Focus: [-79.403219, 43.645168],
-  w22Focus: [-79.304402, 43.795302],
+  hbFocus: {
+    "xy": [-79.605800, 43.728970],
+    "zoom": 15
+  },
+  w1Focus:  {
+    "xy": [-79.575107, 43.728635],
+    "zoom": 12
+  },
+  w10Focus: {
+    "xy": [-79.403219, 43.64072],
+    "zoom": 13
+  },
   attachedToSvg: false,
   summaryId: "pudomap-chrt-dt-tbl",
   labelFor:"day",

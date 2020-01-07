@@ -229,9 +229,11 @@ function humberStory() {
     settPudoLine.initTipPosn);
 
   // Set focus and zoom to Humber College
-  map.flyTo({center: pudoMapSett["humberFocus"]});
-  if (map.getZoom() !== pudoMapSett.hbZoom) map.setZoom(pudoMapSett.hbZoom);
-
+  map.flyTo({center: pudoMapSett.hbFocus.xy});
+  if (map.getZoom() !== pudoMapSett.hbFocus.zoom) {
+    map.setZoom(pudoMapSett.hbFocus.zoom);
+  }
+    
   // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
   if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak")
     || ward !== "w1") {
