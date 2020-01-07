@@ -339,7 +339,7 @@ settPudoLine = {
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
   initHoverLinePos: [35.73652694610779, 35.73652694610779, 0, 333],
   initTipText: '<table class="table-striped"><tr><td>Trip fraction (%): 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
-  initTipPosn: [232, 858],
+  initTipPosn: [180, 905],
   width: 900,
   datatable: true,
   attachedToSvg: true,

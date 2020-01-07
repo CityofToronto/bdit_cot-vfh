@@ -167,7 +167,7 @@ function hoverlineTip(div, dataObj) {
 
   div.html(makeTable())
       .style("opacity", .999)
-      .style("left", ((d3.event.pageX - 50) + "px"))
+      .style("left", ((d3.event.pageX - 220) + "px"))
       .style("top", ((d3.event.pageY - 300) + "px"))
       .style("pointer-events", "none");
 }
@@ -233,7 +233,7 @@ function humberStory() {
   if (map.getZoom() !== pudoMapSett.hbFocus.zoom) {
     map.setZoom(pudoMapSett.hbFocus.zoom);
   }
-    
+
   // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
   if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak")
     || ward !== "w1") {
