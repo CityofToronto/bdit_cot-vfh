@@ -207,68 +207,55 @@ function humberStory() {
   const hbId = "hb-w1-Monday-amPeak-pudo-pudo";
   const hbSrc = "src-w1-Monday-amPeak-pudo-pudo";
 
-  d3.selectAll(".section-text .highlight-humber")
-    .on("click", function() {
-      d3.event.preventDefault();
-  })
-  .on("mouseover", function() {
-    const layerObj = map.getStyle().layers;
-    const rootLayer = "w1-Monday-amPeak";
-    const type = "pudo";
+  const layerObj = map.getStyle().layers;
+  const rootLayer = "w1-Monday-amPeak";
+  const type = "pudo";
 
-    // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
-    d3.select("#ward-menu").node()[0].selected = true;
-    d3.select("#pudo-menu").node()[0].selected = true;
+  // Display ward 1 in ward-menu; Pick-ups & Drop-offs in pudo-menu
+  d3.select("#ward-menu").node()[0].selected = true;
+  d3.select("#pudo-menu").node()[0].selected = true;
 
-    // Unfreeze hoverLine if it was previously frozen
-    if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-      d3.select(".mapboxgl-canvas-container").classed("moveable", true);
-    }
+  // Unfreeze hoverLine if it was previously frozen
+  if (!d3.select(".mapboxgl-canvas-container").classed("moveable")) {
+    d3.select(".mapboxgl-canvas-container").classed("moveable", true);
+  }
 
-    // Clear any previously frozen hoverLine tooltips
-    divHoverLine.style("opacity", 0);
-    // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-    showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
-      settingsFractionLine.initToolTipPosn);
+  // Clear any previously frozen hoverLine tooltips
+  divHoverLine.style("opacity", 0);
+  // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
+  showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText,
+    settingsFractionLine.initToolTipPosn);
 
-    // Set focus and zoom to Humber College
-    map.flyTo({center: pudoMapSettings["w1Focus"]});
-    if (map.getZoom() !== pudoMapSettings.initZoom) map.setZoom(pudoMapSettings.initZoom);
+  // Set focus and zoom to Humber College
+  map.flyTo({center: pudoMapSettings["humberFocus"]});
+  if (map.getZoom() !== pudoMapSettings.humberZoom) map.setZoom(pudoMapSettings.humberZoom);
 
-    // Handle layers: Clear ward boundary and markers if not in ward 1 or if in
-    // another Day or TOD in ward 1
-    if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak") || ward !== "w1") {
-      hideLayers(layerObj, false);
-      map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
-      map.setLayoutProperty("w1-layer", "visibility", "visible");
+  // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
+  if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak") || ward !== "w1") {
+    hideLayers(layerObj, false);
+    map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
+    map.setLayoutProperty("w1-layer", "visibility", "visible");
 
-      // reset
-      pudoDay = "Monday";
-      pudoTOD = "amPeak";
-      whichPUDO = "pudo";
-      ward = "w1";
+    // reset
+    pudoDay = "Monday";
+    pudoTOD = "amPeak";
+    whichPUDO = "pudo";
+    ward = "w1";
 
-      // Display marker layers for w1-Monday-amPeak
-      showLayer(rootLayer, layerObj, "pu");
-      showLayer(rootLayer, layerObj, "do");
-      showOverlapLayer(rootLayer, layerObj);
-    }
+    // Display marker layers for w1-Monday-amPeak
+    showLayer(rootLayer, layerObj, "pu");
+    showLayer(rootLayer, layerObj, "do");
+    showOverlapLayer(rootLayer, layerObj);
+  }
 
-    // Dim all circles and labels of w1-Monday-amPeak
-    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
+  // Dim all circles and labels of w1-Monday-amPeak
+  map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
 
-    // Highlight Humber College PUDO marker only
-    if (layerObj.find(({ id }) => id === hbId)) {
-      map.setLayoutProperty(hbId, "visibility", "visible");
-      map.setLayoutProperty(`${hbId}-label`, "visibility", "visible");
-    } else {
-        makeStoryLayer(hbId, hbSrc, "pudo","humber");
-    }
-  })
-  .on("mouseout", function() {
-    // Restore orig layer and hide story layer
-    map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 1);
-    map.setLayoutProperty(hbId, "visibility", "none");
-    map.setLayoutProperty(`${hbId}-label`, "visibility", "none");
-  });
+  // Highlight Humber College PUDO marker only
+  if (layerObj.find(({id}) => id === hbId)) {
+    map.setLayoutProperty(hbId, "visibility", "visible");
+    map.setLayoutProperty(`${hbId}-label`, "visibility", "visible");
+  } else {
+      makeStoryLayer(hbId, hbSrc, "pudo","humber");
+  }
 }

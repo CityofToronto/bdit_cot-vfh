@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------------------
 pudoMapSettings = {
   initZoom: 12,
+  humberZoom: 15,
   wardLayerColour: "#000",
   pudoRanges: {
     puMin: {colour: "#b2abd2", range: 0.45},
@@ -19,6 +20,7 @@ pudoMapSettings = {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
     "do": {cluster: ["+", ["get", "dcounts"]]}
   },
+  humberFocus: [-79.605800, 43.728970],
   w1Focus: [-79.607443, 43.728635],
   w2Focus: [-79.548153, 43.661765],
   w3Focus: [-79.517973, 43.623204],

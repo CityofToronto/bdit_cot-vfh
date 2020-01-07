@@ -64,7 +64,20 @@ function pageTexts() {
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
   d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
   d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
-  // d3.select("#section4-text1c").html(i18next.t("section4-text1c", {ns: "indexhtml"}));
+  // ** text interaction for Humber story
+  d3.selectAll(".section-text .highlight-humber")
+    .on("click", function() {
+      d3.event.preventDefault();
+    })
+    .on("mouseover", function() {
+      humberStory();
+    })
+    .on("mouseout", function() {
+      // Restore orig layer and hide story layer
+      map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 1);
+      map.setLayoutProperty("hb-w1-Monday-amPeak-pudo-pudo", "visibility", "none");
+      map.setLayoutProperty("hb-w1-Monday-amPeak-pudo-pudo-label", "visibility", "none");
+    });
   // ** ward dropdown menu
   d3.select("#for-ward label").text(i18next.t("ward-menu", {ns: "menus"}));
   d3.select("#ward-menu").node()[0].text = i18next.t("w1", {ns: "wards"});
@@ -77,11 +90,6 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
   d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
-}
-
-// Text story interactions
-function storyTexts() {
-  humberStory();
 }
 
 function showFractionLine() {
@@ -342,8 +350,6 @@ $(document).ready(function(){
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settingsFractionLine.initHoverLineArray, settingsFractionLine.initToolTipText, settingsFractionLine.initToolTipPosn);
-
-        storyTexts();
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSettings.tableTitle);
