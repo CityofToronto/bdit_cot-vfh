@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 pudoMapSettings = {
-  initZoom: 15,
+  initZoom: 12,
   wardLayerColour: "#000",
   pudoRanges: {
     puMin: {colour: "#b2abd2", range: 0.45},
