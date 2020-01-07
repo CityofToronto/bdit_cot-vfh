@@ -258,6 +258,7 @@ function updatePudoMapTitle() {
             ${i18next.t(pudoTOD, {ns: "timewinSpan"})}`);
   } else d3.select("#pudoMapTitle h4").html("");
 }
+
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "pudo-menu") {

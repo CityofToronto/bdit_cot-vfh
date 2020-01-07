@@ -182,7 +182,7 @@
     "ward_towline": {
       "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",
       "x_label": "Time of day",
-      "y_label": "Trip fraction (%)",
+      "y_label": "Trip count",
       "hr": "Hour",
       "tabletitle": "Percentage of trips per hour out of total weekly trips",
       "menuLabel": "Select Day"
