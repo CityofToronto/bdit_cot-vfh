@@ -340,6 +340,10 @@ function hideLayers(layerObj, clearPrevWard) {
         if (d.id.indexOf(`${ward}-`) === -1) {
           map.setLayoutProperty(d.id, "visibility", "none");
         }
+        // neighbourhoods
+        if (d.id.indexOf("nb") === -1) {
+          map.setLayoutProperty(d.id, "visibility", "none");
+        }
       } else { // Hide current ward's previous layers
         map.setLayoutProperty(d.id, "visibility", "none");
       }
@@ -376,12 +380,16 @@ function showWardBoundary() {
 
   if (!layerExists) {
     makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSett.ward);
+    // Neighbourhood boundaries
+    const n = Object.keys(nnLayer[ward]);
+    for (let idx = 0; idx < n.length; idx++) {
+      makeWardLayer(`${n[idx]}-layer`, nnLayer[ward][n[idx]], pudoMapSett.nn);
+    }
   } else {
     // Neighbourhood boundaries
     const n = Object.keys(nnLayer[ward]);
     for (let idx = 0; idx < n.length; idx++) {
       map.setLayoutProperty(`${n[idx]}-layer`, "visibility", "visible");
-      map.setLayoutProperty("n7-layer", "visibility", "visible");
     }
   }
   // clear
