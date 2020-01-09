@@ -213,16 +213,13 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   hideLayers(layerObj, clearPrevWard);
 
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
-
-  if (pudoTOD) { // can be undefined
-    if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
-      showLayer(rootLayer, layerObj, "pu"); // pu
-      showLayer(rootLayer, layerObj, "do"); // do
-    } else { // display whichPUDO layer and whichPUDO-pudo layer
-      showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
-    }
-    showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
+  if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
+    showLayer(rootLayer, layerObj, "pu"); // pu
+    showLayer(rootLayer, layerObj, "do"); // do
+  } else { // display whichPUDO layer and whichPUDO-pudo layer
+    showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
   }
+  showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
 }
 
 // -----------------------------------------------------------------------------
@@ -252,10 +249,13 @@ function updateTableCaption() {
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 }
 function updatePudoMapTitle() {
+  const thisWin = (pudoDay === "Saturday" || pudoDay === "Sunday") ?
+    i18next.t(pudoTOD, {ns: "timewinSpan-wkend"}) :
+    i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})
   if (pudoTOD) {
     d3.select("#pudoMapTitle h4")
       .html(`Trip locations for ${pudoDay},
-            ${i18next.t(pudoTOD, {ns: "timewinSpan"})}`);
+            ${thisWin}`);
   } else d3.select("#pudoMapTitle h4").html("");
 }
 

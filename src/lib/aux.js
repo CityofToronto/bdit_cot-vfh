@@ -16,13 +16,16 @@ function findTOD(...args) {
 
   // Find time window
   const tod = args[0][0];
-  if (tod >= 0 && tod < 2) win = "nightII";
-  else if (tod >= 2 && tod < 6) win = "nightIII";
-  else if (tod >= 7 && tod < 9) win = "amPeak";
-  else if (tod >= 10 && tod < 15) win = "midday";
-  else if (tod >= 16 && tod < 18) win = "pmPeak";
-  else if (tod >= 19 && tod < 23) win = "nightI";
-
+  if ([19,20,21,22,23,0,1,2].includes(tod)) win = "nightI";
+  else if ([3,4,5,6].includes(tod)) win = "nightII";
+  else if (idx >= 121) { // weekend
+    if (tod >= 7 && tod <= 11) win = "amPeak";
+    else if (tod >= 12 && tod <= 18) win = "midday";
+  } else if (idx < 121) { // weekday
+    if (tod >= 7 && tod <= 9) win = "amPeak";
+    else if (tod >= 10 && tod <= 15) win = "midday";
+    else if (tod >= 16 && tod <= 18) win = "pmPeak";
+  }
   return [dow, win];
 }
 
@@ -235,8 +238,8 @@ function humberStory() {
   }
 
   // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
-  if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak")
-    || ward !== "w1") {
+  if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak" ||
+      whichPUDO !== "pudo") || ward !== "w1") {
     hideLayers(layerObj, false);
     map.setLayoutProperty(`${ward}-layer`, "visibility", "none");
     map.setLayoutProperty("w1-layer", "visibility", "visible");
