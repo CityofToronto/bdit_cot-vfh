@@ -31,6 +31,7 @@ const pudoMap = {}; // PUDO map by ward
 let map;
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 let wardLayer = {}; // ward shapefiles
+let nnLayer = {}; // neighbourhood shapefiles
 
 // data selectors
 let ward = "w1";
@@ -181,7 +182,12 @@ function initMapBox() {
     // Overlapping PUDOs
     makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
-    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.wardLayerColour);
+    makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.ward);
+    // Neighbourhood boundaries
+    const n = Object.keys(nnLayer[ward]);
+    for (let idx = 0; idx < n.length; idx++) {
+      makeWardLayer(`${n[idx]}-layer`, nnLayer[ward][n[idx]], pudoMapSett.nn);
+    }
   });
 
   // Assign map aria label and moveable state
@@ -228,9 +234,9 @@ const loadData = function(cb) {
     d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
       d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
-        // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardlayerfile) {
+        // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardfile) {
           geoMap[ward] = wardmapfile;
-          // wardLayer[ward] = wardlayerfile;
+          // wardLayer[ward] = wardfile;
           cb();
         // })
       })
@@ -350,11 +356,13 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
-      .await(function(error, ptcfractionfile, mapboxfile, wardlayerfile) {
+      .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
+      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         geoMap[ward] = mapboxfile;
-        wardLayer = wardlayerfile;
+        wardLayer = wardfile;
+        nnLayer = nnfile;
 
         // initial titles
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;

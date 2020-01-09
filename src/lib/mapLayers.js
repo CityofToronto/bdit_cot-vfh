@@ -348,7 +348,7 @@ function hideLayers(layerObj, clearPrevWard) {
 }
 
 // Plot ward layer
-function makeWardLayer(id, geojson, lineColour) {
+function makeWardLayer(id, geojson, whichBd) {
   map.addLayer({
     "id": id,
     "type": "line",
@@ -357,10 +357,7 @@ function makeWardLayer(id, geojson, lineColour) {
       "data": geojson
     },
     "layout": {},
-    "paint": {
-      "line-color": lineColour,
-      "line-width": 2
-    }
+    "paint": whichBd.paint
   });
 }
 
@@ -378,7 +375,14 @@ function showWardBoundary() {
   });
 
   if (!layerExists) {
-    makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSett.wardLayerColour);
+    makeWardLayer(`${ward}-layer`,  wardLayer[ward], pudoMapSett.ward);
+  } else {
+    // Neighbourhood boundaries
+    const n = Object.keys(nnLayer[ward]);
+    for (let idx = 0; idx < n.length; idx++) {
+      map.setLayoutProperty(`${n[idx]}-layer`, "visibility", "visible");
+      map.setLayoutProperty("n7-layer", "visibility", "visible");
+    }
   }
   // clear
   layerExists = false;

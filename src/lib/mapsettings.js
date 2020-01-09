@@ -1,7 +1,20 @@
 // -----------------------------------------------------------------------------
 pudoMapSett = {
   initZoom: 12,
-  wardLayerColour: "#175689",
+  ward: {
+    paint:{
+      "line-color": "#175689",
+      "line-width": 2
+    }
+  },
+  nn: {
+    paint:{
+      "line-color": "#175689",
+      "line-width": 1,
+      "line-dasharray": [2, 2]
+    }
+  },
+  nnLayerColour: "#8d8d8d",
   pudoRanges: {
     puMin: {colour: "#b2abd2", range: 0.45},
     puMid: {colour: "#f7f7f7", range: 0.55},
