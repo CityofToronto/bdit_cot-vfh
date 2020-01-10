@@ -246,7 +246,7 @@ settPudoLine = {
       else if (d < 120) dow = "Friday"
       else if (d < 144) dow = "Saturday"
       else dow = "Sunday"
-      return `${dow} ${d % 24}h00`;
+      return `${dow} ${d % 24}:00`;
     },
     getSubText: function(data, day) { // used for data table ONLY
       // d is a number from 0 to 167
@@ -255,31 +255,31 @@ settPudoLine = {
       data.map(function(d, i) { // array of length 168
         if (day == "mon") {
           if (d.tod < 24) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "tues") {
           if (d.tod > 23 & d.tod < 48) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "wed") {
           if (d.tod > 47 & d.tod < 72) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "thurs") {
           if (d.tod > 71 & d.tod < 96) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "fri") {
           if (d.tod > 95 & d.tod < 120) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "sat") {
           if (d.tod > 119 & d.tod < 144) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         } else if (day == "sun") {
           if (d.tod > 143) {
-            flatout.push([`${d.tod % 24}h00`, d.value]);
+            flatout.push([`${d.tod % 24}:00`, d.value]);
           }
         }
       })
@@ -338,7 +338,7 @@ settPudoLine = {
   },
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
   initHoverLinePos: [35.73652694610779, 35.73652694610779, 0, 333],
-  initTipText: '<table class="table-striped"><tr><td>Trip count: 0.87</td></tr><tr><td>Monday 8h00, AM peak</td></tr></table>',
+  initTipText: '<table class="table-striped"><tr><td>Trip count: 0.87</td></tr><tr><td>Monday 8:00, AM peak</td></tr></table>',
   initTipPosn: [180, 905],
   width: 900,
   datatable: true,

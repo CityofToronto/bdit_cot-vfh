@@ -59,16 +59,20 @@ function hideTable(divClassName) {
 
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
-function createOverlay(chrtObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
-  chrtObj.svg.datum(chrtObj);
-  chrtObj.data = chrtObj.settings.filterData(data);
+function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
+  chartObj.svg.datum(chartObj);
+  chartObj.data = chartObj.settings.filterData(data);
 
-  let overlay = chrtObj.svg.select(`#${chrtObj.svg.id} .data .overlay`);
+  const bisect = d3.bisector((d) => {
+    return chartObj.settings.x.getValue(d);
+  }).left;
+
+  let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
 
   if (overlay.empty()) {
-    overlay = chrtObj.svg.select(`#${chrtObj.svg.id} .data`)
+    overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
         .append("g")
         .attr("class", "overlay");
 
@@ -88,39 +92,35 @@ function createOverlay(chrtObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   }
 
   rect
-      .attr("width", chrtObj.settings.innerWidth)
-      .attr("height", chrtObj.settings.innerHeight)
+      .attr("width", chartObj.settings.innerWidth)
+      .attr("height", chartObj.settings.innerHeight)
       .on("mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
         if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-          const chrtObj = d3.select(this.ownerSVGElement).datum();
+          const chartObj = d3.select(this.ownerSVGElement).datum();
           const x = d3.mouse(this)[0];
-          const xD = chrtObj.x.invert(x);
-          const i = Math.round(xD);
+          const xD = chartObj.x.invert(x);
+          const i = Math.round(xD); // bisect(chartObj.data[0].values, xD);
           let d0;
           let d1;
           if (i === 0) { // handle edge case
-            d1 = chrtObj.data[0].values[i].tod;
-            d0 = d1;
+            d0 = chartObj.data[0].values[i];
           } else {
-            d0 = chrtObj.data[0].values[i - 1].tod;
-            d1 = chrtObj.data[0].values[i].tod;
+            d0 = chartObj.data[0].values[i - 1];
+            d1 = chartObj.data[0].values[i];
           }
 
           let d;
           if (d0 && d1) {
-            d = xD - d0 > d1 - xD ? d1 : d0;
+            d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
           } else if (d0) {
             d = d0;
           } else {
             d = d1;
           }
 
-          const sf = 4.467065868263473; // NOTE
-          d = d * sf;
-
-          line.attr("x1", d);
-          line.attr("x2", d);
+          line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
+          line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
           line.style("visibility", "visible");
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
@@ -151,12 +151,12 @@ function createOverlay(chrtObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .attr("x1", 0)
       .attr("x2", 0)
       .attr("y1", 0)
-      .attr("y2", chrtObj.settings.innerHeight);
+      .attr("y2", chartObj.settings.innerHeight);
 }
 
 function hoverlineTip(div, dataObj) {
   const cityVal = d3.format("(.2f")(dataObj.ward[0]);
-  const thisHr = `${dataObj.ward[1]}h00`;
+  const thisHr = `${dataObj.ward[1]}:00`;
   const day = dataObj.ward[2][0];
   const win = i18next.t(dataObj.ward[2][1], {ns: "timewin"});
 
@@ -168,10 +168,15 @@ function hoverlineTip(div, dataObj) {
     return rtnTable;
   };
 
+  // div.html(makeTable())
+  //     .style("opacity", .999)
+  //     .style("left", ((d3.event.pageX - 80) + "px"))
+  //     .style("top", ((d3.event.pageY - 300) + "px"))
+  //     .style("pointer-events", "none");
   div.html(makeTable())
       .style("opacity", .999)
-      .style("left", ((d3.event.pageX - 220) + "px"))
-      .style("top", ((d3.event.pageY - 300) + "px"))
+      .style("left", "80px")
+      .style("top", "935px")
       .style("pointer-events", "none");
 }
 
@@ -201,8 +206,10 @@ function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Show tooltip
   divHoverLine.html(hoverText)
     .style("opacity", .999)
-    .style("left", ((hoverCoords[0] - 50) + "px"))
-    .style("top", ((hoverCoords[1] - 300) + "px"))
+    // .style("left", ((hoverCoords[0] - 50) + "px"))
+    // .style("top", ((hoverCoords[1] - 300) + "px"))
+    .style("left", "80px")
+    .style("top", "935px")
     .style("pointer-events", "none");
 }
 

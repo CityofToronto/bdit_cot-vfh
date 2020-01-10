@@ -9,12 +9,12 @@ function lineTable(svg, settings, data, day) {
       ) : d3.select(svg),
       details = parent.select("details"),
       keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
-      setRow = function(d) { // d: [ "Monday 0h00", 0.3234158 ]
+      setRow = function(d) { // d: [ "Monday 0:00", 0.3234158 ]
         var row = d3.select(this),
           cells = row.selectAll("*")
             .data(d),
           getText = function(d) {
-            return d; // [ "Monday 0h00", 0.3234158 ]
+            return d; // [ "Monday 0:00", 0.3234158 ]
           };
 
         cells
@@ -152,7 +152,7 @@ function lineTable(svg, settings, data, day) {
                 [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
               );
             })
-          return flatout; //[ [ "0h00", 0.3234158 ], [ "1h00", 0.21998841 ], ..., [ "3h00", 0.14364915 ] ]
+          return flatout; //[ [ "0:00", 0.3234158 ], [ "1:00", 0.21998841 ], ..., [ "3:00", 0.14364915 ] ]
         })
     }
 
