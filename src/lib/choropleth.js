@@ -10,7 +10,15 @@ function choropleth(topojfile, svg, settings, data) {
     .duration(1000),
   draw = function() {
     var sett = this.settings,
-    map;
+    map,
+    albersProjection = d3.geoAlbers()
+      .parallels([43, 44])
+      .scale( 60000 )
+      .rotate( [79.388,0] )
+      .center( [0, 43.652] )
+      .translate( [innerWidth/2,innerHeight/2] ),
+    geoPath = d3.geoPath()
+      .projection( albersProjection );
 
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
@@ -20,7 +28,9 @@ function choropleth(topojfile, svg, settings, data) {
     map = dataLayer
       .append("path")
       .datum(topojson.feature(topojfile, topojfile.objects.neighbourhoods))
-      .attr("d", d3.geo.path().projection(d3.geo.mercator()));
+      .attr( "fill", "#ccc" )
+      .attr( "stroke", "#333")
+      .attr("d", geoPath);
 
 
   },

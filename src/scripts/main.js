@@ -387,7 +387,7 @@ $(document).ready(function(){
 
         console.log(nntopo)
 
-        // showVktMap(nntopo);
+        showVktMap(nntopo);
 
         // initial titles
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
