@@ -61,6 +61,11 @@ function pageTexts() {
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
 
+  // VKT
+  // Ward patterns
+  d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
+  d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
+
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
   d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
@@ -99,6 +104,16 @@ function pageTexts() {
   d3.select("#puMid").append("text").html(i18next.t("puMid", {ns: "pudoMap"}));
   d3.select("#puMin").append("text").html(i18next.t("puMin", {ns: "pudoMap"}));
   d3.select("#doOnly").append("text").html(i18next.t("doOnly", {ns: "pudoMap"}));
+}
+
+function showVktMap(topojfile) {
+  const thisdata = {
+    "amPeak": {
+      "n1": {"area_s_cd":118, "f": 0.9},
+      "n2": {"area_s_cd":63, "f": 0.6}
+    }
+  };
+  choropleth(topojfile, vktMap, vktMapSett, thisdata);
 }
 
 function showFractionLine() {
@@ -331,6 +346,11 @@ function uiHandler(event) {
 $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
+  // VKT map
+  vktMap = d3.select(".vktmap.data")
+      .append("svg")
+      .attr("id", "vktmap");
+
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
       .append("svg")
@@ -357,12 +377,17 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
-      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile) {
+      .defer(d3.json, "/resources/geojson/neighbourhoods_all.topojson")
+      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopo) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         geoMap[ward] = mapboxfile;
         wardLayer = wardfile;
         nnLayer = nnfile;
+
+        console.log(nntopo)
+
+        // showVktMap(nntopo);
 
         // initial titles
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;

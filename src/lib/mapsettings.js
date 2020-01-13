@@ -1,3 +1,14 @@
+vktMapSett = {
+  alt:"VKT map",
+  margin: {
+    top: 50,
+    right: 40,
+    bottom: 40,
+    left: 40
+  },
+  aspectRatio: 16 / 9
+}
+
 // -----------------------------------------------------------------------------
 pudoMapSett = {
   initZoom: 12,
