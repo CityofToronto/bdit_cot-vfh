@@ -8,7 +8,16 @@ vktMapSett = {
   },
   aspectRatio: 16 / 9,
   rot: 16.7,
-  width: 900
+  width: 900,
+  z: {
+    getDataPoints: function(d) {
+      return d.prop;
+    }
+  },
+  colour: {
+    name: d3.interpolateYlOrRd
+  },
+  class: "nn"
 }
 
 // -----------------------------------------------------------------------------

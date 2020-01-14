@@ -1,4 +1,5 @@
 function choropleth(topojfile, svg, settings, data) {
+  console.log("ptcvol data: ", data)
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -10,6 +11,12 @@ function choropleth(topojfile, svg, settings, data) {
     .duration(1000),
   draw = function() {
     var sett = this.settings,
+    flatData = [].concat.apply([], data.map(function(d) {
+      return sett.z.getDataPoints.call(sett, d);
+    })).sort(function(a, b) {return a-b;}),
+    dimExtent = d3.extent(flatData),
+    colourScale = d3.scaleSequential().domain([dimExtent[0], dimExtent[1]])
+                .interpolator(mergedSettings.colour.name),
     map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
@@ -26,13 +33,15 @@ function choropleth(topojfile, svg, settings, data) {
     }
 
     map = dataLayer
-      .append("path")
-      .datum(topojson.feature(topojfile, topojfile.objects.neighbourhoods))
-      .attr( "fill", "#ccc" )
-      .attr( "stroke", "#333")
-      .attr("d", geoPath);
-
-
+      .selectAll(".subunit")
+      .data(topojson.feature(topojfile, topojfile.objects.neighbourhoods_all).features)
+      .enter().append("path")
+      .attr("class", function(d) { return "subunit " + "nn_"+ d.properties.area_s_cd; })
+      .attr("d", geoPath)
+      .style("fill", function(d) {
+        var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+        return colourScale(val);
+      });
   },
   clear = function() {
     dataLayer.remove();

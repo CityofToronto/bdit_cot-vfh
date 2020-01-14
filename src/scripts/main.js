@@ -32,14 +32,16 @@ let map;
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 let wardLayer = {}; // ward shapefiles
 let nnLayer = {}; // neighbourhood shapefiles
+let ptcVol = {}; // PTC volume fraction of total traffic
 
 // data selectors
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
 let mapday = "mon"; // Day for map table menu
 let pudoDay = "Monday"; // Ward PUDO for whole week
-let pudoTOD = "amPeak"; // Ward PUDO for all times of day
+let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
+let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 
 // Chart names
 let fractionLineChart;
@@ -107,13 +109,8 @@ function pageTexts() {
 }
 
 function showVktMap(topojfile) {
-  const thisdata = {
-    "amPeak": {
-      "n1": {"area_s_cd":118, "f": 0.9},
-      "n2": {"area_s_cd":63, "f": 0.6}
-    }
-  };
-  choropleth(topojfile, vktMap, vktMapSett, thisdata);
+
+  choropleth(topojfile, vktMap, vktMapSett, ptcVol[ptcvolTOD]);
 }
 
 function showFractionLine() {
@@ -378,14 +375,14 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods_all.topojson")
-      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopo) {
+      .defer(d3.json, "/resources/data/ptc_vol.json")
+      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopo, ptcvolfile) {
         // Load data files into objects
         ptcFraction[ward] = ptcfractionfile;
         geoMap[ward] = mapboxfile;
         wardLayer = wardfile;
         nnLayer = nnfile;
-
-        console.log(nntopo)
+        ptcVol = ptcvolfile;
 
         showVktMap(nntopo);
 
