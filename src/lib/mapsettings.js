@@ -1,12 +1,13 @@
 vktMapSett = {
   alt:"VKT map",
   margin: {
-    top: 50,
+    top: 0,
     right: 40,
     bottom: 40,
-    left: 40
+    left: 60
   },
   aspectRatio: 16 / 9,
+  rot: 16.7,
   width: 900
 }
 

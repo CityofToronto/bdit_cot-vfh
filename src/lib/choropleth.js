@@ -13,7 +13,7 @@ function choropleth(topojfile, svg, settings, data) {
     map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
-      .scale( 60000 )
+      .scale( 85000 )
       .rotate( [79.388,0] )
       .center( [0, 43.652] )
       .translate( [innerWidth/2,innerHeight/2] ),
@@ -55,7 +55,9 @@ function choropleth(topojfile, svg, settings, data) {
   if (chartInner.empty()) {
     chartInner = svg.append("g")
       .attr("class", "margin-offset")
-      .attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
+      .attr("transform", "translate(" + mergedSettings.margin.left + "," +
+            mergedSettings.margin.top + ") rotate(" + mergedSettings.rot + ")");
+
   }
 
   process = function() {
