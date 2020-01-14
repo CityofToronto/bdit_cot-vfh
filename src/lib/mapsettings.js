@@ -17,7 +17,10 @@ vktMapSett = {
   colour: {
     name: d3.interpolateYlOrRd
   },
-  class: "nn"
+  legend: {
+    maplegend: true,
+    id: "vktcb"
+  }
 }
 
 // -----------------------------------------------------------------------------
