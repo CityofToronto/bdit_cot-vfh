@@ -56,17 +56,31 @@ function choropleth(topojfile, svg, settings, data) {
   drawLegend = function() {
     // https://bl.ocks.org/mbostock/4573883
     // https://d3-legend.susielu.com/
+    // cts scale: https://bl.ocks.org/starcalibre/6cccfa843ed254aa0a0d
 
     var sett = this.settings,
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ),
-      cb = parent.append("g")
-                .attr("id", sett.legend.id)
+      width = sett.legend.width - sett.legend.margin.left - sett.legend.margin.right,
+      height = sett.legend.height - sett.legend.margin.top - sett.legend.margin.bottom;
 
-    console.log("colourScale(min): ", colourScale(dimExtent[0]))
-    console.log("colourScale(max): ", colourScale(dimExtent[1]))
-    console.log("dimExtent ", colourScale(5.0647601854519495))
+      cb = parent.append("svg")
+        .attr("class", "mapCB")
+        .attr("width", width)
+        .attr("height", height)
+        .style("vertical-align", "middle");
+
+    // var cbInner = cb.append("g"),
+    cbLayer = cb.select(".cbdata");
+
+    if (cbLayer.empty()) {
+      console.log("cbLayer empty")
+      cbLayer = cb.append("g")
+        .attr("class", "cbdata")
+        .attr("transform", "translate(400, 0)");
+    }
+    console.log("dimExtent: ", dimExtent)
 
     var formatPercent = d3.format(".0%"),
     formatNumber = d3.format(".0f");
@@ -82,9 +96,9 @@ function choropleth(topojfile, svg, settings, data) {
     var xAxis = d3.axisBottom(x)
         .tickSize(13)
         .tickValues(threshold.domain())
-        .tickFormat(function(d) { return d === 10 ? formatPercent(d) : formatNumber(d); });
+        .tickFormat(function(d) { return d === 10 ? formatPercent(d/100) : formatNumber(d); });
 
-    var cbNode = d3.select("#" + sett.legend.id).call(xAxis);
+    var cbNode = d3.select("g.cbdata").call(xAxis);
 
     cbNode.select(".domain")
       .remove();

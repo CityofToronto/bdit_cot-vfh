@@ -3,7 +3,7 @@ vktMapSett = {
   margin: {
     top: 0,
     right: 40,
-    bottom: 40,
+    bottom: 0,
     left: 60
   },
   aspectRatio: 16 / 9,
@@ -19,7 +19,15 @@ vktMapSett = {
   },
   legend: {
     maplegend: true,
-    id: "vktcb"
+    id: "vktcb",
+    width: 960,
+    height: 100,
+    margin: {
+      top: 0,
+      right: 0,
+      bottom: 10,
+      left: 20
+    }
   }
 }
 
