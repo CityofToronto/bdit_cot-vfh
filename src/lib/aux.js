@@ -176,7 +176,7 @@ function hoverlineTip(div, dataObj) {
   div.html(makeTable())
       .style("opacity", .999)
       .style("left", "80px")
-      .style("top", "935px")
+      .style("top", "1900px")
       .style("pointer-events", "none");
 }
 
@@ -209,7 +209,7 @@ function showLineHover(lineCoords, hoverText, hoverCoords) {
     // .style("left", ((hoverCoords[0] - 50) + "px"))
     // .style("top", ((hoverCoords[1] - 300) + "px"))
     .style("left", "80px")
-    .style("top", "935px")
+    .style("top", "1900px")
     .style("pointer-events", "none");
 }
 
