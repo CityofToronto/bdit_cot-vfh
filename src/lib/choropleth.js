@@ -56,19 +56,22 @@ function choropleth(topojfile, svg, settings, data) {
   drawLegend = function() {
     // https://bl.ocks.org/mbostock/4573883
     // https://d3-legend.susielu.com/
-    // cts scale: https://bl.ocks.org/starcalibre/6cccfa843ed254aa0a0d
+    // cts scale: http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
 
     var sett = this.settings,
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ),
-      width = sett.legend.width - sett.legend.margin.left - sett.legend.margin.right,
-      height = sett.legend.height - sett.legend.margin.top - sett.legend.margin.bottom;
+      legendwidth = 80,
+      legendheight = 200;
+
+    var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
+      .domain([dimExtent[0], dimExtent[1]]);
 
       cb = parent.append("svg")
         .attr("class", "mapCB")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", legendwidth)
+        .attr("height", legendheight)
         .style("vertical-align", "middle");
 
     // var cbInner = cb.append("g"),
@@ -78,51 +81,64 @@ function choropleth(topojfile, svg, settings, data) {
       console.log("cbLayer empty")
       cbLayer = cb.append("g")
         .attr("class", "cbdata")
-        .attr("transform", "translate(400, 0)");
+        .attr('transform', 'translate(' + sett.legend.margin.left + ',' +
+        sett.legend.margin.top + ')');
     }
     console.log("dimExtent: ", dimExtent)
 
-    var formatPercent = d3.format(".0%"),
-    formatNumber = d3.format(".0f");
+    continuous("#legend1", colorScale1);
 
-    var threshold = d3.scaleThreshold()
-        .domain([0, 5, 10])
-        .range(["#FFFFCC", "#FD9942","#800026"]);
+    function continuous(selector_id, colorscale) {
+      var canvas = d3.select(selector_id)
+        .style("height", legendheight + "px")
+        .style("width", legendwidth + "px")
+        .style("position", "relative")
+        .append("canvas")
+        .attr("height", legendheight - sett.legend.margin.top - sett.legend.margin.bottom)
+        .attr("width", 1)
+        .style("height", (legendheight - sett.legend.margin.top - sett.legend.margin.bottom) + "px")
+        .style("width", (legendwidth - sett.legend.margin.left - sett.legend.margin.right) + "px")
+        .style("border", "1px solid #000")
+        .style("position", "absolute")
+        .style("top", (sett.legend.margin.top) + "px")
+        .style("left", (sett.legend.margin.left) + "px")
+        .node();
 
-    var x = d3.scaleLinear()
-        .domain([0, 1])
-        .range([dimExtent[0], dimExtent[1]]);
+      var ctx = canvas.getContext("2d");
 
-    var xAxis = d3.axisBottom(x)
-        .tickSize(13)
-        .tickValues(threshold.domain())
-        .tickFormat(function(d) { return d === 10 ? formatPercent(d/100) : formatNumber(d); });
+      var legendscale = d3.scaleLinear()
+        .range([1, legendheight - sett.legend.margin.top - sett.legend.margin.bottom])
+        .domain(colorscale.domain());
 
-    var cbNode = d3.select("g.cbdata").call(xAxis);
+      var image = ctx.createImageData(1, legendheight);
+        d3.range(legendheight).forEach(function(i) {
+          var c = d3.rgb(colorscale(legendscale.invert(i)));
+          image.data[4*i] = c.r;
+          image.data[4*i + 1] = c.g;
+          image.data[4*i + 2] = c.b;
+          image.data[4*i + 3] = 255;
+        });
+        ctx.putImageData(image, 0, 0);
 
-    cbNode.select(".domain")
-      .remove();
+      var legendaxis = d3.axisRight()
+        .scale(legendscale)
+        .tickSize(6)
+        .ticks(8);
 
-    cbNode.selectAll("rect")
-      .data(threshold.range().map(function(color) {
-        var d = threshold.invertExtent(color);
-        if (d[0] == null) d[0] = x.domain()[0];
-        if (d[1] == null) d[1] = x.domain()[1];
-        return d;
-      }))
-      .enter().insert("rect", ".tick")
-        .attr("height", 8)
-        .attr("x", function(d) { return x(d[0]); })
-        .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-        .attr("fill", function(d) { return threshold(d[0]); });
+      var svg = d3.select(selector_id)
+        .append("svg")
+        .attr("height", (legendheight) + "px")
+        .attr("width", (legendwidth) + "px")
+        .style("position", "absolute")
+        .style("left", "0px")
+        .style("top", "0px")
 
-    cbNode.append("text")
-        .attr("fill", "#000")
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "start")
-        .attr("y", -6)
-        .text("Percentage of stops that involved force");
-
+      svg
+        .append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + (legendwidth - sett.legend.margin.left - sett.legend.margin.right + 3) + "," + (sett.legend.margin.top) + ")")
+        .call(legendaxis);
+    }
   },
   clear = function() {
     dataLayer.remove();

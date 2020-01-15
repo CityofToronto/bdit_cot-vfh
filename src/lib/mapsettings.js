@@ -24,9 +24,9 @@ vktMapSett = {
     height: 100,
     margin: {
       top: 0,
-      right: 0,
-      bottom: 10,
-      left: 20
+      right: 20,
+      bottom: 20,
+      left: 5
     }
   }
 }
