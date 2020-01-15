@@ -19,7 +19,7 @@ function choropleth(topojfile, svg, settings, data) {
     map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
-      .scale( 85000 )
+      .scale( 125000 )
       .rotate( [79.388,0] )
       .center( [0, 43.652] )
       .translate( [innerWidth/2,innerHeight/2] ),
@@ -54,8 +54,6 @@ function choropleth(topojfile, svg, settings, data) {
         .remove();
   },
   drawLegend = function() {
-    // https://bl.ocks.org/mbostock/4573883
-    // https://d3-legend.susielu.com/
     // cts scale: http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
 
     var sett = this.settings,
@@ -86,7 +84,7 @@ function choropleth(topojfile, svg, settings, data) {
     }
     console.log("dimExtent: ", dimExtent)
 
-    continuous("#legend1", colorScale1);
+    continuous("#vktlegend", colourScale);
 
     function continuous(selector_id, colorscale) {
       var canvas = d3.select(selector_id)
@@ -118,11 +116,6 @@ function choropleth(topojfile, svg, settings, data) {
           image.data[4*i + 1] = c.g;
           image.data[4*i + 2] = c.b;
           image.data[4*i + 3] = 255;
-          // var thisi = legendheight - i - 1;
-          // image.data[4*thisi] = c.r;
-          // image.data[4*thisi + 1] = c.g;
-          // image.data[4*thisi + 2] = c.b;
-          // image.data[4*thisi + 3] = 255;
         });
         ctx.putImageData(image, 0, 0);
 

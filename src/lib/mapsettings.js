@@ -25,7 +25,7 @@ vktMapSett = {
     margin: {
       top: 0,
       right: 20,
-      bottom: 20,
+      bottom: 0,
       left: 5
     }
   }
