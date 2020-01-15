@@ -62,7 +62,7 @@ function choropleth(topojfile, svg, settings, data) {
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ),
-      legendwidth = 80,
+      legendwidth = 50,
       legendheight = 200;
 
     var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
@@ -107,7 +107,8 @@ function choropleth(topojfile, svg, settings, data) {
       var ctx = canvas.getContext("2d");
 
       var legendscale = d3.scaleLinear()
-        .range([1, legendheight - sett.legend.margin.top - sett.legend.margin.bottom])
+        // .range([1, legendheight - sett.legend.margin.top - sett.legend.margin.bottom])
+        .range([legendheight - sett.legend.margin.top - sett.legend.margin.bottom, 1])
         .domain(colorscale.domain());
 
       var image = ctx.createImageData(1, legendheight);
@@ -117,6 +118,11 @@ function choropleth(topojfile, svg, settings, data) {
           image.data[4*i + 1] = c.g;
           image.data[4*i + 2] = c.b;
           image.data[4*i + 3] = 255;
+          // var thisi = legendheight - i - 1;
+          // image.data[4*thisi] = c.r;
+          // image.data[4*thisi + 1] = c.g;
+          // image.data[4*thisi + 2] = c.b;
+          // image.data[4*thisi + 3] = 255;
         });
         ctx.putImageData(image, 0, 0);
 
