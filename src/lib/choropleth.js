@@ -33,7 +33,9 @@ function choropleth(topojfile, svg, settings, data) {
 
     map = dataLayer
       .selectAll(".subunit")
-      .data(topojson.feature(topojfile, topojfile.objects.neighbourhoods_all).features)
+      .data(topojson.feature(topojfile, topojfile.objects.neighbourhoods_all).features);
+
+    map
       .enter().append("path")
       .attr("class", function(d) { return "subunit " + "nn_"+ d.properties.area_s_cd; })
       .attr("d", geoPath)
@@ -41,6 +43,15 @@ function choropleth(topojfile, svg, settings, data) {
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
         return colourScale(val);
       });
+
+    map
+      .attr("class", function(d) { return "subunit " + "nn_"+ d.properties.area_s_cd; })
+      .transition(transition)
+      .attr("d", geoPath);
+
+    map
+      .exit()
+        .remove();
   },
   drawLegend = function() {
     // https://bl.ocks.org/mbostock/4573883
