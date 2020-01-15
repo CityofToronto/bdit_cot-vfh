@@ -60,8 +60,8 @@ function choropleth(topojfile, svg, settings, data) {
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ),
-      legendwidth = 50,
-      legendheight = 200;
+      legendwidth = sett.legend.width,
+      legendheight = sett.legend.height;
 
     var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
       .domain([dimExtent[0], dimExtent[1]]);
@@ -122,7 +122,7 @@ function choropleth(topojfile, svg, settings, data) {
       var legendaxis = d3.axisRight()
         .scale(legendscale)
         .tickSize(6)
-        .ticks(8);
+        .ticks(4);
 
       var svg = d3.select(selector_id)
         .append("svg")

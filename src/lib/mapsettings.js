@@ -20,8 +20,8 @@ vktMapSett = {
   legend: {
     maplegend: true,
     id: "vktcb",
-    width: 960,
-    height: 100,
+    width: 45,
+    height: 150,
     margin: {
       top: 0,
       right: 20,
