@@ -67,7 +67,7 @@ function pageTexts() {
   d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
   d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
   // ** legend caption
-  d3.select("#vktlegendcap").html(i18next.t("legcap", {ns: "vktmap"}));
+  // d3.select("#vktlegendcap").html(i18next.t("legcap", {ns: "vktmap"}));
 
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
@@ -347,8 +347,6 @@ $(document).ready(function(){
   vktMap = d3.select(".vktmap.data")
       .append("svg")
       .attr("id", "vktmap");
-      // .attr("width", 900)
-      // .attr("height", 507);
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")

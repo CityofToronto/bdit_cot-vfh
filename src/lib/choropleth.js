@@ -80,7 +80,7 @@ function choropleth(topojfile, svg, settings, data) {
     continuous(".vktmap", colourScale);
     function continuous(selector_id, colorscale) {
       var chartDiv = d3.select(selector_id);
-      var canvas = d3.select(selector_id)
+      var canvas = d3.select(selector_id).append("div").attr("id", "vktlegDiv")
       //   .style("height", legendheight + "px")
         // .style("width", legendwidth + "px")
         // .style("position", "relative")
@@ -124,9 +124,9 @@ function choropleth(topojfile, svg, settings, data) {
         .attr("height", (legendheight) + "px")
         .attr("width", (legendwidth) + "px")
         .style("position", "absolute")
-        .style("left", "0px")
-        .style("top", "0px")
-      
+        .style("left", "1000px")
+        .style("top", "480px")
+
       legSvg
         .append("g")
         .attr("class", "axis")

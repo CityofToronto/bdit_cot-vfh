@@ -206,6 +206,11 @@
 	}
 
 	/* VKT vol map */
+	#vktlegDiv {
+		position: absolute;
+		top: 480px;
+		left: 1000px;
+	}
 	#vktlegend, #myvkt {
 		top: 350px;
 		display: inline-block;
