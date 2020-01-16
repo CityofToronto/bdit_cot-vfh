@@ -303,7 +303,6 @@ function uiHandler(event) {
       showFractionLine(); // calls updateMapbox() for hoverLine;
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
       else holdHoverLine(settPudoLine.initHoverLinePos);
-
     });
 
     map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
@@ -348,6 +347,8 @@ $(document).ready(function(){
   vktMap = d3.select(".vktmap.data")
       .append("svg")
       .attr("id", "vktmap");
+      // .attr("width", 900)
+      // .attr("height", 507);
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")

@@ -4,9 +4,12 @@ function choropleth(topojfile, svg, settings, data) {
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
   innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom,
   innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right,
+  legendwidth = mergedSettings.legend.width,
+  legendheight = mergedSettings.legend.height,
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   cbLayer = chartInner.select(".cbdata"),
+  canvas,
   transition = d3.transition()
     .duration(1000),
   flatData = [].concat.apply([], data.map(function(d) {
@@ -60,30 +63,27 @@ function choropleth(topojfile, svg, settings, data) {
         .remove();
   },
   drawLegend = function() {
+    console.log("drawLegend")
     // cts scale: http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
 
     var sett = this.settings,
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
-      ),      
-      legendwidth = sett.legend.width,
-      legendheight = sett.legend.height;
+      );
 
     var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
       .domain([dimExtent[0], dimExtent[1]]);
 
+    console.log("applied getContext to canvas")
 
-
-
-    continuous("#vktlegend", colourScale);
-
-
-
+    // continuous("#vktlegend", colourScale);
+    continuous(".vktmap", colourScale);
     function continuous(selector_id, colorscale) {
+      var chartDiv = d3.select(selector_id);
       var canvas = d3.select(selector_id)
-        .style("height", legendheight + "px")
-        .style("width", legendwidth + "px")
-        .style("position", "relative")
+      //   .style("height", legendheight + "px")
+        // .style("width", legendwidth + "px")
+        // .style("position", "relative")
         .append("canvas")
         .attr("height", legendheight - sett.legend.margin.top - sett.legend.margin.bottom)
         .attr("width", 1)
@@ -95,7 +95,7 @@ function choropleth(topojfile, svg, settings, data) {
         .style("left", (sett.legend.margin.left) + "px")
         .node();
 
-        console.log("canvas: ", canvas)
+        console.log("canvas in continuous(): ", canvas)
 
       var ctx = canvas.getContext("2d");
 
@@ -119,15 +119,15 @@ function choropleth(topojfile, svg, settings, data) {
         .tickSize(6)
         .ticks(4);
 
-      var svg = d3.select(selector_id)
+      var legSvg = d3.select(selector_id)
         .append("svg")
         .attr("height", (legendheight) + "px")
         .attr("width", (legendwidth) + "px")
         .style("position", "absolute")
         .style("left", "0px")
         .style("top", "0px")
-
-      svg
+      
+      legSvg
         .append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + (legendwidth - sett.legend.margin.left - sett.legend.margin.right + 3) + "," + (sett.legend.margin.top) + ")")
@@ -160,12 +160,33 @@ function choropleth(topojfile, svg, settings, data) {
 
   }
 
-  process = function() {
+  function applyDraw(callback) {
     draw.apply(rtnObj);
     d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-    if (mergedSettings.legend.maplegend === false) return;
+    console.log('draw.apply is done');
+    callback();
+  }
+  function applyLegend(callback) {
     drawLegend.apply(rtnObj);
+    console.log('drawLegend.apply is done');
+    callback();
+  }
+  function runSearchInOrder(callback) {
+      applyDraw(function() {
+        if (mergedSettings.legend.maplegend === false) return;
+        applyLegend(callback);
+      });
+  }
+
+  process = function() {
+    // draw.apply(rtnObj);
+    // d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
+    // if (mergedSettings.legend.maplegend === false) return;
+    // drawLegend.apply(rtnObj);
+
+    runSearchInOrder(function(){console.log('finished')});
   };
+
   if (data === undefined) {
     d3.json(mergedSettings.url, function(error, xhr) {
       data = xhr;
