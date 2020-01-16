@@ -6,6 +6,7 @@ function choropleth(topojfile, svg, settings, data) {
   innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right,
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
+  cbLayer = chartInner.select(".cbdata"),
   transition = d3.transition()
     .duration(1000),
   flatData = [].concat.apply([], data.map(function(d) {
@@ -27,8 +28,13 @@ function choropleth(topojfile, svg, settings, data) {
       .projection( albersProjection );
 
     if (dataLayer.empty()) {
+      console.log("dataLayer empty")
       dataLayer = chartInner.append("g")
         .attr("class", "data");
+
+      cbLayer = chartInner.append("div")
+        .attr("class", "cbdata")
+        .attr("id", "myvkt");
     }
 
     map = dataLayer
@@ -59,32 +65,19 @@ function choropleth(topojfile, svg, settings, data) {
     var sett = this.settings,
       parent = svg.select(
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
-      ),
+      ),      
       legendwidth = sett.legend.width,
       legendheight = sett.legend.height;
 
     var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
       .domain([dimExtent[0], dimExtent[1]]);
 
-      cb = parent.append("svg")
-        .attr("class", "mapCB")
-        .attr("width", legendwidth)
-        .attr("height", legendheight)
-        .style("vertical-align", "middle");
 
-    // var cbInner = cb.append("g"),
-    cbLayer = cb.select(".cbdata");
 
-    if (cbLayer.empty()) {
-      console.log("cbLayer empty")
-      cbLayer = cb.append("g")
-        .attr("class", "cbdata")
-        .attr('transform', 'translate(' + sett.legend.margin.left + ',' +
-        sett.legend.margin.top + ')');
-    }
-    console.log("dimExtent: ", dimExtent)
 
     continuous("#vktlegend", colourScale);
+
+
 
     function continuous(selector_id, colorscale) {
       var canvas = d3.select(selector_id)
@@ -101,6 +94,8 @@ function choropleth(topojfile, svg, settings, data) {
         .style("top", (sett.legend.margin.top) + "px")
         .style("left", (sett.legend.margin.left) + "px")
         .node();
+
+        console.log("canvas: ", canvas)
 
       var ctx = canvas.getContext("2d");
 
