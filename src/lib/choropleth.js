@@ -35,9 +35,9 @@ function choropleth(topojfile, svg, settings, data) {
       dataLayer = chartInner.append("g")
         .attr("class", "data");
 
-      cbLayer = chartInner.append("div")
-        .attr("class", "cbdata")
-        .attr("id", "myvkt");
+      // cbLayer = chartInner.append("div")
+      //   .attr("class", "cbdata")
+      //   .attr("id", "myvkt");
     }
 
     map = dataLayer
@@ -77,10 +77,11 @@ function choropleth(topojfile, svg, settings, data) {
     console.log("applied getContext to canvas")
 
     // continuous("#vktlegend", colourScale);
-    continuous(".vktmap", colourScale);
+    // continuous(".vktmap", colourScale);
+    continuous("#vkt", colourScale);
+
     function continuous(selector_id, colorscale) {
-      var chartDiv = d3.select(selector_id);
-      var canvas = d3.select(selector_id).append("div").attr("id", "vktlegDiv")
+      var canvas = d3.select(selector_id)
       //   .style("height", legendheight + "px")
         // .style("width", legendwidth + "px")
         // .style("position", "relative")
@@ -114,6 +115,8 @@ function choropleth(topojfile, svg, settings, data) {
         });
         ctx.putImageData(image, 0, 0);
 
+     console.log("image: ", image)
+
       var legendaxis = d3.axisRight()
         .scale(legendscale)
         .tickSize(6)
@@ -124,8 +127,8 @@ function choropleth(topojfile, svg, settings, data) {
         .attr("height", (legendheight) + "px")
         .attr("width", (legendwidth) + "px")
         .style("position", "absolute")
-        .style("left", "1000px")
-        .style("top", "480px")
+        .style("left", "0px")
+        .style("top", "0px")
 
       legSvg
         .append("g")
@@ -145,20 +148,19 @@ function choropleth(topojfile, svg, settings, data) {
     svg: svg
   };
 
-  svg
-    .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .attr("role", "img")
-    .attr("aria-label", mergedSettings.alt);
+  // svg
+  //   .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
+  //   .attr("preserveAspectRatio", "xMidYMid meet")
+  //   .attr("role", "img")
+  //   .attr("aria-label", mergedSettings.alt);
 
 
-  if (chartInner.empty()) {
-    chartInner = svg.append("g")
-      .attr("class", "margin-offset")
-      .attr("transform", "translate(" + mergedSettings.margin.left + "," +
-            mergedSettings.margin.top + ") rotate(" + mergedSettings.rot + ")");
-
-  }
+  // if (chartInner.empty()) {
+  //   chartInner = svg.append("g")
+  //     .attr("class", "margin-offset")
+  //     .attr("transform", "translate(" + mergedSettings.margin.left + "," +
+  //           mergedSettings.margin.top + ") rotate(" + mergedSettings.rot + ")");
+  // }
 
   function applyDraw(callback) {
     draw.apply(rtnObj);

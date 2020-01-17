@@ -344,9 +344,16 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // VKT map
-  vktMap = d3.select(".vktmap.data")
-      .append("svg")
-      .attr("id", "vktmap");
+  // vktMap = d3.select(".vktmap.data")
+  //     .append("svg")
+  //     .attr("id", "vktmap");
+  const outerWidth = vktMapSett.width;
+  const outerHeight = Math.ceil(outerWidth / vktMapSett.aspectRatio);
+  vktMap = d3.select("#vktmapId")
+    .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .attr("role", "img")
+    .attr("aria-label", vktMapSett.alt);
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
