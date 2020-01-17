@@ -35,7 +35,7 @@ function choropleth(topojfile, svg, settings, data) {
       dataLayer = chartInner.append("g")
         .attr("class", "data");
 
-      cbLayer = chartInner.append("div")
+      cbLayer = chartInner.append("g")
         .attr("class", "cbdata")
         .attr("id", "myvkt");
     }
@@ -65,74 +65,28 @@ function choropleth(topojfile, svg, settings, data) {
   drawLegend = function() {
     console.log("drawLegend")
     // cts scale: http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
+    // https://d3-legend.susielu.com/#color-threshold
 
     var sett = this.settings,
-      parent = svg.select(
-        svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
-      );
-
-    var colorScale1 = d3.scaleSequential(d3.interpolateYlOrRd)
+      leg;
+    var colorScale = d3.scaleSequential(d3.interpolateYlOrRd)
       .domain([dimExtent[0], dimExtent[1]]);
 
-    console.log("applied getContext to canvas")
+    leg = d3.select(".cbdata").append("svg");
 
-    // continuous("#vktlegend", colourScale);
-    continuous(".vktmap", colourScale);
-    function continuous(selector_id, colorscale) {
-      var chartDiv = d3.select(selector_id);
-      var canvas = d3.select(selector_id).append("div").attr("id", "vktlegDiv")
-      //   .style("height", legendheight + "px")
-        // .style("width", legendwidth + "px")
-        // .style("position", "relative")
-        .append("canvas")
-        .attr("height", legendheight - sett.legend.margin.top - sett.legend.margin.bottom)
-        .attr("width", 1)
-        .style("height", (legendheight - sett.legend.margin.top - sett.legend.margin.bottom) + "px")
-        .style("width", (legendwidth - sett.legend.margin.left - sett.legend.margin.right) + "px")
-        .style("border", "1px solid #000")
-        .style("position", "absolute")
-        .style("top", (sett.legend.margin.top) + "px")
-        .style("left", (sett.legend.margin.left) + "px")
-        .node();
+    leg.append("g")
+      .attr("class", "legendSequential")
+      .attr("transform", "translate(520,260) rotate(-" + mergedSettings.rot + ")");
 
-        console.log("canvas in continuous(): ", canvas)
+    var legendSequential = d3.legendColor()
+      .shapeWidth(30)
+      .cells(10)
+      .orient("horizontal")
+      .scale(colourScale)
 
-      var ctx = canvas.getContext("2d");
+    leg.select(".legendSequential")
+      .call(legendSequential);
 
-      var legendscale = d3.scaleLinear()
-        // .range([1, legendheight - sett.legend.margin.top - sett.legend.margin.bottom])
-        .range([legendheight - sett.legend.margin.top - sett.legend.margin.bottom, 1])
-        .domain(colorscale.domain());
-
-      var image = ctx.createImageData(1, legendheight);
-        d3.range(legendheight).forEach(function(i) {
-          var c = d3.rgb(colorscale(legendscale.invert(i)));
-          image.data[4*i] = c.r;
-          image.data[4*i + 1] = c.g;
-          image.data[4*i + 2] = c.b;
-          image.data[4*i + 3] = 255;
-        });
-        ctx.putImageData(image, 0, 0);
-
-      var legendaxis = d3.axisRight()
-        .scale(legendscale)
-        .tickSize(6)
-        .ticks(4);
-
-      var legSvg = d3.select(selector_id)
-        .append("svg")
-        .attr("height", (legendheight) + "px")
-        .attr("width", (legendwidth) + "px")
-        .style("position", "absolute")
-        .style("left", "1000px")
-        .style("top", "480px")
-
-      legSvg
-        .append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(" + (legendwidth - sett.legend.margin.left - sett.legend.margin.right + 3) + "," + (sett.legend.margin.top) + ")")
-        .call(legendaxis);
-    }
   },
   clear = function() {
     dataLayer.remove();
@@ -160,31 +114,11 @@ function choropleth(topojfile, svg, settings, data) {
 
   }
 
-  function applyDraw(callback) {
+  process = function() {
     draw.apply(rtnObj);
     d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-    console.log('draw.apply is done');
-    callback();
-  }
-  function applyLegend(callback) {
+    if (mergedSettings.legend.maplegend === false) return;
     drawLegend.apply(rtnObj);
-    console.log('drawLegend.apply is done');
-    callback();
-  }
-  function runSearchInOrder(callback) {
-      applyDraw(function() {
-        if (mergedSettings.legend.maplegend === false) return;
-        applyLegend(callback);
-      });
-  }
-
-  process = function() {
-    // draw.apply(rtnObj);
-    // d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-    // if (mergedSettings.legend.maplegend === false) return;
-    // drawLegend.apply(rtnObj);
-
-    runSearchInOrder(function(){console.log('finished')});
   };
 
   if (data === undefined) {
