@@ -19,15 +19,11 @@ vktMapSett = {
   },
   legend: {
     maplegend: true,
-    id: "vktcb",
-    width: 45,
-    height: 150,
-    margin: {
-      top: 0,
-      right: 20,
-      bottom: 0,
-      left: 5
-    }
+    alt: "VKT map legend",
+    title: "Percentage of Traffic",
+    trans: [530, 270],
+    orient: "horizontal",
+    labelAlign: "start"
   }
 }
 

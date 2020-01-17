@@ -4,12 +4,9 @@ function choropleth(topojfile, svg, settings, data) {
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
   innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom,
   innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right,
-  legendwidth = mergedSettings.legend.width,
-  legendheight = mergedSettings.legend.height,
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   cbLayer = chartInner.select(".cbdata"),
-  canvas,
   transition = d3.transition()
     .duration(1000),
   flatData = [].concat.apply([], data.map(function(d) {
@@ -23,7 +20,7 @@ function choropleth(topojfile, svg, settings, data) {
     map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
-      .scale( 125000 )
+      .scale( 110000 )
       .rotate( [79.388,0] )
       .center( [0, 43.652] )
       .translate( [innerWidth/2,innerHeight/2] ),
@@ -37,7 +34,7 @@ function choropleth(topojfile, svg, settings, data) {
 
       cbLayer = chartInner.append("g")
         .attr("class", "cbdata")
-        .attr("id", "myvkt");
+        .attr("id", "vktlg");
     }
 
     map = dataLayer
@@ -64,24 +61,43 @@ function choropleth(topojfile, svg, settings, data) {
   },
   drawLegend = function() {
     console.log("drawLegend")
-    // cts scale: http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
-    // https://d3-legend.susielu.com/#color-threshold
+    // https://d3-legend.susielu.com/
 
     var sett = this.settings,
       leg;
-    var colorScale = d3.scaleSequential(d3.interpolateYlOrRd)
-      .domain([dimExtent[0], dimExtent[1]]);
 
     leg = d3.select(".cbdata").append("svg");
 
     leg.append("g")
       .attr("class", "legendSequential")
-      .attr("transform", "translate(520,260) rotate(-" + mergedSettings.rot + ")");
+      .attr("transform", "translate(" + sett.legend.trans[0] + "," +
+            sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
+      .attr("role", "img")
+      .attr("aria-label", mergedSettings.legend.alt);
 
     var legendSequential = d3.legendColor()
       .shapeWidth(30)
+      .shapeHeight(10)
+      .shapePadding(1)
+      .title(sett.legend.title)
       .cells(10)
-      .orient("horizontal")
+      .orient(sett.legend.orient)
+      .labels(
+        function({
+          i,
+          genLength,
+          generatedLabels,
+          labelDelimiter
+        }) {
+          if (i === genLength - 1) {
+            const values = generatedLabels[i].split(` ${labelDelimiter} `)
+            return `${values[0]} %`
+          }
+          return generatedLabels[i]
+        }
+      )
+      .labelOffset(5)
+      .labelAlign(sett.legend.labelAlign)
       .scale(colourScale)
 
     leg.select(".legendSequential")

@@ -206,20 +206,18 @@
 	}
 
 	/* VKT vol map */
-	#vktlegDiv {
-		position: absolute;
-		top: 480px;
-		left: 1000px;
-	}
-	#vktlegend, #myvkt {
-		top: 350px;
-		display: inline-block;
-	}
 	#vktlegendcap {
 		position: relative;
 		top: 350px;
 		font-weight: 500;
 		font-size: 18px;
+	}
+	#vktlg .legendTitle {
+		font-size: 12px !important;
+	}
+	#vktlg .legendCells text {
+		font-size: 12px;
+		font-weight: normal;
 	}
 
 	/* tooltip for Trip Fraction lineChart with hover line */
