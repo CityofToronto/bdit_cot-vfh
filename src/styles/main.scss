@@ -206,6 +206,13 @@
 	}
 
 	/* VKT vol map */
+	.nnActive {
+		stroke: gray;
+		stroke-width: 2px;
+	}
+	#vktMapTip .list-group table {
+		width: 300px;		
+	}
 	#vktlegendcap {
 		position: relative;
 		top: 350px;

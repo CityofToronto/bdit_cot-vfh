@@ -51,6 +51,7 @@ let pudoMapTableTitle;
 let wardpudoMap;
 
 // Tooltip div names
+let vktMapTip;
 let divHoverLine;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
@@ -377,6 +378,11 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
+  vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+      .append("div").attr("id", "vktMapTip")
+      .attr("class", "panel panel-default")
+      .append("div").attr("class", "list-group");
+
   divHoverLine = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "hoverLineFraction")
       .attr("class", "panel panel-default")

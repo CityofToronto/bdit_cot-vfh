@@ -9,12 +9,33 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
   cbLayer = chartInner.select(".cbdata"),
   colourScale = d3.scaleSequential().domain([fullDimExtent[0], fullDimExtent[1]])
               .interpolator(mergedSettings.colour.name),
+  hoverlineTip = function(div, nn) {
+    // const makeTable = function() {
+    //   let rtnTable = `<table class="table-striped"><tr><td>${i18next.t("y_label", {ns: "ward_towline"})}: ${cityVal}</td></tr>`
+    //   if (win) rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}, ${win}</td></tr>`);
+    //   else rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}</td></tr>`);
+    //   rtnTable = rtnTable.concat("</table>");
+    //   return rtnTable;
+    // };
+    const makeTable = function() {
+      let rtnTable = `<table class="table-striped"><tr><td>${nn.split(" (")[0]}</td></tr>`
+      rtnTable = rtnTable.concat(`<tr><td>0.7% PTC volume`);
+      rtnTable = rtnTable.concat("</table>");
+      return rtnTable;
+    };
+
+    div.html(makeTable())
+        .style("opacity", .999)
+        .style("left", ((d3.event.pageX - 400) + "px"))
+        .style("top", ((d3.event.pageY - 450) + "px"))
+        .style("pointer-events", "none");
+  },
   draw = function() {
     var sett = this.settings,
       map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
-      .scale( 110000 )
+      .scale( 105000 )
       .rotate( [79.388,0] )
       .center( [0, 43.652] )
       .translate( [innerWidth/2,innerHeight/2] ),
@@ -33,9 +54,27 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
     map
       .enter().append("path")
       .attr("d", geoPath)
+      .attr("id", function(d) {
+        return `nn_${d.properties.area_s_cd}`;
+      })
       .style("fill", function(d) {
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
         return colourScale(val);
+      })
+      .on("mouseover", function(d) {
+        // d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
+        console.log("mouseover: ", d.properties.area_name)
+        var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+        console.log("val: ", val)
+        const selectedPath = d3.select(this);
+        selectedPath.classed("nnActive", true);
+        selectedPath.moveToFront();
+
+        hoverlineTip(vktMapTip, d.properties.area_name);
+      })
+      .on("mouseout", function(d) {
+        d3.selectAll("#vktmap path").classed("nnActive", false);
+        vktMapTip.style("opacity", 0);
       });
 
     map
@@ -144,6 +183,20 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
   } else {
     process();
   }
+
+  d3.selection.prototype.moveToFront = function() {
+    return this.each(function() {
+      this.parentNode.appendChild(this);
+    });
+  };
+  d3.selection.prototype.moveToBack = function() {
+    return this.each(function() {
+      const firstChild = this.parentNode.firstChild;
+      if (firstChild) {
+        this.parentNode.insertBefore(this, firstChild);
+      }
+    });
+  };
 
 return rtnObj;
 }
