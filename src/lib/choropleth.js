@@ -1,5 +1,4 @@
 function choropleth(topojfile, svg, settings, data, fullDimExtent) {
-  console.log("fullDimExtent: ", fullDimExtent)
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -8,17 +7,11 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   cbLayer = chartInner.select(".cbdata"),
-  transition = d3.transition()
-    .duration(1000),
-  flatData = [].concat.apply([], data.map(function(d) {
-    return mergedSettings.z.getDataPoints.call(mergedSettings, d);
-  })).sort(function(a, b) {return a-b;}),
-  dimExtent = d3.extent(flatData),
-  colourScale = d3.scaleSequential().domain([dimExtent[0], dimExtent[1]])
+  colourScale = d3.scaleSequential().domain([fullDimExtent[0], fullDimExtent[1]])
               .interpolator(mergedSettings.colour.name),
   draw = function() {
     var sett = this.settings,
-    map,
+      map,
     albersProjection = d3.geoAlbers()
       .parallels([43, 44])
       .scale( 110000 )
@@ -29,13 +22,8 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       .projection( albersProjection );
 
     if (dataLayer.empty()) {
-      console.log("dataLayer empty")
       dataLayer = chartInner.append("g")
         .attr("class", "data");
-
-      cbLayer = chartInner.append("g")
-        .attr("class", "cbdata")
-        .attr("id", "vktlg");
     }
 
     map = dataLayer
@@ -51,7 +39,6 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       });
 
     map
-      .transition(transition)
       .attr("d", geoPath);
 
     map
@@ -59,15 +46,28 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
         .remove();
   },
   drawLegend = function() {
-    console.log("drawLegend")
     // https://d3-legend.susielu.com/
-
     var sett = this.settings,
-      leg;
+      svgLeg;
 
-    leg = d3.select(".cbdata").append("svg");
+    if (cbLayer.empty()) {
+      cbLayer = chartInner.append("g")
+        .attr("class", "cbdata")
+        .attr("id", "vktlg");
 
-    leg.append("g")
+      legSvg = cbLayer
+        .append("svg")
+        .attr("id", "legSvg");
+    }
+    else {
+      // Remove the svg then reappend an svg to cbLayer
+      d3.select('#legSvg').remove();
+      legSvg = cbLayer
+        .append("svg")
+        .attr("id", "legSvg");
+    }
+
+    legSvg.append("g")
       .attr("class", "legendSequential")
       .attr("transform", "translate(" + sett.legend.trans[0] + "," +
             sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
@@ -99,7 +99,7 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       .labelAlign(sett.legend.labelAlign)
       .scale(colourScale)
 
-    leg.select(".legendSequential")
+    legSvg.select(".legendSequential")
       .call(legendSequential);
 
   },
