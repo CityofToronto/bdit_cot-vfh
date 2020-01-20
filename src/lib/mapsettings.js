@@ -13,6 +13,9 @@ vktMapSett = {
     getDataPoints: function(d) {
       return d.prop;
     }
+    // getId: function(d) {
+    //   console.log("z d: ", d)
+    // }
   },
   colour: {
     name: d3.interpolateYlOrRd

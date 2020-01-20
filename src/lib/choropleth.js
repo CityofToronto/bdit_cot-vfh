@@ -1,4 +1,5 @@
 function choropleth(topojfile, svg, settings, data) {
+  console.log(data)
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -43,7 +44,6 @@ function choropleth(topojfile, svg, settings, data) {
 
     map
       .enter().append("path")
-      .attr("class", function(d) { return "subunit " + "nn_"+ d.properties.area_s_cd; })
       .attr("d", geoPath)
       .style("fill", function(d) {
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
@@ -51,7 +51,6 @@ function choropleth(topojfile, svg, settings, data) {
       });
 
     map
-      .attr("class", function(d) { return "subunit " + "nn_"+ d.properties.area_s_cd; })
       .transition(transition)
       .attr("d", geoPath);
 
