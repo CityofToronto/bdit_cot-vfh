@@ -23,10 +23,10 @@ vktMapSett = {
   legend: {
     maplegend: true,
     alt: "VKT map legend",
-    title: "Percentage of Traffic",
+    title: "Percentage of Traffic (%)",
     trans: [530, 270],
     orient: "horizontal",
-    labelAlign: "start"
+    labelAlign: "end"
   }
 }
 

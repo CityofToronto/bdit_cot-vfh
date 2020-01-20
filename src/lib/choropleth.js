@@ -113,20 +113,6 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       .title(sett.legend.title)
       .cells(10)
       .orient(sett.legend.orient)
-      .labels(
-        function({
-          i,
-          genLength,
-          generatedLabels,
-          labelDelimiter
-        }) {
-          if (i === genLength - 1) {
-            const values = generatedLabels[i].split(` ${labelDelimiter} `)
-            return `${values[0]} %`
-          }
-          return generatedLabels[i]
-        }
-      )
       .labelOffset(5)
       .labelAlign(sett.legend.labelAlign)
       .scale(colourScale)
