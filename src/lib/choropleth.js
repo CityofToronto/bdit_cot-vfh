@@ -9,17 +9,10 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
   cbLayer = chartInner.select(".cbdata"),
   colourScale = d3.scaleSequential().domain([fullDimExtent[0], fullDimExtent[1]])
               .interpolator(mergedSettings.colour.name),
-  hoverlineTip = function(div, nn) {
-    // const makeTable = function() {
-    //   let rtnTable = `<table class="table-striped"><tr><td>${i18next.t("y_label", {ns: "ward_towline"})}: ${cityVal}</td></tr>`
-    //   if (win) rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}, ${win}</td></tr>`);
-    //   else rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}</td></tr>`);
-    //   rtnTable = rtnTable.concat("</table>");
-    //   return rtnTable;
-    // };
+  hoverlineTip = function(div, nn, val) {
     const makeTable = function() {
       let rtnTable = `<table class="table-striped"><tr><td>${nn.split(" (")[0]}</td></tr>`
-      rtnTable = rtnTable.concat(`<tr><td>0.7% PTC volume`);
+      rtnTable = rtnTable.concat(`<tr><td>${d3.format("(.1f")(val)}% PTC volume`);
       rtnTable = rtnTable.concat("</table>");
       return rtnTable;
     };
@@ -70,7 +63,7 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
         selectedPath.classed("nnActive", true);
         selectedPath.moveToFront();
 
-        hoverlineTip(vktMapTip, d.properties.area_name);
+        hoverlineTip(vktMapTip, d.properties.area_name, val);
       })
       .on("mouseout", function(d) {
         d3.selectAll("#vktmap path").classed("nnActive", false);
