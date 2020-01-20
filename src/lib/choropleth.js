@@ -1,5 +1,5 @@
-function choropleth(topojfile, svg, settings, data) {
-  console.log(data)
+function choropleth(topojfile, svg, settings, data, fullDimExtent) {
+  console.log("fullDimExtent: ", fullDimExtent)
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),

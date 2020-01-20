@@ -117,8 +117,19 @@ function pageTexts() {
 }
 
 function showVktMap() {
-  console.log("ptcVol period: ", ptcvolTOD)
-  choropleth(nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD]);
+  vktKeys = Object.keys(ptcVol);
+
+  eachVktArray=[];
+  for (p = 0; p < vktKeys.length; p++) {
+  	eachVktArray.push(ptcVol[vktKeys[p]])
+  }
+  const concatObj = [].concat.apply([], eachVktArray);
+  const fullVol = [].concat.apply([], concatObj.map(function(d) {
+    return vktMapSett.z.getDataPoints.call(vktMapSett, d);
+  })).sort(function(a, b) {return a-b;})
+  const fullDimExtent = d3.extent(fullVol)
+
+  choropleth(nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 }
 
 function showFractionLine() {
