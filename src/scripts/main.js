@@ -25,6 +25,8 @@ $(function () {
 // import settPudoLine from "./settings_fractionLine.js";
 
 // data objects
+let ptcVol = {}; // PTC volume fraction of total traffic
+let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
@@ -32,16 +34,15 @@ let map;
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 let wardLayer = {}; // ward shapefiles
 let nnLayer = {}; // neighbourhood shapefiles
-let ptcVol = {}; // PTC volume fraction of total traffic
 
 // data selectors
+let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table menu selector
 let mapday = "mon"; // Day for map table menu
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
-let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 
 // Chart names
 let fractionLineChart;
@@ -66,6 +67,12 @@ function pageTexts() {
   // VKT
   d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
   d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
+  // ** vkt dropdown menu
+  d3.select("#for-vkt label").text(i18next.t("vkt-menu", {ns: "menus"}));
+  d3.select("#vkt-menu").node()[0].text = i18next.t("allday", {ns: "menus"});
+  d3.select("#vkt-menu").node()[1].text = i18next.t("amPeak", {ns: "menus"});
+  d3.select("#vkt-menu").node()[2].text = i18next.t("pmPeak", {ns: "menus"});
+  d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
   // ** legend caption
   // d3.select("#vktlegendcap").html(i18next.t("legcap", {ns: "vktmap"}));
 
@@ -109,9 +116,9 @@ function pageTexts() {
   d3.select("#doOnly").append("text").html(i18next.t("doOnly", {ns: "pudoMap"}));
 }
 
-function showVktMap(topojfile) {
-
-  choropleth(topojfile, vktMap, vktMapSett, ptcVol[ptcvolTOD]);
+function showVktMap() {
+  console.log("ptcVol period: ", ptcvolTOD)
+  choropleth(nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD]);
 }
 
 function showFractionLine() {
@@ -280,6 +287,11 @@ function updatePudoMapTitle() {
 
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
+  if (event.target.id === "vkt-menu") {
+    ptcvolTOD = event.target.value; // pudos initially
+    showVktMap();
+  }
+
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
@@ -344,7 +356,7 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // VKT map
-  vktMap = d3.select(".vktmap.data")
+  vktMapSvg = d3.select(".vktmap.data")
       .append("svg")
       .attr("id", "vktmap");
 
@@ -376,15 +388,16 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods_all.topojson")
       .defer(d3.json, "/resources/data/ptc_vol.json")
-      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopo, ptcvolfile) {
+      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
         // Load data files into objects
+        nnTopo = nntopofile;
         ptcFraction[ward] = ptcfractionfile;
         geoMap[ward] = mapboxfile;
         wardLayer = wardfile;
         nnLayer = nnfile;
         ptcVol = ptcvolfile;
 
-        showVktMap(nntopo);
+        showVktMap();
 
         // initial titles
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
