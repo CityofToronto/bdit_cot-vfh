@@ -60,13 +60,15 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
         console.log("val: ", val)
         const selectedPath = d3.select(this);
-        selectedPath.classed("nnActive", true);
+        val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
+          selectedPath.classed("nnActiveGray", true);
         selectedPath.moveToFront();
 
         hoverlineTip(vktMapTip, d.properties.area_name, val);
       })
       .on("mouseout", function(d) {
-        d3.selectAll("#vktmap path").classed("nnActive", false);
+        d3.selectAll("#vktmap path").classed("nnActiveDarkGray", false);
+        d3.selectAll("#vktmap path").classed("nnActiveGray", false);
         vktMapTip.style("opacity", 0);
       });
 
