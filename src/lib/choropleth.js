@@ -1,4 +1,4 @@
-function choropleth(topojfile, svg, settings, data, fullDimExtent) {
+function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
   var mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -45,25 +45,27 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       .data(topojson.feature(topojfile, topojfile.objects.neighbourhoods_all).features);
 
     map
+      .exit()
+        .remove();
+
+    map
       .enter().append("path")
+      .attr("class", "subunit")
       .attr("d", geoPath)
       .attr("id", function(d) {
         return `nn_${d.properties.area_s_cd}`;
       })
+      .merge(map)
       .style("fill", function(d) {
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
         return colourScale(val);
       })
       .on("mouseover", function(d) {
-        // d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
-        console.log("mouseover: ", d.properties.area_name)
         var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
-        console.log("val: ", val)
-        const selectedPath = d3.select(this);
+        let selectedPath = d3.select(this);
         val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
           selectedPath.classed("nnActiveGray", true);
-        selectedPath.moveToFront();
-
+        // selectedPath.moveToFront();
         hoverlineTip(vktMapTip, d.properties.area_name, val);
       })
       .on("mouseout", function(d) {
@@ -72,12 +74,19 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
         vktMapTip.style("opacity", 0);
       });
 
-    map
-      .attr("d", geoPath);
+    // Add subway
+    var subwayLayer = dataLayer
+      .selectAll(".subway")
+      .data(topojson.feature(subwayfile, subwayfile.objects.subway).features)
+      .enter().append("path")
+      .attr("d", geoPath)
+      .attr("class", "subway");
 
-    map
-      .exit()
-        .remove();
+    // map
+    //   .attr("d", geoPath);
+
+
+
   },
   drawLegend = function() {
     // https://d3-legend.susielu.com/

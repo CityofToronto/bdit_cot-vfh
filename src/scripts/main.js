@@ -130,7 +130,7 @@ function showVktMap() {
   })).sort(function(a, b) {return a-b;})
   const fullDimExtent = d3.extent(fullVol)
 
-  choropleth(nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
+  choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 }
 
 function showFractionLine() {
