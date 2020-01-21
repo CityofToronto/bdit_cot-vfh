@@ -13,9 +13,6 @@ vktMapSett = {
     getDataPoints: function(d) {
       return d.prop;
     }
-    // getId: function(d) {
-    //   console.log("z d: ", d)
-    // }
   },
   colour: {
     name: d3.interpolateYlOrRd
@@ -24,9 +21,10 @@ vktMapSett = {
     maplegend: true,
     alt: "VKT map legend",
     title: "Percentage of Traffic (%)",
+    cells: 9,
     trans: [530, 270],
     orient: "horizontal",
-    labelAlign: "end"
+    labelAlign: "middle"
   }
 }
 

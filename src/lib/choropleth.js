@@ -113,7 +113,7 @@ function choropleth(topojfile, svg, settings, data, fullDimExtent) {
       .shapeHeight(10)
       .shapePadding(1)
       .title(sett.legend.title)
-      .cells(10)
+      .cells(sett.legend.cells)
       .orient(sett.legend.orient)
       .labelOffset(5)
       .labelAlign(sett.legend.labelAlign)
