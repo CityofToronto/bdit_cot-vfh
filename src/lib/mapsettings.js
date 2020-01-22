@@ -12,6 +12,9 @@ vktMapSett = {
   z: {
     getDataPoints: function(d) {
       return d.prop;
+    },
+    getId: function(d) {
+      return `id${d.properties.area_s_cd}`;
     }
   },
   colour: {

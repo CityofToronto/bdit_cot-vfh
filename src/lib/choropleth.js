@@ -42,7 +42,8 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
 
     map = dataLayer
       .selectAll(".subunit")
-      .data(topojson.feature(topojfile, topojfile.objects.to_separated_parts).features);
+      .data(topojson.feature(topojfile, topojfile.objects.to_separated_parts).features,
+        sett.z.getId.bind(sett)); // bind an id to each path for controlling enter(), update()
 
     map
       .exit()
@@ -50,7 +51,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
 
     map
       .enter().append("path")
-      .attr("class", "subunit")
+      .attr("class", "subunit new")
       .attr("d", geoPath)
       .attr("id", function(d) {
         return `nn_${d.properties.area_s_cd}`;
@@ -70,7 +71,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
           let selectedPath = d3.select(this);
           val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
             selectedPath.classed("nnActiveGray", true);
-          // selectedPath.moveToFront();
+          selectedPath.moveToFront();
           hoverlineTip(vktMapTip, d.properties.area_name, val);
         }
       })
@@ -80,6 +81,22 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         vktMapTip.style("opacity", 0);
       });
 
+    map
+      .attr("class", "subunit updated")
+      .attr("d", geoPath)
+      .attr("id", function(d) {
+        return `nn_${d.properties.area_s_cd}`;
+      })
+      .merge(map)
+      .style("fill", function(d) {
+        if (d.properties.area_s_cd === 141 || d.properties.area_s_cd === 142) {
+          return sett.colour.null;
+        } else {
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          return colourScale(val);
+        }
+      });
+
     // Add subway
     var subwayLayer = dataLayer
       .selectAll(".subway")
@@ -87,11 +104,6 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       .enter().append("path")
       .attr("d", geoPath)
       .attr("class", "subway");
-
-    // map
-    //   .attr("d", geoPath);
-
-
 
   },
   drawLegend = function() {
