@@ -26,14 +26,15 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
   draw = function() {
     var sett = this.settings,
       map,
-    albersProjection = d3.geoAlbers()
-      .parallels([43, 44])
-      .scale( 105000 )
-      .rotate( [79.388,0] )
-      .center( [0, 43.652] )
-      .translate( [innerWidth/2,innerHeight/2] ),
-    geoPath = d3.geoPath()
-      .projection( albersProjection );
+      subwayLayer,
+      albersProjection = d3.geoAlbers()
+        .parallels([43, 44])
+        .scale( 105000 )
+        .rotate( [79.388,0] )
+        .center( [0, 43.652] )
+        .translate( [innerWidth/2,innerHeight/2] ),
+      geoPath = d3.geoPath()
+        .projection( albersProjection );
 
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
@@ -72,6 +73,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
           val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
             selectedPath.classed("nnActiveGray", true);
           selectedPath.moveToFront();
+          d3.selectAll(".subway").moveToFront(); // otherwise lines disappear
           hoverlineTip(vktMapTip, d.properties.area_name, val);
         }
       })
@@ -98,7 +100,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       });
 
     // Add subway
-    var subwayLayer = dataLayer
+    subwayLayer = dataLayer
       .selectAll(".subway")
       .data(topojson.feature(subwayfile, subwayfile.objects.subway).features)
       .enter().append("path")
