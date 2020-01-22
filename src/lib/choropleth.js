@@ -42,7 +42,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
 
     map = dataLayer
       .selectAll(".subunit")
-      .data(topojson.feature(topojfile, topojfile.objects.neighbourhoods_all).features);
+      .data(topojson.feature(topojfile, topojfile.objects.to_separated_parts).features);
 
     map
       .exit()
@@ -57,16 +57,22 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       })
       .merge(map)
       .style("fill", function(d) {
-        var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
-        return colourScale(val);
+        if (d.properties.area_s_cd === 141 || d.properties.area_s_cd === 142) {
+          return sett.colour.null;
+        } else {
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          return colourScale(val);
+        }
       })
       .on("mouseover", function(d) {
-        var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
-        let selectedPath = d3.select(this);
-        val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
-          selectedPath.classed("nnActiveGray", true);
-        // selectedPath.moveToFront();
-        hoverlineTip(vktMapTip, d.properties.area_name, val);
+        if (d.properties.area_s_cd !== 141 && d.properties.area_s_cd !== 142) {
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          let selectedPath = d3.select(this);
+          val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
+            selectedPath.classed("nnActiveGray", true);
+          // selectedPath.moveToFront();
+          hoverlineTip(vktMapTip, d.properties.area_name, val);
+        }
       })
       .on("mouseout", function(d) {
         d3.selectAll("#vktmap path").classed("nnActiveDarkGray", false);

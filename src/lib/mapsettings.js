@@ -15,7 +15,8 @@ vktMapSett = {
     }
   },
   colour: {
-    name: d3.interpolateYlOrRd
+    name: d3.interpolateYlOrRd,
+    null:  "#837a7a"
   },
   legend: {
     maplegend: true,

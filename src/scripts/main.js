@@ -403,7 +403,7 @@ $(document).ready(function(){
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
-      .defer(d3.json, "/resources/geojson/neighbourhoods_all.topojson")
+      .defer(d3.json, "/resources/geojson/to_separated_parts.topojson")
       .defer(d3.json, "/resources/data/ptc_vol.json")
       .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
         // Load data files into objects
