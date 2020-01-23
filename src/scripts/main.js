@@ -45,6 +45,7 @@ let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
+let vktMapSvg;
 let fractionLineChart;
 let fractionTableTitle;
 let pudoMapTableTitle;
@@ -131,6 +132,11 @@ function showVktMap() {
   const fullDimExtent = d3.extent(fullVol)
 
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
+
+  // Data table for VKT vol map
+  let topTen = ptcVol[ptcvolTOD]
+    .sort((a, b) => (a.prop < b.prop) ? 1 : -1);
+  const vktTable = lineTable(vktMapSvg, vktMapSett, topTen.slice(0, vktMapSett.cutoff), day);
 }
 
 function showFractionLine() {
@@ -181,7 +187,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+  // const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -233,7 +239,7 @@ function initMapBox() {
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
   //
-  const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
+  // const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
   // Only show table if action button is clicked
   d3.select(`#${pudoMapSett.actionId}`)
@@ -338,7 +344,7 @@ function uiHandler(event) {
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+    // lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -354,7 +360,7 @@ function uiHandler(event) {
       {"values": [{"nn":"NN1", "value": 390},
       {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
     ]
-    lineTable(".maptable", pudoMapSett, mockNN, mapday);
+    // lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")

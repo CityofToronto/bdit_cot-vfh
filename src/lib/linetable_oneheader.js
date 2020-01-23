@@ -35,138 +35,140 @@ function lineTable(svg, settings, data, day) {
       },
       table, header, headerCols, body, dataRows;
 
-    if (details.empty()) {
-      details = parent
-        .append("details")
-          .attr("class", "chart-data-table");
+      if (details.empty()) {
+        details = parent
+          .append("details")
+            .attr("class", "chart-data-table");
 
-      // ** Dropdown menu for table
-      if (sett.menuData) {
-        var menu, options;
+        // ** Dropdown menu for table
+        if (sett.menuData) {
+          var menu, options;
 
-        // Text label for sub-menu
-        details.append("div")
-          .attr("class", "col-md-2 submenu-label")
-          .append("label")
-            .attr("for", sett.labelFor)
-            .text(sett.menuLabel);
+          // Text label for sub-menu
+          details.append("div")
+            .attr("class", "col-md-2 submenu-label")
+            .append("label")
+              .attr("for", sett.labelFor)
+              .text(sett.menuLabel);
 
-        // Details setup
-        menu = details.append("div").attr("class", "col-md-3")
-          .append("select")
-            .attr("id", sett.menuId)
-            .attr("class", "form-control");
+          // Details setup
+          menu = details.append("div").attr("class", "col-md-3")
+            .append("select")
+              .attr("id", sett.menuId)
+              .attr("class", "form-control");
 
-        // Dropdown sub-menu
-        options = menu.selectAll("option")
-          .data(sett.menuData)
-          .enter()
-            .append("option")
-            .attr("value", function(d) {
-              return d.val;
-            })
-            .attr("selected", function(d) {
-              if (d.val === "mon") {
-                return true;
-              }
-            })
-            .text(function(d) {
-              return d.text;
-            })
+          // Dropdown sub-menu
+          options = menu.selectAll("option")
+            .data(sett.menuData)
+            .enter()
+              .append("option")
+              .attr("value", function(d) {
+                return d.val;
+              })
+              .attr("selected", function(d) {
+                if (d.val === "mon") {
+                  return true;
+                }
+              })
+              .text(function(d) {
+                return d.text;
+              })
 
-        // Action button to execute selection in sub-menu
-        button = details.append("div").attr("class", "col-md-3")
-          .append("button")
-          .attr("id", sett.actionId)
-          .attr("class", "btn btn-primary")
-          .attr("type","submit")
-          .text("Show Data");
-      }
-      // ** end dropdown menu
-
-      details.append("summary")
-        .attr("id", summaryId);
-
-      table = details
-        .append("table")
-          .attr("class", "table")
-          .attr("aria-labelledby", summaryId)
-          .style("display", "none");
-
-      table
-        .append("caption");
-        // .text(sett.tableTitle); // set in main.js - changes with dropdown menu selection
-
-      header = table.append("thead").append("tr");
-      body = table.append("tbody");
-
-    } else { // details not empty
-      header = details.select("thead tr");
-      body = details.select("tbody");
-    }
-
-    headerCols = header.selectAll("th")
-      .data([sett.x.label, sett.y.label]);
-
-    headerCols
-      .enter()
-        .append("th")
-        .attr("scope", "col")
-        .text(function(d) {
-          return d;
-        });
-
-    headerCols
-    .text(function(d) {
-      return d;
-    });
-
-    headerCols
-      .exit()
-      .remove();
-
-    // Set number of rows by appending array in .data
-    if (sett.menuData) {
-      dataRows = body.selectAll("tr")
-      .data(function (d) {
-        if (sett.attachedToSvg) {
-          var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
-          pair = pair.map(function(d, i) {
-            return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
-          });
-        } else {
-          var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
-          ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
-          ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
-          ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
+          // Action button to execute selection in sub-menu
+          button = details.append("div").attr("class", "col-md-3")
+            .append("button")
+            .attr("id", sett.actionId)
+            .attr("class", "btn btn-primary")
+            .attr("type","submit")
+            .text("Show Data");
         }
-        return pair;
-      })
-    }
-    else {
-      var flatout = [];
-      dataRows = body.selectAll("tr")
+        // ** end dropdown menu
+
+        details.append("summary")
+          .attr("id", summaryId);
+
+        table = details
+          .append("table")
+            .attr("class", "table")
+            .attr("aria-labelledby", summaryId)
+            .style("display", "none");
+
+        table
+          .append("caption");
+          // .text(sett.tableTitle); // set in main.js - changes with dropdown menu selection
+
+        header = table.append("thead").append("tr");
+        body = table.append("tbody");
+
+      } else { // details not empty
+        header = details.select("thead tr");
+        body = details.select("tbody");
+      }
+
+      headerCols = header.selectAll("th")
+        .data([sett.x.label, sett.y.label]);
+
+      headerCols
+        .enter()
+          .append("th")
+          .attr("scope", "col")
+          .text(function(d) {
+            return d;
+          });
+
+      headerCols
+      .text(function(d) {
+        return d;
+      });
+
+      headerCols
+        .exit()
+        .remove();
+
+      console.log("filteredData: ", filteredData)
+
+      // Set number of rows by appending array in .data
+      if (sett.menuData) {
+        dataRows = body.selectAll("tr")
         .data(function (d) {
-            filteredData[0].values.map(function(d, i) { // array of length 168
-              return flatout.push(
-                [sett.x.getText.call(sett, i), sett.formatNum ? sett.formatNum(d.value) : d.value]
-              );
-            })
-          return flatout; //[ [ "0:00", 0.3234158 ], [ "1:00", 0.21998841 ], ..., [ "3:00", 0.14364915 ] ]
+          if (sett.attachedToSvg) {
+            var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
+            pair = pair.map(function(d, i) {
+              return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
+            });
+          } else {
+            var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
+            ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
+            ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
+            ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
+          }
+          return pair;
         })
-    }
+      }
+      else {
+        var flatout = [];
+        dataRows = body.selectAll("tr")
+          .data(function (d) {
+              filteredData.map(function(d, i) {
+                return flatout.push(
+                  sett.pair.getValues.call(sett, d)
+                );
+              })
+            return flatout;
+          })
+      }
 
-    dataRow = dataRows
-      .enter()
-        .append("tr")
-          .each(setRow);
-
-    dataRows
-        .each(setRow);
+      dataRow = dataRows
+        .enter()
+          .append("tr")
+            .each(setRow);
 
       dataRows
-        .exit()
-          .remove();
+          .each(setRow);
+
+        dataRows
+          .exit()
+            .remove();
 
     if ($ || wb) {
       $(".chart-data-table summary").trigger("wb-init.wb-details");

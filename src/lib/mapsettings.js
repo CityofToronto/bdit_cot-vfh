@@ -29,6 +29,29 @@ vktMapSett = {
     trans: [530, 270],
     orient: "horizontal",
     labelAlign: "middle"
+  },
+  datatable: true,
+  attachedToSvg: true,
+  cutoff: 10,
+  summaryId: "vkt-dt-tbl",
+  tableTitle: i18next.t("tabletitle", {ns: "vkt_map"}),
+  _selfFormatter: i18n.getNumberFormatter(1),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
+  },
+  x: {
+    label: i18next.t("x_label", {ns: "vkt_map"}), // "Neighbourhood"
+  },
+  y: {
+    label: i18next.t("y_label", {ns: "vkt_map"}), // "Percentage of Traffic (%)"
+  },
+  pair: {
+    getValues: function(d) { // used for data table ONLY
+      // d = { area_s_cd: 77, prop: 7.88722624681311 }
+      let n = Object.values(d)[0];
+      let val = d3.format("(.1f")(Object.values(d)[1]);
+      return [i18next.t(n, {ns: "nhoods"}), val];
+    }
   }
 }
 
