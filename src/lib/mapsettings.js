@@ -35,10 +35,6 @@ vktMapSett = {
   cutoff: 10,
   summaryId: "vkt-dt-tbl",
   tableTitle: i18next.t("tabletitle", {ns: "vkt_map"}),
-  _selfFormatter: i18n.getNumberFormatter(1),
-  formatNum: function(...args) {
-    return this._selfFormatter.format(args);
-  },
   x: {
     label: i18next.t("x_label", {ns: "vkt_map"}) // "Neighbourhood"
   },

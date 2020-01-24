@@ -115,7 +115,6 @@ function lineTable(svg, settings, data, day) {
         .append("th")
         .attr("scope", "col")
         .text(function(d) {
-          console.log("d: ", d)
           return d;
         });
 
@@ -143,7 +142,6 @@ function lineTable(svg, settings, data, day) {
           ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
           ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
         }
-        console.log("pair: ", pair)
         return pair;
       })
     }
@@ -156,7 +154,6 @@ function lineTable(svg, settings, data, day) {
                 sett.pair.getValues.call(sett, d)
               );
             })
-          console.log("flatout: ", flatout)
           return flatout;
         })
     }

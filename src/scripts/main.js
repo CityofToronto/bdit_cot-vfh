@@ -46,6 +46,7 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
 let vktMapSvg;
+let vktMapTableTitle;
 let fractionLineChart;
 let fractionTableTitle;
 let pudoMapTableTitle;
@@ -285,6 +286,8 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
+  vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+  d3.select(".vktmap").select("summary").text(vktMapTableTitle);
   fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
@@ -308,6 +311,7 @@ function uiHandler(event) {
   if (event.target.id === "vkt-menu") {
     ptcvolTOD = event.target.value; // pudos initially
     showVktMap();
+    updateTitles();
   }
 
   if (event.target.id === "pudo-menu") {
@@ -398,6 +402,7 @@ $(document).ready(function(){
   i18n.load(["/resources/i18n"], () => {
     vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
     vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
+    vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
@@ -422,11 +427,13 @@ $(document).ready(function(){
         nnLayer = nnfile;
         ptcVol = ptcvolfile;
 
-        showVktMap();
-
         // initial titles
+        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
         pudoMapTableTitle = `${pudoMapSett.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+
+        showVktMap();
+        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // Display texts
         pageTexts();

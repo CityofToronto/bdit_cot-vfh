@@ -314,7 +314,7 @@
       "hr": "Hour"
     },
     "vkt_map": {
-      "tabletitle":"Top-10 VKT volume hotspots by neighbourhood",
+      "tabletitle":"Top-10 PTC volume hotspots by neighbourhood",
       "x_label": "Neighbourhood",
       "y_label": "Percentage of Traffic (%)"
     },
