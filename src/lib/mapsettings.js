@@ -32,7 +32,16 @@ vktMapSett = {
   },
   datatable: true,
   attachedToSvg: true,
-  cutoff: 10,
+  topTen: function(d) {
+    const n = 10; // Top-n list of VKT hotspots
+    let sortByProp = d
+        .sort((a, b) => (a.prop < b.prop) ? 1 : -1)
+        .filter((p)=> {
+          if (p.area_s_cd < 141) return p;
+        })
+        .slice(0, n);
+    return sortByProp;
+  },
   summaryId: "vkt-dt-tbl",
   tableTitle: i18next.t("tabletitle", {ns: "vkt_map"}),
   x: {

@@ -135,9 +135,8 @@ function showVktMap() {
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Data table for VKT vol map
-  let topTen = ptcVol[ptcvolTOD]
-    .sort((a, b) => (a.prop < b.prop) ? 1 : -1);
-  const vktTable = lineTable(vktMapSvg, vktMapSett, topTen.slice(0, vktMapSett.cutoff), day);
+  const vktTable = lineTable(vktMapSvg, vktMapSett,
+    vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]), day);
 }
 
 function showFractionLine() {
