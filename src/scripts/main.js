@@ -187,7 +187,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  // const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -238,8 +238,8 @@ function initMapBox() {
     {"values": [{"nn":"NN1", "value": 390},
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
-  //
-  // const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
+
+  const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
   // Only show table if action button is clicked
   d3.select(`#${pudoMapSett.actionId}`)
@@ -344,7 +344,7 @@ function uiHandler(event) {
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    // lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+    lineTable(fractionLineChart, settPudoLine, thisPTC, day);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -360,7 +360,7 @@ function uiHandler(event) {
       {"values": [{"nn":"NN1", "value": 390},
       {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
     ]
-    // lineTable(".maptable", pudoMapSett, mockNN, mapday);
+    lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -396,6 +396,8 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
+    vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
+    vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),

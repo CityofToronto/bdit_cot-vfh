@@ -40,7 +40,7 @@ vktMapSett = {
     return this._selfFormatter.format(args);
   },
   x: {
-    label: i18next.t("x_label", {ns: "vkt_map"}), // "Neighbourhood"
+    label: i18next.t("x_label", {ns: "vkt_map"}) // "Neighbourhood"
   },
   y: {
     label: i18next.t("y_label", {ns: "vkt_map"}), // "Percentage of Traffic (%)"
