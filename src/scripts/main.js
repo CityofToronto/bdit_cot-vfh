@@ -321,17 +321,17 @@ function uiHandler(event) {
     // Update map legend
     const legendMenu = {
       "pu": [
-          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"})}
+          {id: "puOnly", text: i18next.t("puOnly", {ns: "pudoMap"})}
         ],
       "do": [
-          {id: 1, text: i18next.t("doOnly", {ns: "pudoMap"})}
+          {id: "doOnly", text: i18next.t("doOnly", {ns: "pudoMap"})}
         ],
       "pudo": [
-          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"})},
-          {id: 2, text: i18next.t("puMax", {ns: "pudoMap"})},
-          {id: 3, text: i18next.t("puMax", {ns: "pudoMid"})},
-          {id: 4, text: i18next.t("puMax", {ns: "pudoMin"})},
-          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"})}
+          {id: "puOnly", text: i18next.t("puOnly", {ns: "pudoMap"})},
+          {id: "puMax", text: i18next.t("puMax", {ns: "pudoMap"})},
+          {id: "puMid", text: i18next.t("puMax", {ns: "pudoMid"})},
+          {id: "puMin", text: i18next.t("puMax", {ns: "pudoMin"})},
+          {id: "doOnly", text: i18next.t("doOnly", {ns: "pudoMap"})}
         ]
     }
     let removedSelection = d3.select();
@@ -349,10 +349,16 @@ function uiHandler(event) {
         legend.enter()
           .append("div")
           .attr("class", "levels new")
+          .attr("id", function(d) {
+            return d.id;
+          })
           .text(function(d) { return d.text; });
 
         legend
           .attr("class", "levels updated")
+          .attr("id", function(d) {
+            return d.id;
+          })
           .text(function(d) { return d.text; });
 
         removedSelection = legend
