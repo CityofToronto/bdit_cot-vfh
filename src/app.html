@@ -127,22 +127,22 @@ See examples below in the boilerplate code
     <!-- place your application script references here: -->
     <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/main.js"></script>
   <!-- endbuild -->
-  <script type="text/javascript" src="/resources/lib/jquery.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/i18next.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/d3.v4.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/d3-legend.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/queue.v1.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/utils.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/i18next.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/bootstrap.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/d3.v4.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/d3-legend.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/queue.v1.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/utils.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script type="text/javascript" src="/resources/lib/choropleth.js"></script>
-  <script type="text/javascript" src="/resources/lib/line.js"></script>
-  <script type="text/javascript" src="/resources/lib/linetable_oneheader.js"></script>
-  <script type="text/javascript" src="/resources/lib/aux.js"></script>
-  <script type="text/javascript" src="/resources/lib/mapLayers.js"></script>
-  <script type="text/javascript" src="/resources/lib/settings.js"></script>
-  <script type="text/javascript" src="/resources/lib/mapsettings.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/choropleth.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/line.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/linetable_oneheader.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/aux.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/mapLayers.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/settings.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/mapsettings.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/<!-- @echo SRC_PATH -->/scripts/topojson/1.6.19/topojson.min.js"></script>
 
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
   <!--@if ENV!='prod'-->
@@ -150,6 +150,7 @@ See examples below in the boilerplate code
     console.log('bdit_cot-vfh running on <!--@echo ENV--> environment');
     console.log('bdit_cot-vfh qa release: <!--@echo QA_RELEASE-->');
     console.log('bdit_cot-vfh build: <!--@echo BUILD_ID-->');
+    console.log('SRC_PATH: <!--@echo SRC_PATH-->');
   </script>
   <!--@endif-->
 <!-- cot-app:footer end-->

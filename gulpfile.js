@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const core = require('./node_modules/core/gulp_helper');
 const pkg = require('./package.json');
 const dir = '/resources';
+const root = '/bdit_cot-vfh/scripts';
 const rq = require('./node_modules/json5/lib/require.js');
 
 core.embeddedApp.createTasks(gulp, {
@@ -24,7 +25,7 @@ gulp.task('_data', () => {
 gulp.task('lib', () => {
   console.log('adding lib dir');
   return gulp.src(['src/lib/**/*'])
-    .pipe(gulp.dest('dist' + dir + '/lib'));
+    .pipe(gulp.dest('dist' + dir + root));
 });
 
 gulp.task('i18n', () => {

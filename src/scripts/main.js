@@ -268,8 +268,8 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
-  vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-  d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+  // vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+  // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
   fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
@@ -361,9 +361,9 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // VKT map
-  vktMapSvg = d3.select(".vktmap.data")
-      .append("svg")
-      .attr("id", "vktmap");
+  // vktMapSvg = d3.select(".vktmap.data")
+  //     .append("svg")
+  //     .attr("id", "vktmap");
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
@@ -371,10 +371,10 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
-  vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
-      .append("div").attr("id", "vktMapTip")
-      .attr("class", "panel panel-default")
-      .append("div").attr("class", "list-group");
+  // vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+  //     .append("div").attr("id", "vktMapTip")
+  //     .attr("class", "panel panel-default")
+  //     .append("div").attr("class", "list-group");
 
   divHoverLine = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "hoverLineFraction")
@@ -383,9 +383,9 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
-    vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
-    vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
-    vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
+    // vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
+    // vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
+    // vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
