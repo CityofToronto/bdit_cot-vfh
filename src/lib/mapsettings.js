@@ -94,6 +94,21 @@ pudoMapSett = {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
     "do": {cluster: ["+", ["get", "dcounts"]]}
   },
+  legendMenu: {
+    "pu": [
+        {id: 1, text: "Pick-ups only", span:"legend-pu"}
+      ],
+    "do": [
+        {id: 5, text: "Drop-offs only", span:"legend-do"}
+      ],
+    "pudo": [
+        {id: 1, text: "Pick-ups only", span:"legend-pu"},
+        {id: 2, text: "Pick-ups > 55%", span:"legend-puMax"},
+        {id: 3, text: "Pick-ups 45&ndash;55%", span:"legend-puMid"},
+        {id: 4, text: "Pick-ups < 45%", span:"legend-puMin"},
+        {id: 5, text: "Drop-offs only", span:"legend-do"}
+      ]
+  },
   hbFocus: {
     "xy": [-79.605800, 43.728970],
     "zoom": 15

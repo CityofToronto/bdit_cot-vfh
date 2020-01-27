@@ -76,8 +76,6 @@ function pageTexts() {
   d3.select("#vkt-menu").node()[1].text = i18next.t("amPeak", {ns: "menus"});
   d3.select("#vkt-menu").node()[2].text = i18next.t("pmPeak", {ns: "menus"});
   d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
-  // ** legend caption
-  // d3.select("#vktlegendcap").html(i18next.t("legcap", {ns: "vktmap"}));
 
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
@@ -112,11 +110,6 @@ function pageTexts() {
   d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
   // ** PUDO map
   d3.select("#pudoMapTitle h4").html(i18next.t("title", {ns: "pudoMap"}));
-  d3.select("#puOnly").append("text").html(i18next.t("puOnly", {ns: "pudoMap"}));
-  d3.select("#puMax").append("text").html(i18next.t("puMax", {ns: "pudoMap"}));
-  d3.select("#puMid").append("text").html(i18next.t("puMid", {ns: "pudoMap"}));
-  d3.select("#puMin").append("text").html(i18next.t("puMin", {ns: "pudoMap"}));
-  d3.select("#doOnly").append("text").html(i18next.t("doOnly", {ns: "pudoMap"}));
 }
 
 function showVktMap() {
@@ -318,76 +311,7 @@ function uiHandler(event) {
     const clearPrevWard = false;
     showFractionLine();
     updateMapbox(clearPrevWard);
-    // Update map legend
-    const legendMenu = {
-      "pu": [
-          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"}), span:"legend-pu"}
-        ],
-      "do": [
-          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"}), span:"legend-do"}
-        ],
-      "pudo": [
-          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"}), span:"legend-pu"},
-          {id: 2, text: i18next.t("puMax", {ns: "pudoMap"}), span:"legend-puMax"},
-          {id: 3, text: i18next.t("puMax", {ns: "pudoMid"}), span:"legend-puMid"},
-          {id: 4, text: i18next.t("puMax", {ns: "pudoMin"}), span:"legend-puMin"},
-          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"}), span:"legend-do"}
-        ]
-    }
-    let removedSelection = d3.select();
-    const dataLayer = d3.select("#pudomap-legend");
-    showData = function() {
-      const data = legendMenu[whichPUDO];
-      removedSelection.remove();
-
-      let root = dataLayer
-        .selectAll(".levels", function(d) {
-          return d.id; //Binds data by id
-        })
-        .data(data);
-
-      // Add div nodes
-      const newGroup = root
-        .enter()
-        .append("div")
-        .attr("class", "levels");
-
-      // Add span under each div node
-      newGroup
-        .append("span")
-        .attr("class", function(d, i) {
-          return d.span;
-        });
-
-      // Add text for each NEW div
-      newGroup
-          .append("text")
-          .text(function(d) {
-            console.log("newGroup text: ", newGroup)
-            return d.text;
-          });
-
-      // Update span class of EXISTING div
-      root.select("span")
-        .attr("class", function(d) {
-          console.log("span: ", d)
-          return d.span;
-        });
-
-      // Update text of EXISTING div
-      root.select("text")
-         .text(function(d) {
-           console.log("update? ", d);
-           return d.text; });
-
-      root.exit().remove();
-        // removedSelection = legend
-        //   .exit()
-        //     .attr("class", "oldlegend removed")
-        //     .text("");
-    }
-    showData();
-
+    plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
     else holdHoverLine(settPudoLine.initHoverLinePos);
     hideTable("fractionline");
@@ -518,6 +442,8 @@ $(document).ready(function(){
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
         d3.select(".maptable").select("caption").text(`${pudoMapSett.tableTitle}, ${i18next.t(day, {ns: "days"})}`);
+        const legendTexts = pudoMapSett.legendMenu[whichPUDO];
+        plotPudoLegend(legendTexts);
       });
   })
 })

@@ -395,3 +395,51 @@ function showWardBoundary() {
   // clear
   layerExists = false;
 }
+
+// Legend for PUDO map (dynamically updates with pudo-menu selection)
+plotPudoLegend = function(data) {
+  const dataLayer = d3.select("#pudomap-legend");
+
+  let root = dataLayer
+    .selectAll(".levels", function(d) {
+      return d.id; // Binds data by id
+    })
+    .data(data);
+
+  // Add div nodes
+  const newGroup = root
+    .enter()
+    .append("div")
+    .attr("class", "levels")
+    .attr("id", function(d, i) {
+      return `lev${i}`;
+    });
+
+  // Add span under each div node
+  newGroup
+    .append("span")
+    .attr("class", function(d, i) {
+      return d.span;
+    });
+
+  // Add text for each NEW div
+  newGroup
+      .append("text")
+      .html(function(d) {
+        return d.text;
+      });
+
+  // Update span class of EXISTING div
+  root.select("span")
+    .attr("class", function(d) {
+      return d.span;
+    });
+
+  // Update text of EXISTING div
+  root.select("text")
+     .html(function(d) {
+       return d.text;
+     });
+
+  root.exit().remove();
+}

@@ -341,12 +341,7 @@
       "tabletitle": "Trip counts in each neighbourhood of selected ward",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",
-      "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)",
-      "puOnly": "Pick-ups only",
-      "puMax": "Pick-ups > 55%",
-      "puMid": "Pick-ups 45&ndash;55%",
-      "puMin": "Pick-ups < 45%",
-      "doOnly": "Drop-offs only"
+      "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)"
     }
   }
 }
