@@ -67,16 +67,6 @@ function pageTexts() {
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
 
-  // VKT
-  d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
-  d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
-  // ** vkt dropdown menu
-  d3.select("#for-vkt label").text(i18next.t("vkt-menu", {ns: "menus"}));
-  d3.select("#vkt-menu").node()[0].text = i18next.t("allday", {ns: "menus"});
-  d3.select("#vkt-menu").node()[1].text = i18next.t("amPeak", {ns: "menus"});
-  d3.select("#vkt-menu").node()[2].text = i18next.t("pmPeak", {ns: "menus"});
-  d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
-
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
   d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
@@ -421,12 +411,12 @@ $(document).ready(function(){
         ptcVol = ptcvolfile;
 
         // initial titles
-        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        // vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
         pudoMapTableTitle = `${pudoMapSett.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
 
-        showVktMap();
-        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+        // showVktMap();
+        // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // Display texts
         pageTexts();
