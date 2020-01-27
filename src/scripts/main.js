@@ -321,17 +321,17 @@ function uiHandler(event) {
     // Update map legend
     const legendMenu = {
       "pu": [
-          {id: "puOnly", text: i18next.t("puOnly", {ns: "pudoMap"})}
+          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"}), span:"legend-pu"}
         ],
       "do": [
-          {id: "doOnly", text: i18next.t("doOnly", {ns: "pudoMap"})}
+          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"}), span:"legend-do"}
         ],
       "pudo": [
-          {id: "puOnly", text: i18next.t("puOnly", {ns: "pudoMap"})},
-          {id: "puMax", text: i18next.t("puMax", {ns: "pudoMap"})},
-          {id: "puMid", text: i18next.t("puMax", {ns: "pudoMid"})},
-          {id: "puMin", text: i18next.t("puMax", {ns: "pudoMin"})},
-          {id: "doOnly", text: i18next.t("doOnly", {ns: "pudoMap"})}
+          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"}), span:"legend-pu"},
+          {id: 2, text: i18next.t("puMax", {ns: "pudoMap"}), span:"legend-puMax"},
+          {id: 3, text: i18next.t("puMax", {ns: "pudoMid"}), span:"legend-puMid"},
+          {id: 4, text: i18next.t("puMax", {ns: "pudoMin"}), span:"legend-puMin"},
+          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"}), span:"legend-do"}
         ]
     }
     let removedSelection = d3.select();
@@ -340,32 +340,51 @@ function uiHandler(event) {
       const data = legendMenu[whichPUDO];
       removedSelection.remove();
 
-      let legend = dataLayer
+      let root = dataLayer
         .selectAll(".levels", function(d) {
           return d.id; //Binds data by id
         })
         .data(data);
 
-        legend.enter()
-          .append("div")
-          .attr("class", "levels new")
-          .attr("id", function(d) {
-            return d.id;
-          })
-          .text(function(d) { return d.text; });
+      // Add div nodes
+      const newGroup = root
+        .enter()
+        .append("div")
+        .attr("class", "levels");
 
-        legend
-          .attr("class", "levels updated")
-          .attr("id", function(d) {
-            return d.id;
-          })
-          .text(function(d) { return d.text; });
+      // Add span under each div node
+      newGroup
+        .append("span")
+        .attr("class", function(d, i) {
+          return d.span;
+        });
 
-        removedSelection = legend
-          .exit()
-            .attr("class", "oldlegend removed")
-            .text("")
-        //     .text(function(d) { return d.text + " (Removed)"; });
+      // Add text for each NEW div
+      newGroup
+          .append("text")
+          .text(function(d) {
+            console.log("newGroup text: ", newGroup)
+            return d.text;
+          });
+
+      // Update span class of EXISTING div
+      root.select("span")
+        .attr("class", function(d) {
+          console.log("span: ", d)
+          return d.span;
+        });
+
+      // Update text of EXISTING div
+      root.select("text")
+         .text(function(d) {
+           console.log("update? ", d);
+           return d.text; });
+
+      root.exit().remove();
+        // removedSelection = legend
+        //   .exit()
+        //     .attr("class", "oldlegend removed")
+        //     .text("");
     }
     showData();
 
