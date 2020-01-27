@@ -70,6 +70,8 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
+  let tiptext;
+  console.log("data: ", data)
 
   if (overlay.empty()) {
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
@@ -86,9 +88,20 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .attr("class", "hoverLine")
         .style("display", "inline")
         .style("visibility", "visible");
+
+    tiptext = overlay.append("text")
+        .attr("class", "hoverLineText firstline")
+        .style("display", "inline")
+        .style("visibility", "visible");
+    tiptext2 = overlay.append("text")
+        .attr("class", "hoverLineText secondline")
+        .style("display", "inline")
+        .style("visibility", "visible");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
+    tiptext = overlay.select("text");
+    tiptext2 = overlay.select("text");
   }
 
   rect
@@ -128,6 +141,21 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
             let val = data[Object.keys(data)[1]][i];
             let idx = data.keys.values[i];
             let thisTOD = findTOD([hr, val, idx]);
+            console.log("thisTOD: ", thisTOD)
+
+            tiptext
+              .text(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val}`)
+              .attr("transform", function(d, i) {
+                return `translate(0, 375)`;
+              })
+              .style("visibility", "visible");
+
+            tiptext2
+              .text(`${thisTOD[0]} ${hr}:00, ${i18next.t(thisTOD[1], {ns: "timewin"})}`)
+              .attr("transform", function(d, i) {
+                return `translate(0, 395)`;
+              })
+              .style("visibility", "visible");
 
             // Store info to pass to tooltip
             const hoverData = {};
@@ -168,16 +196,16 @@ function hoverlineTip(div, dataObj) {
     return rtnTable;
   };
 
-  // div.html(makeTable())
-  //     .style("opacity", .999)
-  //     .style("left", ((d3.event.pageX - 80) + "px"))
-  //     .style("top", ((d3.event.pageY - 300) + "px"))
-  //     .style("pointer-events", "none");
   div.html(makeTable())
       .style("opacity", .999)
-      .style("left", settPudoLine.hoverLineDivMargin.left)
-      .style("top", settPudoLine.hoverLineDivMargin.top)
+      .style("left", ((d3.event.pageX - 0) + "px"))
+      .style("top", ((d3.event.pageY - 80) + "px"))
       .style("pointer-events", "none");
+  // div.html(makeTable())
+  //     .style("opacity", .999)
+  //     .style("left", settPudoLine.hoverLineDivMargin.left)
+  //     .style("top", settPudoLine.hoverLineDivMargin.top)
+  //     .style("pointer-events", "none");
 }
 
 // -----------------------------------------------------------------------------
@@ -202,14 +230,15 @@ function rotateLabels(chartId, sett) {
 function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Move hoverLine to specified coordinates
   holdHoverLine(lineCoords);
+  console.log("hoverCoords: ", hoverCoords)
 
   // Show tooltip
   divHoverLine.html(hoverText)
     .style("opacity", .999)
-    // .style("left", ((hoverCoords[0] - 50) + "px"))
-    // .style("top", ((hoverCoords[1] - 300) + "px"))
-    .style("left", settPudoLine.hoverLineDivMargin.left)
-    .style("top", settPudoLine.hoverLineDivMargin.top)
+    .style("left", ((hoverCoords[0] - 50) + "px"))
+    .style("top", ((hoverCoords[1] - 0) + "px"))
+    // .style("left", settPudoLine.hoverLineDivMargin.left)
+    // .style("top", settPudoLine.hoverLineDivMargin.top)
     .style("pointer-events", "none");
 }
 

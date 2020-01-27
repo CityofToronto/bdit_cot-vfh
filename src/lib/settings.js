@@ -200,7 +200,7 @@ settPudoLine = {
   margin: {
     top: 55,
     right: 55,
-    bottom: 100,
+    bottom: 63,
     left: 100
   },
   aspectRatio: 16 / 8,
@@ -340,10 +340,10 @@ settPudoLine = {
   initHoverLinePos: [35.73652694610779, 35.73652694610779, 0, 333],
   hoverLineDivMargin: {
     left: "80px",
-    top: "2030px"
+    top: "0px"
   },
   initTipText: '<table class="table-striped"><tr><td>Trip count: 0.87</td></tr><tr><td>Monday 8:00, AM peak</td></tr></table>',
-  initTipPosn: [180, 905],
+  initTipPosn: [180, 0],
   width: 900,
   datatable: true,
   attachedToSvg: true,
