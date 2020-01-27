@@ -318,6 +318,51 @@ function uiHandler(event) {
     const clearPrevWard = false;
     showFractionLine();
     updateMapbox(clearPrevWard);
+    // Update map legend
+    const legendMenu = {
+      "pu": [
+          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"})}
+        ],
+      "do": [
+          {id: 1, text: i18next.t("doOnly", {ns: "pudoMap"})}
+        ],
+      "pudo": [
+          {id: 1, text: i18next.t("puOnly", {ns: "pudoMap"})},
+          {id: 2, text: i18next.t("puMax", {ns: "pudoMap"})},
+          {id: 3, text: i18next.t("puMax", {ns: "pudoMid"})},
+          {id: 4, text: i18next.t("puMax", {ns: "pudoMin"})},
+          {id: 5, text: i18next.t("doOnly", {ns: "pudoMap"})}
+        ]
+    }
+    let removedSelection = d3.select();
+    const dataLayer = d3.select("#pudomap-legend");
+    showData = function() {
+      const data = legendMenu[whichPUDO];
+      removedSelection.remove();
+
+      let legend = dataLayer
+        .selectAll(".levels", function(d) {
+          return d.id; //Binds data by id
+        })
+        .data(data);
+
+        legend.enter()
+          .append("div")
+          .attr("class", "levels new")
+          .text(function(d) { return d.text; });
+
+        legend
+          .attr("class", "levels updated")
+          .text(function(d) { return d.text; });
+
+        removedSelection = legend
+          .exit()
+            .attr("class", "oldlegend removed")
+            .text("")
+        //     .text(function(d) { return d.text + " (Removed)"; });
+    }
+    showData();
+
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
     else holdHoverLine(settPudoLine.initHoverLinePos);
     hideTable("fractionline");
