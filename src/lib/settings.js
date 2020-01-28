@@ -198,9 +198,9 @@ settingsTOWline = {
 settPudoLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
-    top: 55,
+    top: 85,
     right: 55,
-    bottom: 63,
+    bottom: 73,
     left: 100
   },
   aspectRatio: 16 / 8,
@@ -337,7 +337,11 @@ settPudoLine = {
     }
   },
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
-  initHoverLinePos: [35.73652694610779, 35.73652694610779, 0, 333],
+  initHoverLinePos: [35.73652694610779, 35.73652694610779, -20, 292],
+  tipTextCoords: {
+    text1: [0, -50],
+    text2: [140, -50]
+  },
   hoverLineDivMargin: {
     left: "80px",
     top: "0px"

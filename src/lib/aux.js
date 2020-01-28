@@ -70,7 +70,8 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
-  let tiptext;
+  let tiptext1;
+  let tipetext2;
   console.log("data: ", data)
 
   if (overlay.empty()) {
@@ -89,7 +90,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .style("display", "inline")
         .style("visibility", "visible");
 
-    tiptext = overlay.append("text")
+    tiptext1 = overlay.append("text")
         .attr("class", "hoverLineText firstline")
         .style("display", "inline")
         .style("visibility", "visible");
@@ -100,7 +101,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
-    tiptext = overlay.select("text");
+    tiptext1 = overlay.select("text");
     tiptext2 = overlay.select("text");
   }
 
@@ -138,22 +139,23 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
             let hr = i % 24;
-            let val = data[Object.keys(data)[1]][i];
+            let val = d3.format("(.2f")(data[Object.keys(data)[1]][i]);
             let idx = data.keys.values[i];
             let thisTOD = findTOD([hr, val, idx]);
-            console.log("thisTOD: ", thisTOD)
 
-            tiptext
-              .text(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val}`)
+            tiptext1
+              .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
               .attr("transform", function(d, i) {
-                return `translate(0, 375)`;
+                return `translate(${chartObj.settings.tipTextCoords.text1[0]},
+                        ${chartObj.settings.tipTextCoords.text1[1]})`;
               })
               .style("visibility", "visible");
 
             tiptext2
-              .text(`${thisTOD[0]} ${hr}:00, ${i18next.t(thisTOD[1], {ns: "timewin"})}`)
+              .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
               .attr("transform", function(d, i) {
-                return `translate(0, 395)`;
+                return `translate(${chartObj.settings.tipTextCoords.text2[0]},
+                        ${chartObj.settings.tipTextCoords.text2[1]})`;
               })
               .style("visibility", "visible");
 
@@ -182,32 +184,6 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .attr("y2", chartObj.settings.innerHeight);
 }
 
-function hoverlineTip(div, dataObj) {
-  const cityVal = d3.format("(.2f")(dataObj.ward[0]);
-  const thisHr = `${dataObj.ward[1]}:00`;
-  const day = dataObj.ward[2][0];
-  const win = i18next.t(dataObj.ward[2][1], {ns: "timewin"});
-
-  const makeTable = function() {
-    let rtnTable = `<table class="table-striped"><tr><td>${i18next.t("y_label", {ns: "ward_towline"})}: ${cityVal}</td></tr>`
-    if (win) rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}, ${win}</td></tr>`);
-    else rtnTable = rtnTable.concat(`<tr><td>${day} ${thisHr}</td></tr>`);
-    rtnTable = rtnTable.concat("</table>");
-    return rtnTable;
-  };
-
-  div.html(makeTable())
-      .style("opacity", .999)
-      .style("left", ((d3.event.pageX - 0) + "px"))
-      .style("top", ((d3.event.pageY - 80) + "px"))
-      .style("pointer-events", "none");
-  // div.html(makeTable())
-  //     .style("opacity", .999)
-  //     .style("left", settPudoLine.hoverLineDivMargin.left)
-  //     .style("top", settPudoLine.hoverLineDivMargin.top)
-  //     .style("pointer-events", "none");
-}
-
 // -----------------------------------------------------------------------------
 // Chart axis label rotation
 function rotateLabels(chartId, sett) {
@@ -230,16 +206,6 @@ function rotateLabels(chartId, sett) {
 function showLineHover(lineCoords, hoverText, hoverCoords) {
   // Move hoverLine to specified coordinates
   holdHoverLine(lineCoords);
-  console.log("hoverCoords: ", hoverCoords)
-
-  // Show tooltip
-  divHoverLine.html(hoverText)
-    .style("opacity", .999)
-    .style("left", ((hoverCoords[0] - 50) + "px"))
-    .style("top", ((hoverCoords[1] - 0) + "px"))
-    // .style("left", settPudoLine.hoverLineDivMargin.left)
-    // .style("top", settPudoLine.hoverLineDivMargin.top)
-    .style("pointer-events", "none");
 }
 
 // -----------------------------------------------------------------------------

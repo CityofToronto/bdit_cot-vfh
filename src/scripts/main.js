@@ -54,7 +54,6 @@ let wardpudoMap;
 
 // Tooltip div names
 let vktMapTip;
-let divHoverLine;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -145,7 +144,6 @@ function showFractionLine() {
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
-      hoverlineTip(divHoverLine, d);
       // Call corresponding PUDO map
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
@@ -154,12 +152,6 @@ function showFractionLine() {
       updateMapbox(clearPrevWard);
     }
   }, () => { // onMsOutCb; hide tooltip on exit only if hoverLine not frozen
-    // if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
-    //   divHoverLine.style("opacity", 0);
-    // } else {
-    //   saveHoverLinePos();
-    // }
-    divHoverLine.style("opacity", 1);
     saveHoverLinePos();
   }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
@@ -375,11 +367,6 @@ $(document).ready(function(){
   //     .append("div").attr("id", "vktMapTip")
   //     .attr("class", "panel panel-default")
   //     .append("div").attr("class", "list-group");
-
-  divHoverLine = d3.select("body").select("#bdit_cot-vfh_container")
-      .append("div").attr("id", "hoverLineFraction")
-      .attr("class", "panel panel-default")
-      .append("div").attr("class", "list-group");
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
