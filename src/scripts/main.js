@@ -414,7 +414,7 @@ $(document).ready(function(){
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        showLineHover(settPudoLine.initHoverLine.coords, settPudoLine.initTipText, settPudoLine.initTipPosn);
+        showLineHover(settPudoLine.initHoverLine.coords);
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);

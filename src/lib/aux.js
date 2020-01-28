@@ -70,17 +70,33 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
+  let mydiv;
   let tiptext1;
   let tipetext2;
   let hr;
   let val;
   let thisTOD;
+  let node;
+  // let textdiv;
+  // const textLayer = d3.select("#fractionline .overlay");
+
+  const dataSets = [
+    [
+      {id: 1, text: "hello"}
+    ],
+    [
+      {id: 2, text: "world"}
+    ]
+  ];
+  let removedSelection = d3.select();
 
   if (overlay.empty()) {
+    console.log("NEW****************************")
     hr = chartObj.settings.initHoverLine.indices[0];
     idx = chartObj.settings.initHoverLine.indices[1];
     val = d3.format("(.2f")(data[Object.keys(data)[1]][idx]);
     thisTOD = findTOD([hr, idx]);
+
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
         .append("g")
         .attr("class", "overlay");
@@ -96,31 +112,72 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .style("display", "inline")
         .style("visibility", "visible");
 
-    tiptext1 = overlay.append("text")
-        .attr("class", "hoverLineText firstline")
-        .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
-        .attr("transform", function(d, i) {
-          return `translate(${chartObj.settings.tipTextCoords.text1[0]},
-                  ${chartObj.settings.tipTextCoords.text1[1]})`;
-        })
-        .style("display", "inline")
-        .style("visibility", "visible");
+    mydiv = overlay.append("g").attr("class", "mydiv");
 
-    tiptext2 = overlay.append("text")
-        .attr("class", "hoverLineText secondline")
-        .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
-        .attr("transform", function(d, i) {
-          return `translate(${chartObj.settings.tipTextCoords.text2[0]},
-                  ${chartObj.settings.tipTextCoords.text2[1]})`;
-        })
-        .style("display", "inline")
-        .style("visibility", "visible");
+    // tiptext1 = overlay.append("text")
+    //     .attr("class", "hoverLineText firstline")
+    //     .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
+    //     .attr("transform", function(d, i) {
+    //       return `translate(${chartObj.settings.tipTextCoords.text1[0]},
+    //               ${chartObj.settings.tipTextCoords.text1[1]})`;
+    //     })
+    //     .style("display", "inline")
+    //     .style("visibility", "visible");
+    //
+    // tiptext2 = overlay.append("text")
+    //     .attr("class", "hoverLineText secondline")
+    //     .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
+    //     .attr("transform", function(d, i) {
+    //       return `translate(${chartObj.settings.tipTextCoords.text2[0]},
+    //               ${chartObj.settings.tipTextCoords.text2[1]})`;
+    //     })
+    //     .style("display", "inline")
+    //     .style("visibility", "visible");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
     tiptext1 = overlay.select("text");
     tiptext2 = overlay.select("text");
   }
+
+  // -------------------------------------------------
+  console.log("start the bind")
+  // Umbrella group
+  const root = mydiv.selectAll(".lab", function(d) {
+      // Binds data by id
+      return d.id;
+    })
+    .data(dataSets[0]);
+
+    // Add div nodes
+    const newGroup = root
+      .enter()
+      .append("g")
+      .attr("class", "levels")
+      .attr("id", function(d, i) {
+        return `lev${i}`;
+      });
+
+
+    // Add text for each NEW div
+    newGroup
+        .append("text")
+        .html(function(d) {
+          return d.text;
+        })
+        .attr("transform", function() {
+          return `translate(${chartObj.settings.tipTextCoords.text1[0]},
+                  ${chartObj.settings.tipTextCoords.text1[1]})`;
+        });
+
+    // Update text of EXISTING div
+    root.select("text")
+       .html(function(d) {
+         return d.text;
+       });
+
+    root.exit().remove();
+  // -------------------------------------------------
 
   rect
       .attr("width", chartObj.settings.innerWidth)
@@ -160,21 +217,21 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
             idx = data.keys.values[i];
             thisTOD = findTOD([hr, idx]);
 
-            tiptext1
-              .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
-              .attr("transform", function(d, i) {
-                return `translate(${chartObj.settings.tipTextCoords.text1[0]},
-                        ${chartObj.settings.tipTextCoords.text1[1]})`;
-              })
-              .style("visibility", "visible");
-
-            tiptext2
-              .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
-              .attr("transform", function(d, i) {
-                return `translate(${chartObj.settings.tipTextCoords.text2[0]},
-                        ${chartObj.settings.tipTextCoords.text2[1]})`;
-              })
-              .style("visibility", "visible");
+            // tiptext1
+            //   .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
+            //   .attr("transform", function(d, i) {
+            //     return `translate(${chartObj.settings.tipTextCoords.text1[0]},
+            //             ${chartObj.settings.tipTextCoords.text1[1]})`;
+            //   })
+            //   .style("visibility", "visible");
+            //
+            // tiptext2
+            //   .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
+            //   .attr("transform", function(d, i) {
+            //     return `translate(${chartObj.settings.tipTextCoords.text2[0]},
+            //             ${chartObj.settings.tipTextCoords.text2[1]})`;
+            //   })
+            //   .style("visibility", "visible");
 
             // Store info to pass to tooltip
             const hoverData = {};
@@ -220,8 +277,7 @@ function rotateLabels(chartId, sett) {
 }
 
 // -----------------------------------------------------------------------------
-function showLineHover(lineCoords, hoverText, hoverCoords) {
-  // Move hoverLine to specified coordinates
+function showLineHover(lineCoords) { // Move hoverLine to specified coordinates
   holdHoverLine(lineCoords);
 }
 
@@ -245,8 +301,7 @@ function humberStory() {
   }
 
   // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-  showLineHover(settPudoLine.initHoverLine.coords, settPudoLine.initTipText,
-    settPudoLine.initTipPosn);
+  showLineHover(settPudoLine.initHoverLine.coords);
 
   // Set focus and zoom to Humber College
   map.flyTo({center: pudoMapSett.hbFocus.xy});
