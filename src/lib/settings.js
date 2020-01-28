@@ -337,16 +337,14 @@ settPudoLine = {
     }
   },
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
-  initHoverLinePos: [35.73652694610779, 35.73652694610779, -20, 292],
+  initHoverLine: {
+    coords: [35.73652694610779, 35.73652694610779, -20, 292],
+    indices: [7, 7] // hr, index
+  },
   tipTextCoords: {
     text1: [0, -50],
     text2: [140, -50]
   },
-  hoverLineDivMargin: {
-    left: "80px",
-    top: "0px"
-  },
-  initTipText: '<table class="table-striped"><tr><td>Trip count: 0.87</td></tr><tr><td>Monday 8:00, AM peak</td></tr></table>',
   initTipPosn: [180, 0],
   width: 900,
   datatable: true,

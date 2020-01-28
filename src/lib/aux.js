@@ -5,7 +5,7 @@ function findTOD(...args) {
   let win;
 
   // Find day of week
-  const idx = args[0][2];
+  const idx = args[0][1];
   if (idx < 24) dow = "Monday";
   else if (idx < 48) dow = "Tuesday";
   else if (idx < 72) dow = "Wednesday";
@@ -72,9 +72,15 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let line;
   let tiptext1;
   let tipetext2;
-  console.log("data: ", data)
+  let hr;
+  let val;
+  let thisTOD;
 
   if (overlay.empty()) {
+    hr = chartObj.settings.initHoverLine.indices[0];
+    idx = chartObj.settings.initHoverLine.indices[1];
+    val = d3.format("(.2f")(data[Object.keys(data)[1]][idx]);
+    thisTOD = findTOD([hr, idx]);
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
         .append("g")
         .attr("class", "overlay");
@@ -92,10 +98,21 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
     tiptext1 = overlay.append("text")
         .attr("class", "hoverLineText firstline")
+        .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
+        .attr("transform", function(d, i) {
+          return `translate(${chartObj.settings.tipTextCoords.text1[0]},
+                  ${chartObj.settings.tipTextCoords.text1[1]})`;
+        })
         .style("display", "inline")
         .style("visibility", "visible");
+
     tiptext2 = overlay.append("text")
         .attr("class", "hoverLineText secondline")
+        .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
+        .attr("transform", function(d, i) {
+          return `translate(${chartObj.settings.tipTextCoords.text2[0]},
+                  ${chartObj.settings.tipTextCoords.text2[1]})`;
+        })
         .style("display", "inline")
         .style("visibility", "visible");
   } else {
@@ -138,10 +155,10 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           line.style("visibility", "visible");
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
-            let hr = i % 24;
-            let val = d3.format("(.2f")(data[Object.keys(data)[1]][i]);
-            let idx = data.keys.values[i];
-            let thisTOD = findTOD([hr, val, idx]);
+            hr = i % 24;
+            val = d3.format("(.2f")(data[Object.keys(data)[1]][i]);
+            idx = data.keys.values[i];
+            thisTOD = findTOD([hr, idx]);
 
             tiptext1
               .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
@@ -227,10 +244,8 @@ function humberStory() {
     d3.select(".mapboxgl-canvas-container").classed("moveable", true);
   }
 
-  // Clear any previously frozen hoverLine tooltips
-  divHoverLine.style("opacity", 0);
   // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-  showLineHover(settPudoLine.initHoverLinePos, settPudoLine.initTipText,
+  showLineHover(settPudoLine.initHoverLine.coords, settPudoLine.initTipText,
     settPudoLine.initTipPosn);
 
   // Set focus and zoom to Humber College

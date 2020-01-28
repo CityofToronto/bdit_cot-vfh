@@ -295,7 +295,7 @@ function uiHandler(event) {
     updateMapbox(clearPrevWard);
     plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
-    else holdHoverLine(settPudoLine.initHoverLinePos);
+    else holdHoverLine(settPudoLine.initHoverLine.coords);
     hideTable("fractionline");
   }
 
@@ -311,7 +311,7 @@ function uiHandler(event) {
       updateMapbox(clearPrevWard);
       showFractionLine(); // calls updateMapbox() for hoverLine;
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
-      else holdHoverLine(settPudoLine.initHoverLinePos);
+      else holdHoverLine(settPudoLine.initHoverLine.coords);
     });
 
     map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
@@ -414,7 +414,7 @@ $(document).ready(function(){
         d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        showLineHover(settPudoLine.initHoverLinePos, settPudoLine.initTipText, settPudoLine.initTipPosn);
+        showLineHover(settPudoLine.initHoverLine.coords, settPudoLine.initTipText, settPudoLine.initTipPosn);
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
