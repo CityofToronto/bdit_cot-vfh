@@ -341,10 +341,7 @@ settPudoLine = {
     coords: [35.73652694610779, 35.73652694610779, -20, 292],
     indices: [7, 7] // hr, index
   },
-  tipTextCoords: {
-    text1: [0, -50],
-    text2: [140, -50]
-  },
+  tipTextCoords: [0, -50],
   initTipPosn: [180, 0],
   width: 900,
   datatable: true,

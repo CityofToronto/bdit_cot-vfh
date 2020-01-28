@@ -45,6 +45,13 @@ function holdHoverLine(ptArray) {
   d3.select(".hoverLine").attr("y1", ptArray[2]);
   d3.select(".hoverLine").attr("y2", ptArray[3]);
 }
+function showHoverText(...args) {
+  const initText = [{
+    id: 1,
+    text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${args[0]}, ${args[2][0]} ${args[1]}:00 (${i18next.t(args[2][1], {ns: "timewin"})})`
+  }];
+  hoverTextBind(initText);
+}
 
 // Hide table and close details (to be opened with action button)
 function hideTable(divClassName) {
@@ -70,33 +77,14 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
-  let mydiv;
-  let tiptext1;
-  let tipetext2;
+  let textg;
   let hr;
   let val;
   let thisTOD;
-  let node;
-  // let textdiv;
-  // const textLayer = d3.select("#fractionline .overlay");
 
-  const dataSets = [
-    [
-      {id: 1, text: "hello"}
-    ],
-    [
-      {id: 2, text: "world"}
-    ]
-  ];
   let removedSelection = d3.select();
 
   if (overlay.empty()) {
-    console.log("NEW****************************")
-    hr = chartObj.settings.initHoverLine.indices[0];
-    idx = chartObj.settings.initHoverLine.indices[1];
-    val = d3.format("(.2f")(data[Object.keys(data)[1]][idx]);
-    thisTOD = findTOD([hr, idx]);
-
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
         .append("g")
         .attr("class", "overlay");
@@ -112,52 +100,27 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .style("display", "inline")
         .style("visibility", "visible");
 
-    mydiv = overlay.append("g").attr("class", "mydiv");
-
-    // tiptext1 = overlay.append("text")
-    //     .attr("class", "hoverLineText firstline")
-    //     .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
-    //     .attr("transform", function(d, i) {
-    //       return `translate(${chartObj.settings.tipTextCoords.text1[0]},
-    //               ${chartObj.settings.tipTextCoords.text1[1]})`;
-    //     })
-    //     .style("display", "inline")
-    //     .style("visibility", "visible");
-    //
-    // tiptext2 = overlay.append("text")
-    //     .attr("class", "hoverLineText secondline")
-    //     .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
-    //     .attr("transform", function(d, i) {
-    //       return `translate(${chartObj.settings.tipTextCoords.text2[0]},
-    //               ${chartObj.settings.tipTextCoords.text2[1]})`;
-    //     })
-    //     .style("display", "inline")
-    //     .style("visibility", "visible");
+    textg = overlay.append("g").attr("class", "textg");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
-    tiptext1 = overlay.select("text");
-    tiptext2 = overlay.select("text");
+    textg = overlay.select(".textg");
   }
 
   // -------------------------------------------------
-  console.log("start the bind")
-  // Umbrella group
-  const root = mydiv.selectAll(".lab", function(d) {
-      // Binds data by id
-      return d.id;
-    })
-    .data(dataSets[0]);
+  hoverTextBind = function(data) {
+    // Umbrella group
+    const root = textg.selectAll(".lab", function(d) {
+        // Binds data by id
+        return d.id;
+      })
+      .data(data);
 
     // Add div nodes
     const newGroup = root
       .enter()
       .append("g")
-      .attr("class", "levels")
-      .attr("id", function(d, i) {
-        return `lev${i}`;
-      });
-
+      .attr("class", "lab");
 
     // Add text for each NEW div
     newGroup
@@ -166,8 +129,8 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           return d.text;
         })
         .attr("transform", function() {
-          return `translate(${chartObj.settings.tipTextCoords.text1[0]},
-                  ${chartObj.settings.tipTextCoords.text1[1]})`;
+          return `translate(${chartObj.settings.tipTextCoords[0]},
+                  ${chartObj.settings.tipTextCoords[1]})`;
         });
 
     // Update text of EXISTING div
@@ -177,6 +140,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
        });
 
     root.exit().remove();
+  }
   // -------------------------------------------------
 
   rect
@@ -216,26 +180,15 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
             val = d3.format("(.2f")(data[Object.keys(data)[1]][i]);
             idx = data.keys.values[i];
             thisTOD = findTOD([hr, idx]);
-
-            // tiptext1
-            //   .html(`${i18next.t("y_label", {ns: "ward_towline"})}: ${val},`)
-            //   .attr("transform", function(d, i) {
-            //     return `translate(${chartObj.settings.tipTextCoords.text1[0]},
-            //             ${chartObj.settings.tipTextCoords.text1[1]})`;
-            //   })
-            //   .style("visibility", "visible");
-            //
-            // tiptext2
-            //   .html(`${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`)
-            //   .attr("transform", function(d, i) {
-            //     return `translate(${chartObj.settings.tipTextCoords.text2[0]},
-            //             ${chartObj.settings.tipTextCoords.text2[1]})`;
-            //   })
-            //   .style("visibility", "visible");
+            const updateText = [{
+              id: 1,
+              text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${val}, ${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`
+            }];
+            hoverTextBind(updateText);
 
             // Store info to pass to tooltip
             const hoverData = {};
-            hoverData.ward = [val, hr, thisTOD];
+            hoverData.ward = [i, hr, thisTOD];
             onMsOverCb(hoverData);
           }
         }

@@ -42,6 +42,8 @@ let day = "mon"; // Ward trip fraction table menu selector
 let mapday = "mon"; // Day for map table menu
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
+let pudoIdx; // index of PUDO line data for hover tool text
+let pudoHr; // hour of PUDO line data for hover tool text
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
@@ -145,13 +147,16 @@ function showFractionLine() {
     if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
       d3.select(".leaflet-popup").remove(); // remove any open map marker popups
       // Call corresponding PUDO map
+      pudoIdx = d.ward[0];
+      pudoHr = d.ward[1];
       pudoDay = d.ward[2][0];
       pudoTOD = d.ward[2][1];
+
       const clearPrevWard = false;
       updatePudoMapTitle();
       updateMapbox(clearPrevWard);
     }
-  }, () => { // onMsOutCb; hide tooltip on exit only if hoverLine not frozen
+  }, () => { // onMsOutCb;
     saveHoverLinePos();
   }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
@@ -292,8 +297,13 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
     showFractionLine();
+    console.log(pudoIdx, pudoHr, pudoDay, pudoTOD)
+
+
+
     updateMapbox(clearPrevWard);
     plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend
+    console.log("saveHoverPos: ", saveHoverPos)
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
     else holdHoverLine(settPudoLine.initHoverLine.coords);
     hideTable("fractionline");
@@ -411,10 +421,14 @@ $(document).ready(function(){
         // Line Charts
         showFractionLine();
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
-
+        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);        
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settPudoLine.initHoverLine.coords);
+        const hr = settPudoLine.initHoverLine.indices[0];
+        const idx = settPudoLine.initHoverLine.indices[1];
+        const thisTOD = findTOD([hr, idx]);
+        const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][idx]);
+        showHoverText(val, hr, thisTOD);
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
