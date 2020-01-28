@@ -45,6 +45,7 @@ function holdHoverLine(ptArray) {
   d3.select(".hoverLine").attr("y1", ptArray[2]);
   d3.select(".hoverLine").attr("y2", ptArray[3]);
 }
+// Display hover tool text in PUDO line chart
 function showHoverText(...args) {
   const initText = [{
     id: 1,
@@ -255,6 +256,11 @@ function humberStory() {
 
   // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
   showLineHover(settPudoLine.initHoverLine.coords);
+  pudoHr = settPudoLine.initHoverLine.indices[0];
+  pudoIdx = settPudoLine.initHoverLine.indices[1];
+  const thisTOD = findTOD([pudoHr, pudoIdx]);
+  const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
+  showHoverText(val, pudoHr, thisTOD);
 
   // Set focus and zoom to Humber College
   map.flyTo({center: pudoMapSett.hbFocus.xy});
