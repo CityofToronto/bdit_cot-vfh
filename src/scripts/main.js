@@ -297,13 +297,13 @@ function uiHandler(event) {
     whichPUDO = event.target.value; // pudos initially
     const clearPrevWard = false;
     showFractionLine();
-    console.log(pudoIdx, pudoHr, pudoDay, pudoTOD)
-
-
+    // Update hover tool text
+    const val = d3.format("(.2f")(ptcFraction[ward][whichPUDO][pudoIdx]);
+    const thisTOD = findTOD([pudoHr, pudoIdx]);
+    showHoverText(val, pudoHr, thisTOD);
 
     updateMapbox(clearPrevWard);
     plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend
-    console.log("saveHoverPos: ", saveHoverPos)
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
     else holdHoverLine(settPudoLine.initHoverLine.coords);
     hideTable("fractionline");
@@ -320,6 +320,11 @@ function uiHandler(event) {
       showWardBoundary();
       updateMapbox(clearPrevWard);
       showFractionLine(); // calls updateMapbox() for hoverLine;
+      // Update hover tool text
+      const val = d3.format("(.2f")(ptcFraction[ward][whichPUDO][pudoIdx]);
+      const thisTOD = findTOD([pudoHr, pudoIdx]);
+      showHoverText(val, pudoHr, thisTOD);
+      
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
       else holdHoverLine(settPudoLine.initHoverLine.coords);
     });
@@ -421,14 +426,14 @@ $(document).ready(function(){
         // Line Charts
         showFractionLine();
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);        
+        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settPudoLine.initHoverLine.coords);
-        const hr = settPudoLine.initHoverLine.indices[0];
-        const idx = settPudoLine.initHoverLine.indices[1];
-        const thisTOD = findTOD([hr, idx]);
-        const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][idx]);
-        showHoverText(val, hr, thisTOD);
+        pudoHr = settPudoLine.initHoverLine.indices[0];
+        pudoIdx = settPudoLine.initHoverLine.indices[1];
+        const thisTOD = findTOD([pudoHr, pudoIdx]);
+        const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
+        showHoverText(val, pudoHr, thisTOD);
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
