@@ -178,7 +178,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
             hr = i % 24;
-            val = d3.format("(.2f")(data[Object.keys(data)[1]][i]);
+            val = d3.format("(,")(data[Object.keys(data)[1]][i]);
             idx = data.keys.values[i];
             thisTOD = findTOD([hr, idx]);
             const updateText = [{
@@ -259,7 +259,7 @@ function humberStory() {
   pudoHr = settPudoLine.initHoverLine.indices[0];
   pudoIdx = settPudoLine.initHoverLine.indices[1];
   const thisTOD = findTOD([pudoHr, pudoIdx]);
-  const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
+  const val = d3.format("(,")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
   showHoverText(val, pudoHr, thisTOD);
 
   // Set focus and zoom to Humber College

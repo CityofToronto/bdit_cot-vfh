@@ -249,7 +249,7 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
   if (!ptcFraction[ward]) {
-    d3.json(`/resources/data/fig4a_dummy_tripfraction_${ward}.json`, function(err, todfile) {
+    d3.json(`/resources/data/ptc_counts_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
       d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
         // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardfile) {
@@ -324,7 +324,7 @@ function uiHandler(event) {
       const val = d3.format("(.2f")(ptcFraction[ward][whichPUDO][pudoIdx]);
       const thisTOD = findTOD([pudoHr, pudoIdx]);
       showHoverText(val, pudoHr, thisTOD);
-      
+
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
       else holdHoverLine(settPudoLine.initHoverLine.coords);
     });
@@ -397,7 +397,7 @@ $(document).ready(function(){
     pudoMapSett.x.label = i18next.t("x_label", {ns: "pudoMap"}),
     pudoMapSett.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
-      .defer(d3.json, "/resources/data/fig4a_dummy_tripfraction_w1.json") // trip fraction for ward 1
+      .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")

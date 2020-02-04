@@ -204,7 +204,7 @@ settPudoLine = {
     left: 100
   },
   aspectRatio: 16 / 8,
-  _selfFormatter: i18n.getNumberFormatter(2),
+  _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   },
