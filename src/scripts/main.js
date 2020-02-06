@@ -68,6 +68,16 @@ function pageTexts() {
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
 
+  // VKT
+  d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
+  d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
+  // ** vkt dropdown menu
+  d3.select("#for-vkt label").text(i18next.t("vkt-menu", {ns: "menus"}));
+  d3.select("#vkt-menu").node()[0].text = i18next.t("allday", {ns: "menus"});
+  d3.select("#vkt-menu").node()[1].text = i18next.t("amPeak", {ns: "menus"});
+  d3.select("#vkt-menu").node()[2].text = i18next.t("pmPeak", {ns: "menus"});
+  d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
+
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
   d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
@@ -368,9 +378,9 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // VKT map
-  // vktMapSvg = d3.select(".vktmap.data")
-  //     .append("svg")
-  //     .attr("id", "vktmap");
+  vktMapSvg = d3.select(".vktmap.data")
+      .append("svg")
+      .attr("id", "vktmap");
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
@@ -378,16 +388,16 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
-  // vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
-  //     .append("div").attr("id", "vktMapTip")
-  //     .attr("class", "panel panel-default")
-  //     .append("div").attr("class", "list-group");
+  vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+      .append("div").attr("id", "vktMapTip")
+      .attr("class", "panel panel-default")
+      .append("div").attr("class", "list-group");
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
-    // vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
-    // vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
-    // vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
+    vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
+    vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
+    vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
@@ -413,12 +423,12 @@ $(document).ready(function(){
         ptcVol = ptcvolfile;
 
         // initial titles
-        // vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
         pudoMapTableTitle = `${pudoMapSett.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
 
-        // showVktMap();
-        // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+        showVktMap();
+        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // Display texts
         pageTexts();
