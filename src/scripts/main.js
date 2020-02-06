@@ -298,7 +298,7 @@ function uiHandler(event) {
     const clearPrevWard = false;
     showFractionLine();
     // Update hover tool text
-    const val = d3.format("(.2f")(ptcFraction[ward][whichPUDO][pudoIdx]);
+    const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
     const thisTOD = findTOD([pudoHr, pudoIdx]);
     showHoverText(val, pudoHr, thisTOD);
 
@@ -321,7 +321,7 @@ function uiHandler(event) {
       updateMapbox(clearPrevWard);
       showFractionLine(); // calls updateMapbox() for hoverLine;
       // Update hover tool text
-      const val = d3.format("(.2f")(ptcFraction[ward][whichPUDO][pudoIdx]);
+      const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
       const thisTOD = findTOD([pudoHr, pudoIdx]);
       showHoverText(val, pudoHr, thisTOD);
 
@@ -432,7 +432,7 @@ $(document).ready(function(){
         pudoHr = settPudoLine.initHoverLine.indices[0];
         pudoIdx = settPudoLine.initHoverLine.indices[1];
         const thisTOD = findTOD([pudoHr, pudoIdx]);
-        const val = d3.format("(.2f")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
+        const val = d3.format("(,")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
         showHoverText(val, pudoHr, thisTOD);
 
         initMapBox();
