@@ -141,38 +141,45 @@ pudoMapSett = {
   },
   tableTitle: i18next.t("tabletitle", {ns: "pudoMap"}),
   getTableData: function(obj) {
-    console.log("obj: ", obj)
     let countData = obj["pudo"].features;
-    let countType;
 
     if (whichPUDO === "pudo") {
-      countType = ["pcounts", "dcounts"];
       countData = countData.concat(obj["pu"].features)
                            .concat(obj["do"].features);
-
     } else {
-      countType = whichPUDO === "pu" ? ["pcounts"] : ["dcounts"];
       countData = countData.concat(obj[whichPUDO].features);
     }
-    console.log("counData: ", countData)
 
     // Extract pcounts, dcounts and nn from countData object
+    let returnGroup = [];
     let thisGroup = {};
-    let pct = 0;
-    let dct = 0;
+    let pct = {};
+    let dct = {};
     countData.filter((d) => {
-      console.log("d: ", d.properties)
       let thisnn = d.properties.nn;
       let thisp = d.properties.pcounts ? d.properties.pcounts : 0;
       let thisd = d.properties.dcounts ? d.properties.dcounts : 0;
-      pct = pct + thisp;
-      dct = dct + thisd;
+      pct[thisnn] = pct[thisnn] ? pct[thisnn] + thisp: thisp;
+      dct[thisnn] = dct[thisnn] ? dct[thisnn] + thisd: thisd;
       thisGroup[`nn${thisnn}`] = {
-        "pcounts": pct,
-        "dcounts": dct
+        "pcounts": pct[thisnn],
+        "dcounts": dct[thisnn]
       };
-    })
-    console.log("thisGroup: ", thisGroup)
+    });
+    console.log("kes: ", Object.keys(thisGroup))
+    Object.keys(thisGroup).forEach((element) => {
+      console.log(element)
+      returnGroup.push({element:10})
+    });
 
+    Object.keys(thisGroup).forEach((element) => {
+      mykey = element;
+      d = {};
+      d[mykey]=10;
+      console.log(d);
+      returnGroup.push(d)
+    });
+    console.log("returnGroup: ", returnGroup)
+    return thisGroup;
   }
 };

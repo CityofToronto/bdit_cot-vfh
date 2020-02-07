@@ -211,8 +211,8 @@ function initMapBox() {
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
 
-  const junk = pudoMapSett.getTableData(root);
-  console.log("junk: ", junk)
+  const nnCountObj = pudoMapSett.getTableData(root);
+  console.log("nnCount: ", nnCountObj)
   const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
   // Only show table if action button is clicked
