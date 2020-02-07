@@ -372,7 +372,7 @@ $(document).ready(function(){
   vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "vktMapTip")
       .attr("class", "panel panel-default")
-      .append("div").attr("class", "list-group");
+      .append("div");
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
