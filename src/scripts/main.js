@@ -124,18 +124,10 @@ function showVktMap() {
 
 function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
-  // This data will be passed into lineChart, createOverlay, and lineTable
-  let thisKey;
-  thisPTC = Object.keys(ptcFraction[ward]).reduce((object, key) => {
-    if (key === "keys" || key === whichPUDO) {
-      thisKey = key === "keys" ? key : "fraction";
-      object[thisKey] = ptcFraction[ward][key]
-    }
-    return object
-  }, {});
+  // This data will be passed into createOverlay and lineTable
+  thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
 
   const fractionLine = lineChart(fractionLineChart, settPudoLine, ptcFraction[ward]);
-
   // axes labels
   rotateLabels("fractionline", settPudoLine);
 
