@@ -1,5 +1,14 @@
-function lineChart(svg, settings, data) {
-  var mergedSettings = settings,
+function lineChart(svg, settings, rawdata) {
+  // This fn is a little bit different from the lineChart component in that it
+  // plots only one line at a time, according to the user selection, but accepts
+  // more than one line in the rawdata object that is passed as an argument to
+  // allow caluclation of the full y-domain scale.
+  // If there is only one line, data = rawdata, and the scale is calculated as
+  // usual: y.domain(sett.y.getDomain.call(sett, flatData))
+  // Else data = rawdata[for the selected line] but the scale is calculated from
+  // the FULL EXTENT of the rawdata: y.domain(fullExtent(sett, rawdata))
+  var data = settings.z.reduceData.call(settings, rawdata),
+  mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
   innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom,
@@ -56,7 +65,9 @@ function lineChart(svg, settings, data) {
     y = rtnObj.y = d3.scaleLinear().range([innerHeight, 0]);
 
     x.domain(sett.x.getDomain.call(sett, flatData));
-    y.domain(sett.y.getDomain.call(sett, flatData));
+    if (Object.keys(rawdata).length > 2) {
+      y.domain(fullExtent(sett, rawdata));
+    } else y.domain(sett.y.getDomain.call(sett, flatData));
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
         .attr("class", "data");

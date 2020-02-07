@@ -29,6 +29,27 @@ function findTOD(...args) {
   return [dow, win];
 }
 
+// Flatten data arrays in object to find full extent of values
+function fullExtent(sett, dataObj) {
+  let keys = Object.keys(dataObj);
+
+  keys = keys.filter((x)=> {
+     return x !== "keys";
+  })
+
+  eachArray=[];
+  for (p = 0; p < keys.length; p++) {
+    eachArray.push(dataObj[keys[p]])
+  }
+  const concatObj = [].concat.apply([], eachArray);
+  let flatData = (concatObj[0] && typeof concatObj[0] === "object") ?
+  [].concat.apply([], concatObj.map(function(d) {
+    return sett.z.getDataPoints.call(sett, d);
+  })) : concatObj;
+  flatData = flatData.sort(function(a, b) {return a-b;});
+  return d3.extent(flatData);
+}
+
 // Save hoverLine position when frozen
 function saveHoverLinePos() {
   saveHoverPos = []; // clear

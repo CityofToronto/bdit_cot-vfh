@@ -154,7 +154,7 @@ settingsTOWline = {
     getText: function(d) {
       return Math.round(d.value);
     },
-    translateXY: [-60, 95],
+    translateXY: [-72, 95],
     ticks: 2,
     // from extend
     getDomain: function(flatData) {
@@ -301,8 +301,8 @@ settPudoLine = {
     getText: function(d) {
       return Math.round(d.value);
     },
-    translateXY: [-60, 200],
-    ticks: 2
+    translateXY: [-72, 200],
+    ticks: 4
   },
 
   z: {
@@ -334,6 +334,19 @@ settPudoLine = {
     },
     getText: function(d) {
       return i18next.t(d.id, {ns: "towline"});
+    },
+    reduceData: function(o) {      
+      if (Object.keys(o).length > 2) {
+        let thisKey;
+        thisPTC = Object.keys(o).reduce((object, key) => {
+          if (key === "keys" || key === whichPUDO) {
+            thisKey = key === "keys" ? key : "fraction";
+            object[thisKey] = o[key]
+          }
+          return object
+        }, {});
+        return thisPTC;
+      } else return o;
     }
   },
   extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},

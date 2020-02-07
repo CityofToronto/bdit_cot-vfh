@@ -114,21 +114,10 @@ function pageTexts() {
 }
 
 function showVktMap() {
-  vktKeys = Object.keys(ptcVol);
-
-  eachVktArray=[];
-  for (p = 0; p < vktKeys.length; p++) {
-  	eachVktArray.push(ptcVol[vktKeys[p]])
-  }
-  const concatObj = [].concat.apply([], eachVktArray);
-  const fullVol = [].concat.apply([], concatObj.map(function(d) {
-    return vktMapSett.z.getDataPoints.call(vktMapSett, d);
-  })).sort(function(a, b) {return a-b;})
-  const fullDimExtent = d3.extent(fullVol)
-
+  const fullDimExtent = fullExtent(vktMapSett, ptcVol);
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
-  // Data table for VKT vol map
+  // Create data table for VKT vol map
   const vktTable = lineTable(vktMapSvg, vktMapSett,
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]), day);
 }
@@ -143,9 +132,9 @@ function showFractionLine() {
       object[thisKey] = ptcFraction[ward][key]
     }
     return object
-  }, {})
+  }, {});
 
-  const fractionLine = lineChart(fractionLineChart, settPudoLine, thisPTC);
+  const fractionLine = lineChart(fractionLineChart, settPudoLine, ptcFraction[ward]);
 
   // axes labels
   rotateLabels("fractionline", settPudoLine);

@@ -9,14 +9,6 @@ vktMapSett = {
   aspectRatio: 16 / 9,
   rot: 16.7,
   width: 900,
-  z: {
-    getDataPoints: function(d) {
-      return d.prop;
-    },
-    getId: function(d) {
-      return `id${d.properties.area_s_cd}`;
-    }
-  },
   colour: {
     name: d3.interpolateYlOrRd,
     null:  "#837a7a"
@@ -49,6 +41,14 @@ vktMapSett = {
   },
   y: {
     label: i18next.t("y_label", {ns: "vkt_map"}), // "Percentage of Traffic (%)"
+  },
+  z: {
+    getDataPoints: function(d) {
+      return d.prop;
+    },
+    getId: function(d) {
+      return `id${d.properties.area_s_cd}`;
+    }
   },
   pair: {
     getValues: function(d) { // used for data table ONLY
