@@ -118,6 +118,7 @@ function showVktMap() {
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Create data table for VKT vol map
+  console.log("into: ", vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]))
   const vktTable = lineTable(vktMapSvg, vktMapSett,
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]), day);
 }
@@ -181,9 +182,9 @@ function initMapBox() {
 
   map.addControl(new mapboxgl.NavigationControl({showCompass: false}));
 
+  const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
+  const root = geoMap[ward][pudoDay][pudoTOD];
   map.on("load", function() {
-    const rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
-    const root = geoMap[ward][pudoDay][pudoTOD];
     // Unique pickups layer
     makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
     // Unique dropoffs layer
@@ -210,6 +211,8 @@ function initMapBox() {
     {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
   ]
 
+  const junk = pudoMapSett.getTableData(root);
+  console.log("junk: ", junk)
   const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
   // Only show table if action button is clicked

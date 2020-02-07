@@ -139,5 +139,40 @@ pudoMapSett = {
   y: {
     label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
   },
-  tableTitle: i18next.t("tabletitle", {ns: "pudoMap"})
+  tableTitle: i18next.t("tabletitle", {ns: "pudoMap"}),
+  getTableData: function(obj) {
+    console.log("obj: ", obj)
+    let countData = obj["pudo"].features;
+    let countType;
+
+    if (whichPUDO === "pudo") {
+      countType = ["pcounts", "dcounts"];
+      countData = countData.concat(obj["pu"].features)
+                           .concat(obj["do"].features);
+
+    } else {
+      countType = whichPUDO === "pu" ? ["pcounts"] : ["dcounts"];
+      countData = countData.concat(obj[whichPUDO].features);
+    }
+    console.log("counData: ", countData)
+
+    // Extract pcounts, dcounts and nn from countData object
+    let thisGroup = {};
+    let pct = 0;
+    let dct = 0;
+    countData.filter((d) => {
+      console.log("d: ", d.properties)
+      let thisnn = d.properties.nn;
+      let thisp = d.properties.pcounts ? d.properties.pcounts : 0;
+      let thisd = d.properties.dcounts ? d.properties.dcounts : 0;
+      pct = pct + thisp;
+      dct = dct + thisd;
+      thisGroup[`nn${thisnn}`] = {
+        "pcounts": pct,
+        "dcounts": dct
+      };
+    })
+    console.log("thisGroup: ", thisGroup)
+
+  }
 };

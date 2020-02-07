@@ -335,7 +335,7 @@ settPudoLine = {
     getText: function(d) {
       return i18next.t(d.id, {ns: "towline"});
     },
-    reduceData: function(o) {      
+    reduceData: function(o) {
       if (Object.keys(o).length > 2) {
         let thisKey;
         thisPTC = Object.keys(o).reduce((object, key) => {

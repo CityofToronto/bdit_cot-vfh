@@ -140,7 +140,7 @@ function lineTable(svg, settings, data, day) {
           var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
           ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
           ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
-          ["Willowridge Martingrove-Richview","49"], ["Humber Hights West Mount","77"]];
+          ["Willowridge Martingrove-Richview","49"], ["Humber Heights West Mount","77"]];
         }
         return pair;
       })
