@@ -142,12 +142,16 @@ pudoMapSett = {
   tableTitle: i18next.t("tabletitle", {ns: "pudoMap"}),
   getTableData: function(obj) {
     let countData = obj["pudo"].features;
+    let arrKey;
 
     if (whichPUDO === "pudo") {
-      countData = countData.concat(obj["pu"].features)
+      countData = countData.concat(obj["pudo"].features)
+                           .concat(obj["pu"].features)
                            .concat(obj["do"].features);
     } else {
-      countData = countData.concat(obj[whichPUDO].features);
+      countData = countData.concat(obj["pudo"].features)
+                           .concat(obj[whichPUDO].features);
+      arrKey = whichPUDO === "pu" ? "pcounts" : "dcounts";
     }
 
     // Extract pcounts, dcounts and nn from countData object
@@ -155,7 +159,7 @@ pudoMapSett = {
     let thisGroup = {};
     let pct = {};
     let dct = {};
-    countData.filter((d) => {
+    countData.map((d, i) => {
       let thisnn = d.properties.nn;
       let thisp = d.properties.pcounts ? d.properties.pcounts : 0;
       let thisd = d.properties.dcounts ? d.properties.dcounts : 0;
@@ -166,20 +170,17 @@ pudoMapSett = {
         "dcounts": dct[thisnn]
       };
     });
-    console.log("kes: ", Object.keys(thisGroup))
-    Object.keys(thisGroup).forEach((element) => {
-      console.log(element)
-      returnGroup.push({element:10})
-    });
 
+    // Reshape into array of objects [{ nn: 77, pcounts: 100, dcounts: 555 },...,{}]
     Object.keys(thisGroup).forEach((element) => {
-      mykey = element;
-      d = {};
-      d[mykey]=10;
-      console.log(d);
-      returnGroup.push(d)
+      let row = {};
+      row["nn"] = element;
+      if (whichPUDO === "pudo") {
+        row["pcounts"] = thisGroup[element]["pcounts"];
+        row["dcounts"] = thisGroup[element]["dcounts"];
+      } else row[arrKey] = thisGroup[element][arrKey];
+      returnGroup.push(row)
     });
-    console.log("returnGroup: ", returnGroup)
-    return thisGroup;
+    return returnGroup;
   }
 };
