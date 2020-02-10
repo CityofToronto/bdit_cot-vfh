@@ -50,7 +50,6 @@ vktMapSett = {
       return `id${d.properties.area_s_cd}`;
     },
     getKeys: function(d) {
-      console.log("D ************** : ", d)
       const keys = Object.keys(d[0]); // ["area_s_cd", "prop"]
       return [i18next.t(keys[0], {ns: "vkt_map"}), i18next.t(keys[1], {ns: "vkt_map"})];
     }
@@ -195,5 +194,15 @@ pudoMapSett = {
       returnGroup.push(row)
     });
     return returnGroup;
+  },
+  pair: {
+    getValues: function(d) { // used for data table ONLY
+      // data = [{ nn: "nn4", pcounts: 312, dcounts: 186 }, ...,
+      //      { nn: "nn1", pcounts: 0, dcounts: 80 }]
+      let arr = Object.values(d);
+      let nn = parseInt(arr[0].split("nn")[1]);
+      arr[0] = i18next.t(nn, {ns: "nhoods"})
+      return arr;
+    }
   }
 };

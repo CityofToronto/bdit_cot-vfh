@@ -9,7 +9,7 @@ function lineTable(svg, settings, data, day) {
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ) : d3.select(svg),
       details = parent.select("details"),
-      
+      keys = sett.z.getKeys.call(sett, data),
       setRow = function(d) { // d: [ "Monday 0:00", 0.3234158 ]
         var row = d3.select(this),
           cells = row.selectAll("*")
@@ -110,13 +110,9 @@ function lineTable(svg, settings, data, day) {
       body = details.select("tbody");
     }
 
-    var keys = sett.z.getKeys.call(sett, data);
     console.log("line jkeys: ", keys)
-    // var columns = sett.z.getDataPoints.call(sett, data[keys[0]]);
-    // console.log("columns: ", columns)
     headerCols = header.selectAll("th")
-      .data([sett.x.label, sett.y.label]);
-      // .data(columns);
+      .data(keys);
 
     headerCols
       .enter()
@@ -145,12 +141,11 @@ function lineTable(svg, settings, data, day) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
           });
         } else {
-          var pair = [["West Humber-Clairville", "390"], ["Mount Olive-Silverstone Jamestown", "227"],
-          ["Thistledown-Beaumond Heights", "152"],["Rexdale-Kipling","339"],
-          ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
-          ["Willowridge Martingrove-Richview","49"], ["Humber Heights West Mount","77"]];
+          var pair = [];
+          filteredData.map(function(d, i) {
+            pair.push(sett.pair.getValues.call(sett, d));
+          });
         }
-        console.log("pair: ", pair)
         return pair;
       })
     }
