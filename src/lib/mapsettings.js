@@ -48,6 +48,11 @@ vktMapSett = {
     },
     getId: function(d) {
       return `id${d.properties.area_s_cd}`;
+    },
+    getKeys: function(d) {
+      console.log("D ************** : ", d)
+      const keys = Object.keys(d[0]); // ["area_s_cd", "prop"]
+      return [i18next.t(keys[0], {ns: "vkt_map"}), i18next.t(keys[1], {ns: "vkt_map"})];
     }
   },
   pair: {
@@ -138,6 +143,14 @@ pudoMapSett = {
   },
   y: {
     label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
+  },
+  z: {
+     getKeys: function(d) {
+      const keys = Object.keys(d[0]); // ["nn", "pcounts", "dcounts"]
+      // return keys;
+      return [i18next.t(keys[0], {ns: "pudoMap"}), i18next.t(keys[1], {ns: "pudoMap"}),
+              i18next.t(keys[2], {ns: "pudoMap"})];
+    }
   },
   tableTitle: i18next.t("tabletitle", {ns: "pudoMap"}),
   getTableData: function(obj) {

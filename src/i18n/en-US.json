@@ -316,12 +316,16 @@
     "vkt_map": {
       "tabletitle":"Top-10 PTC volume hotspots by neighbourhood",
       "x_label": "Neighbourhood",
-      "y_label": "Percentage of Traffic (%)"
+      "y_label": "Percentage of Traffic (%)",
+      "area_s_cd": "Neighbourhood",
+      "prop": "Percentage of Traffic (%)"
     },
     "ward_towline": {
       "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",
       "x_label": "Time of day",
       "y_label": "Trip count",
+      "tod": "Time of day",
+      "fraction": "Trip count",
       "hr": "Hour",
       "tabletitle":  "Number of trips/hour",
       "menuLabel": "Select Day"
@@ -341,7 +345,10 @@
       "tabletitle": "Number of trips in each neighbourhood of selected ward",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",
-      "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)"
+      "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)",
+      "nn": "Neighbourhood",
+      "pcounts": "Number of pick-ups", 
+      "dcounts": "Number of drop-offs"
     }
   }
 }

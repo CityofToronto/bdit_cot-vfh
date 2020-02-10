@@ -209,7 +209,7 @@ settPudoLine = {
     return this._selfFormatter.format(args);
   },
   filterData: function(d) {
-    const keys = this.z.getKeys(d);
+    const keys = this.z.getId(d); // this.z.getKeys(d);
     const skip = 6; // number of hours to skip in 24h; for x-axis ticks
     let xtickIdx = d.keys.values.map((q) => {
       if (q * skip <= 162) return q * skip;
@@ -311,15 +311,18 @@ settPudoLine = {
       // { id: "fraction", xtickIdx: (28) [0, 6, 12, …, 162],
       //   values: (168) [{ tod: 0, value: 0.28592435 }, …, { tod: 99, value: 0.10722163 }]
       // }
-      return d.id;
+      const keys = Object.keys(d); // [ "fraction" ]
+      keys.splice(keys.indexOf("keys"), 1); // [ "fraction" ]
+      return keys;
     },
     getKeys: function(d) {
       // {"fraction": [0.28592435, 0.23656836, 0.17870272, …],
       // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
       // }
-      const keys = Object.keys(d); // [ "fraction" ]
-      keys.splice(keys.indexOf("keys"), 1); // [ "fraction" ]
-      return keys;
+      const col1 = d.keys.name;
+      const col2 = Object.keys(d)[1];
+      console.log("[col1, col2]: ", [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})])
+      return [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})];
     },
     getxtickIdx: function(filteredData) {
       return filteredData.map((d) => {
@@ -330,6 +333,7 @@ settPudoLine = {
       return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
+      console.log("getDataPts d: ", d)
       return d.values;
     },
     getText: function(d) {

@@ -9,7 +9,7 @@ function lineTable(svg, settings, data, day) {
         svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
       ) : d3.select(svg),
       details = parent.select("details"),
-      keys = Object.keys(filteredData[0]).slice(-1), // [ "values" ]
+      
       setRow = function(d) { // d: [ "Monday 0:00", 0.3234158 ]
         var row = d3.select(this),
           cells = row.selectAll("*")
@@ -35,6 +35,8 @@ function lineTable(svg, settings, data, day) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
+
+      console.log("filteredData: ", filteredData)
 
     if (details.empty()) {
       details = parent
@@ -108,8 +110,13 @@ function lineTable(svg, settings, data, day) {
       body = details.select("tbody");
     }
 
+    var keys = sett.z.getKeys.call(sett, data);
+    console.log("line jkeys: ", keys)
+    // var columns = sett.z.getDataPoints.call(sett, data[keys[0]]);
+    // console.log("columns: ", columns)
     headerCols = header.selectAll("th")
       .data([sett.x.label, sett.y.label]);
+      // .data(columns);
 
     headerCols
       .enter()
@@ -132,7 +139,7 @@ function lineTable(svg, settings, data, day) {
     if (sett.menuData) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
-        if (sett.attachedToSvg) {
+        if (sett.attachedToSvg) {          
           var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
@@ -143,6 +150,7 @@ function lineTable(svg, settings, data, day) {
           ["Elms-Old Rexdale","107"],["Kingview Village-The West Way","97"],
           ["Willowridge Martingrove-Richview","49"], ["Humber Heights West Mount","77"]];
         }
+        console.log("pair: ", pair)
         return pair;
       })
     }

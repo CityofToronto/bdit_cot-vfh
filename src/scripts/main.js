@@ -214,7 +214,7 @@ function initMapBox() {
   const nnCountObj = pudoMapSett.getTableData(root);
   console.log("nnCount: ", nnCountObj)
   console.log("mock: ", mockNN)
-  const mapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
+  const mapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
 
   // Only show table if action button is clicked
   d3.select(`#${pudoMapSett.actionId}`)
@@ -382,6 +382,8 @@ $(document).ready(function(){
   i18n.load(["/resources/i18n"], () => {
     vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
     vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
+    // vktMapSett.z.getKeys = i18next.t("area_s_cd", {ns: "vkt_map"}),
+    // vktMapSett.z.getKeys = i18next.t("prop", {ns: "vkt_map"}),
     vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
