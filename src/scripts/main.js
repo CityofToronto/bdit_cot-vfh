@@ -432,7 +432,9 @@ $(document).ready(function(){
 
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
-        d3.select(".maptable").select("caption").text(`${pudoMapSett.tableTitle}, ${i18next.t(day, {ns: "days"})}`);
+        d3.select(".maptable").select("caption")
+          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})}, 
+                  ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
         const legendTexts = pudoMapSett.legendMenu[whichPUDO];
         plotPudoLegend(legendTexts);
       });

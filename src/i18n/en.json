@@ -338,7 +338,8 @@
     },
     "pudoMap": {
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
-      "tabletitle": "Number of trips in each neighbourhood of selected ward",
+      "tabletitle": "Click to open table of trip counts displayed in the above map, listed by neighbourhood",
+      "tableCaption": "Trip counts listed by neighbourhood",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",
       "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)",
