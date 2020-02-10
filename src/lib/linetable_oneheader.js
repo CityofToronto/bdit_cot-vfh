@@ -140,11 +140,6 @@ function lineTable(svg, settings, data, day) {
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
           });
-        } else {
-          var pair = [];
-          filteredData.map(function(d, i) {
-            pair.push(sett.pair.getValues.call(sett, d));
-          });
         }
         return pair;
       })
