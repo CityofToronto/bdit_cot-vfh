@@ -201,7 +201,9 @@ pudoMapSett = {
       //      { nn: "nn1", pcounts: 0, dcounts: 80 }]
       let arr = Object.values(d);
       let nn = parseInt(arr[0].split("nn")[1]);
-      arr[0] = i18next.t(nn, {ns: "nhoods"})
+      arr[0] = i18next.t(nn, {ns: "nhoods"});
+      arr[1] = d3.format("(,")(arr[1]);
+      arr[2] = d3.format("(,")(arr[2]);
       return arr;
     }
   }
