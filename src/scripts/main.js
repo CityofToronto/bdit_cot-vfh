@@ -119,7 +119,6 @@ function showVktMap() {
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Create data table for VKT vol map
-  console.log("into: ", vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]))
   const vktTable = lineTable(vktMapSvg, vktMapSett,
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]), day);
 }
@@ -300,6 +299,13 @@ function uiHandler(event) {
     const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
     const thisTOD = findTOD([pudoHr, pudoIdx]);
     showHoverText(val, pudoHr, thisTOD);
+
+    // Update data table for map
+    // First close map table
+    d3.select(".maptable").select("details").attr("open", null);
+    const root = geoMap[ward][pudoDay][pudoTOD];
+    const nnCountObj = pudoMapSett.getTableData(root);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
 
     updateMapbox(clearPrevWard);
     plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend

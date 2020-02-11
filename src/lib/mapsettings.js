@@ -141,10 +141,15 @@ pudoMapSett = {
   },
   z: {
      getKeys: function(d) {
-      const keys = Object.keys(d[0]); // ["nn", "pcounts", "dcounts"]
-      // return keys;
-      return [i18next.t(keys[0], {ns: "pudoMap"}), i18next.t(keys[1], {ns: "pudoMap"}),
-              i18next.t(keys[2], {ns: "pudoMap"})];
+      // ["nn", "pcounts", "dcounts"] OR
+      // ["nn", "pcounts"] OR
+      // ["nn", "dcounts"]
+      const keys = Object.keys(d[0]);
+      let keyArr = [];
+      for (let idx = 0; idx < keys.length; idx++) {
+        keyArr.push(i18next.t(keys[idx], {ns: "pudoMap"}));
+      }
+      return keyArr;
     }
   },
   tableTitle: i18next.t("tabletitle", {ns: "pudoMap"}),
@@ -195,12 +200,17 @@ pudoMapSett = {
     getValues: function(d) { // used for data table ONLY
       // data = [{ nn: "nn4", pcounts: 312, dcounts: 186 }, ...,
       //      { nn: "nn1", pcounts: 0, dcounts: 80 }]
-      let arr = Object.values(d);
-      let nn = parseInt(arr[0].split("nn")[1]);
-      arr[0] = i18next.t(nn, {ns: "nhoods"});
-      arr[1] = d3.format("(,")(arr[1]);
-      arr[2] = d3.format("(,")(arr[2]);
-      return arr;
+      // OR
+      // [{ nn: "nn1", pcounts: 400 }, ...]
+      // OR
+      // [{ nn: "nn1", dcounts: 66 }, ...]
+      const vals = Object.values(d);
+      let valArr = [];
+      valArr[0] = i18next.t(parseInt(vals[0].split("nn")[1]), {ns: "nhoods"});
+      for (let idx = 1; idx < vals.length; idx++) {
+        valArr.push(d3.format("(,")(vals[idx]));
+      }
+      return valArr;
     }
   }
 };
