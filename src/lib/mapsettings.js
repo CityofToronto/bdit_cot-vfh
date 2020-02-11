@@ -158,12 +158,10 @@ pudoMapSett = {
     let arrKey;
 
     if (whichPUDO === "pudo") {
-      countData = countData.concat(obj["pudo"].features)
-                           .concat(obj["pu"].features)
+      countData = countData.concat(obj["pu"].features)
                            .concat(obj["do"].features);
     } else {
-      countData = countData.concat(obj["pudo"].features)
-                           .concat(obj[whichPUDO].features);
+      countData = countData.concat(obj[whichPUDO].features);
       arrKey = whichPUDO === "pu" ? "pcounts" : "dcounts";
     }
 
