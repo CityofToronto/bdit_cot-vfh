@@ -156,6 +156,7 @@ function showFractionLine() {
     const root = geoMap[ward][pudoDay][pudoTOD];
     const nnCountObj = pudoMapSett.getTableData(root);
     pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+    updateTitles();
   }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
@@ -166,6 +167,7 @@ function showFractionLine() {
     const root = geoMap[ward][pudoDay][pudoTOD];
     const nnCountObj = pudoMapSett.getTableData(root);
     pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+    updateTitles();
   });
 
   // Data table for trip fraction
@@ -263,11 +265,17 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
-  // vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-  // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
   fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+
+  // pudo map table
+  const thisWin = (pudoDay === "Saturday" || pudoDay === "Sunday") ?
+    i18next.t(pudoTOD, {ns: "timewinSpan-wkend"}) :
+    i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})
+  d3.select(".maptable").select("caption")
+    .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})}, 
+            ${pudoDay}, ${thisWin}`);
 }
 function updateTableCaption() {
   d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
@@ -312,6 +320,8 @@ function uiHandler(event) {
     if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
     else holdHoverLine(settPudoLine.initHoverLine.coords);
     hideTable("fractionline");
+
+    updateTitles();
   }
 
   if (event.target.id === "ward-menu") {
@@ -351,22 +361,6 @@ function uiHandler(event) {
     day = event.target.value;
     updateTableCaption();
     lineTable(fractionLineChart, settPudoLine, thisPTC, day);
-
-    // Hide table until action button is clicked
-    d3.select(".fractionline .chart-data-table")
-      .select("table")
-      .style("display", "none");
-  }
-  // Table menu for PUDO map table
-  else if (event.target.id === pudoMapSett.menuId) {
-    mapboxday = event.target.value;
-    // updateTableCaption();
-
-    let mockNN = [
-      {"values": [{"nn":"NN1", "value": 390},
-      {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
-    ]
-    pudoMapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -450,7 +444,7 @@ $(document).ready(function(){
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
         d3.select(".maptable").select("caption")
-          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})}, 
+          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})}, 
                   ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
         const legendTexts = pudoMapSett.legendMenu[whichPUDO];
         plotPudoLegend(legendTexts);
