@@ -332,6 +332,13 @@ function uiHandler(event) {
 
       if (saveHoverPos.length !== 0) holdHoverLine(saveHoverPos);
       else holdHoverLine(settPudoLine.initHoverLine.coords);
+
+      // Update data table for map
+      // First close map table
+      d3.select(".maptable").select("details").attr("open", null);
+      const root = geoMap[ward][pudoDay][pudoTOD];
+      const nnCountObj = pudoMapSett.getTableData(root);
+      pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
     });
 
     map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
