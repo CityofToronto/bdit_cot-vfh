@@ -52,6 +52,7 @@ let vktMapTableTitle;
 let fractionLineChart;
 let fractionTableTitle;
 let pudoMapTableTitle;
+let pudoMapTable;
 let wardpudoMap;
 
 // Tooltip div names
@@ -147,15 +148,25 @@ function showFractionLine() {
       const clearPrevWard = false;
       updatePudoMapTitle();
       updateMapbox(clearPrevWard);
+      // Close map table
+      d3.select(".maptable").select("details").attr("open", null);
     }
   }, () => { // onMsOutCb;
     saveHoverLinePos();
+    // Update data table for map
+    const root = geoMap[ward][pudoDay][pudoTOD];
+    const nnCountObj = pudoMapSett.getTableData(root);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
   }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
     mapState.classed("moveable", !mapState.classed("moveable"));
     if (!mapState.classed("moveable")) {
       saveHoverLinePos();
     }
+    // Update data table for map
+    const root = geoMap[ward][pudoDay][pudoTOD];
+    const nnCountObj = pudoMapSett.getTableData(root);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
   });
 
   // Data table for trip fraction
@@ -206,15 +217,8 @@ function initMapBox() {
     .classed("moveable", true);
 
   // Data table for map
-  let mockNN = [
-    {"values": [{"nn":"NN1", "value": 390},
-    {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
-  ]
-
   const nnCountObj = pudoMapSett.getTableData(root);
-  console.log("nnCount: ", nnCountObj)
-  console.log("mock: ", mockNN)
-  const mapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+  pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
 
   // Only show table if action button is clicked
   d3.select(`#${pudoMapSett.actionId}`)
@@ -283,13 +287,13 @@ function updatePudoMapTitle() {
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "vkt-menu") {
-    ptcvolTOD = event.target.value; // pudos initially
+    ptcvolTOD = event.target.value; // "All day" initially
     showVktMap();
     updateTitles();
   }
 
   if (event.target.id === "pudo-menu") {
-    whichPUDO = event.target.value; // pudos initially
+    whichPUDO = event.target.value; // "pudos" initially
     const clearPrevWard = false;
     showFractionLine();
     // Update hover tool text
@@ -349,7 +353,7 @@ function uiHandler(event) {
       {"values": [{"nn":"NN1", "value": 390},
       {"nn":"NN2", "value": 227}, {"nn":"NN3", "value": 152}, {"nn":"NN4", "value": 339} ]}
     ]
-    lineTable(".maptable", pudoMapSett, mockNN, mapday);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, mockNN, mapday);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -380,8 +384,8 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
-    vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
-    vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
+    // vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
+    // vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
     vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),

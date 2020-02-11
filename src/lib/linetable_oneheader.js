@@ -1,5 +1,4 @@
 function lineTable(svg, settings, data, day) {
-  console.log("lineTable data: ", data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -35,8 +34,6 @@ function lineTable(svg, settings, data, day) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
-
-      console.log("filteredData: ", filteredData)
 
     if (details.empty()) {
       details = parent
@@ -110,7 +107,6 @@ function lineTable(svg, settings, data, day) {
       body = details.select("tbody");
     }
 
-    console.log("line jkeys: ", keys)
     headerCols = header.selectAll("th")
       .data(keys);
 

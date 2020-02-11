@@ -321,7 +321,6 @@ settPudoLine = {
       // }
       const col1 = d.keys.name;
       const col2 = Object.keys(d)[1];
-      console.log("[col1, col2]: ", [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})])
       return [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})];
     },
     getxtickIdx: function(filteredData) {
@@ -333,7 +332,6 @@ settPudoLine = {
       return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
-      console.log("getDataPts d: ", d)
       return d.values;
     },
     getText: function(d) {
