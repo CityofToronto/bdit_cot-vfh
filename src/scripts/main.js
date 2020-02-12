@@ -50,8 +50,6 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 let vktMapSvg;
 let vktMapTableTitle;
 let fractionLineChart;
-let fractionTableTitle;
-let pudoMapTableTitle;
 let pudoMapTable;
 let wardpudoMap;
 
@@ -265,9 +263,10 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
-  fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
+  fractionTableTitle = `${settPudoLine.tableTitle}`;
+  fractionCaptionTitle = `${i18next.t("captiontitle", {ns: "ward_towline"})} ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("summary").text(fractionTableTitle);
-  d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+  d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
   // pudo map table
   const thisWin = (pudoDay === "Saturday" || pudoDay === "Sunday") ?
@@ -399,8 +398,6 @@ $(document).ready(function(){
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settPudoLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
-    pudoMapSett.y.label = i18next.t("y_label", {ns: "pudoMap"}),
-    pudoMapSett.x.label = i18next.t("x_label", {ns: "pudoMap"}),
     pudoMapSett.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
@@ -418,12 +415,8 @@ $(document).ready(function(){
         nnLayer = nnfile;
         ptcVol = ptcvolfile;
 
-        // initial titles
-        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-        fractionTableTitle = `${settPudoLine.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
-        pudoMapTableTitle = `${pudoMapSett.tableTitle}, ${i18next.t(ward, {ns: "wards"})}`;
-
         showVktMap();
+        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // Display texts
@@ -431,8 +424,11 @@ $(document).ready(function(){
 
         // Line Charts
         showFractionLine();
+        fractionTableTitle = `${settPudoLine.tableTitle}`;
+        fractionCaptionTitle = `${i18next.t("captiontitle", {ns: "ward_towline"})} ${i18next.t(ward, {ns: "wards"})}`;
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+        d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
+
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         showLineHover(settPudoLine.initHoverLine.coords);
         pudoHr = settPudoLine.initHoverLine.indices[0];

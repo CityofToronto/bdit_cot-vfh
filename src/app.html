@@ -69,45 +69,53 @@ See examples below in the boilerplate code
       <div id="section4-text1c" class="section-text"></div>
     </div>
   </div>
+    <div class="row">
+    <div class="col-md-12 page-content">
+      <h3 id="section5" class="h2">Explore trip patterns over an average week</h3>
+      <div id="section5-text1a" class="section-text"></div>
+    </div>
+  </div>
   <!-- Ward dropdown menu -->
   <div class="row">
-    <div class="col-md-2">
-      <div class="menu" id="for-ward">
-        <label for="ward"></label>
-        <select id="ward-menu" class="form-control">
-          <option value="w1" selected="selected"></option>
-          <option value="w10"></option>
-        </select>
+    <div class="col-md-5 page-content">
+      <div>Explain something here</div>
+      <div class="col-md-6">
+        <div class="menu" id="for-ward">
+          <label for="ward"></label>
+          <select id="ward-menu" class="form-control">
+            <option value="w1" selected="selected"></option>
+            <option value="w10"></option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="menu" id="for-type">
+          <label for="tod"></label>
+          <select id="pudo-menu" class="form-control">
+            <option value="pudo" selected="selected"></option>
+              <option value="pu"></option>
+              <option value="do"></option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="col-md-2">
-      <div class="menu" id="for-type">
-        <label for="tod"></label>
-        <select id="pudo-menu" class="form-control">
-          <option value="pudo" selected="selected"></option>
-            <option value="pu"></option>
-            <option value="do"></option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-6">
-      <div id="pudoMapTitle"><h4></h4></div>
+    <div class="col-md-7 page-content">
     </div>
   </div>
 
   <div class="row">
     <!-- Ward trip fraction lineChart -->
-    <div class="col-md-6 page-content">
+    <div class="col-md-5 page-content">
       <div id="for-hover" class="menu hoverInstruct">
         <label for="freezeHover"></label>
       </div>
       <div class="fractionline data"></div>
     </div>
     <!-- Ward PUDO map -->
-    <div class="col-md-6 page-content">
+    <div class="col-md-7 page-content">
       <div class="row">
         <div class="col-md-12">
+          <div id="pudoMapTitle"><h4></h4></div>
           <div id="map"></div>
           <div id="pudomap-legend" class="legend">
           </div>

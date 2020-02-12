@@ -133,12 +133,6 @@ pudoMapSett = {
   menuLabel: i18next.t("menuDayLabel", {ns: "pudoMap"}),
   menuId: "day-submenu",
   actionId: "pudo-action",
-  x: {
-    label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
-  },
-  y: {
-    label: i18next.t("x_label", {ns: "pudoMap"}), // "Time of day"
-  },
   z: {
      getKeys: function(d) {
       // ["nn", "pcounts", "dcounts"] OR

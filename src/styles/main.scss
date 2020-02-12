@@ -321,6 +321,9 @@
 	}
 
 	/* Trip Fraction line chart */
+	#pudoMapTitle {
+		text-align: center;
+	}
 	.hoverInstruct {
 		margin-top: 55px;
 	}
@@ -332,19 +335,19 @@
 		font-size: 19px;
 	}
 
- /* table button */
- #fraction-action, #pudo-action {
-	 background-color: #175689;
-	 border-color: #175689;
-	 margin-top: 20px;
- }
-.submenu-label {
-	 text-align: end;
-	 font-size: 15.3px;
- }
- .fractionline .submenu-label {
-		margin-top: 25px;
- }
+	 /* table button */
+	 #fraction-action, #pudo-action {
+		 background-color: #175689;
+		 border-color: #175689;
+		 margin-top: 20px;
+	 }
+	.submenu-label {
+		 text-align: end;
+		 font-size: 15.3px;
+	 }
+	 .fractionline .submenu-label {
+			margin-top: 25px;
+	 }
 
 	/* Mapbox */
 	#map {
@@ -352,7 +355,7 @@
 		top: 0;
 		bottom: 0;
 		width: 100%;
-		height: 500px;
+		height: 600px;
 	}
 	// .mapboxgl-popup {
 	// 	max-width: 200px;
