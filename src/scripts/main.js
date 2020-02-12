@@ -249,7 +249,7 @@ const loadData = function(cb) {
   if (!ptcFraction[ward]) {
     d3.json(`/resources/data/ptc_counts_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      d3.json(`/resources/geojson/${ward}_agg_cutoff.geojson`, function(err, wardmapfile) {
+      d3.json(`/resources/geojson/${ward}_agg_cutoff_0.geojson`, function(err, wardmapfile) {
         // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardfile) {
           geoMap[ward] = wardmapfile;
           // wardLayer[ward] = wardfile;
@@ -401,7 +401,7 @@ $(document).ready(function(){
     pudoMapSett.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg_cutoff.geojson")
+      .defer(d3.json, "/resources/geojson/w1_agg_cutoff_0.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
       .defer(d3.json, "/resources/geojson/to_separated_parts.topojson")
