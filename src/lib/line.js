@@ -140,11 +140,11 @@ function lineChart(svg, settings, rawdata) {
           .attr("text-anchor", "end")
           .text(sett.x.label);
 
-      if (sett.extraXlabel) {
+      if (sett.extraXlabelX) {
         var extraGroup = xAxisObj
           .attr("class", "extra-label")
           .selectAll(".xdow")
-          .data(Object.keys(sett.extraXlabel));
+          .data(Object.keys(sett.extraXlabelX));
 
         var eachGroup = extraGroup
           .enter()
@@ -154,9 +154,9 @@ function lineChart(svg, settings, rawdata) {
           .append("text")
           .attr("fill", "#000")
           .attr("x", function(d, i) {
-            return Object.values(sett.extraXlabel)[i];
+            return Object.values(sett.extraXlabelX)[i];
           })
-          .attr("dy", 70)
+          .attr("dy", sett.extraXlabelY)
           .attr("text-anchor", "end")
           .text(function(d) {
             return d;

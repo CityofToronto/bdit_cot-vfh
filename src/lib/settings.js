@@ -301,7 +301,7 @@ settPudoLine = {
     getText: function(d) {
       return Math.round(d.value);
     },
-    translateXY: [-72, 200],
+    translateXY: [-72, 260],
     ticks: 4
   },
 
@@ -351,12 +351,13 @@ settPudoLine = {
       } else return o;
     }
   },
-  extraXlabel: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
+  extraXlabelX: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
+  extraXlabelY:74,
   initHoverLine: {
     coords: [35.73652694610779, 35.73652694610779, -20, 292],
     indices: [7, 7] // hr, index
   },
-  tipTextCoords: [0, -50],
+  tipTextCoords: [30, -50],
   initTipPosn: [180, 0],
   width: 900,
   datatable: true,
