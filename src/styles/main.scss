@@ -343,10 +343,14 @@
 	}
 
 	 /* table button */
-	 #fraction-action, #pudo-action {
+	 #fraction-action, #pudo-action, #show-humber {
 		 background-color: #175689;
 		 border-color: #175689;
 		 margin-top: 20px;
+	 }
+	 #show-humber {
+		 background-color: #175689;
+		 border-color: #175689;
 	 }
 	.submenu-label {
 		 text-align: end;
