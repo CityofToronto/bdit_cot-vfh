@@ -46,7 +46,7 @@ function lineTable(svg, settings, data, day) {
 
         // Text label for sub-menu
         details.append("div")
-          .attr("class", "col-md-2 submenu-label")
+          .attr("class", "col-md-3 submenu-label")
           .append("label")
             .attr("for", sett.labelFor)
             .text(sett.menuLabel);
@@ -131,7 +131,7 @@ function lineTable(svg, settings, data, day) {
     if (sett.menuData) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
-        if (sett.attachedToSvg) {          
+        if (sett.attachedToSvg) {
           var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];

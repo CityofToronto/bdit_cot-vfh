@@ -79,8 +79,8 @@ function pageTexts() {
 
   // Ward patterns
   d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
-  d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
-  d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
+  // d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
+  // d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
   // ** text interaction for Humber story
   d3.selectAll(".section-text .highlight-humber")
     .on("click", function() {
@@ -273,7 +273,7 @@ function updateTitles() {
     i18next.t(pudoTOD, {ns: "timewinSpan-wkend"}) :
     i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})
   d3.select(".maptable").select("caption")
-    .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})}, 
+    .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
             ${pudoDay}, ${thisWin}`);
 }
 function updateTableCaption() {
@@ -440,7 +440,7 @@ $(document).ready(function(){
         initMapBox();
         d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
         d3.select(".maptable").select("caption")
-          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})}, 
+          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
                   ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
         const legendTexts = pudoMapSett.legendMenu[whichPUDO];
         plotPudoLegend(legendTexts);

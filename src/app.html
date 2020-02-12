@@ -35,7 +35,7 @@ See examples below in the boilerplate code
   <!-- VKT -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section3" class="myh3"></h3>
+      <h3 id="section3" class="h2"></h3>
       <div id="section3-text1" class="section-text"></div>
       <div id="section3-text2" class="section-text"></div>
     </div>
@@ -63,22 +63,30 @@ See examples below in the boilerplate code
   <!-- Ward patterns -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section4" class="myh3"></h3>
-      <div id="section4-text1a" class="section-text"></div>
+      <h3 id="section4" class="h2"></h3>
+      <div id="section4-text1a" class="section-text">
+        While we don't have data about individual trips, we do know total pick-up and drop-off times and their locations.
+        Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs.
+        The line chart below shows the number of trips in September 2018 made in each hour of the week, averaged by day of week, for a selected ward.
+        The location of these trips is displayed on the adjacent map.
+      </div>
       <div id="section4-text1b" class="section-text"></div>
       <div id="section4-text1c" class="section-text"></div>
     </div>
   </div>
     <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section5" class="h2">Explore trip patterns over an average week</h3>
+      <h3 id="section5" class="h3">Explore trip patterns over an average week in September 2018</h3>
       <div id="section5-text1a" class="section-text"></div>
     </div>
   </div>
   <!-- Ward dropdown menu -->
   <div class="row">
+    <div class="col-md-12 page-content">
+      <p>Select a ward from the dropdown menu and select either pick-ups & drop-offs, or each separately, from the adjacent dropdown menu.
+      </p>
+    </div>
     <div class="col-md-5 page-content">
-      <div>Explain something here</div>
       <div class="col-md-6">
         <div class="menu" id="for-ward">
           <label for="ward"></label>
@@ -105,14 +113,18 @@ See examples below in the boilerplate code
 
   <div class="row">
     <!-- Ward trip fraction lineChart -->
-    <div class="col-md-5 page-content">
-      <div id="for-hover" class="menu hoverInstruct">
+    <div class="col-md-6 page-content">
+      <div id="for-hover" class="instructions">
         <label for="freezeHover"></label>
+      </div>
+      <div class="instructions">
+        For example, in Etobicoke North, during the Monday morning peak (7:00&ndash;9:00), a considerable number of drop-offs were made at
+        Humber College compared with the number of pick-ups (212 vs. 24, respectively, or 89%).
       </div>
       <div class="fractionline data"></div>
     </div>
     <!-- Ward PUDO map -->
-    <div class="col-md-7 page-content">
+    <div class="col-md-6 page-content">
       <div class="row">
         <div class="col-md-12">
           <div id="pudoMapTitle"><h4></h4></div>

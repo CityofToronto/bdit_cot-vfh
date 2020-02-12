@@ -37,6 +37,11 @@
 		font-family: 'Roboto', sans-serif;
 		font-size: 18px;
 	}
+	.instructions {
+		// font-weight: 500;
+		font-family: 'Roboto', sans-serif;
+		font-size: 18px;
+	}
 	#for-hover label {
 		font-weight: normal;
 	}
@@ -320,19 +325,21 @@
 		stroke: #E474C2;
 	}
 
+  /* Ward Patterns section */
+	#for-ward, #for-type {
+		margin-top: 25px;
+		margin-bottom: 35px;
+	}
 	/* Trip Fraction line chart */
 	#pudoMapTitle {
 		text-align: center;
-	}
-	.hoverInstruct {
-		margin-top: 55px;
 	}
 	.fractionline {
 		margin-top: 10px;
 	}
 
 	.fractionline text {
-		font-size: 19px;
+		font-size: 20px;
 	}
 
 	 /* table button */
@@ -355,7 +362,7 @@
 		top: 0;
 		bottom: 0;
 		width: 100%;
-		height: 600px;
+		height: 550px;
 	}
 	// .mapboxgl-popup {
 	// 	max-width: 200px;
