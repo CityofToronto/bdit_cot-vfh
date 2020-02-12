@@ -284,7 +284,9 @@ function humberStory() {
   showHoverText(val, pudoHr, thisTOD);
 
   // Set focus and zoom to Humber College
-  map.flyTo({center: pudoMapSett.hbFocus.xy});
+  console.log("map flyTo")
+  // map.flyTo({center: pudoMapSett.hbFocus.xy});
+  map.flyTo({center: [-79.605800, 43.728970]});
   if (map.getZoom() !== pudoMapSett.hbFocus.zoom) {
     map.setZoom(pudoMapSett.hbFocus.zoom);
   }

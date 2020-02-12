@@ -352,7 +352,7 @@ settPudoLine = {
     }
   },
   extraXlabelX: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
-  extraXlabelY:74,
+  extraXlabelY:72,
   initHoverLine: {
     coords: [35.73652694610779, 35.73652694610779, -20, 292],
     indices: [7, 7] // hr, index

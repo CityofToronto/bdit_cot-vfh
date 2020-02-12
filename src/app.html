@@ -65,10 +65,10 @@ See examples below in the boilerplate code
     <div class="col-md-12 page-content">
       <h3 id="section4" class="h2"></h3>
       <div id="section4-text1a" class="section-text">
-        While we don't have data about individual trips, we do know total pick-up and drop-off times and their locations.
+        While we don't have data about individual trips, we do know total pick-up and drop-off times and their nearest-intersection locations.
         Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs.
         The line chart below shows the number of trips in September 2018 made in each hour of the week, averaged by day of week, for a selected ward.
-        The location of these trips is displayed on the adjacent map.
+        The nearest intersections of these trips (for clusters greater than 14) are displayed on the adjacent map.
       </div>
       <div id="section4-text1b" class="section-text"></div>
       <div id="section4-text1c" class="section-text"></div>
@@ -120,8 +120,8 @@ See examples below in the boilerplate code
       <div class="instructions">
         For example, in Etobicoke North, during the Monday morning peak (7:00&ndash;9:00), a considerable number of drop-offs were made at
         Humber College compared with the number of pick-ups (212 vs. 24, respectively, or 89%).
+        <button type="submit" id="show-humber" class="btn btn-primary">Show</button>
       </div>
-      <button type="submit" id="show-humber" class="btn btn-primary"></button>
       <div class="fractionline data"></div>
     </div>
     <!-- Ward PUDO map -->

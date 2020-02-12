@@ -41,6 +41,7 @@
 		// font-weight: 500;
 		font-family: 'Roboto', sans-serif;
 		font-size: 18px;
+		font-style: italic;
 	}
 	#for-hover label {
 		font-weight: normal;
@@ -343,7 +344,7 @@
 	}
 
 	 /* table button */
-	 #fraction-action, #pudo-action, #show-humber {
+	 #fraction-action, #pudo-action {
 		 background-color: #175689;
 		 border-color: #175689;
 		 margin-top: 20px;
@@ -351,6 +352,7 @@
 	 #show-humber {
 		 background-color: #175689;
 		 border-color: #175689;
+		 font-style: normal;
 	 }
 	.submenu-label {
 		 text-align: end;
