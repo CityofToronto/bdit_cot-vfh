@@ -142,6 +142,7 @@ pudoMapSett = {
       // ["nn", "pcounts"] OR
       // ["nn", "dcounts"]
       const keys = Object.keys(d[0]);
+      console.log("keys for table: ", keys)
       let keyArr = [];
       for (let idx = 0; idx < keys.length; idx++) {
         keyArr.push(i18next.t(keys[idx], {ns: "pudoMap"}));
@@ -173,9 +174,13 @@ pudoMapSett = {
       let thisd = d.properties.dcounts ? d.properties.dcounts : 0;
       pct[thisnn] = pct[thisnn] ? pct[thisnn] + thisp: thisp;
       dct[thisnn] = dct[thisnn] ? dct[thisnn] + thisd: thisd;
+      if (pct[thisnn] + dct[thisnn]===0) console.log("!!!!!is zero: ", pct[thisnn], dct[thisnn])
       thisGroup[`nn${thisnn}`] = {
         "pcounts": pct[thisnn],
-        "dcounts": dct[thisnn]
+        "dcounts": dct[thisnn],
+        "pfraction": d3.format("(.0f")(
+          pct[thisnn] / (pct[thisnn] + dct[thisnn]) * 100
+        )
       };
     });
 
@@ -186,6 +191,7 @@ pudoMapSett = {
       if (whichPUDO === "pudo") {
         row["pcounts"] = thisGroup[element]["pcounts"];
         row["dcounts"] = thisGroup[element]["dcounts"];
+        row["pfraction"] = thisGroup[element]["pfraction"];
       } else row[arrKey] = thisGroup[element][arrKey];
       returnGroup.push(row)
     });

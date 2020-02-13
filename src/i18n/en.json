@@ -345,8 +345,9 @@
       "y_label": "Total trip count",
       "title": "Trip locations for Monday, AM Peak (7:00&ndash;09:00)",
       "nn": "Neighbourhood",
-      "pcounts": "Number of pick-ups",
-      "dcounts": "Number of drop-offs"
+      "pcounts": "Pick-ups",
+      "dcounts": "Drop-offs",
+      "pfraction": "Pick-up fraction (%)"
     }
 
   }
