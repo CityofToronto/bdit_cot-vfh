@@ -47,6 +47,8 @@ function lineTable(svg, settings, data) {
         // Text label for sub-menu
         details.append("div")
           .attr("class", "col-md-3 submenu-label")
+          .attr("role", "region")
+          .attr("aria-live", "polite")
           .append("label")
             .attr("for", sett.labelFor)
             .text(sett.menuLabel);
