@@ -358,11 +358,11 @@ function uiHandler(event) {
       const nnCountObj = pudoMapSett.getTableData(root);
       pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
     });
-
-    map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
+    
     if (map.getZoom() !== pudoMapSett[`${ward}Focus`].zoom) {
       map.setZoom(pudoMapSett[`${ward}Focus`].zoom);
     }
+    map.flyTo({center: pudoMapSett[`${ward}Focus`].xy});
   }
   // Table menu for trip fraction lineChart table
   else if (event.target.id === settPudoLine.menuId) {
