@@ -99,9 +99,8 @@ function pageTexts() {
     // Humber Story button
     d3.select("#show-humber")
       .on("click", function() {
-        console.log("show humber")
         humberStory();
-        updatePudoMapTitle();
+        // updatePudoMapTitle();
       });
 
 
@@ -156,6 +155,7 @@ function showFractionLine() {
       updateMapbox(clearPrevWard);
       // Close map table
       d3.select(".maptable").select("details").attr("open", null);
+      hideStoryLayer("hb-w1-Monday-amPeak-pudo-pudo");
     }
   }, () => { // onMsOutCb;
     saveHoverLinePos();

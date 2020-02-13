@@ -284,12 +284,10 @@ function humberStory() {
   showHoverText(val, pudoHr, thisTOD);
 
   // Set focus and zoom to Humber College
-  console.log("map flyTo")
-  // map.flyTo({center: pudoMapSett.hbFocus.xy});
-  map.flyTo({center: [-79.605800, 43.728970]});
   if (map.getZoom() !== pudoMapSett.hbFocus.zoom) {
     map.setZoom(pudoMapSett.hbFocus.zoom);
   }
+  map.flyTo({center: pudoMapSett.hbFocus.xy});
 
   // Clear ward bd and markers if not in w1 or if in another Day or TOD in w1
   if (ward === "w1" && (pudoDay !== "Monday" || pudoTOD !== "amPeak" ||
@@ -310,14 +308,6 @@ function humberStory() {
     showOverlapLayer(rootLayer, layerObj);
   }
 
-  // Dim all circles and labels of w1-Monday-amPeak
-  map.setPaintProperty("w1-Monday-amPeak-pudo-pudo", "circle-opacity", 0.1);
-
-  // Highlight Humber College PUDO marker only
-  if (layerObj.find(({id}) => id === hbId)) {
-    map.setLayoutProperty(hbId, "visibility", "visible");
-    map.setLayoutProperty(`${hbId}-label`, "visibility", "visible");
-  } else {
-      makeStoryLayer(hbId, hbSrc, "pudo","humber");
-  }
+  // Draw a highlighting circle around Humber College PUDO circle
+  makeStoryLayer(hbId, hbSrc, "pudo","humber");
 }

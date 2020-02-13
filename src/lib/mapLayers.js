@@ -92,49 +92,7 @@ function makeLayer(id, data, type) {
      }
   });
 }
-function makeStoryLayer(id, src, type, whichStory) {
-  const sett = pudoMapSett;
-  let pFraction = ["/", ["get", "pcounts"], ["+", ["get", "pcounts"], ["get", "dcounts"]]];
-
-  map.addLayer({
-      id: id,
-      type: "circle",
-      source: src,
-      filter: ["==", ["string", ["get", "story"]], whichStory],
-      paint: {
-        "circle-radius": 16,
-        "circle-color": [
-          "step", pFraction,
-          sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
-          sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
-          sett.pudoRanges.puMax.colour
-        ],
-        "circle-stroke-color": sett.circleStyle.stroke,
-        "circle-stroke-width": 2,
-        "circle-opacity": 1
-      },
-      layout: {
-        "visibility": "visible"
-      }
-  });
-
-  map.addLayer({
-    "id": `${id}-label`,
-    "type": "symbol",
-    "source": src,
-    "layout": {
-      "text-field": sett.circleStyle[type].count,
-      "text-font": [
-        "Open Sans Regular",
-        "Arial Unicode MS Bold"
-      ],
-      "text-size": 16
-    },
-    paint: {
-       "text-color": sett.circleStyle[type].text
-     }
-  });
-}
+// -------------------------------------------------------------------
 // PUDO layer only
 // Plot PUDO map for pudo-pudo layer
 function makePUDOLayer(id, data) {
@@ -442,4 +400,34 @@ plotPudoLegend = function(data) {
      });
 
   root.exit().remove();
+}
+// -------------------------------------------------------------------
+// STORY LAYER
+function makeStoryLayer(storyId, src, type, whichStory) {  
+  const sett = pudoMapSett;
+  const layerObj = map.getStyle().layers;
+
+  // If layer exists, make visible, otherwise create it
+  if (layerObj.find(({ id }) => id === storyId)) {
+    map.setLayoutProperty(storyId, "visibility", "visible");
+  } else {
+    map.addLayer({
+      id: storyId,
+      type: "circle",
+      source: src,
+      filter: ["==", ["string", ["get", "story"]], whichStory],
+      paint: {
+        "circle-radius": 25,
+        "circle-stroke-color": sett.humberCircle.stroke,
+        "circle-stroke-width": 6,
+        "circle-opacity": 0
+      },
+      layout: {
+        "visibility": "visible"
+      }
+    });
+  }
+}
+function hideStoryLayer(storyId) {
+  map.setLayoutProperty(storyId, "visibility", "none");
 }

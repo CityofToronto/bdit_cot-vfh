@@ -98,6 +98,9 @@ pudoMapSett = {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
     "do": {cluster: ["+", ["get", "dcounts"]]}
   },
+  humberCircle: {
+    "stroke": "red"
+  },
   legendMenu: {
     "pu": [
         {id: 1, text: "Pick-ups only", span:"legend-pu"}
