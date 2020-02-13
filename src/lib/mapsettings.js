@@ -178,6 +178,7 @@ pudoMapSett = {
       thisGroup[`nn${thisnn}`] = {
         "pcounts": pct[thisnn],
         "dcounts": dct[thisnn],
+        "tot": pct[thisnn] + dct[thisnn],
         "pfraction": d3.format("(.0f")(
           pct[thisnn] / (pct[thisnn] + dct[thisnn]) * 100
         )
@@ -189,6 +190,7 @@ pudoMapSett = {
       let row = {};
       row["nn"] = element;
       if (whichPUDO === "pudo") {
+        row["tot"] = thisGroup[element]["tot"];
         row["pcounts"] = thisGroup[element]["pcounts"];
         row["dcounts"] = thisGroup[element]["dcounts"];
         row["pfraction"] = thisGroup[element]["pfraction"];
