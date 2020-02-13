@@ -154,13 +154,16 @@ pudoMapSett = {
   getTableData: function(obj) {
     let countData = obj["pudo"].features;
     let arrKey;
+    let sortBy;
 
     if (whichPUDO === "pudo") {
       countData = countData.concat(obj["pu"].features)
                            .concat(obj["do"].features);
+      sortBy = "tot";
     } else {
       countData = countData.concat(obj[whichPUDO].features);
       arrKey = whichPUDO === "pu" ? "pcounts" : "dcounts";
+      sortBy = arrKey;
     }
 
     // Extract pcounts, dcounts and nn from countData object
@@ -197,7 +200,7 @@ pudoMapSett = {
       } else row[arrKey] = thisGroup[element][arrKey];
       returnGroup.push(row)
     });
-    return returnGroup;
+    return returnGroup.sort(function(a, b) {return b[sortBy]-a[sortBy];});
   },
   pair: {
     getValues: function(d) { // used for data table ONLY
