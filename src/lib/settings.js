@@ -320,7 +320,7 @@ settPudoLine = {
       // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
       // }
       const col1 = d.keys.name;
-      const col2 = Object.keys(d)[1];
+      const col2 = `${i18next.t(whichPUDO, {ns: "pudo"})}`; // Object.keys(d)[1];
       return [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})];
     },
     getxtickIdx: function(filteredData) {
@@ -370,9 +370,7 @@ settPudoLine = {
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},
-            {val:"sun", text: "Sunday"}],
-  tableTitle: i18next.t("tabletitle", {ns: "ward_towline"}),
-  tableCaption: i18next.t("tablecaption", {ns: "ward_towline"})
+            {val:"sun", text: "Sunday"}]
 };
 // extend with default settings that were in original line.js
 settPudoLine.x = $.extend({

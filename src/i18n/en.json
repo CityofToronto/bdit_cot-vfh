@@ -323,8 +323,8 @@
       "tod": "Time of day",
       "fraction": "Average number of trips",
       "hr": "Hour",
-      "tabletitle":  "Click to show average trip counts per hour in the above line chart",
-      "captiontitle":  "Average number of trips/hour in ",
+      "tabletitle":  "Click to open table of trip counts per hour plotted in the above line chart",
+      "captiontitle":  "per hour in ",
       "menuLabel": "Select Day"
     },
     "scatter": {

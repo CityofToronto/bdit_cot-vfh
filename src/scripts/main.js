@@ -48,7 +48,6 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
 let vktMapSvg;
-let vktMapTableTitle;
 let fractionLineChart;
 let pudoMapTable;
 let wardpudoMap;
@@ -272,9 +271,9 @@ const loadData = function(cb) {
 };
 
 function updateTitles() {
-  fractionTableTitle = `${settPudoLine.tableTitle}`;
-  fractionCaptionTitle = `${i18next.t("captiontitle", {ns: "ward_towline"})} ${i18next.t(ward, {ns: "wards"})}`;
-  d3.select(".fractionline").select("summary").text(fractionTableTitle);
+  const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+    ${i18next.t("captiontitle", {ns: "ward_towline"})}
+    ${i18next.t(ward, {ns: "wards"})}`;
   d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
   // pudo map table
@@ -286,7 +285,10 @@ function updateTitles() {
             ${pudoDay}, ${thisWin}`);
 }
 function updateTableCaption() {
-  d3.select(".fractionline").select("caption").text(`${fractionTableTitle}, ${i18next.t(day, {ns: "days"})}`);
+  const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+    ${i18next.t("captiontitle", {ns: "ward_towline"})}
+    ${i18next.t(ward, {ns: "wards"})}`;
+  d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 }
 function updatePudoMapTitle() {
   const thisWin = (pudoDay === "Saturday" || pudoDay === "Sunday") ?
@@ -358,7 +360,7 @@ function uiHandler(event) {
       const nnCountObj = pudoMapSett.getTableData(root);
       pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
     });
-    
+
     if (map.getZoom() !== pudoMapSett[`${ward}Focus`].zoom) {
       map.setZoom(pudoMapSett[`${ward}Focus`].zoom);
     }
@@ -399,15 +401,10 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
-    // vktMapSett.x.label = i18next.t("x_label", {ns: "vkt_map"}),
-    // vktMapSett.y.label = i18next.t("y_label", {ns: "vkt_map"}),
-    vktMapSett.tableTitle = i18next.t("tabletitle", {ns: "vkt_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
-    settPudoLine.tableTitle = i18next.t("tabletitle", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
-    pudoMapSett.tableTitle = i18next.t("tabletitle", {ns: "pudoMap"}),
     d3.queue()
       .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff_15.geojson")
@@ -425,7 +422,8 @@ $(document).ready(function(){
         ptcVol = ptcvolfile;
 
         showVktMap();
-        vktMapTableTitle = `${vktMapSett.tableTitle}, ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
+          ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // Display texts
@@ -433,8 +431,10 @@ $(document).ready(function(){
 
         // Line Charts
         showFractionLine();
-        fractionTableTitle = `${settPudoLine.tableTitle}`;
-        fractionCaptionTitle = `${i18next.t("captiontitle", {ns: "ward_towline"})} ${i18next.t(ward, {ns: "wards"})}`;
+        const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
+        const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+          ${i18next.t("captiontitle", {ns: "ward_towline"})}
+          ${i18next.t(ward, {ns: "wards"})}`;
         d3.select(".fractionline").select("summary").text(fractionTableTitle);
         d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
@@ -447,7 +447,7 @@ $(document).ready(function(){
         showHoverText(val, pudoHr, thisTOD);
 
         initMapBox();
-        d3.select(".maptable").select("summary").text(pudoMapSett.tableTitle);
+        d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
         d3.select(".maptable").select("caption")
           .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
                   ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
