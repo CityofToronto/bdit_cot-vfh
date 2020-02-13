@@ -30,7 +30,7 @@ let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
 const pudoMap = {}; // PUDO map by ward
-let map;
+let map; // mapbox map
 let geoMap = {}; // PUDO map by ward FOR MAPBOX, all days and timewindows
 let wardLayer = {}; // ward shapefiles
 let nnLayer = {}; // neighbourhood shapefiles
@@ -38,8 +38,7 @@ let nnLayer = {}; // neighbourhood shapefiles
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let ward = "w1";
-let day = "mon"; // Ward trip fraction table menu selector
-let mapday = "mon"; // Day for map table menu
+let day = "mon"; // Ward trip fraction table sub-menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let pudoIdx; // index of PUDO line data for hover tool text
@@ -125,7 +124,7 @@ function showVktMap() {
 
   // Create data table for VKT vol map
   const vktTable = lineTable(vktMapSvg, vktMapSett,
-    vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]), day);
+    vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
 }
 
 function showFractionLine() {
@@ -161,7 +160,7 @@ function showFractionLine() {
     // Update data table for map
     const root = geoMap[ward][pudoDay][pudoTOD];
     const nnCountObj = pudoMapSett.getTableData(root);
-    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj);
     updateTitles();
   }, () => { // onMsClickCb; toggle between moveable and frozen
     const mapState = d3.select(".mapboxgl-canvas-container");
@@ -172,12 +171,12 @@ function showFractionLine() {
     // Update data table for map
     const root = geoMap[ward][pudoDay][pudoTOD];
     const nnCountObj = pudoMapSett.getTableData(root);
-    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj);
     updateTitles();
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -225,15 +224,7 @@ function initMapBox() {
 
   // Data table for map
   const nnCountObj = pudoMapSett.getTableData(root);
-  pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
-
-  // Only show table if action button is clicked
-  d3.select(`#${pudoMapSett.actionId}`)
-    .on("click", function() {
-      d3.select(".maptable .chart-data-table")
-        .select("table")
-        .style("display", "table");
-    });
+  pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj);
 }
 
 function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
@@ -323,7 +314,7 @@ function uiHandler(event) {
     d3.select(".maptable").select("details").attr("open", null);
     const root = geoMap[ward][pudoDay][pudoTOD];
     const nnCountObj = pudoMapSett.getTableData(root);
-    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+    pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj);
 
     updateMapbox(clearPrevWard);
     plotPudoLegend(pudoMapSett.legendMenu[whichPUDO]); // Update map legend
@@ -358,7 +349,7 @@ function uiHandler(event) {
       d3.select(".maptable").select("details").attr("open", null);
       const root = geoMap[ward][pudoDay][pudoTOD];
       const nnCountObj = pudoMapSett.getTableData(root);
-      pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj, mapday);
+      pudoMapTable = lineTable(".maptable", pudoMapSett, nnCountObj);
     });
 
     if (map.getZoom() !== pudoMapSett[`${ward}Focus`].zoom) {
@@ -370,7 +361,7 @@ function uiHandler(event) {
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settPudoLine, thisPTC, day);
+    lineTable(fractionLineChart, settPudoLine, thisPTC);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")

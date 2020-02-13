@@ -1,4 +1,4 @@
-function lineTable(svg, settings, data, day) {
+function lineTable(svg, settings, data) {
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
