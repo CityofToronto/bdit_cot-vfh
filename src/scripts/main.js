@@ -434,7 +434,7 @@ $(document).ready(function(){
         pudoHr = settPudoLine.initHoverLine.indices[0];
         pudoIdx = settPudoLine.initHoverLine.indices[1];
         const thisTOD = findTOD([pudoHr, pudoIdx]);
-        const val = d3.format("(,")(ptcFraction[ward][Object.keys(ptcFraction[ward])[1]][pudoIdx]);
+        const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
         showHoverText(val, pudoHr, thisTOD);
 
         initMapBox();
