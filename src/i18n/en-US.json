@@ -352,7 +352,7 @@
       "pcounts": "Pick-ups",
       "dcounts": "Drop-offs",
       "tot": "Total",
-      "pfraction": "Pick-up fraction (%)"
+      "pfraction": "Pick-up fraction"
     }
   }
 }

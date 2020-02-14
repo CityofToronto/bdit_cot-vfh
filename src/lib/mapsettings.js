@@ -187,12 +187,18 @@ pudoMapSett = {
     // Reshape into array of objects [{ nn: 77, pcounts: 100, dcounts: 555 },...,{}]
     Object.keys(thisGroup).forEach((element) => {
       let row = {};
+      let thisLevel;
       row["nn"] = element;
       if (whichPUDO === "pudo") {
+        if (thisGroup[element]["pfraction"] === 100) thisLevel = "Pick-ups only";
+        else if (thisGroup[element]["pfraction"] === 0) thisLevel = "Drop-offs only";
+        else if (thisGroup[element]["pfraction"] > 55) thisLevel = "Pick-ups > 55%";
+        else if (thisGroup[element]["pfraction"] < 45) thisLevel = "Pick-ups < 45%";
+        else thisLevel = "Pick-ups 45–55%";
         row["tot"] = thisGroup[element]["tot"];
         row["pcounts"] = thisGroup[element]["pcounts"];
         row["dcounts"] = thisGroup[element]["dcounts"];
-        row["pfraction"] = thisGroup[element]["pfraction"];
+        row["pfraction"] = thisLevel;
       } else row[arrKey] = thisGroup[element][arrKey];
       returnGroup.push(row)
     });
@@ -210,7 +216,9 @@ pudoMapSett = {
       let valArr = [];
       valArr[0] = i18next.t(parseInt(vals[0].split("nn")[1]), {ns: "nhoods"});
       for (let idx = 1; idx < vals.length; idx++) {
-        valArr.push(d3.format("(,")(vals[idx]));
+        let formatVal = (typeof vals[idx] === "string") ? vals[idx] :
+          d3.format("(,")(vals[idx]);
+        valArr.push(formatVal);
       }
       return valArr;
     }
