@@ -63,7 +63,7 @@ function makeLayer(id, data, type) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": 16,
+        "circle-radius": sett.circleStyle.radius,
         "circle-color": sett.circleStyle[type].fill,
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
@@ -177,7 +177,7 @@ function makePUDOLayer(id, data) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": 16,
+        "circle-radius": sett.circleStyle.radius,
         "circle-color": [
           "step", pFraction,
           sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
@@ -199,6 +199,8 @@ function makePUDOLayer(id, data) {
     "source": thisSource,
     "layout": {
       "text-field": sett.circleStyle[type].count,
+      'text-justify': 'right',
+      'text-radial-offset': 0.5,
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
@@ -403,7 +405,7 @@ plotPudoLegend = function(data) {
 }
 // -------------------------------------------------------------------
 // STORY LAYER
-function makeStoryLayer(storyId, src, type, whichStory) {  
+function makeStoryLayer(storyId, src, type, whichStory) {
   const sett = pudoMapSett;
   const layerObj = map.getStyle().layers;
 
