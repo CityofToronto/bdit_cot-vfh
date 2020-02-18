@@ -431,5 +431,8 @@ function makeStoryLayer(storyId, src, type, whichStory) {
   }
 }
 function hideStoryLayer(storyId) {
-  map.setLayoutProperty(storyId, "visibility", "none");
+  const layerObj = map.getStyle().layers;
+  if (layerObj.find(({ id }) => id === storyId)) {
+    map.setLayoutProperty(storyId, "visibility", "none");
+  }
 }
