@@ -199,8 +199,8 @@ function makePUDOLayer(id, data) {
     "source": thisSource,
     "layout": {
       "text-field": sett.circleStyle[type].count,
-      'text-justify': 'right',
-      'text-radial-offset': 0.5,
+      // 'text-justify': 'right',
+      // 'text-radial-offset': 0.5,
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
