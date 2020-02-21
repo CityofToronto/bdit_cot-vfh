@@ -211,23 +211,6 @@ function makePUDOLayer(id, data) {
        "text-color": sett.circleStyle[type].text
      }
   });
-  // map.addLayer({
-  //     'id': id,
-  //     'type': 'symbol',
-  //     'source': thisSource,
-  //     'layout': {
-  //     // get the icon name from the source's "icon" property
-  //     // concatenate the name to get an icon from the style's sprite sheet
-  //     'icon-image': "marker-15",
-  //     "icon-size": 2,
-  //     // "icon-color": "#dd1c77",
-  //     // get the title name from the source's "title" property
-  //     'text-field': sett.circleStyle[type].count,
-  //     'text-font': ["Open Sans Regular", "Arial Unicode MS Bold"],
-  //     'text-offset': [0, 0.6],
-  //     'text-anchor': 'top'
-  //   }
-  // });
 
   map.on("click", id, function(e) {
     const feature = e.features[0];
