@@ -86,7 +86,7 @@ pudoMapSett = {
     puMax: {colour: "#fdb863"}
   },
   circleStyle: {
-    "stroke": "#000", "radius": 16,
+    "stroke": "#000", "radius": 16, "point_r": 5,
     "pu": {fill: "#e66101", text: "#000", count: "{pcounts}"},
     "do": {fill: "#5e3c99", text: "#fff", count: "{dcounts}"},
     "pudo": { text: "#000",

@@ -177,7 +177,7 @@ function makePUDOLayer(id, data) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": sett.circleStyle.radius,
+        "circle-radius": sett.circleStyle.point_r,
         "circle-color": [
           "step", pFraction,
           sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
@@ -185,7 +185,7 @@ function makePUDOLayer(id, data) {
           sett.pudoRanges.puMax.colour
         ],
         "circle-stroke-color": sett.circleStyle.stroke,
-        "circle-stroke-width": 2,
+        "circle-stroke-width": 1,
         "circle-opacity": 1
       },
       layout: {
@@ -199,19 +199,35 @@ function makePUDOLayer(id, data) {
     "source": thisSource,
     "layout": {
       "text-field": sett.circleStyle[type].count,
-      // 'text-justify': 'right',
-      // 'text-radial-offset': 0.5,
       "text-font": [
         "Open Sans Regular",
         "Arial Unicode MS Bold"
       ],
-      "text-size": 16
+      "text-size": 16,
+      'text-offset': [0, 1.1]
       // "text-allow-overlap" : true
     },
     paint: {
        "text-color": sett.circleStyle[type].text
      }
   });
+  // map.addLayer({
+  //     'id': id,
+  //     'type': 'symbol',
+  //     'source': thisSource,
+  //     'layout': {
+  //     // get the icon name from the source's "icon" property
+  //     // concatenate the name to get an icon from the style's sprite sheet
+  //     'icon-image': "marker-15",
+  //     "icon-size": 2,
+  //     // "icon-color": "#dd1c77",
+  //     // get the title name from the source's "title" property
+  //     'text-field': sett.circleStyle[type].count,
+  //     'text-font': ["Open Sans Regular", "Arial Unicode MS Bold"],
+  //     'text-offset': [0, 0.6],
+  //     'text-anchor': 'top'
+  //   }
+  // });
 
   map.on("click", id, function(e) {
     const feature = e.features[0];
@@ -419,7 +435,7 @@ function makeStoryLayer(storyId, src, type, whichStory) {
       source: src,
       filter: ["==", ["string", ["get", "story"]], whichStory],
       paint: {
-        "circle-radius": 25,
+        "circle-radius": 30,
         "circle-stroke-color": sett.humberCircle.stroke,
         "circle-stroke-width": 6,
         "circle-opacity": 0
