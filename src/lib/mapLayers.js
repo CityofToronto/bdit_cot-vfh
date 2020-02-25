@@ -124,6 +124,7 @@ function makePUDOLayer(id, data) {
      source: thisSource,
      filter: ["==", "cluster", true],
      paint: {
+       // https://docs.mapbox.com/mapbox-gl-js/example/cluster/
        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
        // with three steps to implement three types of circles:
        //   * Blue, 20px circles when point count is less than 100
@@ -132,9 +133,11 @@ function makePUDOLayer(id, data) {
        "circle-color": [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
-         sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
-         sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
-         sett.pudoRanges.puMax.colour
+         sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
+         sett.pudoRanges.puQ2.colour, sett.pudoRanges.puQ2.range,
+         sett.pudoRanges.puQ3.colour, sett.pudoRanges.puQ3.range,
+         sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
+         sett.pudoRanges.puQ5.colour
        ],
        "circle-stroke-color": sett.circleStyle.stroke,
        "circle-stroke-width": 1,
@@ -180,9 +183,11 @@ function makePUDOLayer(id, data) {
         "circle-radius": sett.circleStyle.point_r,
         "circle-color": [
           "step", pFraction,
-          sett.pudoRanges.puMin.colour, sett.pudoRanges.puMin.range,
-          sett.pudoRanges.puMid.colour, sett.pudoRanges.puMid.range,
-          sett.pudoRanges.puMax.colour
+          sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
+          sett.pudoRanges.puQ2.colour, sett.pudoRanges.puQ2.range,
+          sett.pudoRanges.puQ3.colour, sett.pudoRanges.puQ3.range,
+          sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
+          sett.pudoRanges.puQ5.colour
         ],
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 1,
