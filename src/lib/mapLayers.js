@@ -29,7 +29,7 @@ function makeLayer(id, data, type) {
      paint: {
        "circle-color": sett.circleStyle[type].fill,
        "circle-radius": [
-         "sqrt", ["/", ["get", "sum"], 1]
+         "sqrt", ["get", "sum"]
        ]
      }
    });
@@ -48,8 +48,7 @@ function makeLayer(id, data, type) {
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16,
       "text-allow-overlap": false,
-      "text-ignore-placement": false,
-      "text-offset": [0, 2]
+      "text-ignore-placement": false
     },
     paint: {
        "text-color": sett.circleStyle[type].text
@@ -144,12 +143,16 @@ function makePUDOLayer(id, data) {
        ],
        "circle-stroke-color": sett.circleStyle.stroke,
        "circle-stroke-width": 1,
+       // "circle-radius": [
+       //   "sqrt", ["get", "sum"]
+       // ]
+       // map.getZoom() to find out current zoom level
        "circle-radius": [
-         "step",
-         ["get", "point_count"],
-         // 31, 50, // 31px, < threshold 50
-         30, 100, // 50px, threshold 50 - 100
-         40] // 60px, threshold >= 100
+          "interpolate", ["linear"], ["zoom"],
+          13, ["/", ["sqrt", ["get", "sum"]], 2.9],
+          14, ["/", ["sqrt", ["get", "sum"]], 2.2],
+          15, ["/", ["sqrt", ["get", "sum"]], 2.1]
+        ]
      }
    });
   // CLUSTERED LAYER LABEL
@@ -168,8 +171,8 @@ function makePUDOLayer(id, data) {
       ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16,
-      "text-allow-overlap": true,
-      "text-ignore-placement": true
+      "text-allow-overlap": false,
+      "text-ignore-placement": false
     },
     paint: {
        "text-color": sett.circleStyle[type].text
@@ -183,7 +186,15 @@ function makePUDOLayer(id, data) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": sett.circleStyle.point_r,
+        // "circle-radius": [
+        //   "sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]
+        // ],
+        "circle-radius": [
+           "interpolate", ["linear"], ["zoom"],
+           13, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.9],
+           14, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.2],
+           15, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.1]
+         ],
         "circle-color": [
           "step", pFraction,
           sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
@@ -211,8 +222,8 @@ function makePUDOLayer(id, data) {
         "Open Sans Regular",
         "Arial Unicode MS Bold"
       ],
-      "text-size": 16,
-      "text-offset": [0, 1.1]
+      "text-size": 16
+      // "text-offset": [0, 1.1]
       // "text-allow-overlap" : true
     },
     paint: {
