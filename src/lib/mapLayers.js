@@ -183,7 +183,9 @@ function makePUDOLayer(id, data) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": sett.circleStyle.point_r,
+        "circle-radius": [
+          "sqrt", ["get", sett.circleStyle[type].radius]
+        ],
         "circle-color": [
           "step", pFraction,
           sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,

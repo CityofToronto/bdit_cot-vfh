@@ -92,7 +92,8 @@ pudoMapSett = {
     "pu": {fill: "#8c510a", text: "#000", count: "{pcounts}", radius: "pcounts"},
     "do": {fill: "#01665e", text: "#000", count: "{dcounts}", radius: "dcounts"},
     "pudo": { text: "#000",
-      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
+      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}],
+      radius: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },
   clusterStyle: {
