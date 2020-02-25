@@ -29,11 +29,8 @@ function makeLayer(id, data, type) {
      paint: {
        "circle-color": sett.circleStyle[type].fill,
        "circle-radius": [
-         "step",
-         ["get", "point_count"],
-         // 31, 50, // 31px, < threshold 50
-         30, 100, // 50px, threshold 50 - 100
-         40] // 60px, threshold >= 100
+         "sqrt", ["/", ["get", "sum"], 1]
+       ]
      }
    });
   // CLUSTERED LAYER LABEL
@@ -50,8 +47,9 @@ function makeLayer(id, data, type) {
       ],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16,
-      "text-allow-overlap": true,
-      "text-ignore-placement": true
+      "text-allow-overlap": false,
+      "text-ignore-placement": false,
+      "text-offset": [0, 2]
     },
     paint: {
        "text-color": sett.circleStyle[type].text

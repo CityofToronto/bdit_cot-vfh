@@ -200,7 +200,7 @@ function initMapBox() {
     // Unique dropoffs layer
     makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
-    // makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
+    makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.ward);
     // Neighbourhood boundaries
