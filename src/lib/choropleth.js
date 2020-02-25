@@ -16,7 +16,6 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       rtnTable = rtnTable.concat("</table>");
       return rtnTable;
     };
-    console.log(d3.event.pageX, d3.event.pageY)
     div.html(makeTable())
         .style("opacity", .999)
         .style("left", ((d3.event.pageX - 400) + "px"))

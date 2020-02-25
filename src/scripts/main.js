@@ -66,8 +66,6 @@ function pageTexts() {
   d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
 
   // VKT
-  d3.select("#section3").html(i18next.t("section3", {ns: "indexhtml"}));
-  d3.select("#section3-text1").html(i18next.t("section3-text1", {ns: "indexhtml"}));
   // ** vkt dropdown menu
   d3.select("#for-vkt label").text(i18next.t("vkt-menu", {ns: "menus"}));
   d3.select("#vkt-menu").node()[0].text = i18next.t("allday", {ns: "menus"});
@@ -76,9 +74,6 @@ function pageTexts() {
   d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
 
   // Ward patterns
-  d3.select("#section4").html(i18next.t("section4", {ns: "indexhtml"}));
-  // d3.select("#section4-text1a").html(i18next.t("section4-text1a", {ns: "indexhtml"}));
-  // d3.select("#section4-text1b").html(i18next.t("section4-text1b", {ns: "indexhtml"}));
   // ** text interaction for Humber story
   d3.selectAll(".section-text .highlight-humber")
     .on("click", function() {
@@ -113,7 +108,6 @@ function pageTexts() {
   d3.select("#pudo-menu").node()[1].text = i18next.t("pu", {ns: "pudo"});
   d3.select("#pudo-menu").node()[2].text = i18next.t("do", {ns: "pudo"});
 
-  d3.select("#for-hover label").text(i18next.t("hover-freeze", {ns: "indexhtml"}));
   // ** PUDO map
   d3.select("#pudoMapTitle h4").html(i18next.t("title", {ns: "pudoMap"}));
 }
