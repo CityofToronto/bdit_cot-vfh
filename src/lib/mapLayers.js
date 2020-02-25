@@ -1,8 +1,10 @@
 // -----------------------------------------------------------------------------
 // Plot PUDO map for either PUs or DOs as selected in pudo-menu
 function makeLayer(id, data, type) {
+  console.log("type: ", type)
   const sett = pudoMapSett;
   const thisSource = `src-${id}`;
+    console.log("get: ", sett.circleStyle[type].count)
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -63,7 +65,9 @@ function makeLayer(id, data, type) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
-        "circle-radius": sett.circleStyle.radius,
+        "circle-radius": [
+          "sqrt", ["get", sett.circleStyle[type].radius]
+        ],
         "circle-color": sett.circleStyle[type].fill,
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
@@ -84,7 +88,8 @@ function makeLayer(id, data, type) {
         "Open Sans Regular",
         "Arial Unicode MS Bold"
       ],
-      "text-size": 16
+      "text-size": 16,
+      "text-offset": [0, 1.1]
       // "text-allow-overlap" : true
     },
     paint: {
@@ -209,7 +214,7 @@ function makePUDOLayer(id, data) {
         "Arial Unicode MS Bold"
       ],
       "text-size": 16,
-      'text-offset': [0, 1.1]
+      "text-offset": [0, 1.1]
       // "text-allow-overlap" : true
     },
     paint: {

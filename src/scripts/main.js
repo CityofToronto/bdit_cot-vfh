@@ -196,11 +196,11 @@ function initMapBox() {
   const root = geoMap[ward][pudoDay][pudoTOD];
   map.on("load", function() {
     // Unique pickups layer
-    // makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
+    makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
     // Unique dropoffs layer
-    // makeLayer(`${rootLayer}-do`, root["do"], "do");
+    makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
-    makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
+    // makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.ward);
     // Neighbourhood boundaries

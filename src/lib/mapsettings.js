@@ -89,8 +89,8 @@ pudoMapSett = {
   },
   circleStyle: {
     "stroke": "#000", "radius": 16, "point_r": 5,
-    "pu": {fill: "#8c510a", text: "#000", count: "{pcounts}"},
-    "do": {fill: "#01665e", text: "#fff", count: "{dcounts}"},
+    "pu": {fill: "#8c510a", text: "#000", count: "{pcounts}", radius: "pcounts"},
+    "do": {fill: "#01665e", text: "#000", count: "{dcounts}", radius: "dcounts"},
     "pudo": { text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
