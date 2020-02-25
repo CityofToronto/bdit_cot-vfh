@@ -20,11 +20,14 @@
 		font-size: 1.125em;
 		font-family: "Roboto";
 	}
-	.myh3 {
+	h3 {
 	  margin-top: 35px !important;
 	}
 	.section-text {
 		margin-top: 20px;
+	}
+	label {
+		margin-top: 30px;
 	}
 	.form-control {
 	  margin-top: 20px;
@@ -42,6 +45,8 @@
 		font-family: 'Roboto', sans-serif;
 		font-size: 18px;
 		font-style: italic;
+		margin-top: 24px;
+		margin-bottom: 68px;
 	}
 	#for-hover label {
 		font-weight: normal;
@@ -252,6 +257,9 @@
 		font-weight: normal;
 	}
 
+	#section4-text1c label, #for-ward label, #for-type label {
+		margin-top: 0px;
+	}
 	/* tooltip for Trip Fraction lineChart with hover line */
 	.secondline {
 		margin-top: 22px;

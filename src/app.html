@@ -27,20 +27,36 @@ See examples below in the boilerplate code
 
   <!-- Intro texts -->
   <div class="row">
-      <div class="col-md-12 page-content">
-        <div id="introp"></div><br>
+    <div class="col-md-12 page-content">
+      <div id="introp">
+        <dfn id='ptc'>Private Tranpsportation Companies</dfn> <span role='definition' aria-labelledby='ptc'>(PTC)</span>
+        trips have grown rapidly since the service was first licensed by the City in September 2016.
+        Understanding these new services and their impact is key to developing policies that support
+        the benefits of these services while minimizing adverse effects on traffic, the environment
+        and the equity of mobility services.
       </div>
+    </div>
   </div>
 
   <!-- VKT -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section3" class="h2"></h3>
-      <div id="section3-text1" class="section-text"></div>
-      <div id="section3-text2" class="section-text"></div>
+      <h3 id="section3" class="h2">PTC trips are concentrated downtown</h3>
+      <div id="section3-text1" class="section-text">
+        PTC trips are concentrated downtown throughout the day. The largest
+        concentration occurs in the evening after 19:00 (post-PM peak) where in the
+        Waterfront Communities-The Island neighbourhood, bordered by Bathurst St,
+        Queen St/Front St, the Don River, and Lake Ontario, trips account for
+        about 14% of traffic.
+      </div>
+      <div id="section3-text2" class="section-text">
+        The map below shows the proportion of daily traffic accounted for by PTC
+        trips in each neighbourhood. Use the drop-down to show the proportion for
+        more specific times of the day (AM-peak, PM-peak, post-PM peak).
+      </div>
     </div>
   </div>
-  <!-- VKT dropdown menu -->
+  <!-- VKT drop-down menu -->
   <div class="row">
     <div class="col-md-3">
       <div role="region" class="menu" id="for-vkt" aria-live="polite">
@@ -63,29 +79,37 @@ See examples below in the boilerplate code
   <!-- Ward patterns -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section4" class="h2"></h3>
+      <h3 id="section4" class="h2">Explore your ward</h3>
       <div id="section4-text1a" class="section-text">
-        While we don't have data about individual trips, we do know total pick-up and drop-off times and their nearest-intersection locations.
-        Looking a bit closer at different parts of the city tells us different stories that give some clues about why people are using PTCs.
-        The line chart below shows the number of trips in September 2018 made in each hour of the week, averaged by day of week, for a selected ward.
-        The nearest intersections of these trips (for clusters greater than 14) are displayed on the adjacent map and coloured according
-        to the fraction of trips that are pick-ups: orange for pick-ups only, purple for drop-offs only, and shades in between for decreasing
-        proportions.
+        You can explore the number of trips per hour in different wards by following
+        the line chart below over the course of an average week in September 2018,
+        and find where these trips started and/or ended by viewing them on the
+        adjacent map. Some wards such as X, Y, and Z show trip patterns similar to the city average shown above (COMING SOON),
+        where PTCs are used largely during morning and evening
+        weekday peaks, likely for commuting. Other wards such as A, B and C show a different pattern, where
+        PTCs are used mostly during Friday night and weekend trips.
       </div>
-      <div id="section4-text1b" class="section-text"></div>
-      <div id="section4-text1c" class="section-text"></div>
+      <div id="section4-text1b" class="section-text">
+        Select a ward from the drop-down menu and choose to display data for Pick-ups & Drop-offs,
+        or each separately, from the Trip Type menu. Pick-ups and drop-offs at the same locations are counted and
+        displayed on the map as proportionally-sized circles (only clusters &gt; 14 are shown).
+        When zooming out, nearby circles automatically cluster together into larger circles. If you have selected Pick-ups & Drop-offs,
+        the map circles are coloured according to the fraction of trips that are pick-ups:
+        orange for pick-ups only, purple for drop-offs only, and shades in between
+        for decreasing proportions.
+      </div>
+      <div id="section4-text1c" class="section-text">
+        <label for="freezeHover">
+          Click the line chart to freeze/unfreeze the hover line over a particular hour.
+        </label>
+      </div>
     </div>
   </div>
-    <div class="row">
-    <div class="col-md-12 page-content">
-      <h3 id="section5" class="h3">Explore trip patterns over an average week in September 2018</h3>
-      <div id="section5-text1a" class="section-text"></div>
-    </div>
-  </div>
-  <!-- Ward dropdown menu -->
+
+  <!-- Ward drop-down menu -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <p>Select a ward from the dropdown menu and select either pick-ups & drop-offs, or each separately, from the adjacent dropdown menu.
+      <p>
       </p>
     </div>
     <div class="col-md-5 page-content">
@@ -109,19 +133,14 @@ See examples below in the boilerplate code
         </div>
       </div>
     </div>
-    <div class="col-md-7 page-content">
-    </div>
   </div>
 
   <div class="row">
     <!-- Ward trip fraction lineChart -->
     <div class="col-md-6 page-content">
-      <div id="for-hover" class="instructions">
-        <label for="freezeHover"></label>
-      </div>
       <div class="instructions">
-        For example, in Etobicoke North, during the Monday morning peak (7:00&ndash;9:00), considerably fewer pick-ups were made at
-        Humber College compared with the number of drop-offs (24 vs. 212, respectively, out of 236 total trips, or 10%).
+        For example, in Etobicoke North during the Monday morning peak (7:00&ndash;9:00), considerably fewer pick-ups than drop-offs were made at
+        Humber College (24 vs. 212, out of 236 total trips, or 10%).
         <button type="submit" id="show-humber" class="btn btn-primary">Show</button>
       </div>
       <div class="fractionline data"></div>
