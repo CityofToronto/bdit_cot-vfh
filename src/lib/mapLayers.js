@@ -26,6 +26,9 @@ function makeLayer(id, data, type) {
      filter: ["==", "cluster", true],
      paint: {
        "circle-color": sett.circleStyle[type].fill,
+       "circle-blur": 0.5,
+       "circle-stroke-color": "#fff",
+       "circle-stroke-width": 0.5,
        // "circle-radius": [
        //   "sqrt", ["get", "sum"]
        // ]
@@ -67,9 +70,15 @@ function makeLayer(id, data, type) {
       source: thisSource,
       filter: ["!=", "cluster", true],
       paint: {
+        // "circle-radius": [
+        //   "sqrt", ["get", sett.circleStyle[type].radius]
+        // ],
         "circle-radius": [
-          "sqrt", ["get", sett.circleStyle[type].radius]
-        ],
+           "interpolate", ["linear"], ["zoom"],
+           sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z1.scale],
+           sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z2.scale],
+           sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z3.scale]
+         ],
         "circle-color": sett.circleStyle[type].fill,
         "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 2,
@@ -146,8 +155,10 @@ function makePUDOLayer(id, data) {
          sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
          sett.pudoRanges.puQ5.colour
        ],
-       "circle-stroke-color": sett.circleStyle.stroke,
-       "circle-stroke-width": 1,
+       "circle-blur": 0.5,
+       "circle-stroke-color": "#fff",
+       "circle-stroke-width": 0.5,
+       // "circle-stroke-opacity": 0.5,
        // "circle-radius": [
        //   "sqrt", ["get", "sum"]
        // ]

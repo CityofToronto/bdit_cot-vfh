@@ -97,9 +97,9 @@ pudoMapSett = {
     }
   },
   circleScale: {
-    z1: {"zoom": 13, "scale": 2.3},
-    z2: {"zoom": 14, "scale": 2.2},
-    z3: {"zoom": 15, "scale": 2.1}
+    z1: {"zoom": 13, "scale": 2.1},
+    z2: {"zoom": 14, "scale": 1.9},
+    z3: {"zoom": 15, "scale": 1.8}
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
