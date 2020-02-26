@@ -1,10 +1,8 @@
 // -----------------------------------------------------------------------------
 // Plot PUDO map for either PUs or DOs as selected in pudo-menu
 function makeLayer(id, data, type) {
-  console.log("type: ", type)
   const sett = pudoMapSett;
   const thisSource = `src-${id}`;
-    console.log("get: ", sett.circleStyle[type].count)
 
   // Add source only if it does not exist
   if (!map.getSource(thisSource)) {
@@ -28,11 +26,18 @@ function makeLayer(id, data, type) {
      filter: ["==", "cluster", true],
      paint: {
        "circle-color": sett.circleStyle[type].fill,
+       // "circle-radius": [
+       //   "sqrt", ["get", "sum"]
+       // ]
        "circle-radius": [
-         "sqrt", ["get", "sum"]
-       ]
+          "interpolate", ["linear"], ["zoom"],
+          sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z1.scale],
+          sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z2.scale],
+          sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z3.scale]
+        ]
      }
    });
+
   // CLUSTERED LAYER LABEL
    map.addLayer({
     id: `cl-count-${id}`,
@@ -51,7 +56,7 @@ function makeLayer(id, data, type) {
       "text-ignore-placement": false
     },
     paint: {
-       "text-color": sett.circleStyle[type].text
+       "text-color": "#fff"
      }
   });
 
@@ -146,12 +151,13 @@ function makePUDOLayer(id, data) {
        // "circle-radius": [
        //   "sqrt", ["get", "sum"]
        // ]
+       // https://docs.mapbox.com/help/tutorials/mapbox-gl-js-expressions/
        // map.getZoom() to find out current zoom level
        "circle-radius": [
           "interpolate", ["linear"], ["zoom"],
-          13, ["/", ["sqrt", ["get", "sum"]], 2.9],
-          14, ["/", ["sqrt", ["get", "sum"]], 2.2],
-          15, ["/", ["sqrt", ["get", "sum"]], 2.1]
+          sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z1.scale],
+          sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z2.scale],
+          sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z3.scale]
         ]
      }
    });
@@ -222,8 +228,8 @@ function makePUDOLayer(id, data) {
         "Open Sans Regular",
         "Arial Unicode MS Bold"
       ],
-      "text-size": 16
-      // "text-offset": [0, 1.1]
+      "text-size": 16,
+      "text-offset": [0, 1.1]
       // "text-allow-overlap" : true
     },
     paint: {

@@ -89,12 +89,17 @@ pudoMapSett = {
   },
   circleStyle: {
     "stroke": "#000", "radius": 16, "point_r": 5,
-    "pu": {fill: "#8c510a", text: "#fff", count: "{pcounts}", radius: "pcounts"},
-    "do": {fill: "#01665e", text: "#fff", count: "{dcounts}", radius: "dcounts"},
+    "pu": {fill: "#8c510a", text: "#000", count: "{pcounts}", radius: "pcounts"},
+    "do": {fill: "#01665e", text: "#000", count: "{dcounts}", radius: "dcounts"},
     "pudo": { text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}],
       radius: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
+  },
+  circleScale: {
+    z1: {"zoom": 13, "scale": 2.3},
+    z2: {"zoom": 14, "scale": 2.2},
+    z3: {"zoom": 15, "scale": 2.1}
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
