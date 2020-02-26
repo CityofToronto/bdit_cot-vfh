@@ -96,10 +96,15 @@ pudoMapSett = {
       radius: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
     }
   },
+  // circleScale: {
+  //   z1: {"zoom": 13, "scale": 2.1},
+  //   z2: {"zoom": 14, "scale": 1.9},
+  //   z3: {"zoom": 15, "scale": 1.8}
+  // },
   circleScale: {
-    z1: {"zoom": 13, "scale": 2.1},
-    z2: {"zoom": 14, "scale": 1.9},
-    z3: {"zoom": 15, "scale": 1.8}
+    z1: {"zoom": 13, "scale": 1},
+    z2: {"zoom": 14, "scale": 1},
+    z3: {"zoom": 15, "scale": 1}
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},

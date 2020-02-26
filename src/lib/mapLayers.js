@@ -208,9 +208,9 @@ function makePUDOLayer(id, data) {
         // ],
         "circle-radius": [
            "interpolate", ["linear"], ["zoom"],
-           13, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.9],
-           14, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.2],
-           15, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], 2.1]
+           sett.circleScale.z1.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z1.scale],
+           sett.circleScale.z2.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z2.scale],
+           sett.circleScale.z3.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z3.scale]
          ],
         "circle-color": [
           "step", pFraction,
