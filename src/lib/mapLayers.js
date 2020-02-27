@@ -61,7 +61,7 @@ function makeLayer(id, data, type) {
       "text-allow-overlap": false,
       "text-ignore-placement": false,
       "text-offset": ["case",
-        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", [0, 1.3]],
+        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
         ["literal", [0, 0]]
       ]
     },
@@ -112,7 +112,7 @@ function makeLayer(id, data, type) {
       "text-size": 16,
       "text-allow-overlap": false,
       "text-offset": ["case",
-        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], ["literal", [0, 1.3]],
+        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
         ["literal", [0, 0]]
       ]
     },
@@ -207,7 +207,7 @@ function makePUDOLayer(id, data) {
       "text-allow-overlap": false,
       "text-ignore-placement": false,
       "text-offset": ["case",
-        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", [0, 1.3]],
+        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
         ["literal", [0, 0]]
       ]
     },
@@ -263,7 +263,7 @@ function makePUDOLayer(id, data) {
       "text-allow-overlap": false,
       "text-offset": ["case",
         ["<", ["+", ["get", "pcounts"], ["get", "dcounts"]], sett.circleStyle.labelMin],
-              ["literal", [0, 1.3]], ["literal", [0, 0]]
+              ["literal", sett.circleStyle.offset], ["literal", [0, 0]]
       ]
     },
     paint: {
