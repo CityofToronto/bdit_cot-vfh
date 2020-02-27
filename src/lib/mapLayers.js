@@ -155,16 +155,17 @@ function makeLayer(id, data, type) {
     },
     paint: {
        "text-color": type === "pudo" ? "#000" : ["case",
-        ["<", sett.circleStyle[type].get, sett.circleStyle.labelMin],
-        ["literal", sett.circleStyle.offset], ["literal", [0, 0]]
+        ["<", ["get", sett.circleStyle[type].get], sett.circleStyle.labelMin], "#000",
+        "#fff"
       ]
      }
   });
 
   map.on("click", id, function(e) {
-    console.log("e: ", e)
     const feature = e.features[0];
     const coordinates = e.features[0].geometry.coordinates.slice();
+    const np = feature.properties.pcounts ? feature.properties.pcounts : "none";
+    const nd = feature.properties.dcounts ? feature.properties.dcounts : "none";
 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
@@ -176,8 +177,8 @@ function makeLayer(id, data, type) {
     const makePopup = function() {
       let rtnPopup;
       if (whichPUDO === "pudo") {
-        rtnPopup = `<div class="markerPopup"><dl><dt>Pick-ups:</dt><dd>${e.features[0].properties.pcounts}</dd>`
-        rtnPopup = rtnPopup.concat(`<dt>Drop-offs:</dt><dd>${e.features[0].properties.dcounts}</dd>`);
+        rtnPopup = `<div class="markerPopup"><dl><dt>Pick-ups:</dt><dd>${np}</dd>`
+        rtnPopup = rtnPopup.concat(`<dt>Drop-offs:</dt><dd>${nd}</dd>`);
         rtnPopup = rtnPopup.concat("</dl></div>");
       }
       return rtnPopup;
