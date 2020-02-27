@@ -204,14 +204,17 @@ function makeLayer(id, data, type) {
 function showLayer(rootLayer, layerObj, thisPUDO) {
   // Outputs -pu or -do layer, never -pudo layer
   const root = geoMap[ward][pudoDay][pudoTOD];
+  console.log("id: ", `${rootLayer}-${thisPUDO}`)
 
   if (layerObj.find(({ id }) => id === `${rootLayer}-${thisPUDO}`)) {
+    console.log("match: ", `${rootLayer}-${thisPUDO}-label`)
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}`, "visibility", "visible");
     // cluster layers
     map.setLayoutProperty(`cl-${rootLayer}-${thisPUDO}`, "visibility", "visible");
     map.setLayoutProperty(`cl-count-${rootLayer}-${thisPUDO}`, "visibility", "visible");
   } else {
+    console.log("NOOOOOOOOOOOOOO match: ", `${rootLayer}-${thisPUDO}-label`)
     if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO], thisPUDO);
   }
 }
