@@ -110,11 +110,17 @@ function makeLayer(id, data, type) {
         "Arial Unicode MS Bold"
       ],
       "text-size": 16,
-      "text-offset": [0, 1.1]
-      // "text-allow-overlap" : true
+      // "text-allow-overlap" : true,
+      "text-offset": ["case",
+        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], ["literal", [0, 1.3]],
+        ["literal", [0, 0]]
+      ]
     },
     paint: {
-       "text-color": sett.circleStyle[type].text
+      "text-color": ["case",
+        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], "#000",
+        "#fff"
+      ]
      }
   });
 }
