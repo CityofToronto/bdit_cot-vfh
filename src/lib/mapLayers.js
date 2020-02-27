@@ -59,13 +59,16 @@ function makeLayer(id, data, type) {
       "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
       "text-size": 16,
       "text-allow-overlap": false,
-      "text-ignore-placement": false
+      "text-ignore-placement": false,
+      "text-offset": ["case",
+        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", [0, 1.3]],
+        ["literal", [0, 0]]
+      ]
     },
     paint: {
-       "text-color": "#fff",
-       "text-opacity": ["case",
-         ["<", ["get", "sum"], sett.circleStyle.labelMin], 0,
-         1
+       "text-color": ["case",
+         ["<", ["get", "sum"], sett.circleStyle.labelMin], "#000",
+         "#fff"
        ]
      }
   });
@@ -164,7 +167,7 @@ function makePUDOLayer(id, data) {
        ],
        "circle-blur": 0.5,
        "circle-stroke-color": sett.circleStyle[type].stroke,
-       "circle-stroke-width": 1,
+       "circle-stroke-width": 0.5,
        // "circle-stroke-opacity": 0.5,
        // "circle-radius": [
        //   "sqrt", ["get", "sum"]
@@ -231,8 +234,8 @@ function makePUDOLayer(id, data) {
           sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
           sett.pudoRanges.puQ5.colour
         ],
-        "circle-stroke-color": sett.circleStyle.stroke,
-        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff", // sett.circleStyle.stroke,
+        "circle-stroke-width": 0.5,
         "circle-opacity": 1
       },
       layout: {
