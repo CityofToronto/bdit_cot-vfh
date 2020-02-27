@@ -90,12 +90,17 @@ pudoMapSett = {
   circleStyle: {
     "stroke": "#000", "labelMin": 260, offset: [0, 1.3],
     "pu": {fill: "#8c510a", stroke:"#fff", text: "#000", count: "{pcounts}",
-      radius: "pcounts"},
+      get: "pcounts", sqrt: ["get", "pcounts"]},
     "do": {fill: "#01665e", stroke:"#fff", text: "#000", count: "{dcounts}",
-      radius: "dcounts"},
-    "pudo": { text: "#000",
+      get: "dcounts", sqrt: ["get", "dcounts"]},
+    "pudo": {
+      stroke: "#fff", text: "#000",
+      text: ["case",
+         ["<", ["get", "sum"], 260], "#000",
+         "#fff"
+      ],
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}],
-      stroke: "#fff"
+      sqrt: ["+", ["get", "pcounts"], ["get", "dcounts"]]
     }
   },
   // circleScale: {
@@ -110,7 +115,8 @@ pudoMapSett = {
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
-    "do": {cluster: ["+", ["get", "dcounts"]]}
+    "do": {cluster: ["+", ["get", "dcounts"]]},
+    "pudo": {cluster: ["+", ["+", ["get", "pcounts"], ["get", "dcounts"]]]}
   },
   humberCircle: {
     "stroke": "red"

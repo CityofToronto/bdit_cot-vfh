@@ -1,134 +1,6 @@
-// -----------------------------------------------------------------------------
-// Plot PUDO map for either PUs or DOs as selected in pudo-menu
-function makeLayer(id, data, type) {
-  const sett = pudoMapSett;
-  const thisSource = `src-${id}`;
-
-  // Add source only if it does not exist
-  if (!map.getSource(thisSource)) {
-    map.addSource(thisSource, {
-      type: "geojson",
-      data: data,
-      cluster: true,
-      clusterMaxZoom: 14, // Max zoom to cluster points on
-      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-      clusterProperties: {
-        sum: sett.clusterStyle[type].cluster
-      }
-    });
-  }
-
-  // CLUSTERED LAYER
-   map.addLayer({
-     id: `cl-${id}`,
-     type: "circle",
-     source: thisSource,
-     filter: ["==", "cluster", true],
-     paint: {
-       "circle-color": sett.circleStyle[type].fill,
-       "circle-blur": 0.5,
-       "circle-stroke-color": sett.circleStyle[type].stroke,
-       "circle-stroke-width": 0.5,
-       // "circle-radius": [
-       //   "sqrt", ["get", "sum"]
-       // ]
-       "circle-radius": [
-          "interpolate", ["linear"], ["zoom"],
-          // sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z1.scale],
-          // sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z2.scale],
-          // sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", "sum"]], sett.circleScale.z3.scale]
-          sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", "sum"]], 0.75],
-          sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", "sum"]], 0.75],
-          sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", "sum"]], 0.75]
-        ]
-     }
-   });
-
-  // CLUSTERED LAYER LABEL
-   map.addLayer({
-    id: `cl-count-${id}`,
-    type: "symbol",
-    source: thisSource,
-    filter: ["==", "cluster", true],
-    layout: {
-      "text-field": [
-        "number-format",
-          ["get", "sum"],
-          { "min-fraction-digits": 0, "max-fraction-digits": 0 }
-      ],
-      "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
-      "text-size": 16,
-      "text-allow-overlap": false,
-      "text-ignore-placement": false,
-      "text-offset": ["case",
-        ["<", ["get", "sum"], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
-        ["literal", [0, 0]]
-      ]
-    },
-    paint: {
-       "text-color": ["case",
-         ["<", ["get", "sum"], sett.circleStyle.labelMin], "#000",
-         "#fff"
-       ]
-     }
-  });
-
-  // UNCLUSTERED LAYER
-  map.addLayer({
-      id: id,
-      type: "circle",
-      source: thisSource,
-      filter: ["!=", "cluster", true],
-      paint: {
-        // "circle-radius": [
-        //   "sqrt", ["get", sett.circleStyle[type].radius]
-        // ],
-        "circle-radius": [
-           "interpolate", ["linear"], ["zoom"],
-           sett.circleScale.z1.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z1.scale],
-           sett.circleScale.z2.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z2.scale],
-           sett.circleScale.z3.zoom, ["/", ["sqrt", ["get", sett.circleStyle[type].radius]], sett.circleScale.z3.scale]
-         ],
-        "circle-color": sett.circleStyle[type].fill,
-        "circle-stroke-color": "#fff", // sett.circleStyle.stroke,
-        "circle-stroke-width": 0.5,
-        "circle-opacity": 1
-      },
-      layout: {
-        "visibility": "visible"
-      }
-  });
-
-  map.addLayer({
-    "id": `${id}-label`,
-    "type": "symbol",
-    "source": thisSource,
-    "layout": {
-      "text-field": sett.circleStyle[type].count,
-      "text-font": [
-        "Open Sans Regular",
-        "Arial Unicode MS Bold"
-      ],
-      "text-size": 16,
-      "text-allow-overlap": false,
-      "text-offset": ["case",
-        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
-        ["literal", [0, 0]]
-      ]
-    },
-    paint: {
-      "text-color": ["case",
-        ["<", ["get", sett.circleStyle[type].radius], sett.circleStyle.labelMin], "#000",
-        "#fff"
-      ]
-     }
-  });
-}
 // -------------------------------------------------------------------
-// PUDO layer only
-// Plot PUDO map for pudo-pudo layer
-function makePUDOLayer(id, data) {
-  const type = "pudo";
+// PU, DO or PUDO layer
+function makeLayer(id, data, type) {
   const sett = pudoMapSett;
   const thisSource = `src-${id}`;
   // ratio of pcounts to total counts for single circle markers
@@ -143,7 +15,7 @@ function makePUDOLayer(id, data) {
       clusterMaxZoom: 14, // Max zoom to cluster points on
       clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       clusterProperties: {
-        sum: ["+", ["+", ["get", "pcounts"], ["get", "dcounts"]]],
+        sum: sett.clusterStyle[type].cluster,
         pcount: ["+", ["get", "pcounts"]]
       }
     });
@@ -162,7 +34,16 @@ function makePUDOLayer(id, data) {
        //   * Blue, 20px circles when point count is less than 100
        //   * Yellow, 30px circles when point count is between 100 and 750
        //   * Pink, 40px circles when point count is greater than or equal to 750,
-       "circle-color": [
+       // "circle-color": [
+       //   "step",
+       //   ["/", ["get", "pcount"], ["get", "sum"]],
+       //   sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
+       //   sett.pudoRanges.puQ2.colour, sett.pudoRanges.puQ2.range,
+       //   sett.pudoRanges.puQ3.colour, sett.pudoRanges.puQ3.range,
+       //   sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
+       //   sett.pudoRanges.puQ5.colour
+       // ],
+       "circle-color": type === "pudo" ? [
          "step",
          ["/", ["get", "pcount"], ["get", "sum"]],
          sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
@@ -170,7 +51,7 @@ function makePUDOLayer(id, data) {
          sett.pudoRanges.puQ3.colour, sett.pudoRanges.puQ3.range,
          sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
          sett.pudoRanges.puQ5.colour
-       ],
+       ] : sett.circleStyle[type].fill,
        "circle-blur": 0.5,
        "circle-stroke-color": sett.circleStyle[type].stroke,
        "circle-stroke-width": 0.5,
@@ -212,7 +93,10 @@ function makePUDOLayer(id, data) {
       ]
     },
     paint: {
-      "text-color": "#000"
+     "text-color": type === "pudo" ? "#000" : ["case",
+        ["<", ["get", sett.circleStyle[type].get], sett.circleStyle.labelMin], "#000",
+        "#fff"
+      ]
      }
   });
 
@@ -228,19 +112,19 @@ function makePUDOLayer(id, data) {
         // ],
         "circle-radius": [
            "interpolate", ["linear"], ["zoom"],
-           sett.circleScale.z1.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z1.scale],
-           sett.circleScale.z2.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z2.scale],
-           sett.circleScale.z3.zoom, ["/", ["sqrt", ["+", ["get", "pcounts"], ["get", "dcounts"]]], sett.circleScale.z3.scale]
+           sett.circleScale.z1.zoom, ["/", ["sqrt", sett.circleStyle[type].sqrt], sett.circleScale.z1.scale],
+           sett.circleScale.z2.zoom, ["/", ["sqrt", sett.circleStyle[type].sqrt], sett.circleScale.z2.scale],
+           sett.circleScale.z3.zoom, ["/", ["sqrt", sett.circleStyle[type].sqrt], sett.circleScale.z3.scale]
          ],
-        "circle-color": [
+        "circle-color": type === "pudo" ? [
           "step", pFraction,
           sett.pudoRanges.puQ1.colour, sett.pudoRanges.puQ1.range,
           sett.pudoRanges.puQ2.colour, sett.pudoRanges.puQ2.range,
           sett.pudoRanges.puQ3.colour, sett.pudoRanges.puQ3.range,
           sett.pudoRanges.puQ4.colour, sett.pudoRanges.puQ4.range,
           sett.pudoRanges.puQ5.colour
-        ],
-        "circle-stroke-color": "#fff", // sett.circleStyle.stroke,
+        ] : sett.circleStyle[type].fill,
+        "circle-stroke-color": sett.circleStyle.stroke,
         "circle-stroke-width": 0.5,
         "circle-opacity": 1
       },
@@ -261,17 +145,24 @@ function makePUDOLayer(id, data) {
       ],
       "text-size": 16,
       "text-allow-overlap": false,
-      "text-offset": ["case",
+       "text-offset": type === "pudo" ? ["case",
         ["<", ["+", ["get", "pcounts"], ["get", "dcounts"]], sett.circleStyle.labelMin],
               ["literal", sett.circleStyle.offset], ["literal", [0, 0]]
+        ] : ["case",
+        ["<", ["get", sett.circleStyle[type].get], sett.circleStyle.labelMin], ["literal", sett.circleStyle.offset],
+        ["literal", [0, 0]]
       ]
     },
     paint: {
-       "text-color": "#000"
+       "text-color": type === "pudo" ? "#000" : ["case",
+        ["<", sett.circleStyle[type].get, sett.circleStyle.labelMin],
+        ["literal", sett.circleStyle.offset], ["literal", [0, 0]]
+      ]
      }
   });
 
   map.on("click", id, function(e) {
+    console.log("e: ", e)
     const feature = e.features[0];
     const coordinates = e.features[0].geometry.coordinates.slice();
 
@@ -339,7 +230,8 @@ function showOverlapLayer(rootLayer, layerObj) {
   } else {
     if (root["pudo"]) {
       if (whichPUDO === "pudo") {
-        makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"]);
+        // makePUDOLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], "pudo");
+        makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], "pudo");
       } else {
         makeLayer(`${rootLayer}-${whichPUDO}-pudo`, root["pudo"], whichPUDO);
       }
