@@ -303,8 +303,11 @@
 	}
 
 	/* line chart PTC growth */
-	.line svg text {
+	.line svg {
 		fill: currentColor;
+	}
+	#div-tpd text {
+		font-size: 18px;
 	}
 
 	.line svg .tick line,
