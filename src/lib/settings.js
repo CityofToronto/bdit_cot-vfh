@@ -6,7 +6,7 @@ settTpdLine = {
     top: 20,
     right: 50,
     bottom: 80,
-    left: 10
+    left: 100
   },
   aspectRatio: 12 / 9,
   datatable: false,
@@ -56,6 +56,7 @@ settTpdLine = {
   y: {
     label: i18next.t("y_label", {ns: "line"}),
     getValue: function(d) {
+      console.log("y.getValue: ", d)
       return d.value;
     },
     getText: function(d) {
