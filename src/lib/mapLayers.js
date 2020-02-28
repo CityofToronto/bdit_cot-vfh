@@ -201,18 +201,39 @@ function makeLayer(id, data, type) {
   });
 }
 
-function showLayer(rootLayer, layerObj, thisPUDO) {
+function showLayer(rootLayer, layerObj, thisPUDO) {console.log("thisPUDO: ", thisPUDO)
   // Outputs -pu or -do layer, never -pudo layer
   const root = geoMap[ward][pudoDay][pudoTOD];
+  console.log("root: ", root)
 
+  // Check for rootLayer-pu, rootLayer-do, or rootLayer-pudo-pudo
   if (layerObj.find(({ id }) => id === `${rootLayer}-${thisPUDO}`)) {
+    console.log("match rootLayer-thisPUDO: ", `${rootLayer}-${thisPUDO}`)
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}-label`, "visibility", "visible");
     map.setLayoutProperty(`${rootLayer}-${thisPUDO}`, "visibility", "visible");
     // cluster layers
     map.setLayoutProperty(`cl-${rootLayer}-${thisPUDO}`, "visibility", "visible");
     map.setLayoutProperty(`cl-count-${rootLayer}-${thisPUDO}`, "visibility", "visible");
   } else {
-    if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisPUDO], thisPUDO);
+    console.log("NOOOOOOOOOOOOOO match: ", `${rootLayer}-${thisPUDO}`)
+    const thisKey = thisPUDO === "pudo-pudo" ? "pudo" : thisPUDO;
+    if (root[thisPUDO]) makeLayer(`${rootLayer}-${thisPUDO}`, root[thisKey], thisPUDO);
+  }
+
+  // Check for rootLayer-pudo-pu or rootLayer-pudo-do when whichPUDO !== "pudo"
+  if (whichPUDO !== "pudo") {
+    console.log("find rootLayer-pudo-thisPUDO")
+    if (layerObj.find(({ id }) => id === `${rootLayer}-pudo-${thisPUDO}`)) {
+      console.log("match pudo-thisPUDO: ", `${rootLayer}-pudo-${thisPUDO}`)
+      map.setLayoutProperty(`${rootLayer}-pudo-${thisPUDO}-label`, "visibility", "visible");
+      map.setLayoutProperty(`${rootLayer}-pudo-${thisPUDO}`, "visibility", "visible");
+      // cluster layers
+      map.setLayoutProperty(`cl-${rootLayer}-pudo-${thisPUDO}`, "visibility", "visible");
+      map.setLayoutProperty(`cl-count-${rootLayer}-pudo-${thisPUDO}`, "visibility", "visible");
+    } else {
+      console.log("NOOOOOOOOOOOOOO match for pudo-thisPUDO: ", `${rootLayer}-pudo-${thisPUDO}`)
+      if (root[thisPUDO]) makeLayer(`${rootLayer}-pudo-${thisPUDO}`, root["pudo"], thisPUDO);
+    }
   }
 }
 
