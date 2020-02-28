@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
-// Fig 1 - Trips/day lineChart
-settingsTPDline = {
+// Fig 1 - Avg daily trips lineChart
+settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
   margin: {
     top: 20,
@@ -28,10 +28,10 @@ settingsTPDline = {
   x: {
     label: i18next.t("x_label", {ns: "line"}),
     getValue: function(d) {
-      return new Date(d.year + "-01");
+      return new Date(d.date + "-01");
     },
     getText: function(d) {
-      return d.year;
+      return d.date;
     },
     ticks: 6,
     translateXY: [-380, 65],

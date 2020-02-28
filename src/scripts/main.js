@@ -25,6 +25,7 @@ $(function () {
 // import settPudoLine from "./settings_fractionLine.js";
 
 // data objects
+let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
@@ -46,6 +47,7 @@ let pudoHr; // hour of PUDO line data for hover tool text
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // Chart names
+let tpdLineChart;
 let vktMapSvg;
 let fractionLineChart;
 let pudoMapTable;
@@ -109,6 +111,12 @@ function pageTexts() {
 
   // ** PUDO map
   d3.select("#pudoMapTitle h4").html(i18next.t("title", {ns: "pudoMap"}));
+}
+
+function showTPDline() {
+  const tpdLine = lineChart(tpdLineChart, settTpdLine, tpd);
+  // axes labels
+  // rotateLabels("fractionline", settPudoLine);
 }
 
 function showVktMap() {
@@ -367,6 +375,11 @@ function uiHandler(event) {
 $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
+  // Fig 1 - Avg trips per day line chart
+  const tpdLineChart = d3.select("#div-tpd.line.data")
+    .append("svg")
+    .attr("id", "tpdGrowth");
+
   // VKT map
   vktMapSvg = d3.select(".vktmap.data")
       .append("svg")
@@ -390,20 +403,25 @@ $(document).ready(function(){
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
+      .defer(d3.json, "/resources/data/fig1_dailytrips.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
       .defer(d3.json, "/resources/geojson/w1_agg_cutoff_15.geojson")
       .defer(d3.json, "/resources/geojson/wards.geojson")
       .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
       .defer(d3.json, "/resources/geojson/to_separated_parts.topojson")
       .defer(d3.json, "/resources/data/ptc_vol.json")
-      .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
+      .await(function(error, tpdfile,ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
         // Load data files into objects
+        tpd = tpdfile
         nnTopo = nntopofile;
         ptcFraction[ward] = ptcfractionfile;
         geoMap[ward] = mapboxfile;
         wardLayer = wardfile;
         nnLayer = nnfile;
         ptcVol = ptcvolfile;
+        console.log(tpd)
+
+        showTPDline();
 
         showVktMap();
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
