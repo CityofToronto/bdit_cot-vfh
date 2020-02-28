@@ -46,8 +46,8 @@ let pudoIdx; // index of PUDO line data for hover tool text
 let pudoHr; // hour of PUDO line data for hover tool text
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
-// Chart names
-let tpdLineChart;
+// Chart SVG names
+let tpdSvg;
 let vktMapSvg;
 let fractionLineChart;
 let pudoMapTable;
@@ -114,7 +114,7 @@ function pageTexts() {
 }
 
 function showTPDline() {
-  const tpdLine = lineChart(tpdLineChart, settTpdLine, tpd);
+  const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
   // axes labels
   // rotateLabels("fractionline", settPudoLine);
 }
@@ -376,7 +376,7 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // Fig 1 - Avg trips per day line chart
-  const tpdLineChart = d3.select("#div-tpd.line.data")
+  tpdSvg = d3.select("#div-tpd.line.data")
     .append("svg")
     .attr("id", "tpdGrowth");
 

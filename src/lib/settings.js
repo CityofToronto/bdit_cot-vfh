@@ -6,11 +6,21 @@ settTpdLine = {
     top: 20,
     right: 10,
     bottom: 80,
-    left: 125
+    left: 10
   },
-  aspectRatio: 16 / 9,
+  aspectRatio: 12 / 9,
   datatable: false,
   filterData: function(d) {
+    // [
+    //   {
+    //      id: "city",
+    //      values: (31) [
+    //        { year: "2016-09", value: 62242 },
+    //        ...,
+    //        { year: "2019-03", value: 175803 }
+    //      ]
+    //   }
+    // ]
     const root = d.tpd;
     const keys = this.z.getKeys(root);
     return keys.map(function(key) {
@@ -18,7 +28,7 @@ settTpdLine = {
         id: key,
         values: root[key].map(function(value, index) {
           return {
-            year: root.keys.values[index],
+            date: root.keys.values[index],
             value: value
           };
         })

@@ -7,7 +7,8 @@ function lineChart(svg, settings, rawdata) {
   // usual: y.domain(sett.y.getDomain.call(sett, flatData))
   // Else data = rawdata[for the selected line] but the scale is calculated from
   // the FULL EXTENT of the rawdata: y.domain(fullExtent(sett, rawdata))
-  var data = settings.z.reduceData.call(settings, rawdata),
+  var data = settings.z.reduceData ? settings.z.reduceData.call(settings, rawdata) :
+    rawdata,
   mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -91,6 +92,7 @@ function lineChart(svg, settings, rawdata) {
     lines
       .exit()
         .remove();
+
     labels = dataLayer.selectAll(".line-label")
       .data(
         function() {
