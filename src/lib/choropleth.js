@@ -19,7 +19,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
     div.html(makeTable())
         .style("opacity", .999)
         .style("left", ((d3.event.pageX - 400) + "px"))
-        .style("top", ((d3.event.pageY - 480) + "px"))
+        .style("top", ((d3.event.pageY - 450) + "px"))
         .style("pointer-events", "none")
         .style("position", "absolute");
   },

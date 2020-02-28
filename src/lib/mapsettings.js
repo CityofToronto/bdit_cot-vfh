@@ -81,17 +81,32 @@ pudoMapSett = {
   },
   nnLayerColour: "#8d8d8d",
   pudoRanges: {
-    puMin: {colour: "#b2abd2", range: 0.45},
-    puMid: {colour: "#f7f7f7", range: 0.55},
-    puMax: {colour: "#fdb863"}
+    puQ1: {colour: "#a1d76a", range: 0.20},
+    puQ2: {colour: "#e6f5d0", range: 0.40},
+    puQ3: {colour: "#d8b365", range: 0.60},
+    puQ4: {colour: "#fde0ef", range: 0.80},
+    puQ5: {colour: "#e9a3c9"}
   },
   circleStyle: {
-    "stroke": "#000", "radius": 16, "point_r": 5,
-    "pu": {fill: "#e66101", text: "#000", count: "{pcounts}"},
-    "do": {fill: "#5e3c99", text: "#fff", count: "{dcounts}"},
+    "stroke": "#000", "labelMin": 260, offset: [0, 1.3],
+    "pu": {fill: "#8c510a", stroke:"#fff", text: "#000", count: "{pcounts}",
+      radius: "pcounts"},
+    "do": {fill: "#01665e", stroke:"#fff", text: "#000", count: "{dcounts}",
+      radius: "dcounts"},
     "pudo": { text: "#000",
-      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
+      count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}],
+      stroke: "#fff"
     }
+  },
+  // circleScale: {
+  //   z1: {"zoom": 13, "scale": 2.1},
+  //   z2: {"zoom": 14, "scale": 1.9},
+  //   z3: {"zoom": 15, "scale": 1.8}
+  // },
+  circleScale: {
+    z1: {"zoom": 13, "scale": 1},
+    z2: {"zoom": 14, "scale": 1},
+    z3: {"zoom": 15, "scale": 1}
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},
@@ -105,14 +120,16 @@ pudoMapSett = {
         {id: 1, text: "Pick-ups only", span:"legend-pu"}
       ],
     "do": [
-        {id: 5, text: "Drop-offs only", span:"legend-do"}
+        {id: 7, text: "Drop-offs only", span:"legend-do"}
       ],
     "pudo": [
         {id: 1, text: "Pick-ups only", span:"legend-pu"},
-        {id: 2, text: "Pick-ups > 55%", span:"legend-puMax"},
-        {id: 3, text: "Pick-ups 45&ndash;55%", span:"legend-puMid"},
-        {id: 4, text: "Pick-ups < 45%", span:"legend-puMin"},
-        {id: 5, text: "Drop-offs only", span:"legend-do"}
+        {id: 2, text: "Pick-ups &ge; 80%", span:"legend-puQ5"},
+        {id: 3, text: "Pick-ups &ge; 60%", span:"legend-puQ4"},
+        {id: 4, text: "Pick-ups &ge; 40%", span:"legend-puQ3"},
+        {id: 5, text: "Pick-ups &ge; 20%", span:"legend-puQ2"},
+        {id: 6, text: "Pick-ups &lt; 20%", span:"legend-puQ1"},
+        {id: 7, text: "Drop-offs only", span:"legend-do"}
       ]
   },
   hbFocus: {

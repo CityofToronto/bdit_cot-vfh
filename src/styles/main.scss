@@ -37,12 +37,12 @@
 	}
 	.menu label {
 		font-weight: 500;
-		font-family: 'Roboto', sans-serif;
+		font-family: "Roboto", sans-serif;
 		font-size: 18px;
 	}
 	.instructions {
 		// font-weight: 500;
-		font-family: 'Roboto', sans-serif;
+		font-family: "Roboto", sans-serif;
 		font-size: 18px;
 		font-style: italic;
 		margin-top: 24px;
@@ -393,25 +393,29 @@
 	// .mapboxgl-popup {
 	// 	max-width: 200px;
 	// }
-	.mapboxgl-popup-content {
+	#map .markerPopup {
+		font-family: "Roboto", sans-serif;
+		font-size: 16px;
+	}
+	#map .mapboxgl-popup-content {
 		box-shadow: 0 3px 14px rgba(0,0,0,.4) !important;
 		border-radius: 12px;
 	}
-	.markerPopup dd, .markerPopup dt {
+	#map .markerPopup dd, .markerPopup dt {
     display: inline-block;
     vertical-align: text-top;
     box-sizing: border-box;
     margin-bottom: 5px;
 	}
-	.markerPopup dl {
+	#map .markerPopup dl {
     margin: 0 20px;
 	}
-	.markerPopup dd {
+	#map .markerPopup dd {
     width: 50%;
 	}
-	.markerPopup dt {
+	#map .markerPopup dt {
     width: 50%;
-		font-weight: 700;
+		font-weight: bold;
 	}
 
 	#pudoMapTitle h4 {
@@ -463,23 +467,31 @@
 	}
 	.legend-pu {
 		border: 1px solid #000;
-		background-color: #e66101;
+		background-color: #8c510a;
+	}
+	.legend-puQ5 { /* >= 80 */
+	  border: 1px solid #747474;
+	  background-color: #e9a3c9;
+	}
+	.legend-puQ4 { /* [60, 80) */
+	  border: 1px solid #747474;
+	  background-color: #fde0ef;
+	}
+	.legend-puQ3 { /* [40, 60) */
+	  border: 1px solid #747474;
+	  background-color: #d8b365; /* mid-range */
+	}
+	.legend-puQ2 { /* [20, 40) */
+	  border: 1px solid #747474;
+	  background-color: #e6f5d0;
+	}
+	.legend-puQ1 { /* < 20 */
+	  border: 1px solid #747474;
+	  background-color: #a1d76a;
 	}
 	.legend-do {
 		border: 1px solid #808080;
-		background-color: #5e3c99;
-	}
-	.legend-puMax {
-		border: 1px solid #747474;
-		background-color: #fdb863;
-	}
-	.legend-puMid {
-		border: 1px solid #747474;
-		background-color: #f7f7f7;
-	}
-	.legend-puMin {
-		border: 1px solid #747474;
-		background-color: #b2abd2;
+		background-color: #01665e;
 	}
 	.legend div span {
 		border-radius: 50%;

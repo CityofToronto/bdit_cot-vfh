@@ -63,7 +63,6 @@ let currentCentre; // stores current centre of map moved by user
 function pageTexts() {
   // Intro texts
   d3.select(".page-header h1").text(i18next.t("pagetitle", {ns: "indexhtml"}));
-  d3.select("#introp").html(i18next.t("introp", {ns: "indexhtml"}));
 
   // VKT
   // ** vkt dropdown menu
@@ -197,9 +196,9 @@ function initMapBox() {
   const root = geoMap[ward][pudoDay][pudoTOD];
   map.on("load", function() {
     // Unique pickups layer
-    // makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
+    makeLayer(`${rootLayer}-pu`, root["pu"], "pu");
     // Unique dropoffs layer
-    // makeLayer(`${rootLayer}-do`, root["do"], "do");
+    makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
     makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
