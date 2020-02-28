@@ -200,7 +200,7 @@ function initMapBox() {
     // Unique dropoffs layer
     makeLayer(`${rootLayer}-do`, root["do"], "do");
     // Overlapping PUDOs
-    makeLayer(`${rootLayer}-pudo-pudo`, root["pudo"], "pudo");
+    makePUDOLayer(`${rootLayer}-pudo-pudo`, root["pudo"]);
     // Ward boundary
     makeWardLayer(`${ward}-layer`, wardLayer[ward], pudoMapSett.ward);
     // Neighbourhood boundaries
@@ -225,15 +225,15 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   let layerObj = map.getStyle().layers;
   // const clearPrevWard = false;
   hideLayers(layerObj, clearPrevWard);
-  console.log("whichPUDO: ", whichPUDO)
+
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
   if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
-    showLayer(rootLayer, layerObj, "pu");
-    showLayer(rootLayer, layerObj, "do");
-    showLayer(rootLayer, layerObj, "pudo-pudo");
-  } else { // display whichPUDO layer AND pudo-whichPUDO layer
-    showLayer(rootLayer, layerObj, whichPUDO);
+    showLayer(rootLayer, layerObj, "pu"); // pu
+    showLayer(rootLayer, layerObj, "do"); // do
+  } else { // display whichPUDO layer and whichPUDO-pudo layer
+    showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
   }
+  showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
 }
 
 // -----------------------------------------------------------------------------
