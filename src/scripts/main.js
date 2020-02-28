@@ -223,6 +223,7 @@ function initMapBox() {
 function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
+  // const clearPrevWard = false;
   hideLayers(layerObj, clearPrevWard);
   console.log("whichPUDO: ", whichPUDO)
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
