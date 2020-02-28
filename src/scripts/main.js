@@ -230,11 +230,10 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
     showLayer(rootLayer, layerObj, "pu");
     showLayer(rootLayer, layerObj, "do");
-    showLayer(rootLayer, layerObj, "pudo");
-  } else { // display whichPUDO layer and whichPUDO-pudo layer
-    showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
+    showLayer(rootLayer, layerObj, "pudo-pudo");
+  } else { // display whichPUDO layer AND pudo-whichPUDO layer
+    showLayer(rootLayer, layerObj, whichPUDO);
   }
-  // showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
 }
 
 // -----------------------------------------------------------------------------
