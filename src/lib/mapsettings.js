@@ -88,13 +88,25 @@ pudoMapSett = {
     puQ5: {colour: "#e9a3c9"}
   },
   circleStyle: {
-    "stroke": "#000", "radius": 16, "point_r": 5,
-    "pu": {fill: "#8c510a", text: "#000", count: "{pcounts}", radius: "pcounts"},
-    "do": {fill: "#01665e", text: "#000", count: "{dcounts}", radius: "dcounts"},
+    "stroke": "#000", "labelMin": 260, offset: [0, 1.3],
+    "pu": {fill: "#8c510a", stroke:"#fff", text: "#000", count: "{pcounts}",
+      radius: "pcounts"},
+    "do": {fill: "#01665e", stroke:"#fff", text: "#000", count: "{dcounts}",
+      radius: "dcounts"},
     "pudo": { text: "#000",
       count: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}],
-      radius: ["number-format",["+", ["get", "pcounts"], ["get", "dcounts"]], {}]
+      stroke: "#fff"
     }
+  },
+  // circleScale: {
+  //   z1: {"zoom": 13, "scale": 2.1},
+  //   z2: {"zoom": 14, "scale": 1.9},
+  //   z3: {"zoom": 15, "scale": 1.8}
+  // },
+  circleScale: {
+    z1: {"zoom": 13, "scale": 1},
+    z2: {"zoom": 14, "scale": 1},
+    z3: {"zoom": 15, "scale": 1}
   },
   clusterStyle: {
     "pu": {cluster: ["+", ["get", "pcounts"]]},

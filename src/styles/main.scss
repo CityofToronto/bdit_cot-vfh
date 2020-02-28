@@ -37,12 +37,12 @@
 	}
 	.menu label {
 		font-weight: 500;
-		font-family: 'Roboto', sans-serif;
+		font-family: "Roboto", sans-serif;
 		font-size: 18px;
 	}
 	.instructions {
 		// font-weight: 500;
-		font-family: 'Roboto', sans-serif;
+		font-family: "Roboto", sans-serif;
 		font-size: 18px;
 		font-style: italic;
 		margin-top: 24px;
@@ -393,25 +393,29 @@
 	// .mapboxgl-popup {
 	// 	max-width: 200px;
 	// }
-	.mapboxgl-popup-content {
+	#map .markerPopup {
+		font-family: "Roboto", sans-serif;
+		font-size: 16px;
+	}
+	#map .mapboxgl-popup-content {
 		box-shadow: 0 3px 14px rgba(0,0,0,.4) !important;
 		border-radius: 12px;
 	}
-	.markerPopup dd, .markerPopup dt {
+	#map .markerPopup dd, .markerPopup dt {
     display: inline-block;
     vertical-align: text-top;
     box-sizing: border-box;
     margin-bottom: 5px;
 	}
-	.markerPopup dl {
+	#map .markerPopup dl {
     margin: 0 20px;
 	}
-	.markerPopup dd {
+	#map .markerPopup dd {
     width: 50%;
 	}
-	.markerPopup dt {
+	#map .markerPopup dt {
     width: 50%;
-		font-weight: 700;
+		font-weight: bold;
 	}
 
 	#pudoMapTitle h4 {
