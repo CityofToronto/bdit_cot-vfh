@@ -223,16 +223,17 @@ function initMapBox() {
 function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
   // Clear any visible layers before making current pudoDay-pudoTOD layer visible
   let layerObj = map.getStyle().layers;
+  // const clearPrevWard = false;
   hideLayers(layerObj, clearPrevWard);
-  console.log("whichPUDO: ", whichPUDO)
+
   let rootLayer = `${ward}-${pudoDay}-${pudoTOD}`;
   if (whichPUDO === "pudo") { // display pu, do and pudo-pudo layers
-    showLayer(rootLayer, layerObj, "pu");
-    showLayer(rootLayer, layerObj, "do");
-    showLayer(rootLayer, layerObj, "pudo-pudo");
-  } else { // display whichPUDO layer AND pudo-whichPUDO layer
-    showLayer(rootLayer, layerObj, whichPUDO);
+    showLayer(rootLayer, layerObj, "pu"); // pu
+    showLayer(rootLayer, layerObj, "do"); // do
+  } else { // display whichPUDO layer and whichPUDO-pudo layer
+    showLayer(rootLayer, layerObj, whichPUDO); // pu or do layer
   }
+  showOverlapLayer(rootLayer, layerObj); // pu-pudo, do-pudo, or pudo-pudo layer
 }
 
 // -----------------------------------------------------------------------------
