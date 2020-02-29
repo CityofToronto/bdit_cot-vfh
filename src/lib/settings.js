@@ -8,7 +8,7 @@ settTpdLine = {
     bottom: 80,
     left: 100
   },
-  aspectRatio: 12 / 9,
+  aspectRatio: 16 / 9,
   datatable: false,
   filterData: function(d) {
     // [
@@ -56,7 +56,6 @@ settTpdLine = {
   y: {
     label: i18next.t("y_label", {ns: "line"}),
     getValue: function(d) {
-      console.log("y.getValue: ", d)
       return d.value;
     },
     getText: function(d) {
@@ -91,9 +90,11 @@ settTpdLine = {
       return d.values;
     },
     getText: function(d) {
+      console.log("z.getText: ", d)
       return i18next.t(d.id, {ns: "districts"});
     }
   },
+  showLabels: true,
   width: 900
 };
 

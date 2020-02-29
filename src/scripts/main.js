@@ -419,7 +419,6 @@ $(document).ready(function(){
         wardLayer = wardfile;
         nnLayer = nnfile;
         ptcVol = ptcvolfile;
-        console.log(tpd)
 
         showTPDline();
 
