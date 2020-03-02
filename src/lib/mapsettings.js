@@ -58,6 +58,7 @@ vktMapSett = {
       // d = { area_s_cd: 77, prop: 7.88722624681311 }
       let n = Object.values(d)[0];
       let val = d3.format("(.1f")(Object.values(d)[1]);
+      console.log("pair: ", [i18next.t(n, {ns: "nhoods"}), val])
       return [i18next.t(n, {ns: "nhoods"}), val];
     }
   }

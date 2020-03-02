@@ -36,7 +36,7 @@ function lineTable(svg, settings, data) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
-
+      console.log("keys: ", keys)
       console.log("data: ", data)
       console.log("filteredData: ", filteredData)
 
@@ -148,16 +148,42 @@ function lineTable(svg, settings, data) {
       })
     }
     else {
-      var flatout = [];
-      dataRows = body.selectAll("tr")
-        .data(function (d) {
-            filteredData.map(function(d, i) {
-              return flatout.push(
-                sett.pair.getValues.call(sett, d)
-              );
-            })
-          return flatout;
-        })
+      if (keys.length > 0) {
+        var flatout = [];
+        dataRows = body.selectAll("tr")
+          .data(function (d) {
+              filteredData.map(function(d, i) {
+                return flatout.push(
+                  // [ "Trinity-Bellwoods", "6.3" ]
+                  sett.pair.getValues.call(sett, d)
+                );
+              })
+              console.log("flatout: ", flatout)
+              // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
+            return flatout;
+          })
+        }
+      else {
+        console.log("format flat")
+        var flatdata = [].concat.apply([], filteredData.map(function(d) {
+          return d.values;
+        }));
+        console.log("flatdata: ", flatdata)
+        var flatout = [];
+        dataRows = body.selectAll("tr")
+          .data(function (d) {
+              flatdata.map(function(d) {
+                if (d) {
+                  return flatout.push(
+                    sett.pair.getValues.call(sett, d)
+                  );
+                }
+              })
+              console.log("flatout: ", flatout)
+              // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
+            return flatout;
+          })
+      }
     }
 
     dataRow = dataRows
