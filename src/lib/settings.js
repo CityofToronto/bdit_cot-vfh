@@ -92,7 +92,6 @@ settTpdLine = {
       return d.values;
     },
     getText: function(d) {
-      console.log("z.getText: ", d)
       return i18next.t(d.id, {ns: "districts"});
     }
   },
