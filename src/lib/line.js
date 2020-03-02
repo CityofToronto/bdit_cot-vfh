@@ -17,6 +17,9 @@ function lineChart(svg, settings, rawdata) {
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   line = d3.line()
+    .defined(function(d) {
+      if (d) return d;
+    })
     .x(function() {
       return x(mergedSettings.x.getValue.apply(mergedSettings, arguments));
     })
