@@ -96,7 +96,10 @@ settTpdLine = {
     }
   },
   showLabels: false,
-  width: 900
+  width: 900,
+  datatable: true,
+  summaryId: "chrt-dt-tbl",
+  attachedToSvg: true
 };
 
 // -----------------------------------------------------------------------------

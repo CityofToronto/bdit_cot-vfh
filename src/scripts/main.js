@@ -115,8 +115,8 @@ function pageTexts() {
 
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
-  // axes labels
-  // rotateLabels("fractionline", settPudoLine);
+  // Create data table for VKT vol map
+  const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);
 }
 
 function showVktMap() {
@@ -422,38 +422,38 @@ $(document).ready(function(){
 
         showTPDline();
 
-        showVktMap();
-        const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
-          ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
-
-        // Display texts
-        pageTexts();
-
-        // Line Charts
-        showFractionLine();
-        const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
-        const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
-          ${i18next.t("captiontitle", {ns: "ward_towline"})}
-          ${i18next.t(ward, {ns: "wards"})}`;
-        d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
-
-        // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        showLineHover(settPudoLine.initHoverLine.coords);
-        pudoHr = settPudoLine.initHoverLine.indices[0];
-        pudoIdx = settPudoLine.initHoverLine.indices[1];
-        const thisTOD = findTOD([pudoHr, pudoIdx]);
-        const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
-        showHoverText(val, pudoHr, thisTOD);
-
-        initMapBox();
-        d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
-        d3.select(".maptable").select("caption")
-          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
-                  ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
-        const legendTexts = pudoMapSett.legendMenu[whichPUDO];
-        plotPudoLegend(legendTexts);
+        // showVktMap();
+        // const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
+        //   ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+        //
+        // // Display texts
+        // pageTexts();
+        //
+        // // Line Charts
+        // showFractionLine();
+        // const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
+        // const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+        //   ${i18next.t("captiontitle", {ns: "ward_towline"})}
+        //   ${i18next.t(ward, {ns: "wards"})}`;
+        // d3.select(".fractionline").select("summary").text(fractionTableTitle);
+        // d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
+        //
+        // // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
+        // showLineHover(settPudoLine.initHoverLine.coords);
+        // pudoHr = settPudoLine.initHoverLine.indices[0];
+        // pudoIdx = settPudoLine.initHoverLine.indices[1];
+        // const thisTOD = findTOD([pudoHr, pudoIdx]);
+        // const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
+        // showHoverText(val, pudoHr, thisTOD);
+        //
+        // initMapBox();
+        // d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
+        // d3.select(".maptable").select("caption")
+        //   .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
+        //           ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
+        // const legendTexts = pudoMapSett.legendMenu[whichPUDO];
+        // plotPudoLegend(legendTexts);
       });
   })
 })

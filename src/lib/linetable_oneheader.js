@@ -5,7 +5,9 @@ function lineTable(svg, settings, data) {
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
       parent = sett.attachedToSvg ? svg.select(
-        svg.classed("svg-shimmed") ? function(){return this.parentNode.parentNode;} : function(){return this.parentNode;}
+        svg.classed("svg-shimmed") ?
+          function(){return this.parentNode.parentNode;} :
+          function(){return this.parentNode;}
       ) : d3.select(svg),
       details = parent.select("details"),
       keys = sett.z.getKeys.call(sett, data),
@@ -34,6 +36,9 @@ function lineTable(svg, settings, data) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
+
+      console.log("data: ", data)
+      console.log("filteredData: ", filteredData)
 
     if (details.empty()) {
       details = parent
@@ -133,7 +138,7 @@ function lineTable(svg, settings, data) {
     if (sett.menuData) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
-        if (sett.attachedToSvg) {
+        if (sett.x.getSubText) {
           var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
