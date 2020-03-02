@@ -241,6 +241,7 @@
 
 	#tpdGrowth .dline2 {
 		stroke: #FF7F00;
+		stroke-dasharray: 10,3; /* ON, OFF*/
 	}
 
 	/* VKT vol map */

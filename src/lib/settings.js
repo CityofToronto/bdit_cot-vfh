@@ -95,7 +95,7 @@ settTpdLine = {
       return i18next.t(d.id, {ns: "districts"});
     }
   },
-  showLabels: true,
+  showLabels: false,
   width: 900
 };
 
