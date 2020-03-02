@@ -3,7 +3,7 @@
 settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
   margin: {
-    top: 20,
+    top: 100,
     right: 50,
     bottom: 80,
     left: 100
@@ -27,10 +27,12 @@ settTpdLine = {
       return {
         id: key,
         values: root[key].map(function(value, index) {
-          return {
-            date: root.keys.values[index],
-            value: value
-          };
+          if (value) {
+            return {
+              date: root.keys.values[index],
+              value: value
+            };
+          }
         })
       };
     });
@@ -38,7 +40,7 @@ settTpdLine = {
   x: {
     label: i18next.t("x_label", {ns: "line"}),
     getValue: function(d) {
-      return new Date(d.date + "-01");
+      if (d) return new Date(d.date + "-01");
     },
     getText: function(d) {
       return d.date;
@@ -56,7 +58,7 @@ settTpdLine = {
   y: {
     label: i18next.t("y_label", {ns: "line"}),
     getValue: function(d) {
-      return d.value;
+      if (d) return d.value;
     },
     getText: function(d) {
       return Math.round(d.value);
