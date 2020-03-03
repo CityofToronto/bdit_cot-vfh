@@ -11,16 +11,6 @@ settTpdLine = {
   aspectRatio: 16 / 9,
   datatable: false,
   filterData: function(d) {
-    // [
-    //   {
-    //      id: "city",
-    //      values: (31) [
-    //        { year: "2016-09", value: 62242 },
-    //        ...,
-    //        { year: "2019-03", value: 175803 }
-    //      ]
-    //   }
-    // ]
     const root = d.tpd;
     const keys = this.z.getKeys(root);
     return keys.map(function(key) {
@@ -36,6 +26,12 @@ settTpdLine = {
         })
       };
     });
+  },
+  tableData: function(data) {
+    const arr = [].concat.apply([], data.map(function(d) {
+      return d.values;
+    }));
+    return arr;
   },
   x: {
     label: i18next.t("x_label", {ns: "line"}),

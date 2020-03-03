@@ -4,6 +4,7 @@ function lineTable(svg, settings, data) {
       summaryId = sett.summaryId,
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
+      tableData,
       parent = sett.attachedToSvg ? svg.select(
         svg.classed("svg-shimmed") ?
           function(){return this.parentNode.parentNode;} :
@@ -37,8 +38,9 @@ function lineTable(svg, settings, data) {
       },
       table, header, headerCols, body, dataRows;
       console.log("keys: ", keys)
-      console.log("data: ", data)
-      console.log("filteredData: ", filteredData)
+
+      tableData = (sett.tableData && typeof sett.tableData === "function") ?
+        sett.tableData.call(sett, filteredData) : filteredData;
 
     if (details.empty()) {
       details = parent
@@ -139,51 +141,30 @@ function lineTable(svg, settings, data) {
       dataRows = body.selectAll("tr")
       .data(function (d) {
         if (sett.x.getSubText) {
-          var pair = sett.x.getSubText.call(sett, filteredData[0].values, day);
+          var pair = sett.x.getSubText.call(sett, tableData[0].values, day);
           pair = pair.map(function(d, i) {
             return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
           });
         }
         return pair;
-      })
+      });
     }
     else {
-      if (keys.length > 0) {
-        var flatout = [];
-        dataRows = body.selectAll("tr")
-          .data(function (d) {
-              filteredData.map(function(d, i) {
+      var flatout = [];
+      dataRows = body.selectAll("tr")
+        .data(function (d) {
+            tableData.map(function(d) {
+              if (d) {
                 return flatout.push(
                   // [ "Trinity-Bellwoods", "6.3" ]
                   sett.pair.getValues.call(sett, d)
                 );
-              })
-              console.log("flatout: ", flatout)
-              // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
-            return flatout;
-          })
-        }
-      else {
-        console.log("format flat")
-        var flatdata = [].concat.apply([], filteredData.map(function(d) {
-          return d.values;
-        }));
-        console.log("flatdata: ", flatdata)
-        var flatout = [];
-        dataRows = body.selectAll("tr")
-          .data(function (d) {
-              flatdata.map(function(d) {
-                if (d) {
-                  return flatout.push(
-                    sett.pair.getValues.call(sett, d)
-                  );
-                }
-              })
-              console.log("flatout: ", flatout)
-              // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
-            return flatout;
-          })
-      }
+              }
+            })
+            console.log("flatout: ", flatout)
+            // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
+          return flatout;
+        });
     }
 
     dataRow = dataRows
