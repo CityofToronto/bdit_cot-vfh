@@ -398,6 +398,8 @@ $(document).ready(function(){
 
   // Initial page load
   i18n.load(["/resources/i18n"], () => {
+    settTpdLine.x.label = i18next.t("x_label", {ns: "tpd"}),
+    settTpdLine.y.label = i18next.t("y_label", {ns: "tpd"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
