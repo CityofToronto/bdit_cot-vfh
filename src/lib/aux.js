@@ -1,4 +1,112 @@
 // -----------------------------------------------------------------------------
+// Hover line for lineChart, plus tooltip
+function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
+  chartObj.svg.datum(chartObj);
+
+  const filteredData = chartObj.settings.filterData(data);
+  const flatData = [].concat.apply([], filteredData.map(function(d) {
+    return chartObj.settings.z.getDataPoints.call(chartObj.settings, d);
+  }));
+
+  chartObj.data = flatData;
+  console.log("flatData: ", flatData)
+
+  const bisect = d3.bisector((d) => {
+    return chartObj.settings.x.getValue(d);
+  }).left;
+
+  let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
+  let rect;
+  let line;
+
+  let removedSelection = d3.select();
+
+  if (overlay.empty()) {
+    overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
+        .append("g")
+        .attr("class", "overlay");
+
+    rect = overlay
+        .append("rect")
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr("class", "overlay");
+
+    line = overlay.append("line")
+        .attr("class", "hoverLine")
+        .style("display", "inline")
+        .style("visibility", "visible");
+
+  } else {
+    rect = overlay.select("rect");
+    line = overlay.select("line");
+    textg = overlay.select(".textg");
+  }
+
+  rect
+      .attr("width", chartObj.settings.innerWidth)
+      .attr("height", chartObj.settings.innerHeight)
+      .on("touchmove mousemove", function(e) {
+        const chartObj = d3.select(this.ownerSVGElement).datum();
+        const x = d3.mouse(this)[0];
+        const xD = chartObj.x.invert(x);
+        const i = Math.round(xD); // bisect(chartObj.data[0].values, xD);
+        let d0;
+        let d1;
+        if (i === 0) { // handle edge case
+          d0 = chartObj.data[0].values[i];
+        } else {
+          d0 = chartObj.data[0].values[i - 1];
+          d1 = chartObj.data[0].values[i];
+        }
+
+        let d;
+        if (d0 && d1) {
+          d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
+        } else if (d0) {
+          d = d0;
+        } else {
+          d = d1;
+        }
+
+        line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
+        line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
+        line.style("visibility", "visible");
+
+        if (onMsOverCb && typeof onMsOverCb === "function") {
+          // hr = i % 24;
+          // val = d3.format("(,")(data[Object.keys(data)[1]][i]);
+          // idx = data.keys.values[i];
+          console.log("i, data: ", i, new Date(i), data)
+
+
+
+          // onMsOverCb(hoverData);
+        }        
+      })
+      .on("touchleave mouseleave", function() {
+        if (onMsOutCb && typeof onMsOutCb === "function") {
+          onMsOutCb();
+        }
+      })
+      .on("click", function() {
+        if (onMsClickCb && typeof onMsClickCb === "function") {
+          onMsClickCb();
+        }
+      });
+
+  line
+      .attr("x1", 0)
+      .attr("x2", 0)
+      .attr("y1", 0)
+      .attr("y2", chartObj.settings.innerHeight);
+}
+
+
+
+
+
+// -----------------------------------------------------------------------------
 // Tooltip hover (striped table)
 function hoverlineTip(div, tr1, tr2, sett) {
   const makeTable = function() {
