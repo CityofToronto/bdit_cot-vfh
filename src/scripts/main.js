@@ -376,7 +376,7 @@ $(document).ready(function(){
   // ---------------------------------------------------------------------------
   // Chart SVGs
   // Fig 1 - Avg trips per day line chart
-  tpdSvg = d3.select("#div-tpd.line.data")
+  tpdSvg = d3.select(".tpdline")
     .append("svg")
     .attr("id", "tpdGrowth");
 
@@ -421,6 +421,8 @@ $(document).ready(function(){
         ptcVol = ptcvolfile;
 
         showTPDline();
+        const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
+        d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
         showVktMap();
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},

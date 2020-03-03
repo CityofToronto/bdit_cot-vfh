@@ -257,6 +257,7 @@
       "142":"Tommy Thompson"
     },
     "tpd": {
+      "tabletitle":"Average number of PTC trips per day by month",
       "date": "Date",
       "value": "Average number of PTC trips per day"
     },
