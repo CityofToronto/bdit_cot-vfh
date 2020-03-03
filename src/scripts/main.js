@@ -118,28 +118,19 @@ function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
 
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
-  const focus = tpdSvg.select(".margin-offset")
-    .append("g")
-    // .style("display", "none");
 
-  // append the circle at the intersection
-  focus.append("circle")
-      .attr("class", "y")
-      .style("fill", "none")
-      .style("stroke", "blue")
-      .attr("r", 4);  
+  // Hover line
+  tpdSvg.id = "tpdGrowth"; // used in createOverlay to identify the svg
+  generalOverlay(tpdLine, tpd, (d) => { // onMsOverCb
+    console.log("onMsOverCb: ", d)
+
+  }, () => { // onMsOutCb;
 
 
+  }, () => { // onMsClickCb; toggle between moveable and frozen
 
-  // tpdSvg.select(".dline")
-  //  .on("touchmove mousemove", function(d) {
-  //     console.log("MOUSEOVER: ", d)
-  //     // hoverlineTip(div, tr1, tr2, sett);
-  //   })
-  //   .on("touchleave mouseleave", function(d) {
-  //     console.log("MOUSEOUT")
-  //     tpdTip.style("opacity", 0);
-  //   });
+  });
+
 
   // Create data table for VKT vol map
   const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);
