@@ -34,7 +34,7 @@ settTpdLine = {
     return arr;
   },
   x: {
-    label: i18next.t("x_label", {ns: "line"}),
+    label: i18next.t("x_label", {ns: "tpd"}), // "Neighbourhood",
     getValue: function(d) {
       if (d) return new Date(d.date + "-01");
     },
@@ -52,7 +52,7 @@ settTpdLine = {
     }
   },
   y: {
-    label: i18next.t("y_label", {ns: "line"}),
+    label: i18next.t("y_label", {ns: "tpd"}),
     getValue: function(d) {
       if (d) return d.value;
     },
@@ -98,7 +98,7 @@ settTpdLine = {
   showLabels: false,
   width: 900,
   datatable: true,
-  summaryId: "chrt-dt-tbl",
+  summaryId: "tpd-dt-tbl",
   attachedToSvg: true,
   pair: {
     getValues: function(d) { // used for data table ONLY
