@@ -22,6 +22,10 @@ vktMapSett = {
     orient: "horizontal",
     labelAlign: "middle"
   },
+  tooltip: {
+    pageX: 400,
+    pageY: 450
+  },
   datatable: true,
   attachedToSvg: true,
   topTen: function(d) {

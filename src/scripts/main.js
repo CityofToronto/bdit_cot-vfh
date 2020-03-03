@@ -54,6 +54,7 @@ let pudoMapTable;
 let wardpudoMap;
 
 // Tooltip div names
+let tpdTip;
 let vktMapTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
@@ -115,6 +116,31 @@ function pageTexts() {
 
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
+
+  // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
+  const focus = tpdSvg.select(".margin-offset")
+    .append("g")
+    // .style("display", "none");
+
+  // append the circle at the intersection
+  focus.append("circle")
+      .attr("class", "y")
+      .style("fill", "none")
+      .style("stroke", "blue")
+      .attr("r", 4);  
+
+
+
+  // tpdSvg.select(".dline")
+  //  .on("touchmove mousemove", function(d) {
+  //     console.log("MOUSEOVER: ", d)
+  //     // hoverlineTip(div, tr1, tr2, sett);
+  //   })
+  //   .on("touchleave mouseleave", function(d) {
+  //     console.log("MOUSEOUT")
+  //     tpdTip.style("opacity", 0);
+  //   });
+
   // Create data table for VKT vol map
   const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);
 }
@@ -391,6 +417,11 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
+  tpdTip = d3.select("body").select("#bdit_cot-vfh_container")
+    .append("div").attr("id", "tpdTip")
+    .attr("class", "panel panel-default")
+    .append("div");
+
   vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "vktMapTip")
       .attr("class", "panel panel-default")

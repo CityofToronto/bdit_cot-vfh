@@ -1,4 +1,20 @@
 // -----------------------------------------------------------------------------
+// Tooltip hover (striped table)
+function hoverlineTip(div, tr1, tr2, sett) {
+  const makeTable = function() {
+    let rtnTable = `<table class="table-striped"><tr><td>${tr1}</td></tr>`
+    rtnTable = rtnTable.concat(`<tr><td>${tr2}% PTC volume`);
+    rtnTable = rtnTable.concat("</table>");
+    return rtnTable;
+  };
+  div.html(makeTable())
+      .style("opacity", .999)
+      .style("left", ((d3.event.pageX - sett.tooltip.pageX) + "px"))
+      .style("top", ((d3.event.pageY - sett.tooltip.pageY) + "px"))
+      .style("pointer-events", "none")
+      .style("position", "absolute");
+}
+
 // Small relations
 function findTOD(...args) {
   let dow;
@@ -168,7 +184,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   rect
       .attr("width", chartObj.settings.innerWidth)
       .attr("height", chartObj.settings.innerHeight)
-      .on("mousemove", function(e) {
+      .on("touchmove mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
         if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
           const chartObj = d3.select(this.ownerSVGElement).datum();
@@ -215,7 +231,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           }
         }
       })
-      .on("mouseout", function() {
+      .on("touchleave mouseleave", function() {
         if (onMsOutCb && typeof onMsOutCb === "function") {
           onMsOutCb();
         }
