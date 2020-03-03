@@ -98,13 +98,12 @@ settTpdLine = {
   attachedToSvg: true,
   pair: {
     getValues: function(d) { // used for data table ONLY
-      // d = { area_s_cd: 77, prop: 7.88722624681311 }
-      console.log("pair d: ", d)
-      // let n = Object.values(d)[0];
-      // let val = d3.format("(.1f")(Object.values(d)[1]);
-      // console.log("pair: ", [i18next.t(n, {ns: "nhoods"}), val])
-      // return [i18next.t(n, {ns: "nhoods"}), val];
-      return [d.date, d.value];
+      // d = { date: "2016-09", value: 62242 }
+      const studyDate =  new Date("2019", "02"); // Jan is 0
+      let th = (new Date(Object.values(d)[0]) > studyDate) ? 
+        `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0]; 
+      let td = d3.format("(,")(Object.values(d)[1]);
+      return [th, td];
     }
   }
 };

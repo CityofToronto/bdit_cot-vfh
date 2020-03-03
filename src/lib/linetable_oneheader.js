@@ -161,7 +161,6 @@ function lineTable(svg, settings, data) {
                 );
               }
             })
-            console.log("flatout: ", flatout)
             // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
           return flatout;
         });
