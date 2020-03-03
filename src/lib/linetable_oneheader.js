@@ -11,7 +11,8 @@ function lineTable(svg, settings, data) {
           function(){return this.parentNode;}
       ) : d3.select(svg),
       details = parent.select("details"),
-      keys = sett.z.getKeys.call(sett, data),
+      keys = (sett.z.getTableKeys && typeof sett.z.getTableKeys === "function") ?
+        sett.z.getTableKeys.call(sett, filteredData) : sett.z.getKeys.call(sett, data),
       setRow = function(d) { // d: [ "Monday 0:00", 0.3234158 ]
         var row = d3.select(this),
           cells = row.selectAll("*")
@@ -37,7 +38,6 @@ function lineTable(svg, settings, data) {
             .remove();
       },
       table, header, headerCols, body, dataRows;
-      console.log("keys: ", keys)
 
       tableData = (sett.tableData && typeof sett.tableData === "function") ?
         sett.tableData.call(sett, filteredData) : filteredData;

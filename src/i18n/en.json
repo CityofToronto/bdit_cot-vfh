@@ -256,6 +256,10 @@
       "70":"South Riverdale",
       "142":"Tommy Thompson"
     },
+    "tpd": {
+      "date": "Date",
+      "value": "Average number of PTC trips per day"
+    },
     "pudo": {
       "pudo": "Pick-ups & Drop-offs",
       "pu": "Pick-ups",
@@ -280,10 +284,6 @@
       "midday": "Midday (12:00&ndash;18:00)",
       "nightI": "Evening (19:00&ndash;02:00)",
       "nightII": "Overnight (03:00&ndash;06:00)"
-    },
-    "line": {
-      "x_label": "Month",
-      "y_label": "PTC Trips/day"
     },
     "line-tod": {
       "y_label": "PTC Trips/day"

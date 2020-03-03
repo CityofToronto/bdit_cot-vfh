@@ -81,6 +81,10 @@ settTpdLine = {
       keys.splice(keys.indexOf("keys"), 1);
       return keys;
     },
+    getTableKeys: function(d) {
+      const th = Object.keys(d[0].values[0]);
+      return [i18next.t(th[0], {ns: "tpd"}), i18next.t(th[1], {ns: "tpd"})];
+    },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
     },
