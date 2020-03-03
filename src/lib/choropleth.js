@@ -9,20 +9,20 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
   cbLayer = chartInner.select(".cbdata"),
   colourScale = d3.scaleSequential().domain([fullDimExtent[0], fullDimExtent[1]])
               .interpolator(mergedSettings.colour.name),
-  hoverlineTip = function(div, nn, val) {
-    const makeTable = function() {
-      let rtnTable = `<table class="table-striped"><tr><td>${nn.split(" (")[0]}</td></tr>`
-      rtnTable = rtnTable.concat(`<tr><td>${d3.format("(.1f")(val)}% PTC volume`);
-      rtnTable = rtnTable.concat("</table>");
-      return rtnTable;
-    };
-    div.html(makeTable())
-        .style("opacity", .999)
-        .style("left", ((d3.event.pageX - 400) + "px"))
-        .style("top", ((d3.event.pageY - 450) + "px"))
-        .style("pointer-events", "none")
-        .style("position", "absolute");
-  },
+  // hoverlineTip = function(div, tr1, tr2, sett) {
+  //   const makeTable = function() {
+  //     let rtnTable = `<table class="table-striped"><tr><td>${tr1}</td></tr>`
+  //     rtnTable = rtnTable.concat(`<tr><td>${tr2}% PTC volume`);
+  //     rtnTable = rtnTable.concat("</table>");
+  //     return rtnTable;
+  //   };
+  //   div.html(makeTable())
+  //       .style("opacity", .999)
+  //       .style("left", ((d3.event.pageX - sett.tooltip.pageX) + "px"))
+  //       .style("top", ((d3.event.pageY - sett.tooltip.pageY) + "px"))
+  //       .style("pointer-events", "none")
+  //       .style("position", "absolute");
+  // },
   draw = function() {
     var sett = this.settings,
       map,
@@ -66,7 +66,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
           return colourScale(val);
         }
       })
-      .on("mouseover", function(d) {
+      .on("touchmove mousemove", function(d) {
         if (d.properties.area_s_cd !== 141 && d.properties.area_s_cd !== 142) {
           var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
           let selectedPath = d3.select(this);
@@ -74,10 +74,12 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
             selectedPath.classed("nnActiveGray", true);
           selectedPath.moveToFront();
           d3.selectAll(".subway").moveToFront(); // otherwise lines disappear
-          hoverlineTip(vktMapTip, d.properties.area_name, val);
+          var tr1 = d.properties.area_name.split(" (")[0];
+          var tr2 = d3.format("(.1f")(val);
+          hoverlineTip(vktMapTip, tr1, tr2, sett);
         }
       })
-      .on("mouseout", function(d) {
+      .on("touchend mouseleave", function(d) {
         d3.selectAll("#vktmap path").classed("nnActiveDarkGray", false);
         d3.selectAll("#vktmap path").classed("nnActiveGray", false);
         vktMapTip.style("opacity", 0);
