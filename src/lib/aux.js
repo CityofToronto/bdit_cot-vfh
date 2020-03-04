@@ -3,7 +3,6 @@
 function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   chartObj.svg.datum(chartObj);
   chartObj.data = data;
-  console.log("flatData: ", data)
 
   const bisect = d3.bisector((d) => {
     return chartObj.settings.x.getValue(d);
@@ -13,7 +12,14 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let rect;
   let line;
   let circle;
+  let tr1Rect;
+  let tr1Text;
+  let tr2Text;
   let removedSelection = d3.select();
+
+  const h = chartObj.settings.tooltip.height;
+  const w = chartObj.settings.tooltip.width;
+  const shiftY = chartObj.settings.tooltip.shiftY;
 
   if (overlay.empty()) {
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
@@ -35,10 +41,34 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .attr("r", 7)
       .style("visibility", "hidden");
 
+    tr1Rect = overlay.append("rect")
+      .attr("class", "hoverRectTr1")
+      .attr("width", w)
+      .attr("height", h)
+      .style("visibility", "hidden");
+
+    tr2Rect = overlay.append("rect")
+      .attr("class", "hoverRectTr2")
+      .attr("width", w)
+      .attr("height", h)
+      .style("visibility", "hidden");
+
+    tr1Text = overlay.append("text")
+      .attr("class", "tr1 hoverText")
+      .style("visibility", "hidden");
+
+    tr2Text = overlay.append("text")
+      .attr("class", "tr2 hoverText")
+      .style("visibility", "hidden");
+
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
     circle = overlay.select("circle");
+    tr1Rect = overlay.select(".hoverRectTr1");
+    tr2Rect = overlay.select(".hoverRectTr2");
+    tr1Text = overlay.select(".tr1.hoverText");
+    tr2Text = overlay.select(".tr2.hoverText");
   }
 
   rect
@@ -47,12 +77,8 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .on("touchmove mousemove", function(e) {
         const chartObj = d3.select(this.ownerSVGElement).datum();
         const x = d3.mouse(this)[0];
-        console.log("x: ", x)
         const xD = chartObj.x.invert(x);
-        console.log("xD: ", xD)
-        console.log("xD get: ", xD.getFullYear(), xD.getMonth())
-        const i = bisect(chartObj.data, xD); // bisect(chartObj.data[0].values, xD);
-        console.log("i: ", i)
+        const i = bisect(chartObj.data, xD);
         let d0;
         let d1;
         if (i === 0) { // handle edge case
@@ -70,14 +96,16 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         } else {
           d = d1;
         }
-        console.log("d after all that: ", d)
+
+        const tr1RectY = chartObj.y(d.value) + shiftY/2;
+        const tr2RectY = chartObj.y(d.value) + shiftY/2 + h;
 
         line
           .attr("x1", chartObj.x(chartObj.settings.x.getValue(d)))
           .attr("x2", chartObj.x(chartObj.settings.x.getValue(d)))
           .attr("y1", 0)
           .attr("y2", chartObj.settings.innerHeight)
-          .style("visibility", "visible");
+          .style("visibility", "hidden");
 
         circle
   		    .attr("transform",
@@ -85,14 +113,38 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   		                         chartObj.y(d.value) + ")")
           .style("visibility", "visible");
 
+        tr1Rect
+          .attr("transform",
+                "translate(" + chartObj.x(chartObj.settings.x.getValue(d)) + "," +
+                               tr1RectY + ")")
+          .style("visibility", "visible");
+
+        tr2Rect
+            .attr("transform",
+                  "translate(" + chartObj.x(chartObj.settings.x.getValue(d)) + "," +
+                                 tr2RectY + ")")
+            .style("visibility", "visible");
+
+        tr1Text.html(d.date)
+             .attr("transform",
+                  `translate(${chartObj.x(chartObj.settings.x.getValue(d))},
+                             ${chartObj.y(d.value)})`)
+            .attr("x", 10)
+            .attr("y", shiftY)
+            .style("visibility", "visible");
+        
+        tr2Text.html(`${d3.format("(,")(d.value)}
+                      ${chartObj.settings.tooltip.units}`)
+             .attr("transform",
+                  `translate(${chartObj.x(chartObj.settings.x.getValue(d))},
+                             ${chartObj.y(d.value)})`)
+            .attr("x", 10)
+            .attr("y", shiftY + h)
+            .style("visibility", "visible");
+
         if (onMsOverCb && typeof onMsOverCb === "function") {
-          // hr = i % 24;
-          // val = d3.format("(,")(data[Object.keys(data)[1]][i]);
-          // idx = data.keys.values[i];
-
-
-
-          // onMsOverCb(hoverData);
+          // Pass d to generalOverlay callback in main.js
+          onMsOverCb(d);
         }
       })
       .on("touchleave mouseleave", function() {
@@ -105,8 +157,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           onMsClickCb();
         }
       });
-
-      console.log("innerHeight: ",chartObj.settings )
 
       line
           .attr("x1", 0)
@@ -121,7 +171,7 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 function hoverlineTip(div, tr1, tr2, sett) {
   const makeTable = function() {
     let rtnTable = `<table class="table-striped"><tr><td>${tr1}</td></tr>`
-    rtnTable = rtnTable.concat(`<tr><td>${tr2}% PTC volume`);
+    rtnTable = rtnTable.concat(`<tr><td>${tr2}`);
     rtnTable = rtnTable.concat("</table>");
     return rtnTable;
   };
@@ -187,18 +237,18 @@ function fullExtent(sett, dataObj) {
 // Save hoverLine position when frozen
 function saveHoverLinePos() {
   saveHoverPos = []; // clear
-  let x1 = d3.select(".hoverLine").attr("x1");
-  let x2 = d3.select(".hoverLine").attr("x2");
-  let y1 = d3.select(".hoverLine").attr("y1");
-  let y2 = d3.select(".hoverLine").attr("y2");
+  let x1 = d3.select("#fractionline .hoverLine").attr("x1");
+  let x2 = d3.select("#fractionline .hoverLine").attr("x2");
+  let y1 = d3.select("#fractionline .hoverLine").attr("y1");
+  let y2 = d3.select("#fractionline .hoverLine").attr("y2");
   return saveHoverPos.push(x1, x2, y1, y2);
 }
 // Hold frozen hoverLine when PUDO menu toggled
 function holdHoverLine(ptArray) {
-  d3.select(".hoverLine").attr("x1", ptArray[0]);
-  d3.select(".hoverLine").attr("x2", ptArray[1]);
-  d3.select(".hoverLine").attr("y1", ptArray[2]);
-  d3.select(".hoverLine").attr("y2", ptArray[3]);
+  d3.select("#fractionline .hoverLine").attr("x1", ptArray[0]);
+  d3.select("#fractionline .hoverLine").attr("x2", ptArray[1]);
+  d3.select("#fractionline .hoverLine").attr("y1", ptArray[2]);
+  d3.select("#fractionline .hoverLine").attr("y2", ptArray[3]);
 }
 // Display hover tool text in PUDO line chart
 function showHoverText(...args) {
@@ -317,7 +367,6 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
             d0 = chartObj.data[0].values[i - 1];
             d1 = chartObj.data[0].values[i];
           }
-          console.log("values: ", chartObj.data[0].values)
 
           let d;
           if (d0 && d1) {

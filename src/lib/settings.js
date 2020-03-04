@@ -4,7 +4,7 @@ settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
   margin: {
     top: 100,
-    right: 50,
+    right: 110,
     bottom: 80,
     left: 100
   },
@@ -102,6 +102,14 @@ settTpdLine = {
   },
   showLabels: false,
   width: 900,
+  tooltip: {
+    pageX: 400,
+    pageY: 450,
+    units: "trips/day",
+    width: 140,
+    height: 50,
+    shiftY: 70
+  },
   datatable: true,
   summaryId: "tpd-dt-tbl",
   attachedToSvg: true,
