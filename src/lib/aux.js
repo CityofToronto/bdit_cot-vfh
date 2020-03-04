@@ -19,6 +19,7 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
   const h = chartObj.settings.tooltip.height;
   const w = chartObj.settings.tooltip.width;
+  const shiftX = chartObj.settings.tooltip.shiftX;
   const shiftY = chartObj.settings.tooltip.shiftY;
 
   if (overlay.empty()) {
@@ -97,8 +98,8 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           d = d1;
         }
 
-        const tr1RectY = chartObj.y(d.value) + shiftY/2;
-        const tr2RectY = chartObj.y(d.value) + shiftY/2 + h;
+        const tr1RectY = chartObj.y(d.value) + shiftY;
+        const tr2RectY = chartObj.y(d.value) + shiftY + h;
 
         line
           .attr("x1", chartObj.x(chartObj.settings.x.getValue(d)))
@@ -129,17 +130,18 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
              .attr("transform",
                   `translate(${chartObj.x(chartObj.settings.x.getValue(d))},
                              ${chartObj.y(d.value)})`)
-            .attr("x", 10)
-            .attr("y", shiftY)
+
+            .attr("x", shiftX)
+            .attr("y", shiftY + h/2 + 7)
             .style("visibility", "visible");
-        
+
         tr2Text.html(`${d3.format("(,")(d.value)}
                       ${chartObj.settings.tooltip.units}`)
              .attr("transform",
                   `translate(${chartObj.x(chartObj.settings.x.getValue(d))},
                              ${chartObj.y(d.value)})`)
             .attr("x", 10)
-            .attr("y", shiftY + h)
+            .attr("y", shiftY + h + h/2 + 7)
             .style("visibility", "visible");
 
         if (onMsOverCb && typeof onMsOverCb === "function") {

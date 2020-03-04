@@ -106,9 +106,10 @@ settTpdLine = {
     pageX: 400,
     pageY: 450,
     units: "trips/day",
-    width: 140,
+    width: 175,
     height: 50,
-    shiftY: 70
+    shiftX: 10,
+    shiftY: 40
   },
   datatable: true,
   summaryId: "tpd-dt-tbl",
