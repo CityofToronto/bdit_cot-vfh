@@ -122,7 +122,6 @@ function showTPDline() {
   // Hover line
   const filteredData = settTpdLine.filterData(tpd);
   const flatData = [].concat.apply([], filteredData.map(function(d) {
-    console.log("check d: ", d)
     return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
   }));
   tpdSvg.id = "tpdGrowth"; // used in createOverlay to identify the svg

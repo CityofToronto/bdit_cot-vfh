@@ -12,8 +12,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
-  let circle;
-
   let removedSelection = d3.select();
 
   if (overlay.empty()) {
@@ -27,21 +25,13 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .style("pointer-events", "all")
         .attr("class", "overlay");
 
-    // line = overlay.append("line")
-    //     .attr("class", "hoverLine")
-    //     .style("display", "inline")
-    //     .style("visibility", "visible");
-    circle = overlay.append("circle")
-      .append("circle")
-      .attr("class", "y")
-      .style("fill", "none")
-      .style("stroke", "blue")
-      .style("visibility", "visible");
+    line = overlay.append("line")
+        .attr("class", "hoverLine")
+        .style("visibility", "hidden");
 
   } else {
     rect = overlay.select("rect");
-    // line = overlay.select("line");
-    circle = overlay.select("circle");
+    line = overlay.select("line");
   }
 
   rect
@@ -50,10 +40,12 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .on("touchmove mousemove", function(e) {
         const chartObj = d3.select(this.ownerSVGElement).datum();
         const x = d3.mouse(this)[0];
+        console.log("x: ", x)
         const xD = chartObj.x.invert(x);
         console.log("xD: ", xD)
         console.log("xD get: ", xD.getFullYear(), xD.getMonth())
-        const i = Math.round(xD); // bisect(chartObj.data[0].values, xD);
+        const i = bisect(chartObj.data, xD); // bisect(chartObj.data[0].values, xD);
+        console.log("i: ", i)
         let d0;
         let d1;
         if (i === 0) { // handle edge case
@@ -71,18 +63,19 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         } else {
           d = d1;
         }
+        console.log("d after all that: ", d)
 
-        // line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
-        // line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
-        // line.style("visibility", "visible");
-        circle.attr("r", 4);
-        circle.style("visibility", "visible");
+        line
+          .attr("x1", chartObj.x(chartObj.settings.x.getValue(d)))
+          .attr("x2", chartObj.x(chartObj.settings.x.getValue(d)))
+          .attr("y1", 0)
+          .attr("y2", chartObj.settings.innerHeight)
+          .style("visibility", "visible");
 
         if (onMsOverCb && typeof onMsOverCb === "function") {
           // hr = i % 24;
           // val = d3.format("(,")(data[Object.keys(data)[1]][i]);
           // idx = data.keys.values[i];
-          console.log("i, data[i]: ", i, new Date(i), data)
 
 
 
@@ -100,15 +93,14 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         }
       });
 
-  // line
-  //     .attr("x1", 0)
-  //     .attr("x2", 0)
-  //     .attr("y1", 0)
-  //     .attr("y2", chartObj.settings.innerHeight);
+      console.log("innerHeight: ",chartObj.settings )
+
+      line
+          .attr("x1", 0)
+          .attr("x2", 0)
+          .attr("y1", 0)
+          .attr("y2", chartObj.settings.innerHeight);
 }
-
-
-
 
 
 // -----------------------------------------------------------------------------
