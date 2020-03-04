@@ -91,6 +91,11 @@ settTpdLine = {
     getDataPoints: function(d) {
       return d.values;
     },
+    getNotNullDataPoints: function(d) { // for overlay
+      return d.values.filter((x) => {
+        if (x) return x;
+      });
+    },
     getText: function(d) {
       return i18next.t(d.id, {ns: "districts"});
     }
@@ -104,8 +109,8 @@ settTpdLine = {
     getValues: function(d) { // used for data table ONLY
       // d = { date: "2016-09", value: 62242 }
       const studyDate =  new Date("2019", "02"); // Jan is 0
-      let th = (new Date(Object.values(d)[0]) > studyDate) ? 
-        `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0]; 
+      let th = (new Date(Object.values(d)[0]) > studyDate) ?
+        `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0];
       let td = d3.format("(,")(Object.values(d)[1]);
       return [th, td];
     }
