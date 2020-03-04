@@ -242,6 +242,12 @@
 		stroke: #FF7F00;
 		stroke-dasharray: 10,3; /* ON, OFF*/
 	}
+	.hoverCircle {
+		fill: none;
+		stroke: #c90ab0;
+		stroke-width: 2px;
+		pointer-events: none;
+	}
 
 	/* VKT vol map */
 	#vktMapTip table td {

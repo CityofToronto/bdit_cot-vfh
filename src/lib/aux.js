@@ -12,6 +12,7 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let line;
+  let circle;
   let removedSelection = d3.select();
 
   if (overlay.empty()) {
@@ -29,9 +30,15 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .attr("class", "hoverLine")
         .style("visibility", "hidden");
 
+    circle = overlay.append("circle")
+      .attr("class", "hoverCircle")
+      .attr("r", 7)
+      .style("visibility", "hidden");
+
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
+    circle = overlay.select("circle");
   }
 
   rect
@@ -70,6 +77,12 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           .attr("x2", chartObj.x(chartObj.settings.x.getValue(d)))
           .attr("y1", 0)
           .attr("y2", chartObj.settings.innerHeight)
+          .style("visibility", "visible");
+
+        circle
+  		    .attr("transform",
+  		          "translate(" + chartObj.x(chartObj.settings.x.getValue(d)) + "," +
+  		                         chartObj.y(d.value) + ")")
           .style("visibility", "visible");
 
         if (onMsOverCb && typeof onMsOverCb === "function") {
