@@ -109,6 +109,8 @@ settTpdLine = {
     width: 175,
     height: 50,
     shiftX: 10,
+    shiftXfar: 70,
+    shiftXclose: -20,
     shiftY: 40
   },
   datatable: true,
