@@ -4,7 +4,7 @@ settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
   margin: {
     top: 100,
-    right: 110,
+    right: 178,
     bottom: 80,
     left: 100
   },

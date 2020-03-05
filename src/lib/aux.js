@@ -100,15 +100,15 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
         const thisX = chartObj.x(chartObj.settings.x.getValue(d));
         const thisY = chartObj.y(d.value);
-        let deltaX;
-        if (d.date > "2019-03") {
-          deltaX = chartObj.settings.tooltip.shiftXfar;
-        } else if (d.date === "2016-09") {
-          deltaX = chartObj.settings.tooltip.shiftXclose;          
-        } else {
-          deltaX = chartObj.settings.tooltip.shiftX;
-        }
-        const finalX = thisX - deltaX;
+        // let deltaX;
+        // if (d.date > "2019-03") {
+        //   deltaX = chartObj.settings.tooltip.shiftXfar;
+        // } else if (d.date === "2016-09") {
+        //   deltaX = chartObj.settings.tooltip.shiftXclose;          
+        // } else {
+        //   deltaX = chartObj.settings.tooltip.shiftX;
+        // }
+        const finalX = thisX; // - deltaX;
 
         line
           .attr("x1", thisX)
