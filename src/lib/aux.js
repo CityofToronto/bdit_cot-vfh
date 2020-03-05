@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
-function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
+function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   chartObj.svg.datum(chartObj);
   chartObj.data = data;
 
@@ -10,7 +10,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
-  let line;
   let circle;
   let tr1Rect;
   let tr1Text;
@@ -30,10 +29,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         .style("fill", "none")
         .style("pointer-events", "all")
         .attr("class", "overlay");
-
-    line = overlay.append("line")
-        .attr("class", "hoverLine")
-        .style("visibility", "hidden");
 
     circle = overlay.append("circle")
       .attr("class", "hoverCircle")
@@ -62,7 +57,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
   } else {
     rect = overlay.select("rect");
-    line = overlay.select("line");
     circle = overlay.select("circle");
     tr1Rect = overlay.select(".hoverRectTr1");
     tr2Rect = overlay.select(".hoverRectTr2");
@@ -101,13 +95,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
                         chartObj.settings.tooltip.deltaY : 0);
         const thisX = chartObj.x(chartObj.settings.x.getValue(d));
         const thisY = chartObj.y(d.value);
-
-        line
-          .attr("x1", thisX)
-          .attr("x2", thisX)
-          .attr("y1", 0)
-          .attr("y2", chartObj.settings.innerHeight)
-          .style("visibility", "hidden");
 
         circle
           .attr("transform", `translate(${thisX},${thisY})`)
@@ -150,12 +137,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           onMsClickCb();
         }
       });
-
-      line
-          .attr("x1", 0)
-          .attr("x2", 0)
-          .attr("y1", 0)
-          .attr("y2", chartObj.settings.innerHeight);
 }
 
 // -----------------------------------------------------------------------------

@@ -125,7 +125,7 @@ function showTPDline() {
     return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
   }));
   tpdSvg.id = "tpdGrowth"; // used in createOverlay to identify the svg
-  generalOverlay(tpdLine, flatData, (d) => { // onMsOverCb
+  circleOverlay(tpdLine, flatData, (d) => { // onMsOverCb
     // console.log("onMsOverCb: ", d)
     // const tr2 = `${d3.format("(,")(d.value)} ${settTpdLine.tooltip.units}`;
     // hoverlineTip(tpdTip, d.date, tr2, settTpdLine)
