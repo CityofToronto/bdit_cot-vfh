@@ -239,9 +239,9 @@ function updateMapbox(clearPrevWard) { // called by moving hoverLine & pudo-menu
 // -----------------------------------------------------------------------------
 const loadData = function(cb) {
   if (!ptcFraction[ward]) {
-    d3.json(`/resources/data/ptc_counts_${ward}.json`, function(err, todfile) {
+    d3.json(`/* @echo SRC_PATH *//data/ptc_counts_${ward}.json`, function(err, todfile) {
       ptcFraction[ward] = todfile;
-      d3.json(`/resources/geojson/${ward}_agg_cutoff_15.geojson`, function(err, wardmapfile) {
+      d3.json(`/* @echo SRC_PATH *//geojson/${ward}_agg_cutoff_15.geojson`, function(err, wardmapfile) {
         // d3.json(`/resources/geojson/${ward}_boundary.geojson`, function(err, wardfile) {
           geoMap[ward] = wardmapfile;
           // wardLayer[ward] = wardfile;
@@ -384,18 +384,18 @@ $(document).ready(function(){
       .append("div");
 
   // Initial page load
-  i18n.load(["/resources/i18n"], () => {
+  i18n.load(["/* @echo SRC_PATH *//i18n"], () => {
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
-      .defer(d3.json, "/resources/data/ptc_counts_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/resources/geojson/w1_agg_cutoff_15.geojson")
-      .defer(d3.json, "/resources/geojson/wards.geojson")
-      .defer(d3.json, "/resources/geojson/neighbourhoods.geojson")
-      .defer(d3.json, "/resources/geojson/to_separated_parts.topojson")
-      .defer(d3.json, "/resources/data/ptc_vol.json")
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // trip fraction for ward 1
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson")
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson")
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson")
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson")
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json")
       .await(function(error, ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
         // Load data files into objects
         nnTopo = nntopofile;
