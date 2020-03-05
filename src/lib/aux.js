@@ -19,8 +19,6 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
   const h = chartObj.settings.tooltip.height;
   const w = chartObj.settings.tooltip.width;
-  const shiftX = chartObj.settings.tooltip.shiftX;
-  const shiftY = chartObj.settings.tooltip.shiftY;
 
   if (overlay.empty()) {
     overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
@@ -98,17 +96,11 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           d = d1;
         }
 
+        const shiftX = chartObj.settings.tooltip.shiftX;
+        let shiftY = chartObj.settings.tooltip.shiftY - (d.date < "2017-03" ? 
+                        chartObj.settings.tooltip.deltaY : 0);
         const thisX = chartObj.x(chartObj.settings.x.getValue(d));
         const thisY = chartObj.y(d.value);
-        // let deltaX;
-        // if (d.date > "2019-03") {
-        //   deltaX = chartObj.settings.tooltip.shiftXfar;
-        // } else if (d.date === "2016-09") {
-        //   deltaX = chartObj.settings.tooltip.shiftXclose;          
-        // } else {
-        //   deltaX = chartObj.settings.tooltip.shiftX;
-        // }
-        const finalX = thisX; // - deltaX;
 
         line
           .attr("x1", thisX)
@@ -123,22 +115,22 @@ function generalOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
 
         tr1Rect
-          .attr("transform", `translate(${finalX},${thisY + shiftY})`)
+          .attr("transform", `translate(${thisX},${thisY + shiftY})`)
           .style("visibility", "visible");
 
         tr2Rect
-            .attr("transform", `translate(${finalX},${thisY + shiftY + h})`)
+            .attr("transform", `translate(${thisX},${thisY + shiftY + h})`)
             .style("visibility", "visible");
 
         tr1Text.html(d.date)
-            .attr("transform", `translate(${finalX},${thisY})`)
+            .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
             .attr("y", shiftY + h/2 + 7)
             .style("visibility", "visible");
 
         tr2Text.html(`${d3.format("(,")(d.value)}
                       ${chartObj.settings.tooltip.units}`)
-            .attr("transform", `translate(${finalX},${thisY})`)
+            .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
             .attr("y", shiftY + h + h/2 + 7)
             .style("visibility", "visible");
