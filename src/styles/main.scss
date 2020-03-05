@@ -224,6 +224,24 @@
 	.dline1 {
 		stroke: #660159;
 	}
+	#tpdGrowth .dline2 {
+		stroke: #FF7F00;
+		stroke-dasharray: 10,3; /* ON, OFF*/
+	}
+	#tpdGrowth .legendline {
+		stroke-width: 5px !important;
+	}
+	#tpdGrowth .legendline1 {
+		stroke: #660159;
+	}
+	#tpdGrowth .legendline2 {
+		stroke: #FF7F00;
+		stroke-dasharray: 10,3; /* ON, OFF*/
+	}
+	#tpdGrowth .legendtext {
+		text-anchor: left;
+		alignment-baseline: middle;
+	}
 
 	/* Fig 1 - Avg daily trip line chart */
 	.line svg {
@@ -238,10 +256,6 @@
 		stroke: currentColor;
 	}
 
-	#tpdGrowth .dline2 {
-		stroke: #FF7F00;
-		stroke-dasharray: 10,3; /* ON, OFF*/
-	}
 	.hoverCircle {
 		fill: #f5f5f5;
 		stroke: #660159;

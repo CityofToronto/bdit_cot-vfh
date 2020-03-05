@@ -1,4 +1,43 @@
 // -----------------------------------------------------------------------------
+// https://www.d3-graph-gallery.com/graph/custom_legend.html
+function lineLegend(svg, sett, data) {
+  const keys = sett.z.getLegendKeys.call(sett, data);
+
+  // Add one line in the legend for each name
+  const x1 = sett.legend.x[0];
+  const x2 = sett.legend.x[1];
+  const y = sett.legend.y;
+  const dy = sett.legend.dy;
+  const textdx = sett.legend.textdelta[0];
+  const textdy = sett.legend.textdelta[1];
+  svg
+    .selectAll("tpdLegLine")
+    .data(keys)
+    .enter()
+    .append("line")
+      .attr("class", function(d, i) {
+        return `legendline legendline${i + 1}`;
+      })
+      .attr("x1", x1)
+      .attr("x2", x2)
+      .attr("y1", function(d, i) {
+        return y + i * dy;
+      })
+      .attr("y2", function(d, i) {
+        return y + i * dy;
+      });
+
+  // Add legend text to each line
+  svg.selectAll("tpdLegText")
+    .data(keys)
+    .enter()
+    .append("text")
+      .attr("x", x2 + textdx)
+      .attr("y", function(d, i) { return (y + textdy) + i * dy;})
+      .text(function(d) { return d; });
+}
+
+// -----------------------------------------------------------------------------
 // Hover line for lineChart, plus tooltip
 function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   chartObj.svg.datum(chartObj);
@@ -91,7 +130,7 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         }
 
         const shiftX = chartObj.settings.tooltip.shiftX;
-        let shiftY = chartObj.settings.tooltip.shiftY - (d.date < "2017-03" ? 
+        let shiftY = chartObj.settings.tooltip.shiftY - (d.date < "2017-03" ?
                         chartObj.settings.tooltip.deltaY : 0);
         const thisX = chartObj.x(chartObj.settings.x.getValue(d));
         const thisY = chartObj.y(d.value);

@@ -87,6 +87,10 @@ settTpdLine = {
       const th = Object.keys(d[0].values[0]);
       return [i18next.t(th[0], {ns: "tpd"}), i18next.t(th[1], {ns: "tpd"})];
     },
+    getLegendKeys: function(d) {
+      const keys = Object.keys(d.tpd).splice(1);
+      return [i18next.t(keys[0], {ns: "tpd"}), i18next.t(keys[1], {ns: "tpd"})];
+    },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
     },
@@ -113,6 +117,12 @@ settTpdLine = {
     shiftX: 10,
     shiftY: 40,
     deltaY: 30
+  },
+  legend: {
+    x: [530, 568],
+    y: 350,
+    dy: 40,
+    textdelta: [10, 3]
   },
   datatable: true,
   summaryId: "tpd-dt-tbl",

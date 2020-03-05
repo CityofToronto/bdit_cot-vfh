@@ -137,6 +137,9 @@ function showTPDline() {
 
   });
 
+  // Legend
+  lineLegend(tpdSvg, settTpdLine, tpd);
+
 
   // Create data table for VKT vol map
   const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);

@@ -261,7 +261,9 @@
       "y_label": "Average trips/day",
       "tabletitle":"Average number of PTC trips per day by month since Sept 2016",
       "date": "Date",
-      "value": "Average number of PTC trips per day"
+      "value": "Average number of PTC trips per day",
+      "city": "Study period",
+      "post-study": "Post study period"
     },
     "pudo": {
       "pudo": "Pick-ups & Drop-offs",
