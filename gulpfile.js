@@ -1,8 +1,8 @@
 const gulp = require('gulp');
 const core = require('./node_modules/core/gulp_helper');
 const pkg = require('./package.json');
-const dir = '/resources';
-const root = '/bdit_cot-vfh/scripts';
+const dir = '/resources/bdit_cot-vfh';
+const root = '/scripts';
 const rq = require('./node_modules/json5/lib/require.js');
 
 core.embeddedApp.createTasks(gulp, {
