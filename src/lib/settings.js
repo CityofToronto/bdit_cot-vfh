@@ -34,12 +34,9 @@ settTpdLine = {
     return arr;
   },
   x: {
-    label: i18next.t("x_label", {ns: "tpd"}), // "Neighbourhood",
+    label: i18next.t("x_label", {ns: "tpd"}), // "Month",
     getValue: function(d) {
       if (d) return new Date(d.date + "-01");
-    },
-    getText: function(d) {
-      return d.date;
     },
     ticks: 6,
     translateXY: [-380, 65],
@@ -49,10 +46,15 @@ settTpdLine = {
     },
     getRange: function() {
       return [0, this.innerWidth];
+    },
+    getTickText: function(val) {
+      const yr = new Intl.DateTimeFormat('en', { year: '2-digit' }).format(val);
+      const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(val);
+      return `${mo}-${yr}`;
     }
   },
   y: {
-    label: i18next.t("y_label", {ns: "tpd"}),
+    label: i18next.t("y_label", {ns: "tpd"}), // "Average trips/day"
     getValue: function(d) {
       if (d) return d.value;
     },
@@ -217,7 +219,7 @@ settingsTOWline = {
       keys.splice(keys.indexOf("keys"), 1);
       return keys;
     },
-    getxtickIdx: function(filteredData) {
+    getxtickIdxgetTickText: function(filteredData) {
       return filteredData.map((d) => {
         return d.xtickIdx;
       })[0];
