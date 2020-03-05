@@ -4,7 +4,7 @@ settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
   margin: {
     top: 100,
-    right: 50,
+    right: 110,
     bottom: 80,
     left: 100
   },
@@ -91,12 +91,28 @@ settTpdLine = {
     getDataPoints: function(d) {
       return d.values;
     },
+    getNotNullDataPoints: function(d) { // for overlay
+      return d.values.filter((x) => {
+        if (x) return x;
+      });
+    },
     getText: function(d) {
       return i18next.t(d.id, {ns: "districts"});
     }
   },
   showLabels: false,
   width: 900,
+  tooltip: {
+    pageX: 400,
+    pageY: 450,
+    units: "trips/day",
+    width: 175,
+    height: 50,
+    shiftX: 10,
+    shiftXfar: 70,
+    shiftXclose: -20,
+    shiftY: 40
+  },
   datatable: true,
   summaryId: "tpd-dt-tbl",
   attachedToSvg: true,
@@ -104,8 +120,8 @@ settTpdLine = {
     getValues: function(d) { // used for data table ONLY
       // d = { date: "2016-09", value: 62242 }
       const studyDate =  new Date("2019", "02"); // Jan is 0
-      let th = (new Date(Object.values(d)[0]) > studyDate) ? 
-        `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0]; 
+      let th = (new Date(Object.values(d)[0]) > studyDate) ?
+        `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0];
       let td = d3.format("(,")(Object.values(d)[1]);
       return [th, td];
     }

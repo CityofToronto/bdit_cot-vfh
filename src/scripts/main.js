@@ -120,9 +120,15 @@ function showTPDline() {
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
 
   // Hover line
+  const filteredData = settTpdLine.filterData(tpd);
+  const flatData = [].concat.apply([], filteredData.map(function(d) {
+    return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
+  }));
   tpdSvg.id = "tpdGrowth"; // used in createOverlay to identify the svg
-  generalOverlay(tpdLine, tpd, (d) => { // onMsOverCb
-    console.log("onMsOverCb: ", d)
+  generalOverlay(tpdLine, flatData, (d) => { // onMsOverCb
+    // console.log("onMsOverCb: ", d)
+    // const tr2 = `${d3.format("(,")(d.value)} ${settTpdLine.tooltip.units}`;
+    // hoverlineTip(tpdTip, d.date, tr2, settTpdLine)
 
   }, () => { // onMsOutCb;
 

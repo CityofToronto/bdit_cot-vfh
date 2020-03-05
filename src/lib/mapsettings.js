@@ -24,7 +24,8 @@ vktMapSett = {
   },
   tooltip: {
     pageX: 400,
-    pageY: 450
+    pageY: 450,
+    units: "% PTC volume"
   },
   datatable: true,
   attachedToSvg: true,
