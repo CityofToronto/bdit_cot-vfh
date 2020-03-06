@@ -1,4 +1,4 @@
-# bdit_cot-vfh
+# bdit_interim
 Visualization page for VFH to be used in the COT website. Michelle DaCruz, Senior Digital Content Advisor, Digital Communications, recommends linking the page to these locations on the COT website:  
 
 ```

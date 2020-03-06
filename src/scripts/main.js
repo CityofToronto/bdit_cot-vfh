@@ -1,11 +1,11 @@
-// The main javascript file for bdit_cot-vfh.
+// The main javascript file for bdit_interim.
 // IMPORTANT:
 // Any resources from this project should be referenced using SRC_PATH preprocessor var
 // Ex: let myImage = '/*@echo SRC_PATH*//img/sample.jpg';
 
 $(function () {
   // if (window['CotApp']) { //the code in this 'if' block should be deleted for embedded apps
-  //   const app = new CotApp("bdit_cot-vfh",{
+  //   const app = new CotApp("bdit_interim",{
   //     hasContentTop: false,
   //     hasContentBottom: false,
   //     hasContentRight: false,
@@ -14,10 +14,10 @@ $(function () {
   //   });
   //
   //   app.setBreadcrumb([
-  //     {"name": "bdit_cot-vfh", "link": "#"}
+  //     {"name": "bdit_interim", "link": "#"}
   //   ]).render();
   // }
-  let container = $("#bdit_cot-vfh_container");
+  let container = $("#bdit_interim_container");
 });
 
 // -----------------------------------------------------------------------------
@@ -417,12 +417,12 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
-  tpdTip = d3.select("body").select("#bdit_cot-vfh_container")
+  tpdTip = d3.select("body").select("#bdit_interim_container")
     .append("div").attr("id", "tpdTip")
     .attr("class", "panel panel-default")
     .append("div");
 
-  vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+  vktMapTip = d3.select("body").select("#bdit_interim_container")
       .append("div").attr("id", "vktMapTip")
       .attr("class", "panel panel-default")
       .append("div");

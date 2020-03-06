@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const core = require('./node_modules/core/gulp_helper');
 const pkg = require('./package.json');
-const dir = '/resources/bdit_cot-vfh';
+const dir = '/resources/bdit_interim';
 const root = '/scripts';
 const rq = require('./node_modules/json5/lib/require.js');
 
