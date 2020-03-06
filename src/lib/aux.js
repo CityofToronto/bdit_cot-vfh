@@ -130,10 +130,10 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         }
 
         const shiftX = chartObj.settings.tooltip.shiftX;
-        let shiftY = chartObj.settings.tooltip.shiftY - (d.date < "2017-03" ?
-                        chartObj.settings.tooltip.deltaY : 0);
+        const shiftY = chartObj.settings.tooltip.shiftY;
         const thisX = chartObj.x(chartObj.settings.x.getValue(d));
         const thisY = chartObj.y(d.value);
+        const textdy = chartObj.settings.tooltip.textdy;
 
         circle
           .attr("transform", `translate(${thisX},${thisY})`)
@@ -151,14 +151,14 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
         tr1Text.html(d.date)
             .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
-            .attr("y", shiftY + h/2 + 7)
+            .attr("y", shiftY + h/2 + textdy)
             .style("visibility", "visible");
 
         tr2Text.html(`${d3.format("(,")(d.value)}
                       ${chartObj.settings.tooltip.units}`)
             .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
-            .attr("y", shiftY + h + h/2 + 7)
+            .attr("y", shiftY + h + h/2 + textdy)
             .style("visibility", "visible");
 
         if (onMsOverCb && typeof onMsOverCb === "function") {

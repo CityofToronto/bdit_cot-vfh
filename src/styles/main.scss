@@ -224,6 +224,20 @@
 	.dline1 {
 		stroke: #660159;
 	}
+
+	/* Fig 1 - Avg daily trip line chart */
+	.line svg {
+		fill: currentColor;
+	}
+	.tpdline text {
+		font-size: 12px;
+	}
+
+	.line svg .tick line,
+	.line svg .domain {
+		stroke: currentColor;
+	}
+
 	#tpdGrowth .dline2 {
 		stroke: #FF7F00;
 		stroke-dasharray: 10,3; /* ON, OFF*/
@@ -243,18 +257,6 @@
 		alignment-baseline: middle;
 	}
 
-	/* Fig 1 - Avg daily trip line chart */
-	.line svg {
-		fill: currentColor;
-	}
-	.tpdline text {
-		font-size: 14px;
-	}
-
-	.line svg .tick line,
-	.line svg .domain {
-		stroke: currentColor;
-	}
 
 	.hoverCircle {
 		fill: #f5f5f5;

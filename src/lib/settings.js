@@ -6,7 +6,7 @@ settTpdLine = {
     top: 100,
     right: 178,
     bottom: 80,
-    left: 100
+    left: 178
   },
   aspectRatio: 16 / 9,
   datatable: false,
@@ -107,21 +107,21 @@ settTpdLine = {
     }
   },
   showLabels: false,
-  width: 900,
+  width: 850,
   tooltip: {
     pageX: 400,
     pageY: 450,
     units: "trips/day",
-    width: 175,
-    height: 50,
-    shiftX: 10,
-    shiftY: 40,
-    deltaY: 30
+    width: 135,
+    height: 30,
+    shiftX: 12,
+    shiftY: 35,
+    textdy: 5
   },
   legend: {
     x: [530, 568],
     y: 350,
-    dy: 40,
+    dy: 20,
     textdelta: [10, 3]
   },
   datatable: true,
