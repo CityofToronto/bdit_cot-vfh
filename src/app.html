@@ -92,7 +92,7 @@ See examples below in the boilerplate code
    <!-- Avg trips per day -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section1" class="h2">PTC trips have grown by 180% in 2.5 years</h3>
+      <h2 id="section1">PTC trips have grown by 180% in 2.5 years</h2>
         <div id="section1-text1" class="section-text">
           PTC trips have grown rapidly since the service was first licensed by the City in September 2016, increasing to
           176,000 daily trips in March 2019 &ndash; an increase of over 180%. Most of these trips were made in the district of
@@ -111,7 +111,7 @@ See examples below in the boilerplate code
   <!-- VKT -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section3" class="h2">PTC trips are concentrated downtown</h3>
+      <h2 id="section3">PTC trips are concentrated downtown</h2>
       <div id="section3-text1" class="section-text">
         PTC trips are concentrated downtown throughout the day. The largest
         concentration occurs in the evening after 19:00 (post-PM peak) where in the
@@ -146,10 +146,58 @@ See examples below in the boilerplate code
     </div>
   </div>
 
+  <!-- Shared trips -->
+  <div class="row">
+    <div class="col-xs-12 page-content">
+      <h2 id="section4">Shared trips: requested but largely not matched</h2>
+      <div class="section-text">
+        Ride sharing is a feature that can be requested when booking a trip with for example Lyft Line
+        and Uber Pool. These services match passengers with others heading on similar paths. Shared trips
+        now account for 26% of all PTC trips and are 45% more likely to be requested outside the core.
+        However, 82% of these (ALL OR ONLY THOSE REQUESTED OUTSIDE CORE???) share requests do not find a match. The map below shows the
+        percentage of shared trips requested by neighbourhood in September 2018, with the largest
+        concentration in the suburbs, especially in Etobicoke North, Humber River-Black Creek and York South-Weston.
+        Compare with the actual percentage of trip requests that were shared by selecting from the drop-down menu.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-5"></div>
+    <div class="col-lg-2">
+      <select id="sharedtrips-menu" class="form-control">
+        <option value="req" selected="selected">Shared trips requested (%)</option>
+          <option value="shared">Matched (%)</option>
+      </select>
+    </div>
+    <div class="col-lg-5"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8 sharedmap data">
+      PLACEHOLDER FOR SHARED TRIPS CHOROPLETH
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+
+  <!-- Time of Day patterns -->
+  <div class="row">
+    <div class="col-xs-12 page-content">
+      <h2>PTC trips have clear Time-of-Day patterns</h2>
+      <div class="section-text">
+        While we don't have data about individual trips, we do know total pick-up and drop-off locations and times.
+        Looking a bit closer at different parts of the city tells us different stories that give some clues about
+        why people are using PTCs. The line chart below shows the average number of trips per hour for each day the week
+        across the City in September 2018. ...MORE...
+      </div>
+    </div>
+  </div>
+
   <!-- Ward patterns -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section4" class="h2">Explore your ward</h3>
+      <h2 id="section4">Explore your ward</h2>
       <div id="section4-text1a" class="section-text">
         You can explore the number of trips per hour in different wards by following
         the line chart below over the course of an average week in September 2018,
@@ -179,8 +227,6 @@ See examples below in the boilerplate code
   <!-- Ward drop-down menu -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <p>
-      </p>
     </div>
     <div class="col-md-5 page-content">
       <div class="col-md-6">
