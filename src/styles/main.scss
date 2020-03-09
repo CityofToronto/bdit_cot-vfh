@@ -20,6 +20,9 @@
 		font-size: 1.125em;
 		font-family: "Roboto";
 	}
+	p {
+		margin-top: 20px;
+	}
 	h3 {
 	  margin-top: 35px !important;
 	}
@@ -106,12 +109,13 @@
 	/* -----------*/
 	/* Intro section */
 	.row.cards > div{
-	    height: 180px;
-	    margin-bottom: 1em;
+	    height: 175px;
+	    margin-top: 1em;
+			margin-bottom: 1em;
 	}
 	.chart__card {
 	   display:grid;
-	   height:100%;
+	   height:70%;
 	   grid-template-rows:2fr 3.8fr 1fr
 	}
 	@media print {
@@ -182,7 +186,7 @@
 	   left:50%;
 	   -webkit-transform:translate(-50%,-50%);
 	   transform:translate(-50%,-50%);
-	   padding:0
+	   padding:5
 	}
 	@media screen and (max-width:600px) {
 	 .chart--card__image .chart__card-body {
@@ -194,15 +198,6 @@
 	}
 	.chart--card .chart--caption {
 	  font-size:85%
-	}
-
-	.chart__button-link {
-	  text-align: right;
-	  width: 98%;
-	  color: #2d699e;
-	}
-	.glyphicon-circle-arrow-right {
-	  color: #2d699e;
 	}
 
 	/* -----------*/
