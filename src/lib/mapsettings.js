@@ -69,6 +69,77 @@ vktMapSett = {
 }
 
 // -----------------------------------------------------------------------------
+shareMapSett = {
+  alt:"VKT map",
+  margin: {
+    top: 0,
+    right: 40,
+    bottom: 0,
+    left: 60
+  },
+  aspectRatio: 16 / 9,
+  rot: 16.7,
+  width: 900,
+  colour: {
+    name: d3.interpolateYlOrRd,
+    null:  "#837a7a"
+  },
+  legend: {
+    maplegend: true,
+    alt: "Shared trips map legend",
+    title: "Percentage of Shared Ride Trips Requested by Neighbourhood (%)",
+    cells: 9,
+    trans: [530, 270],
+    orient: "horizontal",
+    labelAlign: "middle"
+  },
+  tooltip: {
+    pageX: 400,
+    pageY: 450,
+    units: "% shared"
+  },
+  datatable: true,
+  attachedToSvg: true,
+  topTen: function(d) {
+    const n = 10; // Top-n list of VKT hotspots
+    let sortByProp = d
+        .sort((a, b) => (a.prop < b.prop) ? 1 : -1)
+        .filter((p)=> {
+          if (p.area_s_cd < 141) return p;
+        })
+        .slice(0, n);
+    return sortByProp;
+  },
+  summaryId: "share-dt-tbl",
+  x: {
+    label: i18next.t("x_label", {ns: "share_map"}) // "Neighbourhood"
+  },
+  y: {
+    label: i18next.t("y_label", {ns: "share_map"}), // "Percentage of Traffic (%)"
+  },
+  z: {
+    getDataPoints: function(d) {
+      return d.prop;
+    },
+    getId: function(d) {
+      return `id${d.properties.area_s_cd}`;
+    },
+    getKeys: function(d) {
+      const keys = Object.keys(d[0]); // ["area_s_cd", "prop"]
+      return [i18next.t(keys[0], {ns: "share_map"}), i18next.t(keys[1], {ns: "share_map"})];
+    }
+  },
+  pair: {
+    getValues: function(d) { // used for data table ONLY
+      // d = { area_s_cd: 77, prop: 7.88722624681311 }
+      let n = Object.values(d)[0];
+      let val = d3.format("(.1f")(Object.values(d)[1]);
+      return [i18next.t(n, {ns: "nhoods"}), val];
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
 pudoMapSett = {
   initZoom: 12,
   ward: {

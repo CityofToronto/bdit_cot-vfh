@@ -27,7 +27,7 @@ $(function () {
 // data objects
 let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
-let sharedProp = {}; // shared trips (requested and matched)
+let shareProp = {}; // shared trips (requested and matched)
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -39,7 +39,7 @@ let nnLayer = {}; // neighbourhood shapefiles
 
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
-let tripShare = "req"; // Requested vs Matched shared trips
+let selShare = "req"; // Requested vs Matched shared trips
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table sub-menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
@@ -120,10 +120,7 @@ function pageTexts() {
 
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
-
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
-
-  // Hover line
   const filteredData = settTpdLine.filterData(tpd);
   const flatData = [].concat.apply([], filteredData.map(function(d) {
     return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
@@ -133,9 +130,7 @@ function showTPDline() {
     // console.log("onMsOverCb: ", d)
     // const tr2 = `${d3.format("(,")(d.value)} ${settTpdLine.tooltip.units}`;
     // hoverlineTip(tpdTip, d.date, tr2, settTpdLine)
-
   }, () => { // onMsOutCb;
-
 
   }, () => { // onMsClickCb; toggle between moveable and frozen
 
@@ -143,7 +138,6 @@ function showTPDline() {
 
   // Legend
   lineLegend(tpdSvg, settTpdLine, tpd);
-
 
   // Create data table for VKT vol map
   const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);
@@ -158,14 +152,16 @@ function showVktMap() {
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
 }
 
-// function showSharedTripsMap() {
-//   const fullDimExtent = fullExtent(sharedMapSett, ptcVol);
-//   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, sharedMapSett, ptcVol[ptcvolTOD], fullDimExtent);
-//
-//   // // Create data table for VKT vol map
-//   // const vktTable = lineTable(vktMapSvg, vktMapSett,
-//   //   vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
-// }
+function showShareMap() {
+  console.log(shareProp)
+  const fullDimExtent = fullExtent(shareMapSett, shareProp);
+  console.log(fullDimExtent)
+  choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
+
+  // // Create data table for VKT vol map
+  // const vktTable = lineTable(vktMapSvg, vktMapSett,
+  //   vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
+}
 
 
 function showFractionLine() {
@@ -420,10 +416,15 @@ $(document).ready(function(){
     .append("svg")
     .attr("id", "tpdGrowth");
 
-  // VKT map
+  // Fig 2 - VKT map
   vktMapSvg = d3.select(".vktmap.data")
       .append("svg")
       .attr("id", "vktmap");
+
+  // Fig 3 - shared trips map
+  shareMapSvg = d3.select(".sharemap.data")
+      .append("svg")
+      .attr("id", "sharemap");
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
@@ -438,6 +439,11 @@ $(document).ready(function(){
 
   vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "vktMapTip")
+      .attr("class", "panel panel-default")
+      .append("div");
+
+  shareMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+      .append("div").attr("id", "shareMapTip")
       .attr("class", "panel panel-default")
       .append("div");
 
@@ -459,12 +465,11 @@ $(document).ready(function(){
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson") // wards layer
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson") // neighbourhoods layer by ward
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson") // all neighbourhoods together
-
       .await(function(error, fig1, fig2, fig3, fig5a, fig5b, wardfile, nnfile, nntopofile) {
         // Load data files into objects
         tpd = fig1;
         ptcVol = fig2;
-        sharedProp =fig3;
+        shareProp = fig3;
         ptcFraction[ward] = fig5a;
         geoMap[ward] = fig5b;
 
@@ -481,6 +486,8 @@ $(document).ready(function(){
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
           ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+
+        showShareMap();
 
         // Display texts
         pageTexts();

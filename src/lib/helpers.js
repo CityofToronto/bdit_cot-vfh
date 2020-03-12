@@ -231,7 +231,7 @@ function fullExtent(sett, dataObj) {
 
   keys = keys.filter((x)=> {
      return x !== "keys";
-  })
+  });
 
   eachArray=[];
   for (p = 0; p < keys.length; p++) {
@@ -240,7 +240,9 @@ function fullExtent(sett, dataObj) {
   const concatObj = [].concat.apply([], eachArray);
   let flatData = (concatObj[0] && typeof concatObj[0] === "object") ?
   [].concat.apply([], concatObj.map(function(d) {
-    return sett.z.getDataPoints.call(sett, d);
+    if (sett.z.getDataPoints.call(sett, d)) {
+      return sett.z.getDataPoints.call(sett, d);
+    }
   })) : concatObj;
   flatData = flatData.sort(function(a, b) {return a-b;});
   return d3.extent(flatData);
