@@ -27,6 +27,7 @@ $(function () {
 // data objects
 let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
+let sharedProp = {}; // shared trips (requested and matched)
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -38,6 +39,7 @@ let nnLayer = {}; // neighbourhood shapefiles
 
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
+let tripShare = "req"; // Requested vs Matched shared trips
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table sub-menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
@@ -49,6 +51,7 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 // Chart SVG names
 let tpdSvg;
 let vktMapSvg;
+let shareMapSvg;
 let fractionLineChart;
 let pudoMapTable;
 let wardpudoMap;
@@ -56,6 +59,7 @@ let wardpudoMap;
 // Tooltip div names
 let tpdTip;
 let vktMapTip;
+let shareMapTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -153,6 +157,16 @@ function showVktMap() {
   const vktTable = lineTable(vktMapSvg, vktMapSett,
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
 }
+
+// function showSharedTripsMap() {
+//   const fullDimExtent = fullExtent(sharedMapSett, ptcVol);
+//   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, sharedMapSett, ptcVol[ptcvolTOD], fullDimExtent);
+//
+//   // // Create data table for VKT vol map
+//   // const vktTable = lineTable(vktMapSvg, vktMapSett,
+//   //   vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
+// }
+
 
 function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
@@ -436,22 +450,28 @@ $(document).ready(function(){
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
-      .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // trip fraction for ward 1
-      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json")
-      .await(function(error, tpdfile,ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // Fig 1 - daily trip lineChart in city
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json") // Fig 2 - PTC volume map by nn
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig3_shared_trips_by_nn.json") // Fig 3 - shared trips map by nn
+      // Fig 4 - time of day lineChart
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // Fig5a - PTC counts lineChart ward 1
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson") // Fig5b - PUDO map ward 1
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson") // wards layer
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson") // neighbourhoods layer by ward
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson") // all neighbourhoods together
+
+      .await(function(error, fig1, fig2, fig3, fig5a, fig5b, wardfile, nnfile, nntopofile) {
         // Load data files into objects
-        tpd = tpdfile
-        nnTopo = nntopofile;
-        ptcFraction[ward] = ptcfractionfile;
-        geoMap[ward] = mapboxfile;
+        tpd = fig1;
+        ptcVol = fig2;
+        sharedProp =fig3;
+        ptcFraction[ward] = fig5a;
+        geoMap[ward] = fig5b;
+
+        // Load geojsons into objects
         wardLayer = wardfile;
         nnLayer = nnfile;
-        ptcVol = ptcvolfile;
+        nnTopo = nntopofile;
 
         showTPDline();
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
