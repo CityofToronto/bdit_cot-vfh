@@ -87,7 +87,7 @@ shareMapSett = {
   legend: {
     maplegend: true,
     alt: "Shared trips map legend",
-    title: "Percentage of Shared Ride Trips Requested by Neighbourhood (%)",
+    title: i18next.t("legendTitle", {ns: "share_map"}),
     cells: 9,
     trans: [530, 270],
     orient: "horizontal",

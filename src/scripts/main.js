@@ -158,9 +158,9 @@ function showShareMap() {
   console.log(fullDimExtent)
   choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
 
-  // // Create data table for VKT vol map
-  // const vktTable = lineTable(vktMapSvg, vktMapSett,
-  //   vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
+  // Create data table for VKT vol map
+  const shareTable = lineTable(shareMapSvg, shareMapSett,
+    shareMapSett.topTen.call(shareMapSett, shareProp[selShare]));
 }
 
 
@@ -451,6 +451,7 @@ $(document).ready(function(){
   i18n.load(["/* @echo SRC_PATH *//i18n"], () => {
     settTpdLine.x.label = i18next.t("x_label", {ns: "tpd"}),
     settTpdLine.y.label = i18next.t("y_label", {ns: "tpd"}),
+    shareMapSett.legend.title = i18next.t("legendTitle", {ns: "share_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
@@ -488,6 +489,9 @@ $(document).ready(function(){
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         showShareMap();
+        const shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+
 
         // Display texts
         pageTexts();
