@@ -15,6 +15,9 @@ Other areas of toronto.ca which should link to the new page within related infor
 * [Research & Reports](https://www.toronto.ca/city-government/data-research-maps/research-reports/) content: It could also be added within Data, Research & Maps, though there are currently no transportation related items in this section.
 ```
 
+**Interim mockup on WordPress**  
+This "interim" page was made by changing all instances of `bdit_cot-vfh` to `bdit_interim`. Then it was deployed using `gulp deploy:dev` and then the folders in `dist/` were copied to the shared Z drive under directory `bdit_interim`. In the edit pane of this page (under BDITTO Test Pages), the app is embedded into Wordpress by [cot_app app="bdit_interim"][/cot_app]. 
+
 **Mockup on EC2**  
 See the [current mockup](https://10.160.2.198/vfh-cot/) for reference.  
 
