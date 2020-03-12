@@ -27,6 +27,7 @@ $(function () {
 // data objects
 let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
+let shareProp = {}; // shared trips (requested and matched)
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -38,6 +39,7 @@ let nnLayer = {}; // neighbourhood shapefiles
 
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
+let selShare = "req"; // Requested vs Matched shared trips
 let ward = "w1";
 let day = "mon"; // Ward trip fraction table sub-menu selector
 let pudoDay = "Monday"; // Ward PUDO for whole week
@@ -46,9 +48,13 @@ let pudoIdx; // index of PUDO line data for hover tool text
 let pudoHr; // hour of PUDO line data for hover tool text
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
+// titles that change with selectors
+let shareMapTableTitle;
+
 // Chart SVG names
 let tpdSvg;
 let vktMapSvg;
+let shareMapSvg;
 let fractionLineChart;
 let pudoMapTable;
 let wardpudoMap;
@@ -56,6 +62,7 @@ let wardpudoMap;
 // Tooltip div names
 let tpdTip;
 let vktMapTip;
+let shareMapTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -116,10 +123,7 @@ function pageTexts() {
 
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
-
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
-
-  // Hover line
   const filteredData = settTpdLine.filterData(tpd);
   const flatData = [].concat.apply([], filteredData.map(function(d) {
     return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
@@ -129,9 +133,7 @@ function showTPDline() {
     // console.log("onMsOverCb: ", d)
     // const tr2 = `${d3.format("(,")(d.value)} ${settTpdLine.tooltip.units}`;
     // hoverlineTip(tpdTip, d.date, tr2, settTpdLine)
-
   }, () => { // onMsOutCb;
-
 
   }, () => { // onMsClickCb; toggle between moveable and frozen
 
@@ -139,7 +141,6 @@ function showTPDline() {
 
   // Legend
   lineLegend(tpdSvg, settTpdLine, tpd);
-
 
   // Create data table for VKT vol map
   const tpdTable = lineTable(tpdSvg, settTpdLine, tpd);
@@ -153,6 +154,18 @@ function showVktMap() {
   const vktTable = lineTable(vktMapSvg, vktMapSett,
     vktMapSett.topTen.call(vktMapSett, ptcVol[ptcvolTOD]));
 }
+
+function showShareMap() {
+  console.log(shareProp)
+  const fullDimExtent = fullExtent(shareMapSett, shareProp);
+  console.log(fullDimExtent)
+  choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
+
+  // Create data table for VKT vol map
+  const shareTable = lineTable(shareMapSvg, shareMapSett,
+    shareMapSett.topTen.call(shareMapSett, shareProp[selShare]));
+}
+
 
 function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
@@ -327,6 +340,18 @@ function uiHandler(event) {
     updateTitles();
   }
 
+  if (event.target.id === "share-menu") {
+    selShare = event.target.value; // "All day" initially
+    showShareMap();
+    shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
+    d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+    // let legTitle = selShare === "req" ?
+    //   `${i18next.t("legendTitle", {ns: "share_map"})}` :
+    //   `${i18next.t("legendTitleMatched", {ns: "share_map"})}`;
+    // d3.select("#sharelg .legendTitle")
+    //   .text(legTitle);
+  }
+
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // "pudos" initially
     const clearPrevWard = false;
@@ -406,10 +431,15 @@ $(document).ready(function(){
     .append("svg")
     .attr("id", "tpdGrowth");
 
-  // VKT map
+  // Fig 2 - VKT map
   vktMapSvg = d3.select(".vktmap.data")
       .append("svg")
       .attr("id", "vktmap");
+
+  // Fig 3 - shared trips map
+  shareMapSvg = d3.select(".sharemap.data")
+      .append("svg")
+      .attr("id", "sharemap");
 
   // Fig 4a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
@@ -427,31 +457,42 @@ $(document).ready(function(){
       .attr("class", "panel panel-default")
       .append("div");
 
+  shareMapTip = d3.select("body").select("#bdit_cot-vfh_container")
+      .append("div").attr("id", "shareMapTip")
+      .attr("class", "panel panel-default")
+      .append("div");
+
   // Initial page load
   i18n.load(["/* @echo SRC_PATH *//i18n"], () => {
     settTpdLine.x.label = i18next.t("x_label", {ns: "tpd"}),
     settTpdLine.y.label = i18next.t("y_label", {ns: "tpd"}),
+    shareMapSett.legend.title = i18next.t("legendTitle", {ns: "share_map"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settPudoLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     d3.queue()
-      .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // trip fraction for ward 1
-      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // trip fraction for ward 1
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson")
-      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json")
-      .await(function(error, tpdfile,ptcfractionfile, mapboxfile, wardfile, nnfile, nntopofile, ptcvolfile) {
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // Fig 1 - daily trip lineChart in city
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json") // Fig 2 - PTC volume map by nn
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig3_shared_trips_by_nn.json") // Fig 3 - shared trips map by nn
+      // Fig 4 - time of day lineChart
+      .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // Fig5a - PTC counts lineChart ward 1
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson") // Fig5b - PUDO map ward 1
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson") // wards layer
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson") // neighbourhoods layer by ward
+      .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson") // all neighbourhoods together
+      .await(function(error, fig1, fig2, fig3, fig5a, fig5b, wardfile, nnfile, nntopofile) {
         // Load data files into objects
-        tpd = tpdfile
-        nnTopo = nntopofile;
-        ptcFraction[ward] = ptcfractionfile;
-        geoMap[ward] = mapboxfile;
+        tpd = fig1;
+        ptcVol = fig2;
+        shareProp = fig3;
+        ptcFraction[ward] = fig5a;
+        geoMap[ward] = fig5b;
+
+        // Load geojsons into objects
         wardLayer = wardfile;
         nnLayer = nnfile;
-        ptcVol = ptcvolfile;
+        nnTopo = nntopofile;
 
         showTPDline();
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
@@ -461,6 +502,11 @@ $(document).ready(function(){
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
           ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+
+        showShareMap();
+        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+
 
         // Display texts
         pageTexts();

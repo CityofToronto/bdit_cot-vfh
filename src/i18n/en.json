@@ -312,6 +312,16 @@
       "area_s_cd": "Neighbourhood",
       "prop": "Percentage of Traffic (%)"
     },
+    "share_map": {
+      "legendTitle": "Shared trip requests (%)",
+      "legendTitleMatched": "Shared trips matched (%)",
+      "tabletitle":"Shared trip requests (%), Top-10 neighbourhoods",
+      "tableMatchTitle":"Shared trips matched (%), Top-10 neighbourhoods",
+      "x_label": "Neighbourhood",
+      "y_label": "Proportion of shared requests (%)",
+      "area_s_cd": "Neighbourhood",
+      "prop": "Percentage Requested (%)"
+    },
     "ward_towline": {
       "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",
       "x_label": "Time of day",

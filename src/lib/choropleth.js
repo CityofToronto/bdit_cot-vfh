@@ -118,18 +118,18 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
     if (cbLayer.empty()) {
       cbLayer = chartInner.append("g")
         .attr("class", "cbdata")
-        .attr("id", "vktlg");
+        .attr("id", sett.legend.id);
 
       legSvg = cbLayer
         .append("svg")
-        .attr("id", "legSvg");
+        .attr("class", "legSvg");
     }
     else {
       // Remove the svg then reappend an svg to cbLayer
-      d3.select('#legSvg').remove();
+      d3.select('.legSvg').remove();
       legSvg = cbLayer
         .append("svg")
-        .attr("id", "legSvg");
+        .attr("class", "legSvg");
     }
 
     legSvg.append("g")
