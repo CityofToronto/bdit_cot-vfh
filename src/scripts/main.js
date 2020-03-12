@@ -48,6 +48,9 @@ let pudoIdx; // index of PUDO line data for hover tool text
 let pudoHr; // hour of PUDO line data for hover tool text
 let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
+// titles that change with selectors
+let shareMapTableTitle;
+
 // Chart SVG names
 let tpdSvg;
 let vktMapSvg;
@@ -337,6 +340,18 @@ function uiHandler(event) {
     updateTitles();
   }
 
+  if (event.target.id === "share-menu") {
+    selShare = event.target.value; // "All day" initially
+    showShareMap();
+    shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
+    d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+    // let legTitle = selShare === "req" ?
+    //   `${i18next.t("legendTitle", {ns: "share_map"})}` :
+    //   `${i18next.t("legendTitleMatched", {ns: "share_map"})}`;
+    // d3.select("#sharelg .legendTitle")
+    //   .text(legTitle);
+  }
+
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // "pudos" initially
     const clearPrevWard = false;
@@ -489,7 +504,7 @@ $(document).ready(function(){
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         showShareMap();
-        const shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
 

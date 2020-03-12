@@ -304,10 +304,10 @@
 		font-weight: 500;
 		font-size: 18px;
 	}
-	#vktlg .legendTitle {
+	#vktlg .legendTitle, #sharelg .legendTitle {
 		font-size: 12px !important;
 	}
-	#vktlg .legendCells text {
+	#vktlg .legendCells text, #sharelg .legendCells text {
 		font-size: 12px;
 		font-weight: normal;
 	}

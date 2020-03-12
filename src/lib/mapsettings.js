@@ -16,6 +16,7 @@ vktMapSett = {
   legend: {
     maplegend: true,
     alt: "VKT map legend",
+    id: "vktlg",
     title: "Percentage of Traffic (%)",
     cells: 9,
     trans: [530, 270],
@@ -87,6 +88,7 @@ shareMapSett = {
   legend: {
     maplegend: true,
     alt: "Shared trips map legend",
+    id: "sharelg",
     title: i18next.t("legendTitle", {ns: "share_map"}),
     cells: 9,
     trans: [530, 270],
