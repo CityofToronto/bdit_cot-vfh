@@ -32,7 +32,7 @@
 	label {
 		margin-top: 30px;
 	}
-	.form-control {
+	.form-control, #action-citytod, #fraction-action {
 	  margin-top: 20px;
 	}
 	.midtexts {
@@ -317,6 +317,11 @@
 		margin-bottom: 25px;
 	}
 
+	/* Fig 4 Time-of-day trip count city */
+	#citytod text {
+		font-size: 18px;
+	}
+
 	#section4-text1c label, #for-ward label, #for-type label {
 		margin-top: 0px;
 	}
@@ -379,15 +384,7 @@
 		font-size: 20px;
 	}
 
-	 /* table button */
-	 #fraction-action, #pudo-action {
-		 background-color: #175689;
-		 border-color: #175689;
-		 margin-top: 20px;
-	 }
 	 #show-humber {
-		 background-color: #175689;
-		 border-color: #175689;
 		 font-style: normal;
 	 }
 	.submenu-label {

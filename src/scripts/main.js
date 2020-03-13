@@ -28,6 +28,8 @@ $(function () {
 let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
 let shareProp = {}; // shared trips (requested and matched)
+let cityTod = {}; // Time-of-day trip counts for city
+let thisCityTod = {}; // cityTod data for selected day
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -40,8 +42,9 @@ let nnLayer = {}; // neighbourhood shapefiles
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let selShare = "req"; // Requested vs Matched shared trips
+let selCityDay = "mon"; // sub-menu selector, city tod trip count table
 let ward = "w1";
-let day = "mon"; // Ward trip fraction table sub-menu selector
+let day = "mon"; // sub-menu selector, ward trip count table
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let pudoIdx; // index of PUDO line data for hover tool text
@@ -50,12 +53,14 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // titles that change with selectors
 let shareMapTableTitle;
+let citytodCaption;
 
 // Chart SVG names
 let tpdSvg;
 let vktMapSvg;
 let shareMapSvg;
-let fractionLineChart;
+let cityTodSvg;
+let fractionLineSvg;
 let pudoMapTable;
 let wardpudoMap;
 
@@ -63,6 +68,7 @@ let wardpudoMap;
 let tpdTip;
 let vktMapTip;
 let shareMapTip;
+let cityTodTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -156,9 +162,7 @@ function showVktMap() {
 }
 
 function showShareMap() {
-  console.log(shareProp)
   const fullDimExtent = fullExtent(shareMapSett, shareProp);
-  console.log(fullDimExtent)
   choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -166,18 +170,30 @@ function showShareMap() {
     shareMapSett.topTen.call(shareMapSett, shareProp[selShare]));
 }
 
+function showCityTodLine() {
+  const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
+  cityTodSvg.id = "citytod";
+  const citytodTable = lineTable(cityTodSvg, settCityTodLine, cityTod);
+  // Only show table if action button is clicked
+  d3.select(`#${settCityTodLine.actionId}`)
+    .on("click", function() {
+      d3.select(".citytod .chart-data-table")
+        .select("table")
+        .style("display", "table");
+    });
+}
 
 function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
   // This data will be passed into createOverlay and lineTable
   thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
 
-  const fractionLine = lineChart(fractionLineChart, settPudoLine, ptcFraction[ward]);
+  const fractionLine = lineChart(fractionLineSvg, settPudoLine, ptcFraction[ward]);
   // axes labels
   rotateLabels("fractionline", settPudoLine);
 
   // hover line
-  fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
+  fractionLineSvg.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, thisPTC, (d) => { // onMsOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
@@ -216,7 +232,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC);
+  const fractionLineTable = lineTable(fractionLineSvg, settPudoLine, thisPTC);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -226,7 +242,7 @@ function showFractionLine() {
         .style("display", "table");
     });
 }
-// Fig 4b - PUDO map
+// Fig 5b - PUDO map
 function initMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
@@ -352,6 +368,21 @@ function uiHandler(event) {
     //   .text(legTitle);
   }
 
+  if (event.target.id === "submenu-citytod") {
+    selCityDay = event.target.value; // "mon" initially
+    console.log("selCityDay: ", selCityDay)
+
+    // Hide table before "Show Data" clicked
+    hideTable("citytod");
+
+    const i18nTodDay = `${i18next.t(selCityDay, {ns: "days"})}`;
+    citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
+                        weekday: i18nTodDay})}`;
+    d3.select(".citytod").select("caption").text(citytodCaption);
+
+    // lineTable(fractionLineSvg, settPudoLine, thisPTC);
+  }
+
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // "pudos" initially
     const clearPrevWard = false;
@@ -413,7 +444,7 @@ function uiHandler(event) {
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settPudoLine, thisPTC);
+    lineTable(fractionLineSvg, settPudoLine, thisPTC);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -441,8 +472,13 @@ $(document).ready(function(){
       .append("svg")
       .attr("id", "sharemap");
 
-  // Fig 4a - Trip Fraction line chart
-  fractionLineChart = d3.select(".fractionline.data")
+  // Fig 4 - Time-of-day trip counts for city
+  cityTodSvg = d3.select(".citytod.data")
+      .append("svg")
+      .attr("id", "citytod");
+
+  // Fig 5a - Trip Fraction line chart
+  fractionLineSvg = d3.select(".fractionline.data")
       .append("svg")
       .attr("id", "fractionline");
 
@@ -467,6 +503,8 @@ $(document).ready(function(){
     settTpdLine.x.label = i18next.t("x_label", {ns: "tpd"}),
     settTpdLine.y.label = i18next.t("y_label", {ns: "tpd"}),
     shareMapSett.legend.title = i18next.t("legendTitle", {ns: "share_map"}),
+    settCityTodLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
+    settCityTodLine.y.label = i18next.t("y_label", {ns: "city_tod"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
@@ -475,17 +513,18 @@ $(document).ready(function(){
       .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // Fig 1 - daily trip lineChart in city
       .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json") // Fig 2 - PTC volume map by nn
       .defer(d3.json, "/* @echo SRC_PATH *//data/fig3_shared_trips_by_nn.json") // Fig 3 - shared trips map by nn
-      // Fig 4 - time of day lineChart
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig4_tod_city.json") // Fig 4 - city time of day lineChart
       .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // Fig5a - PTC counts lineChart ward 1
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson") // Fig5b - PUDO map ward 1
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson") // wards layer
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson") // neighbourhoods layer by ward
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson") // all neighbourhoods together
-      .await(function(error, fig1, fig2, fig3, fig5a, fig5b, wardfile, nnfile, nntopofile) {
+      .await(function(error, fig1, fig2, fig3, fig4, fig5a, fig5b, wardfile, nnfile, nntopofile) {
         // Load data files into objects
         tpd = fig1;
         ptcVol = fig2;
         shareProp = fig3;
+        cityTod = fig4;
         ptcFraction[ward] = fig5a;
         geoMap[ward] = fig5b;
 
@@ -494,6 +533,10 @@ $(document).ready(function(){
         nnLayer = nnfile;
         nnTopo = nntopofile;
 
+        // Display texts
+        pageTexts();
+
+        // Charts and Maps
         showTPDline();
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
         d3.select(".tpdline").select("summary").text(tpdTableTitle);
@@ -507,11 +550,14 @@ $(document).ready(function(){
         shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
+        showCityTodLine();
+        const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;
+        const i18nTodDay = `${i18next.t(selCityDay, {ns: "days"})}`;
+        citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
+                            weekday: i18nTodDay})}`;
+        d3.select(".citytod").select("summary").text(citytodTableTitle);
+        d3.select(".citytod").select("caption").text(citytodCaption);
 
-        // Display texts
-        pageTexts();
-
-        // Line Charts
         showFractionLine();
         const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
         const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}

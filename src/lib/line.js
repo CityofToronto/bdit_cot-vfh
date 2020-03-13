@@ -141,7 +141,7 @@ function lineChart(svg, settings, rawdata) {
           .attr("fill", "#000")
           .attr("x", innerWidth)
           // .attr("dy", "-0.5em")
-          .attr("dy", "48")
+          .attr("dy", sett.x.chartlabel)
           .attr("text-anchor", "end")
           .text(sett.x.label);
 
