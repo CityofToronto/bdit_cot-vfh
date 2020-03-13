@@ -322,6 +322,16 @@
       "area_s_cd": "Neighbourhood",
       "prop": "Percentage Requested (%)"
     },
+    "city_tod": {
+      "alt": "This timeseries plot shows the trip counts in the city for each hour of the week, averaged by day of week, over the study period September 2018 to March 2019.",
+      "x_label": "Time of day",
+      "y_label": "Average number of trips",
+      "tod": "Time of day",
+      "hr": "Hour",
+      "tabletitle":  "Click to open table of trip counts per hour plotted in the above line chart",
+      "captiontitle":  "per hour in ",
+      "menuLabel": "Select Day"
+    },
     "ward_towline": {
       "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",
       "x_label": "Time of day",

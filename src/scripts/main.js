@@ -28,6 +28,7 @@ $(function () {
 let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
 let shareProp = {}; // shared trips (requested and matched)
+let cityTod = {}; // Time-of-day trip counts for city
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -55,6 +56,7 @@ let shareMapTableTitle;
 let tpdSvg;
 let vktMapSvg;
 let shareMapSvg;
+let cityTodSvg;
 let fractionLineChart;
 let pudoMapTable;
 let wardpudoMap;
@@ -63,6 +65,7 @@ let wardpudoMap;
 let tpdTip;
 let vktMapTip;
 let shareMapTip;
+let cityTodTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -156,9 +159,7 @@ function showVktMap() {
 }
 
 function showShareMap() {
-  console.log(shareProp)
   const fullDimExtent = fullExtent(shareMapSett, shareProp);
-  console.log(fullDimExtent)
   choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -166,6 +167,10 @@ function showShareMap() {
     shareMapSett.topTen.call(shareMapSett, shareProp[selShare]));
 }
 
+function showCityTodLine() {
+  const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
+
+}
 
 function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
@@ -441,7 +446,12 @@ $(document).ready(function(){
       .append("svg")
       .attr("id", "sharemap");
 
-  // Fig 4a - Trip Fraction line chart
+  // Fig 4 - Time-of-day trip counts for city
+  cityTodSvg = d3.select(".citytod.data")
+      .append("svg")
+      .attr("id", "citytod");
+
+  // Fig 5a - Trip Fraction line chart
   fractionLineChart = d3.select(".fractionline.data")
       .append("svg")
       .attr("id", "fractionline");
@@ -475,17 +485,18 @@ $(document).ready(function(){
       .defer(d3.json, "/* @echo SRC_PATH *//data/fig1_dailytrips.json") // Fig 1 - daily trip lineChart in city
       .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_vol.json") // Fig 2 - PTC volume map by nn
       .defer(d3.json, "/* @echo SRC_PATH *//data/fig3_shared_trips_by_nn.json") // Fig 3 - shared trips map by nn
-      // Fig 4 - time of day lineChart
+      .defer(d3.json, "/* @echo SRC_PATH *//data/fig4_tod_city.json") // Fig 4 - city time of day lineChart
       .defer(d3.json, "/* @echo SRC_PATH *//data/ptc_counts_w1.json") // Fig5a - PTC counts lineChart ward 1
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/w1_agg_cutoff_15.geojson") // Fig5b - PUDO map ward 1
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/wards.geojson") // wards layer
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/neighbourhoods.geojson") // neighbourhoods layer by ward
       .defer(d3.json, "/* @echo SRC_PATH *//geojson/to_separated_parts.topojson") // all neighbourhoods together
-      .await(function(error, fig1, fig2, fig3, fig5a, fig5b, wardfile, nnfile, nntopofile) {
+      .await(function(error, fig1, fig2, fig3, fig4, fig5a, fig5b, wardfile, nnfile, nntopofile) {
         // Load data files into objects
         tpd = fig1;
         ptcVol = fig2;
         shareProp = fig3;
+        cityTod = fig4;
         ptcFraction[ward] = fig5a;
         geoMap[ward] = fig5b;
 
@@ -507,6 +518,7 @@ $(document).ready(function(){
         shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
+        showCityTodLine();
 
         // Display texts
         pageTexts();
