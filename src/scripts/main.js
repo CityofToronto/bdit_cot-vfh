@@ -41,7 +41,7 @@ let nnLayer = {}; // neighbourhood shapefiles
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let selShare = "req"; // Requested vs Matched shared trips
-let citytodDay = "mon"; // sub-menu selector, city tod trip count table
+let selCityDay = "mon"; // sub-menu selector, city tod trip count table
 let ward = "w1";
 let day = "mon"; // sub-menu selector, ward trip count table
 let pudoDay = "Monday"; // Ward PUDO for whole week
@@ -366,6 +366,21 @@ function uiHandler(event) {
     //   .text(legTitle);
   }
 
+  if (event.target.id === "submenu-citytod") {
+    selCityDay = event.target.value; // "mon" initially
+    console.log("selCityDay: ", selCityDay)
+
+    // Hide table before "Show Data" clicked
+    hideTable("citytod");
+
+    const i18nTodDay = `${i18next.t(selCityDay, {ns: "days"})}`;
+    citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
+                        weekday: i18nTodDay})}`;
+    d3.select(".citytod").select("caption").text(citytodCaption);
+
+    // lineTable(fractionLineSvg, settPudoLine, thisPTC);
+  }
+
   if (event.target.id === "pudo-menu") {
     whichPUDO = event.target.value; // "pudos" initially
     const clearPrevWard = false;
@@ -535,7 +550,7 @@ $(document).ready(function(){
 
         showCityTodLine();
         const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;
-        const i18nTodDay = `${i18next.t(citytodDay, {ns: "days"})}`;
+        const i18nTodDay = `${i18next.t(selCityDay, {ns: "days"})}`;
         citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
                             weekday: i18nTodDay})}`;
         d3.select(".citytod").select("summary").text(citytodTableTitle);

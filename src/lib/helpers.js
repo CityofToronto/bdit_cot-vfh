@@ -279,9 +279,6 @@ function hideTable(divClassName) {
   d3.select(`.${divClassName} .chart-data-table`)
     .select("table")
     .style("display", "none");
-  // close details
-  d3.select(`.${divClassName} details`)
-    .attr("open", null);
 }
 
 // -----------------------------------------------------------------------------
