@@ -32,7 +32,7 @@
 	label {
 		margin-top: 30px;
 	}
-	.form-control, #action-citytod {
+	.form-control, #action-citytod, #fraction-action {
 	  margin-top: 20px;
 	}
 	.midtexts {
@@ -384,15 +384,7 @@
 		font-size: 20px;
 	}
 
-	 /* table button */
-	 #fraction-action, #pudo-action {
-		 background-color: #175689;
-		 border-color: #175689;
-		 margin-top: 20px;
-	 }
 	 #show-humber {
-		 background-color: #175689;
-		 border-color: #175689;
 		 font-style: normal;
 	 }
 	.submenu-label {
