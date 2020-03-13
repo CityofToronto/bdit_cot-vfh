@@ -41,8 +41,9 @@ let nnLayer = {}; // neighbourhood shapefiles
 // data selectors
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let selShare = "req"; // Requested vs Matched shared trips
+let citytodDay = "mon"; // sub-menu selector, city tod trip count table
 let ward = "w1";
-let day = "mon"; // Ward trip fraction table sub-menu selector
+let day = "mon"; // sub-menu selector, ward trip count table
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let pudoIdx; // index of PUDO line data for hover tool text
@@ -51,6 +52,7 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // titles that change with selectors
 let shareMapTableTitle;
+let citytodCaption;
 
 // Chart SVG names
 let tpdSvg;
@@ -533,7 +535,11 @@ $(document).ready(function(){
 
         showCityTodLine();
         const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;
+        const i18nTodDay = `${i18next.t(citytodDay, {ns: "days"})}`;
+        citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
+                            weekday: i18nTodDay})}`;
         d3.select(".citytod").select("summary").text(citytodTableTitle);
+        d3.select(".citytod").select("caption").text(citytodCaption);
 
         showFractionLine();
         const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;

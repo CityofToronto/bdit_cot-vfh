@@ -326,7 +326,7 @@
       "alt": "This timeseries plot shows the trip counts in the city for each hour of the week, averaged by day of week, over the study period September 2018 to March 2019.",
       "y_label": "Average trips/hour",
       "tabletitle":  "Click to open table of average trips per hour plotted in the above line chart",
-      "captiontitle":  "per hour in ",
+      "tablecaption":  "Average trips/hour, City of Toronto, {{weekday}}",
       "menuLabel": "Select Day",
       "count":"Average trips/hour"
     },
