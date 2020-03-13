@@ -57,7 +57,7 @@ let tpdSvg;
 let vktMapSvg;
 let shareMapSvg;
 let cityTodSvg;
-let fractionLineChart;
+let fractionLineSvg;
 let pudoMapTable;
 let wardpudoMap;
 
@@ -169,7 +169,14 @@ function showShareMap() {
 
 function showCityTodLine() {
   const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
-
+  const citytodTable = lineTable(cityTodSvg, settCityTodLine, cityTod);
+  // Only show table if action button is clicked
+  d3.select(`#${settCityTodLine.actionId}`)
+    .on("click", function() {
+      d3.select(".citytod .chart-data-table")
+        .select("table")
+        .style("display", "table");
+    });
 }
 
 function showFractionLine() {
@@ -177,12 +184,12 @@ function showFractionLine() {
   // This data will be passed into createOverlay and lineTable
   thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
 
-  const fractionLine = lineChart(fractionLineChart, settPudoLine, ptcFraction[ward]);
+  const fractionLine = lineChart(fractionLineSvg, settPudoLine, ptcFraction[ward]);
   // axes labels
   rotateLabels("fractionline", settPudoLine);
 
   // hover line
-  fractionLineChart.id = "fractionline"; // used in createOverlay to identify the svg
+  fractionLineSvg.id = "fractionline"; // used in createOverlay to identify the svg
   createOverlay(fractionLine, thisPTC, (d) => { // onMsOverCb
     // Allow moveable hoverLine only if not frozen by mouse click
     if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
@@ -221,7 +228,7 @@ function showFractionLine() {
   });
 
   // Data table for trip fraction
-  const fractionLineTable = lineTable(fractionLineChart, settPudoLine, thisPTC);
+  const fractionLineTable = lineTable(fractionLineSvg, settPudoLine, thisPTC);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -231,7 +238,7 @@ function showFractionLine() {
         .style("display", "table");
     });
 }
-// Fig 4b - PUDO map
+// Fig 5b - PUDO map
 function initMapBox() {
   mapboxgl.accessToken = "pk.eyJ1Ijoia2F0aWRldiIsImEiOiJjanplam5wcTUwMWd1M25ucnkyMXRydjJ3In0.YE-q3_27uwg5mxaGNPkx0g";
 
@@ -418,7 +425,7 @@ function uiHandler(event) {
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
     updateTableCaption();
-    lineTable(fractionLineChart, settPudoLine, thisPTC);
+    lineTable(fractionLineSvg, settPudoLine, thisPTC);
 
     // Hide table until action button is clicked
     d3.select(".fractionline .chart-data-table")
@@ -452,7 +459,7 @@ $(document).ready(function(){
       .attr("id", "citytod");
 
   // Fig 5a - Trip Fraction line chart
-  fractionLineChart = d3.select(".fractionline.data")
+  fractionLineSvg = d3.select(".fractionline.data")
       .append("svg")
       .attr("id", "fractionline");
 

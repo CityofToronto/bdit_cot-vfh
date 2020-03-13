@@ -327,7 +327,8 @@
       "y_label": "Average trips/hour",
       "tabletitle":  "Click to open table of trip counts per hour plotted in the above line chart",
       "captiontitle":  "per hour in ",
-      "menuLabel": "Select Day"
+      "menuLabel": "Select Day",
+      "count":"Average trips/hour"
     },
     "ward_towline": {
       "alt": "This timeseries plot shows the percentage of total weekly counts for each hour of the week, averaged by day of week, for the selected ward and the city.",

@@ -262,13 +262,13 @@ settCityTodLine = {
       return keys;
     },
     getKeys: function(d) {
-      // {"fraction": [0.28592435, 0.23656836, 0.17870272, …],
-      // "keys":  { name: "tod", values: (168) [0, 1, …, 167] }
+      // {"keys": { {"name": "tod", "values": [0,1,2,...,167]}},
+      // "count": []}
       // }
-      const col1 = d.keys.name;
-      const col2 = "Counts";
-      // return [i18next.t(col1, {ns: "ward_towline"}), i18next.t(col2, {ns: "ward_towline"})];
-      return [col1, col2];
+      const col1 = d.keys.name; // "tod"
+      const col2 = Object.keys(d)[1]; // "count"
+      return [i18next.t(col1, {ns: "ward_towline"}),
+              i18next.t(col2, {ns: "city_tod"})];
     },
     getxtickIdx: function(filteredData) {
       return filteredData.map((d) => {
