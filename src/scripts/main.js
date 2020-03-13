@@ -514,6 +514,10 @@ $(document).ready(function(){
         nnLayer = nnfile;
         nnTopo = nntopofile;
 
+        // Display texts
+        pageTexts();
+
+        // Charts and Maps
         showTPDline();
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
         d3.select(".tpdline").select("summary").text(tpdTableTitle);
@@ -528,11 +532,9 @@ $(document).ready(function(){
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
         showCityTodLine();
+        const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;
+        d3.select(".citytod").select("summary").text(citytodTableTitle);
 
-        // Display texts
-        pageTexts();
-
-        // Line Charts
         showFractionLine();
         const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
         const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
