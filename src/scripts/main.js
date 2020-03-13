@@ -477,6 +477,8 @@ $(document).ready(function(){
     settTpdLine.x.label = i18next.t("x_label", {ns: "tpd"}),
     settTpdLine.y.label = i18next.t("y_label", {ns: "tpd"}),
     shareMapSett.legend.title = i18next.t("legendTitle", {ns: "share_map"}),
+    settCityTodLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
+    settCityTodLine.y.label = i18next.t("y_label", {ns: "city_tod"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
