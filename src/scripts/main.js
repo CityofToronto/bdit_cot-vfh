@@ -29,6 +29,7 @@ let tpd = {}; // Avg trips per day
 let ptcVol = {}; // PTC volume fraction of total traffic
 let shareProp = {}; // shared trips (requested and matched)
 let cityTod = {}; // Time-of-day trip counts for city
+let thisCityTod = {}; // cityTod data for selected day
 let nnTopo = {}; // Neighbourhood topojson for VKT vol
 const ptcFraction = {}; // PTC Trip Fraction by ward
 let thisPTC = {}; // PTC for pudo-menu selection
@@ -171,6 +172,7 @@ function showShareMap() {
 
 function showCityTodLine() {
   const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
+  cityTodSvg.id = "citytod";
   const citytodTable = lineTable(cityTodSvg, settCityTodLine, cityTod);
   // Only show table if action button is clicked
   d3.select(`#${settCityTodLine.actionId}`)
