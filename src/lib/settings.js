@@ -147,8 +147,8 @@ settTpdLine = {
 settCityTodLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
-    top: 85,
-    right: 55,
+    top: 160,
+    right: 185,
     bottom: 73,
     left: 100
   },
@@ -305,7 +305,7 @@ settCityTodLine = {
     width: 175,
     height: 50,
     shiftX: 12,
-    shiftY: 35,
+    shiftY: -150,
     textdy: 5
   },
   datatable: true,
