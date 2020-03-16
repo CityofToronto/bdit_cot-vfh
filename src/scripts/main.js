@@ -65,10 +65,8 @@ let pudoMapTable;
 let wardpudoMap;
 
 // Tooltip div names
-let tpdTip;
 let vktMapTip;
 let shareMapTip;
-let cityTodTip;
 let saveHoverPos = []; // posn of hoverline to store when frozen and pudo-menu is changed
 
 // PUDO map defaults
@@ -130,20 +128,12 @@ function pageTexts() {
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
-  const filteredData = settTpdLine.filterData(tpd);
+  const filteredData = settTpdLine.filterData(tpd);  
   const flatData = [].concat.apply([], filteredData.map(function(d) {
     return settTpdLine.z.getNotNullDataPoints.call(settTpdLine, d);
   }));
   tpdSvg.id = "tpdGrowth"; // used in createOverlay to identify the svg
-  circleOverlay(tpdLine, flatData, (d) => { // onMsOverCb
-    // console.log("onMsOverCb: ", d)
-    // const tr2 = `${d3.format("(,")(d.value)} ${settTpdLine.tooltip.units}`;
-    // hoverlineTip(tpdTip, d.date, tr2, settTpdLine)
-  }, () => { // onMsOutCb;
-
-  }, () => { // onMsClickCb; toggle between moveable and frozen
-
-  });
+  circleOverlay(tpdLine, flatData);
 
   // Legend
   lineLegend(tpdSvg, settTpdLine, tpd);
@@ -172,7 +162,12 @@ function showShareMap() {
 
 function showCityTodLine() {
   const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
+  // Tooltip
+  const filteredData = settCityTodLine.filterData(cityTod);
+  const flatData = filteredData[0].values;
   cityTodSvg.id = "citytod";
+  circleOverlay(citytodLine, flatData);
+
   const citytodTable = lineTable(cityTodSvg, settCityTodLine, cityTod);
   // Only show table if action button is clicked
   d3.select(`#${settCityTodLine.actionId}`)
@@ -189,8 +184,7 @@ function showFractionLine() {
   thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
 
   const fractionLine = lineChart(fractionLineSvg, settPudoLine, ptcFraction[ward]);
-  // axes labels
-  rotateLabels("fractionline", settPudoLine);
+  rotateLabels("fractionline", settPudoLine); // axes labels
 
   // hover line
   fractionLineSvg.id = "fractionline"; // used in createOverlay to identify the svg
@@ -483,11 +477,6 @@ $(document).ready(function(){
       .attr("id", "fractionline");
 
   // Tooltip divs
-  tpdTip = d3.select("body").select("#bdit_cot-vfh_container")
-    .append("div").attr("id", "tpdTip")
-    .attr("class", "panel panel-default")
-    .append("div");
-
   vktMapTip = d3.select("body").select("#bdit_cot-vfh_container")
       .append("div").attr("id", "vktMapTip")
       .attr("class", "panel panel-default")

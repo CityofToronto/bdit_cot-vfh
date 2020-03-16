@@ -47,10 +47,13 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
     return chartObj.settings.x.getValue(d);
   }).left;
 
+  console.log(chartObj.svg.id)
+
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let circle;
   let tr1Rect;
+  let tr2Rect;
   let tr1Text;
   let tr2Text;
   let removedSelection = d3.select();
@@ -95,6 +98,7 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
       .style("visibility", "hidden");
 
   } else {
+    console.log("ELSE!!!")
     rect = overlay.select("rect");
     circle = overlay.select("circle");
     tr1Rect = overlay.select(".hoverRectTr1");

@@ -238,7 +238,6 @@ settCityTodLine = {
     translateXY: [-380, 45],
     chartlabel: 42
   },
-
   y: {
     label: i18next.t("y_label", {ns: "city_tod"}),
     getValue: function(d) {
@@ -250,7 +249,6 @@ settCityTodLine = {
     translateXY: [-72, 260],
     ticks: 4
   },
-
   z: {
     label: i18next.t("z_label", {ns: "city_tod"}),
     getId: function(d) {
@@ -294,6 +292,16 @@ settCityTodLine = {
   tipTextCoords: [30, -50],
   initTipPosn: [180, 0],
   width: 900,
+  tooltip: {
+    pageX: 400,
+    pageY: 450,
+    units: "trips/day",
+    width: 135,
+    height: 30,
+    shiftX: 12,
+    shiftY: 35,
+    textdy: 5
+  },
   datatable: true,
   attachedToSvg: true,
   summaryId: "chrt-dt-tbl-citytod",

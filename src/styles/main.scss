@@ -273,12 +273,12 @@
 	}
 
 	/* VKT vol map */
-	#vktMapTip table td, #tpdTip table td {
+	#vktMapTip table td, #shareMapTip table td {
 		padding-left: 20px;
 		padding-right: 20px;
 		padding-top: 8px;
 		padding-bottom: 8px;
-		border: 1px solid #ddd;
+		border: 1px solid #ddd !important;
 	}
 	.subway {
 		fill:	none;
