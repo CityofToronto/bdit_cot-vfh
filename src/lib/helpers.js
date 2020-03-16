@@ -47,8 +47,6 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
     return chartObj.settings.x.getValue(d);
   }).left;
 
-  console.log(chartObj.svg.id)
-
   let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
   let rect;
   let circle;
@@ -152,13 +150,13 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
             .attr("transform", `translate(${thisX},${thisY + shiftY + h})`)
             .style("visibility", "visible");
 
-        tr1Text.html(d.date)
+        tr1Text.html(chartObj.settings.x.getText(d))
             .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
             .attr("y", shiftY + h/2 + textdy)
             .style("visibility", "visible");
 
-        tr2Text.html(`${d3.format("(,")(d.value)}
+        tr2Text.html(`${chartObj.settings.y.getText(d)}
                       ${chartObj.settings.tooltip.units}`)
             .attr("transform", `translate(${thisX},${thisY})`)
             .attr("x", shiftX)
@@ -397,13 +395,14 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           line.style("visibility", "visible");
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
-            hr = i % 24;
+            let format_hr = (i % 24) < 10 ? `0${i % 24}` : `${i % 24}`;
+            hr = (i % 24);
             val = d3.format("(,")(data[Object.keys(data)[1]][i]);
             idx = data.keys.values[i];
             thisTOD = findTOD([hr, idx]);
             const updateText = [{
               id: 1,
-              text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${val}, ${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`
+              text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${val}, ${thisTOD[0]} ${format_hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`
             }];
             hoverTextBind(updateText);
 

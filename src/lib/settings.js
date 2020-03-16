@@ -38,6 +38,9 @@ settTpdLine = {
     getValue: function(d) {
       if (d) return new Date(d.date + "-01");
     },
+    getText: function(d) {
+      if (d) return d.date;
+    },
     ticks: 6,
     translateXY: [-380, 65],
     // from extend
@@ -59,7 +62,7 @@ settTpdLine = {
       if (d) return d.value;
     },
     getText: function(d) {
-      return Math.round(d.value);
+      return d3.format("(,.0f")(d.value);
     },
     translateXY: [-95, 250],
     ticks: 5,
@@ -184,15 +187,18 @@ settCityTodLine = {
     },
     getText: function(d) { // used for data table ONLY
       // d is a number from 0 to 167
+      console.log("getText d: ", d)
+      console.log("e % 24: ", d.tod % 24)
       let dow;
-      if (d < 24) dow = "Monday"
-      else if (d < 48) dow = "Tuesday"
-      else if (d < 72) dow = "Wednesday"
-      else if (d < 96) dow = "Thursday"
-      else if (d < 120) dow = "Friday"
-      else if (d < 144) dow = "Saturday"
+      let hr = (d.tod % 24) < 10 ? `0${d.tod % 24}` : `${d.tod % 24}`;
+      if (d.tod < 24) dow = "Monday"
+      else if (d.tod < 48) dow = "Tuesday"
+      else if (d.tod < 72) dow = "Wednesday"
+      else if (d.tod < 96) dow = "Thursday"
+      else if (d.tod < 120) dow = "Friday"
+      else if (d.tod < 144) dow = "Saturday"
       else dow = "Sunday"
-      return `${dow} ${d % 24}:00`;
+      return `${dow} ${hr}:00`;
     },
     getSubText: function(data, day) { // used for data table ONLY
       // d is a number from 0 to 167
@@ -244,7 +250,7 @@ settCityTodLine = {
       return d.value;
     },
     getText: function(d) {
-      return Math.round(d.value);
+      return d3.format("(,.0f")(d.value);
     },
     translateXY: [-72, 260],
     ticks: 4
@@ -295,9 +301,9 @@ settCityTodLine = {
   tooltip: {
     pageX: 400,
     pageY: 450,
-    units: "trips/day",
-    width: 135,
-    height: 30,
+    units: "trips/hour",
+    width: 175,
+    height: 50,
     shiftX: 12,
     shiftY: 35,
     textdy: 5
@@ -380,6 +386,7 @@ settPudoLine = {
     getText: function(d) { // used for data table ONLY
       // d is a number from 0 to 167
       let dow;
+      let hr = (d % 24) < 10 ? `0${d % 24}` : `${d % 24}`;
       if (d < 24) dow = "Monday"
       else if (d < 48) dow = "Tuesday"
       else if (d < 72) dow = "Wednesday"
@@ -387,7 +394,7 @@ settPudoLine = {
       else if (d < 120) dow = "Friday"
       else if (d < 144) dow = "Saturday"
       else dow = "Sunday"
-      return `${dow} ${d % 24}:00`;
+      return `${dow} ${hr}:00`;
     },
     getSubText: function(data, day) { // used for data table ONLY
       // d is a number from 0 to 167
