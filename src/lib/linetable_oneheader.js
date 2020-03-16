@@ -61,7 +61,7 @@ function lineTable(svg, settings, data) {
             .text(sett.menuLabel);
 
         // Details setup
-        menu = details.append("div").attr("class", "col-md-3")
+        menu = details.append("div").attr("class", "col-md-4")
           .append("select")
             .attr("id", sett.menuId)
             .attr("class", "form-control");
