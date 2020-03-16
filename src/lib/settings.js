@@ -64,7 +64,7 @@ settTpdLine = {
     getText: function(d) {
       return d3.format("(,.0f")(d.value);
     },
-    translateXY: [-95, 250],
+    translateXY: [-65, 203],
     ticks: 5,
     // from extend
     getDomain: function(flatData) {
@@ -252,7 +252,7 @@ settCityTodLine = {
     getText: function(d) {
       return d3.format("(,.0f")(d.value);
     },
-    translateXY: [-72, 260],
+    translateXY: [-72, 195],
     ticks: 4
   },
   z: {

@@ -127,6 +127,8 @@ function pageTexts() {
 
 function showTPDline() {
   const tpdLine = lineChart(tpdSvg, settTpdLine, tpd);
+  rotateLabels("tpdGrowth", settTpdLine); // axes labels
+
   // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
   const filteredData = settTpdLine.filterData(tpd);  
   const flatData = [].concat.apply([], filteredData.map(function(d) {
@@ -162,6 +164,8 @@ function showShareMap() {
 
 function showCityTodLine() {
   const citytodLine = lineChart(cityTodSvg, settCityTodLine, cityTod);
+  rotateLabels("citytod", settCityTodLine); // axes labels
+
   // Tooltip
   const filteredData = settCityTodLine.filterData(cityTod);
   const flatData = filteredData[0].values;
