@@ -172,7 +172,8 @@ function showCityTodLine() {
   cityTodSvg.id = "citytod";
   circleOverlay(citytodLine, flatData);
 
-  const citytodTable = lineTable(cityTodSvg, settCityTodLine, cityTod);
+  // Table
+  lineTable(cityTodSvg, settCityTodLine, cityTod);
   // Only show table if action button is clicked
   d3.select(`#${settCityTodLine.actionId}`)
     .on("click", function() {
@@ -186,6 +187,7 @@ function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
   // This data will be passed into createOverlay and lineTable
   thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
+  console.log("thisPTC: ", thisPTC)
 
   const fractionLine = lineChart(fractionLineSvg, settPudoLine, ptcFraction[ward]);
   rotateLabels("fractionline", settPudoLine); // axes labels
@@ -373,12 +375,12 @@ function uiHandler(event) {
     // Hide table before "Show Data" clicked
     hideTable("citytod");
 
+    // Plot sub-table
+    lineTable(cityTodSvg, settCityTodLine, cityTod);
     const i18nTodDay = `${i18next.t(selCityDay, {ns: "days"})}`;
     citytodCaption = `${i18next.t("tablecaption", {ns: "city_tod",
                         weekday: i18nTodDay})}`;
     d3.select(".citytod").select("caption").text(citytodCaption);
-
-    // lineTable(fractionLineSvg, settPudoLine, thisPTC);
   }
 
   if (event.target.id === "pudo-menu") {
@@ -530,18 +532,18 @@ $(document).ready(function(){
         pageTexts();
 
         // Charts and Maps
-        showTPDline();
-        const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
-        d3.select(".tpdline").select("summary").text(tpdTableTitle);
+        // showTPDline();
+        // const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
+        // d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
-        showVktMap();
-        const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
-          ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+        // showVktMap();
+        // const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
+        //   ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
-        showShareMap();
-        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
-        d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+        // showShareMap();
+        // shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        // d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
         showCityTodLine();
         const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;
@@ -551,29 +553,29 @@ $(document).ready(function(){
         d3.select(".citytod").select("summary").text(citytodTableTitle);
         d3.select(".citytod").select("caption").text(citytodCaption);
 
-        showFractionLine();
-        const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
-        const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
-          ${i18next.t("captiontitle", {ns: "ward_towline"})}
-          ${i18next.t(ward, {ns: "wards"})}`;
-        d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
+        // showFractionLine();
+        // const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
+        // const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+        //   ${i18next.t("captiontitle", {ns: "ward_towline"})}
+        //   ${i18next.t(ward, {ns: "wards"})}`;
+        // d3.select(".fractionline").select("summary").text(fractionTableTitle);
+        // d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        showLineHover(settPudoLine.initHoverLine.coords);
-        pudoHr = settPudoLine.initHoverLine.indices[0];
-        pudoIdx = settPudoLine.initHoverLine.indices[1];
-        const thisTOD = findTOD([pudoHr, pudoIdx]);
-        const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
-        showHoverText(val, pudoHr, thisTOD);
+        // showLineHover(settPudoLine.initHoverLine.coords);
+        // pudoHr = settPudoLine.initHoverLine.indices[0];
+        // pudoIdx = settPudoLine.initHoverLine.indices[1];
+        // const thisTOD = findTOD([pudoHr, pudoIdx]);
+        // const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
+        // showHoverText(val, pudoHr, thisTOD);
 
-        initMapBox();
-        d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
-        d3.select(".maptable").select("caption")
-          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
-                  ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
-        const legendTexts = pudoMapSett.legendMenu[whichPUDO];
-        plotPudoLegend(legendTexts);
+        // initMapBox();
+        // d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
+        // d3.select(".maptable").select("caption")
+        //   .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
+        //           ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
+        // const legendTexts = pudoMapSett.legendMenu[whichPUDO];
+        // plotPudoLegend(legendTexts);
       });
   })
 })

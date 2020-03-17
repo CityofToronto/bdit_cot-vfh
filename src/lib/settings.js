@@ -186,9 +186,6 @@ settCityTodLine = {
       return d.tod;
     },
     getText: function(d) { // used for data table ONLY
-      // d is a number from 0 to 167
-      console.log("getText d: ", d)
-      console.log("e % 24: ", d.tod % 24)
       let dow;
       let hr = (d.tod % 24) < 10 ? `0${d.tod % 24}` : `${d.tod % 24}`;
       if (d.tod < 24) dow = "Monday"
@@ -199,42 +196,6 @@ settCityTodLine = {
       else if (d.tod < 144) dow = "Saturday"
       else dow = "Sunday"
       return `${dow} ${hr}:00`;
-    },
-    getSubText: function(data, day) { // used for data table ONLY
-      // d is a number from 0 to 167
-      var flatout = [];
-      data.map(function(d, i) { // array of length 168
-        if (day == "mon") {
-          if (d.tod < 24) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "tues") {
-          if (d.tod > 23 & d.tod < 48) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "wed") {
-          if (d.tod > 47 & d.tod < 72) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "thurs") {
-          if (d.tod > 71 & d.tod < 96) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "fri") {
-          if (d.tod > 95 & d.tod < 120) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "sat") {
-          if (d.tod > 119 & d.tod < 144) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "sun") {
-          if (d.tod > 143) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        }
-      })
-      return flatout;
     },
     // ticks: 28,
     getTickText: function(val) {
@@ -287,6 +248,28 @@ settCityTodLine = {
     },
     getText: function(d) {
       return i18next.t(d.id, {ns: "towline"});
+    },
+    getPair: function(o) {
+      var flatData = [].concat.apply(
+      [], o.map(function(d) {
+        return d.values;
+      }));
+
+      var lims = [], pairs = [];
+      if (selCityDay === "mon") lims = [0, 24];
+      else if (selCityDay === "tues") lims = [24, 48];
+      else if (selCityDay === "wed") lims = [48, 72];
+      else if (selCityDay === "thurs") lims = [72, 96];
+      else if (selCityDay === "fri") lims = [96, 120];
+      else if (selCityDay === "sat") lims = [120, 144];
+      else lims = [144, 168];
+      flatData.filter(function(d) {
+        if (d.tod >= lims[0] && d.tod < lims[1]) {
+          var col1 = (d.tod % 24) < 10 ? `0${d.tod % 24}:00` : `${d.tod % 24}:00`;
+          pairs.push([col1, d3.format("(,.0f")(d.value)]);
+        }
+      });
+      return pairs;
     }
   },
   extraXlabelX: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
@@ -311,7 +294,7 @@ settCityTodLine = {
   datatable: true,
   attachedToSvg: true,
   summaryId: "chrt-dt-tbl-citytod",
-  labelFor:"day",
+  labelFor:"day-city",
   menuLabel: i18next.t("menuLabel", {ns: "ward_towline"}),
   menuId: "submenu-citytod",
   actionId: "action-citytod",
@@ -514,8 +497,8 @@ settPudoLine = {
   summaryId: "chrt-dt-tbl",
   labelFor:"day",
   menuLabel: i18next.t("menuLabel", {ns: "ward_towline"}),
-  menuId: "fraction-submenu",
-  actionId: "fraction-action",
+  menuId: "submenu-fraction",
+  actionId: "action-fraction",
   menuData: [{val:"mon", text: "Monday"}, {val:"tues", text: "Tuesday"},
             {val:"wed", text: "Wednesday"}, {val:"thurs", text: "Thursday"},
             {val:"fri", text: "Friday"}, {val:"sat", text: "Saturday"},

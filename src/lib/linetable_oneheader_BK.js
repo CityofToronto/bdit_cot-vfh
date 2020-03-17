@@ -5,7 +5,7 @@ function lineTable(svg, settings, data) {
       summaryId = sett.summaryId,
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
-      tableData, rowArray,
+      tableData,
       parent = sett.attachedToSvg ? svg.select(
         svg.classed("svg-shimmed") ?
           function(){return this.parentNode.parentNode;} :
@@ -42,9 +42,6 @@ function lineTable(svg, settings, data) {
 
       tableData = (sett.tableData && typeof sett.tableData === "function") ?
         sett.tableData.call(sett, filteredData) : filteredData;
-
-      rowArray = (sett.z.getPair && typeof sett.z.getPair === "function") ?
-        sett.z.getPair.call(sett, filteredData) : tableData;
 
     if (details.empty()) {
       details = parent
@@ -84,6 +81,7 @@ function lineTable(svg, settings, data) {
               }
             })
             .text(function(d) {
+              console.log(d.text)
               return d.text;
             })
 
@@ -141,24 +139,19 @@ function lineTable(svg, settings, data) {
       .remove();
 
     // Set number of rows by appending array in .data
-    // if (sett.menuData) {
-    //   dataRows = body.selectAll("tr")
-    //   .data(function (d) {
-    //     console.log("menuData d: ", d)
-    //     if (sett.x.getSubText) {
-    //       var pair = sett.x.getSubText.call(sett, tableData[0].values, day);
-    //       // pair = pair.map(function(d, i) {
-    //       //   return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
-    //       // });
-    //     }
-    //     console.log("return pair: ", pair)
-    //     return pair;
-    //   });
-    // }
     if (sett.menuData) {
-      console.log("sett.menuData true: ", rowArray)
       dataRows = body.selectAll("tr")
-      .data(rowArray);
+      .data(function (d) {
+        console.log("menuData d: ", d)
+        if (sett.x.getSubText) {
+          var pair = sett.x.getSubText.call(sett, tableData[0].values, day);
+          // pair = pair.map(function(d, i) {
+          //   return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
+          // });
+        }
+        console.log("return pair: ", pair)
+        return pair;
+      });
     }
     else {
       var flatout = [];
