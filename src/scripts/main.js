@@ -552,13 +552,13 @@ $(document).ready(function(){
         d3.select(".citytod").select("summary").text(citytodTableTitle);
         d3.select(".citytod").select("caption").text(citytodCaption);
 
-        // showFractionLine();
-        // const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
-        // const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
-        //   ${i18next.t("captiontitle", {ns: "ward_towline"})}
-        //   ${i18next.t(ward, {ns: "wards"})}`;
-        // d3.select(".fractionline").select("summary").text(fractionTableTitle);
-        // d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
+        showFractionLine();
+        const fractionTableTitle = `${i18next.t("tabletitle", {ns: "ward_towline"})}`;
+        const fractionCaptionTitle = `${i18next.t(whichPUDO, {ns: "pudo"})}
+          ${i18next.t("captiontitle", {ns: "ward_towline"})}
+          ${i18next.t(ward, {ns: "wards"})}`;
+        d3.select(".fractionline").select("summary").text(fractionTableTitle);
+        d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
         // showLineHover(settPudoLine.initHoverLine.coords);

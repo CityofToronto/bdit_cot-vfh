@@ -378,44 +378,7 @@ settPudoLine = {
       else if (d < 144) dow = "Saturday"
       else dow = "Sunday"
       return `${dow} ${hr}:00`;
-    },
-    getSubText: function(data, day) { // used for data table ONLY
-      // d is a number from 0 to 167
-      var flatout = [];
-
-      data.map(function(d, i) { // array of length 168
-        if (day == "mon") {
-          if (d.tod < 24) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "tues") {
-          if (d.tod > 23 & d.tod < 48) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "wed") {
-          if (d.tod > 47 & d.tod < 72) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "thurs") {
-          if (d.tod > 71 & d.tod < 96) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "fri") {
-          if (d.tod > 95 & d.tod < 120) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "sat") {
-          if (d.tod > 119 & d.tod < 144) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        } else if (day == "sun") {
-          if (d.tod > 143) {
-            flatout.push([`${d.tod % 24}:00`, d.value]);
-          }
-        }
-      })
-      return flatout;
-    },
+    },    
     // ticks: 28,
     getTickText: function(val) {
       const modVal = val % 24;
@@ -481,6 +444,28 @@ settPudoLine = {
         }, {});
         return thisPTC;
       } else return o;
+    },
+    getPair: function(o) {
+      var flatData = [].concat.apply(
+      [], o.map(function(d) {
+        return d.values;
+      }));
+
+      var lims = [], pairs = [];
+      if (day === "mon") lims = [0, 24];
+      else if (day === "tues") lims = [24, 48];
+      else if (day === "wed") lims = [48, 72];
+      else if (day === "thurs") lims = [72, 96];
+      else if (day === "fri") lims = [96, 120];
+      else if (day === "sat") lims = [120, 144];
+      else lims = [144, 168];
+      flatData.filter(function(d) {
+        if (d.tod >= lims[0] && d.tod < lims[1]) {
+          var col1 = (d.tod % 24) < 10 ? `0${d.tod % 24}:00` : `${d.tod % 24}:00`;
+          pairs.push([col1, d3.format("(,.0f")(d.value)]);
+        }
+      });
+      return pairs;     
     }
   },
   extraXlabelX: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},

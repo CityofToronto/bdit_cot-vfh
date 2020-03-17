@@ -1,4 +1,5 @@
 function lineTable(svg, settings, data) {
+  console.log("lineTable data: ", data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -43,7 +44,7 @@ function lineTable(svg, settings, data) {
         sett.tableData.call(sett, filteredData) : filteredData;
 
       rowArray = (sett.z.getPair && typeof sett.z.getPair === "function") ?
-        sett.z.getPair.call(sett, filteredData) : tableData;
+        sett.z.getPair.call(sett, filteredData) : filteredData;
 
     if (details.empty()) {
       details = parent
@@ -141,6 +142,7 @@ function lineTable(svg, settings, data) {
 
     // Set number of rows by appending array in .data
     if (sett.menuData) {
+      console.log("sett.menuData: ", rowArray)
       dataRows = body.selectAll("tr")
       .data(rowArray);
     }
