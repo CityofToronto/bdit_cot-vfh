@@ -43,8 +43,10 @@ let nnLayer = {}; // neighbourhood shapefiles
 let ptcvolTOD = "allday"; // Time of day for PTC vol fraction
 let selShare = "req"; // Requested vs Matched shared trips
 let selCityDay = "mon"; // sub-menu selector, city tod trip count table
+let selCityLims = [0, 24];
 let ward = "w1";
 let day = "mon"; // sub-menu selector, ward trip count table
+let selPudoLims = [0, 24];
 let pudoDay = "Monday"; // Ward PUDO for whole week
 let pudoTOD = "amPeak"; // Time of day for ward PUDOs
 let pudoIdx; // index of PUDO line data for hover tool text
@@ -370,6 +372,7 @@ function uiHandler(event) {
 
   if (event.target.id === "submenu-citytod") {
     selCityDay = event.target.value; // "mon" initially
+    selCityLims = globalFns.getLims(selCityDay);
 
     // Hide table before "Show Data" clicked
     hideTable("citytod");
@@ -442,6 +445,7 @@ function uiHandler(event) {
   // Table menu for trip fraction lineChart table
   else if (event.target.id === settPudoLine.menuId) {
     day = event.target.value;
+    selPudoLims = globalFns.getLims(day);
     updateTableCaption();
     lineTable(fractionLineSvg, settPudoLine, thisPTC);
 
@@ -561,20 +565,20 @@ $(document).ready(function(){
         d3.select(".fractionline").select("caption").text(`${fractionCaptionTitle} on ${i18next.t(day, {ns: "days"})}`);
 
         // Show hoverLine and tooltip for ward 1, Mon, amPeak, Humber College
-        // showLineHover(settPudoLine.initHoverLine.coords);
-        // pudoHr = settPudoLine.initHoverLine.indices[0];
-        // pudoIdx = settPudoLine.initHoverLine.indices[1];
-        // const thisTOD = findTOD([pudoHr, pudoIdx]);
-        // const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
-        // showHoverText(val, pudoHr, thisTOD);
+        showLineHover(settPudoLine.initHoverLine.coords);
+        pudoHr = settPudoLine.initHoverLine.indices[0];
+        pudoIdx = settPudoLine.initHoverLine.indices[1];
+        const thisTOD = findTOD([pudoHr, pudoIdx]);
+        const val = d3.format("(,")(ptcFraction[ward][whichPUDO][pudoIdx]);
+        showHoverText(val, pudoHr, thisTOD);
 
-        // initMapBox();
-        // d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
-        // d3.select(".maptable").select("caption")
-        //   .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
-        //           ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
-        // const legendTexts = pudoMapSett.legendMenu[whichPUDO];
-        // plotPudoLegend(legendTexts);
+        initMapBox();
+        d3.select(".maptable").select("summary").text(`${i18next.t("tabletitle", {ns: "pudoMap"})}`);
+        d3.select(".maptable").select("caption")
+          .html(`${i18next.t("tableCaption", {ns: "pudoMap"})} in ${i18next.t(ward, {ns: "wards"})},
+                  ${pudoDay}, ${i18next.t(pudoTOD, {ns: "timewinSpan-wkday"})}`);
+        const legendTexts = pudoMapSett.legendMenu[whichPUDO];
+        plotPudoLegend(legendTexts);
       });
   })
 })

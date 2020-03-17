@@ -1,4 +1,20 @@
 // -----------------------------------------------------------------------------
+globalFns = {
+  getLims: function(...args) {
+    var thisDay = args[0];
+
+   var lims = [];
+    if (thisDay === "mon") lims = [0, 24];
+    else if (thisDay === "tues") lims = [24, 48];
+    else if (thisDay === "wed") lims = [48, 72];
+    else if (thisDay === "thurs") lims = [72, 96];
+    else if (thisDay === "fri") lims = [96, 120];
+    else if (thisDay === "sat") lims = [120, 144];
+    else lims = [144, 168];
+    return lims;
+  }
+};
+
 // Fig 1 - Avg daily trips lineChart
 settTpdLine = {
   alt: i18next.t("alt", {ns: "line"}),
@@ -31,6 +47,7 @@ settTpdLine = {
     const arr = [].concat.apply([], data.map(function(d) {
       return d.values;
     }));
+    console.log("tableData return: ", arr)
     return arr;
   },
   x: {
@@ -255,16 +272,9 @@ settCityTodLine = {
         return d.values;
       }));
 
-      var lims = [], pairs = [];
-      if (selCityDay === "mon") lims = [0, 24];
-      else if (selCityDay === "tues") lims = [24, 48];
-      else if (selCityDay === "wed") lims = [48, 72];
-      else if (selCityDay === "thurs") lims = [72, 96];
-      else if (selCityDay === "fri") lims = [96, 120];
-      else if (selCityDay === "sat") lims = [120, 144];
-      else lims = [144, 168];
+      var pairs = [];
       flatData.filter(function(d) {
-        if (d.tod >= lims[0] && d.tod < lims[1]) {
+        if (d.tod >= selCityLims[0] && d.tod < selCityLims[1]) {
           var col1 = (d.tod % 24) < 10 ? `0${d.tod % 24}:00` : `${d.tod % 24}:00`;
           pairs.push([col1, d3.format("(,.0f")(d.value)]);
         }
@@ -451,16 +461,9 @@ settPudoLine = {
         return d.values;
       }));
 
-      var lims = [], pairs = [];
-      if (day === "mon") lims = [0, 24];
-      else if (day === "tues") lims = [24, 48];
-      else if (day === "wed") lims = [48, 72];
-      else if (day === "thurs") lims = [72, 96];
-      else if (day === "fri") lims = [96, 120];
-      else if (day === "sat") lims = [120, 144];
-      else lims = [144, 168];
+      var pairs = [];
       flatData.filter(function(d) {
-        if (d.tod >= lims[0] && d.tod < lims[1]) {
+        if (d.tod >= selPudoLims[0] && d.tod < selPudoLims[1]) {
           var col1 = (d.tod % 24) < 10 ? `0${d.tod % 24}:00` : `${d.tod % 24}:00`;
           pairs.push([col1, d3.format("(,.0f")(d.value)]);
         }
