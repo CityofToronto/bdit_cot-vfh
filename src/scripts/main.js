@@ -370,7 +370,6 @@ function uiHandler(event) {
 
   if (event.target.id === "submenu-citytod") {
     selCityDay = event.target.value; // "mon" initially
-    console.log("selCityDay: ", selCityDay)
 
     // Hide table before "Show Data" clicked
     hideTable("citytod");

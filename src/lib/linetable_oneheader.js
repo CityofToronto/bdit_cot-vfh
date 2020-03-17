@@ -1,5 +1,4 @@
 function lineTable(svg, settings, data) {
-  console.log("lineTable data: ",data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -141,22 +140,7 @@ function lineTable(svg, settings, data) {
       .remove();
 
     // Set number of rows by appending array in .data
-    // if (sett.menuData) {
-    //   dataRows = body.selectAll("tr")
-    //   .data(function (d) {
-    //     console.log("menuData d: ", d)
-    //     if (sett.x.getSubText) {
-    //       var pair = sett.x.getSubText.call(sett, tableData[0].values, day);
-    //       // pair = pair.map(function(d, i) {
-    //       //   return [d[0], sett.formatNum ? sett.formatNum(d[1]) : d[1]];
-    //       // });
-    //     }
-    //     console.log("return pair: ", pair)
-    //     return pair;
-    //   });
-    // }
     if (sett.menuData) {
-      console.log("sett.menuData true: ", rowArray)
       dataRows = body.selectAll("tr")
       .data(rowArray);
     }
