@@ -76,7 +76,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
           selectedPath.moveToFront();
           d3.selectAll(".subway").moveToFront(); // otherwise lines disappear
           var tr1 = d.properties.area_name.split(" (")[0];
-          var tr2 = `${d3.format("(.1f")(val)}${sett.tooltip.units}`;
+          const tr2 = sett.tooltip.values.call(sett, val);
           hoverlineTip(vktMapTip, tr1, tr2, sett);
         }
       })

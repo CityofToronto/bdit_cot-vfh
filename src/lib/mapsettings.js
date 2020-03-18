@@ -26,7 +26,11 @@ vktMapSett = {
   tooltip: {
     pageX: 400,
     pageY: 450,
-    units: "% PTC volume"
+    units: "% PTC volume",
+    values: function(val) {
+      tr2 = `${d3.format("(.1f")(val)}% PTC volume`;
+      return tr2;
+    }
   },
   datatable: true,
   attachedToSvg: true,
@@ -99,7 +103,11 @@ shareMapSett = {
   tooltip: {
     pageX: 400,
     pageY: 450,
-    units: "% shared"
+    units: "% shared",
+    values: function(val) {
+      tr2 = `${d3.format("(.0f")(val)}% shared`;
+      return tr2;
+    }
   },
   datatable: true,
   attachedToSvg: true,
@@ -135,7 +143,7 @@ shareMapSett = {
       let pairs = [];
       o.filter(function(d) {        
           var col1 = i18next.t(d.area_s_cd, {ns: "nhoods"});
-          pairs.push([col1, d3.format("(.1f")(d.prop)]);        
+          pairs.push([col1, d3.format("(.0f")(d.prop)]);        
       });
       return pairs;
     }
