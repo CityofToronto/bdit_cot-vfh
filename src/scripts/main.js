@@ -189,7 +189,6 @@ function showFractionLine() {
   // Keep only the timeseries data belonging to whichPUDO selection for the current ward
   // This data will be passed into createOverlay and lineTable
   thisPTC = settPudoLine.z.reduceData(ptcFraction[ward]);
-  console.log("thisPTC: ", thisPTC)
 
   const fractionLine = lineChart(fractionLineSvg, settPudoLine, ptcFraction[ward]);
   rotateLabels("fractionline", settPudoLine); // axes labels
@@ -359,7 +358,7 @@ function uiHandler(event) {
   }
 
   if (event.target.id === "share-menu") {
-    selShare = event.target.value; // "All day" initially
+    selShare = event.target.value; // "Shared trips requested" initially
     showShareMap();
     shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
     d3.select(".sharemap").select("summary").text(shareMapTableTitle);
@@ -544,9 +543,9 @@ $(document).ready(function(){
           ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
-        // showShareMap();
-        // shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
-        // d3.select(".sharemap").select("summary").text(shareMapTableTitle);
+        showShareMap();
+        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
         showCityTodLine();
         const citytodTableTitle = `${i18next.t("tabletitle", {ns: "city_tod"})}`;

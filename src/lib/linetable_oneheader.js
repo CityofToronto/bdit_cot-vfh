@@ -1,5 +1,4 @@
 function lineTable(svg, settings, data) {
-  console.log("lineTable data: ", data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -42,8 +41,6 @@ function lineTable(svg, settings, data) {
 
       rowArray = (sett.z.getPair && typeof sett.z.getPair === "function") ?
         sett.z.getPair.call(sett, filteredData) : filteredData;
-
-    console.log("rowArray: ", rowArray)
 
     if (details.empty()) {
       details = parent
