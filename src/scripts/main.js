@@ -149,7 +149,6 @@ function showTPDline() {
 
 function showVktMap() {
   const fullDimExtent = fullExtent(vktMapSett, ptcVol);
-  // vktMapSvg.id = "legIdVkt"; // used in choropleth to identify the svg
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -159,7 +158,7 @@ function showVktMap() {
 
 function showShareMap() {
   const fullDimExtent = fullExtent(shareMapSett, shareProp);
-  shareMapSvg.id = "legIdShare"; // used in choropleth to identify the svg
+  shareMapSvg.legTitle = shareMapLegTitle;
   choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -367,11 +366,6 @@ function uiHandler(event) {
     showShareMap();
     shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
     d3.select(".sharemap").select("summary").text(shareMapTableTitle);
-    // let legTitle = selShare === "req" ?
-    //   `${i18next.t("legendTitle", {ns: "share_map"})}` :
-    //   `${i18next.t("legendTitleMatched", {ns: "share_map"})}`;
-    // d3.select("#sharelg .legendTitle")
-    //   .text(legTitle);
   }
 
   if (event.target.id === "submenu-citytod") {
@@ -543,12 +537,15 @@ $(document).ready(function(){
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
         d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
+        vktMapSvg.id = "legIdVkt"; // used in choropleth to identify and rm the svg
+        vktMapSvg.legTitle = i18next.t("legendTitle", {ns: "vkt_map"});
         showVktMap();
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
           ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
-        shareMapLegTitle = i18next.t("legendTitle", {ns: "share_map"})
+        shareMapLegTitle = i18next.t("legendTitle", {ns: "share_map"});
+        shareMapSvg.id = "legIdShare"; // used in choropleth to identify and rm the svg
         showShareMap();
         shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);

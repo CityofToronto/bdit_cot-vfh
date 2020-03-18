@@ -7,6 +7,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   cbLayer = chartInner.select(".cbdata"),
+  legSvg = cbLayer.select(".legSvg"),
   colourScale = d3.scaleSequential().domain([fullDimExtent[0], fullDimExtent[1]])
               .interpolator(mergedSettings.colour.name),
   // hoverlineTip = function(div, tr1, tr2, sett) {
@@ -112,43 +113,44 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
   },
   drawLegend = function() {
     // https://d3-legend.susielu.com/
-    var sett = this.settings,
-      svgLeg;
+    var sett = this.settings;
 
-    if (cbLayer.empty()) {
+    if (legSvg.empty()) {
       cbLayer = chartInner.append("g")
         .attr("class", "cbdata")
         .attr("id", sett.legend.id);
 
       legSvg = cbLayer
         .append("svg")
-        .attr("id", svg.id)
         .attr("class", "legSvg");
+
+      legSvg.append("g")
+        .attr("id", svg.id)
+        .attr("class", "legendShared")
+        .attr("transform", "translate(" + sett.legend.trans[0] + "," +
+              sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
+        .attr("role", "img")
+        .attr("aria-label", mergedSettings.legend.alt);
     } else {
-      d3.select(`#${svg.id}`).selectAll(".legendShared").remove();
+      if (sett.rmlegend) {
+        d3.select(`#${svg.id}`).select(".legendShared")
+          .remove();
+      }      
     }
 
-    legSvg.append("g")
-      .attr("class", "legendShared")
-      .attr("transform", "translate(" + sett.legend.trans[0] + "," +
-            sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
-      .attr("role", "img")
-      .attr("aria-label", mergedSettings.legend.alt);
-
-    var legendSequential = d3.legendColor()
+    var legendParams = d3.legendColor()
       .shapeWidth(30)
       .shapeHeight(10)
       .shapePadding(1)
-      // .title(sett.legend.title)
-      .title(shareMapLegTitle)
+      .title(svg.legTitle)
       .cells(sett.legend.cells)
       .orient(sett.legend.orient)
       .labelOffset(5)
       .labelAlign(sett.legend.labelAlign)
-      .scale(colourScale)
+      .scale(colourScale);
 
-    legSvg.select(".legendShared")
-      .call(legendSequential);
+    legSvg.select(`#${svg.id}`)
+      .call(legendParams);
 
   },
   clear = function() {

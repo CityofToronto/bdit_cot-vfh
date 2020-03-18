@@ -87,6 +87,7 @@ shareMapSett = {
   },
   legend: {
     maplegend: true,
+    rmlegend: true,
     alt: "Shared trips map legend",
     id: "sharelg",
     title: i18next.t("legendTitle", {ns: "share_map"}),
