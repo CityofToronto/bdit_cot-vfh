@@ -55,6 +55,7 @@ let whichPUDO = "pudo"; // Get both pickups and dropoffs for ward fraction
 
 // titles that change with selectors
 let shareMapTableTitle;
+let shareMapLegTitle;
 let citytodCaption;
 
 // Chart SVG names
@@ -148,6 +149,7 @@ function showTPDline() {
 
 function showVktMap() {
   const fullDimExtent = fullExtent(vktMapSett, ptcVol);
+  // vktMapSvg.id = "legIdVkt"; // used in choropleth to identify the svg
   choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -157,6 +159,7 @@ function showVktMap() {
 
 function showShareMap() {
   const fullDimExtent = fullExtent(shareMapSett, shareProp);
+  shareMapSvg.id = "legIdShare"; // used in choropleth to identify the svg
   choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
 
   // Create data table for VKT vol map
@@ -359,6 +362,8 @@ function uiHandler(event) {
 
   if (event.target.id === "share-menu") {
     selShare = event.target.value; // "Shared trips requested" initially
+    shareMapLegTitle = selShare === "req" ? i18next.t("legendTitle", {ns: "share_map"}) :
+      i18next.t("legendTitleMatched", {ns: "share_map"});
     showShareMap();
     shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
     d3.select(".sharemap").select("summary").text(shareMapTableTitle);
@@ -543,6 +548,7 @@ $(document).ready(function(){
           ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
+        shareMapLegTitle = i18next.t("legendTitle", {ns: "share_map"})
         showShareMap();
         shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);

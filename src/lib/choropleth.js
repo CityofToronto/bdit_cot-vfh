@@ -122,18 +122,14 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
 
       legSvg = cbLayer
         .append("svg")
+        .attr("id", svg.id)
         .attr("class", "legSvg");
-    }
-    else {
-      // Remove the svg then reappend an svg to cbLayer
-      d3.select('.legSvg').remove();
-      legSvg = cbLayer
-        .append("svg")
-        .attr("class", "legSvg");
+    } else {
+      d3.select(`#${svg.id}`).selectAll(".legendShared").remove();
     }
 
     legSvg.append("g")
-      .attr("class", "legendSequential")
+      .attr("class", "legendShared")
       .attr("transform", "translate(" + sett.legend.trans[0] + "," +
             sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
       .attr("role", "img")
@@ -143,14 +139,15 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       .shapeWidth(30)
       .shapeHeight(10)
       .shapePadding(1)
-      .title(sett.legend.title)
+      // .title(sett.legend.title)
+      .title(shareMapLegTitle)
       .cells(sett.legend.cells)
       .orient(sett.legend.orient)
       .labelOffset(5)
       .labelAlign(sett.legend.labelAlign)
       .scale(colourScale)
 
-    legSvg.select(".legendSequential")
+    legSvg.select(".legendShared")
       .call(legendSequential);
 
   },
