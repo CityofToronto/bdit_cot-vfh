@@ -57,14 +57,14 @@ vktMapSett = {
     getKeys: function(d) {
       const keys = Object.keys(d[0]); // ["area_s_cd", "prop"]
       return [i18next.t(keys[0], {ns: "vkt_map"}), i18next.t(keys[1], {ns: "vkt_map"})];
-    }
-  },
-  pair: {
-    getValues: function(d) { // used for data table ONLY
-      // d = { area_s_cd: 77, prop: 7.88722624681311 }
-      let n = Object.values(d)[0];
-      let val = d3.format("(.1f")(Object.values(d)[1]);
-      return [i18next.t(n, {ns: "nhoods"}), val];
+    },
+    getPair: function(o) {
+      let pairs = [];
+      o.filter(function(d) {        
+          var col1 = i18next.t(d.area_s_cd, {ns: "nhoods"});
+          pairs.push([col1, d3.format("(.1f")(d.prop)]);        
+      });
+      return pairs;
     }
   }
 }

@@ -539,10 +539,10 @@ $(document).ready(function(){
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
         d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
-        // showVktMap();
-        // const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
-        //   ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
-        // d3.select(".vktmap").select("summary").text(vktMapTableTitle);
+        showVktMap();
+        const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
+          ${i18next.t(ptcvolTOD, {ns: "menus"})}`;
+        d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         // showShareMap();
         // shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
