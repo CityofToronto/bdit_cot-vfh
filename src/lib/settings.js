@@ -124,6 +124,25 @@ settTpdLine = {
     },
     getText: function(d) {
       return i18next.t(d.id, {ns: "districts"});
+    },
+    getPair: function(data) {
+      const arr = [].concat.apply([], data.map(function(d) {
+        console.log(d)
+        return d.values;
+      }));
+
+      let flatout = [];
+      const studyDate =  new Date("2019", "02"); // Jan is 0
+      
+      arr.map(function(d) {
+        if (d) {
+          let th = (new Date(Object.values(d)[0]) > studyDate) ?
+            `${Object.values(d)[0]} (post-study period)` : Object.values(d)[0];
+          let td = d3.format("(,")(Object.values(d)[1]);
+          flatout.push([th, td]);
+        }
+      })
+      return flatout;
     }
   },
   showLabels: false,

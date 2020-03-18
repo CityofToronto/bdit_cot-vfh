@@ -5,7 +5,7 @@ function lineTable(svg, settings, data) {
       summaryId = sett.summaryId,
       filteredData = (sett.filterData && typeof sett.filterData === "function") ?
         sett.filterData.call(sett, data) : data,
-      tableData, rowArray,
+      rowArray,
       parent = sett.attachedToSvg ? svg.select(
         svg.classed("svg-shimmed") ?
           function(){return this.parentNode.parentNode;} :
@@ -40,11 +40,10 @@ function lineTable(svg, settings, data) {
       },
       table, header, headerCols, body, dataRows;
 
-      tableData = (sett.tableData && typeof sett.tableData === "function") ?
-        sett.tableData.call(sett, filteredData) : filteredData;
-
       rowArray = (sett.z.getPair && typeof sett.z.getPair === "function") ?
         sett.z.getPair.call(sett, filteredData) : filteredData;
+
+    console.log("rowArray: ", rowArray)
 
     if (details.empty()) {
       details = parent
@@ -141,27 +140,8 @@ function lineTable(svg, settings, data) {
       .remove();
 
     // Set number of rows by appending array in .data
-    if (sett.menuData) {
-      console.log("sett.menuData: ", rowArray)
-      dataRows = body.selectAll("tr")
+    dataRows = body.selectAll("tr")
       .data(rowArray);
-    }
-    else {
-      var flatout = [];
-      dataRows = body.selectAll("tr")
-        .data(function (d) {
-            tableData.map(function(d) {
-              if (d) {
-                return flatout.push(
-                  // [ "Trinity-Bellwoods", "6.3" ]
-                  sett.pair.getValues.call(sett, d)
-                );
-              }
-            })
-            // [["Bay Street Corridor", "7.7"],["Kensington-Chinatown", "7.5"],["University", "7.0" ]]
-          return flatout;
-        });
-    }
 
     dataRow = dataRows
       .enter()

@@ -535,9 +535,9 @@ $(document).ready(function(){
         pageTexts();
 
         // Charts and Maps
-        // showTPDline();
-        // const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
-        // d3.select(".tpdline").select("summary").text(tpdTableTitle);
+        showTPDline();
+        const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
+        d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
         // showVktMap();
         // const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
