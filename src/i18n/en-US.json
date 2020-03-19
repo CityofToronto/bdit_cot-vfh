@@ -316,8 +316,7 @@
     "share_map": {
       "legendTitle": "Shared trips requests made (%)",
       "legendTitleMatched": "Shared trip requests matched (%)",
-      "tabletitle":"Shared trip requests (%), Top-10 neighbourhoods",
-      "tableMatchTitle":"Shared trips matched (%), Top-10 neighbourhoods",
+      "tabletitle":"{{thisTitle}}, Top-10 neighbourhoods",
       "x_label": "Neighbourhood",
       "y_label": "Proportion of shared requests (%)",
       "area_s_cd": "Neighbourhood",

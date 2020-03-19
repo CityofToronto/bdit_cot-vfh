@@ -364,7 +364,8 @@ function uiHandler(event) {
     shareMapLegTitle = selShare === "req" ? i18next.t("legendTitle", {ns: "share_map"}) :
       i18next.t("legendTitleMatched", {ns: "share_map"});
     showShareMap();
-    shareMapTableTitle = `${i18next.t("tableMatchTitle", {ns: "share_map"})}`;
+    shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map",
+                            thisTitle: shareMapLegTitle})}`;
     d3.select(".sharemap").select("summary").text(shareMapTableTitle);
   }
 
@@ -547,7 +548,9 @@ $(document).ready(function(){
         shareMapLegTitle = i18next.t("legendTitle", {ns: "share_map"});
         shareMapSvg.id = "legIdShare"; // used in choropleth to identify and rm the svg
         showShareMap();
-        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        // shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
+        shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map",
+                            thisTitle: shareMapLegTitle})}`;
         d3.select(".sharemap").select("summary").text(shareMapTableTitle);
 
         showCityTodLine();
