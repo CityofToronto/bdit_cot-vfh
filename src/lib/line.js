@@ -7,7 +7,8 @@ function lineChart(svg, settings, rawdata) {
   // usual: y.domain(sett.y.getDomain.call(sett, flatData))
   // Else data = rawdata[for the selected line] but the scale is calculated from
   // the FULL EXTENT of the rawdata: y.domain(fullExtent(sett, rawdata))
-  var data = settings.z.reduceData.call(settings, rawdata),
+  var data = settings.z.reduceData ? settings.z.reduceData.call(settings, rawdata) :
+    rawdata,
   mergedSettings = settings,
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
@@ -16,6 +17,9 @@ function lineChart(svg, settings, rawdata) {
   chartInner = svg.select("g.margin-offset"),
   dataLayer = chartInner.select(".data"),
   line = d3.line()
+    .defined(function(d) {
+      if (d) return d;
+    })
     .x(function() {
       return x(mergedSettings.x.getValue.apply(mergedSettings, arguments));
     })
@@ -91,6 +95,7 @@ function lineChart(svg, settings, rawdata) {
     lines
       .exit()
         .remove();
+
     labels = dataLayer.selectAll(".line-label")
       .data(
         function() {
@@ -136,7 +141,7 @@ function lineChart(svg, settings, rawdata) {
           .attr("fill", "#000")
           .attr("x", innerWidth)
           // .attr("dy", "-0.5em")
-          .attr("dy", "48")
+          .attr("dy", sett.x.chartlabel)
           .attr("text-anchor", "end")
           .text(sett.x.label);
 

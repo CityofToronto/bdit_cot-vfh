@@ -134,7 +134,7 @@ b) Also define all the JS resources at the bottom of  `app.html`:
   <script type="text/javascript" src="/resources/lib/queue.v1.min.js"></script>
   <script type="text/javascript" src="/resources/lib/utils.js"></script>
   <script type="text/javascript" src="/resources/lib/line.js"></script>
-  <script type="text/javascript" src="/resources/lib/aux.js"></script>
+  <script type="text/javascript" src="/resources/lib/helpers.js"></script>
   <!--@if ENV!='prod'-->
   <script type="text/javascript">
   </script>

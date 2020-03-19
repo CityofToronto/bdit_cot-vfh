@@ -1,4 +1,202 @@
 // -----------------------------------------------------------------------------
+// https://www.d3-graph-gallery.com/graph/custom_legend.html
+function lineLegend(svg, sett, data) {
+  const keys = sett.z.getLegendKeys.call(sett, data);
+
+  // Add one line in the legend for each name
+  const x1 = sett.legend.x[0];
+  const x2 = sett.legend.x[1];
+  const y = sett.legend.y;
+  const dy = sett.legend.dy;
+  const textdx = sett.legend.textdelta[0];
+  const textdy = sett.legend.textdelta[1];
+  svg
+    .selectAll("tpdLegLine")
+    .data(keys)
+    .enter()
+    .append("line")
+      .attr("class", function(d, i) {
+        return `legendline legendline${i + 1}`;
+      })
+      .attr("x1", x1)
+      .attr("x2", x2)
+      .attr("y1", function(d, i) {
+        return y + i * dy;
+      })
+      .attr("y2", function(d, i) {
+        return y + i * dy;
+      });
+
+  // Add legend text to each line
+  svg.selectAll("tpdLegText")
+    .data(keys)
+    .enter()
+    .append("text")
+      .attr("x", x2 + textdx)
+      .attr("y", function(d, i) { return (y + textdy) + i * dy;})
+      .text(function(d) { return d; });
+}
+
+// -----------------------------------------------------------------------------
+// Hover line for lineChart, plus tooltip
+function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
+  chartObj.svg.datum(chartObj);
+  chartObj.data = data;
+
+  const bisect = d3.bisector((d) => {
+    return chartObj.settings.x.getValue(d);
+  }).left;
+
+  let overlay = chartObj.svg.select(`#${chartObj.svg.id} .data .overlay`);
+  let rect;
+  let circle;
+  let tr1Rect;
+  let tr2Rect;
+  let tr1Text;
+  let tr2Text;
+  let removedSelection = d3.select();
+
+  const h = chartObj.settings.tooltip.height;
+  const w = chartObj.settings.tooltip.width;
+
+  if (overlay.empty()) {
+    overlay = chartObj.svg.select(`#${chartObj.svg.id} .data`)
+        .append("g")
+        .attr("class", "overlay");
+
+    rect = overlay
+        .append("rect")
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr("class", "overlay");
+
+    circle = overlay.append("circle")
+      .attr("class", "hoverCircle")
+      .attr("r", 7)
+      .style("visibility", "hidden");
+
+    tr1Rect = overlay.append("rect")
+      .attr("class", "hoverRectTr1")
+      .attr("width", w)
+      .attr("height", h)
+      .style("visibility", "hidden");
+
+    tr2Rect = overlay.append("rect")
+      .attr("class", "hoverRectTr2")
+      .attr("width", w)
+      .attr("height", h)
+      .style("visibility", "hidden");
+
+    tr1Text = overlay.append("text")
+      .attr("class", "tr1 hoverText")
+      .style("visibility", "hidden");
+
+    tr2Text = overlay.append("text")
+      .attr("class", "tr2 hoverText")
+      .style("visibility", "hidden");
+
+  } else {
+    console.log("ELSE!!!")
+    rect = overlay.select("rect");
+    circle = overlay.select("circle");
+    tr1Rect = overlay.select(".hoverRectTr1");
+    tr2Rect = overlay.select(".hoverRectTr2");
+    tr1Text = overlay.select(".tr1.hoverText");
+    tr2Text = overlay.select(".tr2.hoverText");
+  }
+
+  rect
+      .attr("width", chartObj.settings.innerWidth)
+      .attr("height", chartObj.settings.innerHeight)
+      .on("touchmove mousemove", function(e) {
+        const chartObj = d3.select(this.ownerSVGElement).datum();
+        const x = d3.mouse(this)[0];
+        const xD = chartObj.x.invert(x);
+        const i = bisect(chartObj.data, xD);
+        let d0;
+        let d1;
+        if (i === 0) { // handle edge case
+          d0 = data[i];
+        } else {
+          d0 = data[i - 1];
+          d1 = data[i];
+        }
+
+        let d;
+        if (d0 && d1) {
+          d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
+        } else if (d0) {
+          d = d0;
+        } else {
+          d = d1;
+        }
+
+        const shiftX = chartObj.settings.tooltip.shiftX;
+        const shiftY = chartObj.settings.tooltip.shiftY;
+        const thisX = chartObj.x(chartObj.settings.x.getValue(d));
+        const thisY = chartObj.y(d.value);
+        const textdy = chartObj.settings.tooltip.textdy;
+
+        circle
+          .attr("transform", `translate(${thisX},${thisY})`)
+          .style("visibility", "visible");
+
+
+        tr1Rect
+          .attr("transform", `translate(${thisX},${thisY + shiftY})`)
+          .style("visibility", "visible");
+
+        tr2Rect
+            .attr("transform", `translate(${thisX},${thisY + shiftY + h})`)
+            .style("visibility", "visible");
+
+        tr1Text.html(chartObj.settings.x.getText(d))
+            .attr("transform", `translate(${thisX},${thisY})`)
+            .attr("x", shiftX)
+            .attr("y", shiftY + h/2 + textdy)
+            .style("visibility", "visible");
+
+        tr2Text.html(`${chartObj.settings.y.getText(d)}
+                      ${chartObj.settings.tooltip.units}`)
+            .attr("transform", `translate(${thisX},${thisY})`)
+            .attr("x", shiftX)
+            .attr("y", shiftY + h + h/2 + textdy)
+            .style("visibility", "visible");
+
+        if (onMsOverCb && typeof onMsOverCb === "function") {
+          // Pass d to generalOverlay callback in main.js
+          onMsOverCb(d);
+        }
+      })
+      .on("touchleave mouseleave", function() {
+        if (onMsOutCb && typeof onMsOutCb === "function") {
+          onMsOutCb();
+        }
+      })
+      .on("click", function() {
+        if (onMsClickCb && typeof onMsClickCb === "function") {
+          onMsClickCb();
+        }
+      });
+}
+
+// -----------------------------------------------------------------------------
+// Tooltip hover (striped table)
+function hoverlineTip(div, tr1, tr2, sett) {
+  const makeTable = function() {
+    let rtnTable = `<table class="table-striped"><tr><td>${tr1}</td></tr>`
+    rtnTable = rtnTable.concat(`<tr><td>${tr2}`);
+    rtnTable = rtnTable.concat("</table>");
+    return rtnTable;
+  };
+  div.html(makeTable())
+      .style("opacity", .999)
+      .style("left", ((d3.event.pageX - sett.tooltip.pageX) + "px"))
+      .style("top", ((d3.event.pageY - sett.tooltip.pageY) + "px"))
+      .style("pointer-events", "none")
+      .style("position", "absolute");
+}
+
 // Small relations
 function findTOD(...args) {
   let dow;
@@ -32,10 +230,9 @@ function findTOD(...args) {
 // Flatten data arrays in object to find full extent of values
 function fullExtent(sett, dataObj) {
   let keys = Object.keys(dataObj);
-
   keys = keys.filter((x)=> {
      return x !== "keys";
-  })
+  });
 
   eachArray=[];
   for (p = 0; p < keys.length; p++) {
@@ -44,7 +241,9 @@ function fullExtent(sett, dataObj) {
   const concatObj = [].concat.apply([], eachArray);
   let flatData = (concatObj[0] && typeof concatObj[0] === "object") ?
   [].concat.apply([], concatObj.map(function(d) {
-    return sett.z.getDataPoints.call(sett, d);
+    if (sett.z.getDataPoints.call(sett, d)) {
+      return sett.z.getDataPoints.call(sett, d);
+    }
   })) : concatObj;
   flatData = flatData.sort(function(a, b) {return a-b;});
   return d3.extent(flatData);
@@ -53,18 +252,18 @@ function fullExtent(sett, dataObj) {
 // Save hoverLine position when frozen
 function saveHoverLinePos() {
   saveHoverPos = []; // clear
-  let x1 = d3.select(".hoverLine").attr("x1");
-  let x2 = d3.select(".hoverLine").attr("x2");
-  let y1 = d3.select(".hoverLine").attr("y1");
-  let y2 = d3.select(".hoverLine").attr("y2");
+  let x1 = d3.select("#fractionline .hoverLine").attr("x1");
+  let x2 = d3.select("#fractionline .hoverLine").attr("x2");
+  let y1 = d3.select("#fractionline .hoverLine").attr("y1");
+  let y2 = d3.select("#fractionline .hoverLine").attr("y2");
   return saveHoverPos.push(x1, x2, y1, y2);
 }
 // Hold frozen hoverLine when PUDO menu toggled
 function holdHoverLine(ptArray) {
-  d3.select(".hoverLine").attr("x1", ptArray[0]);
-  d3.select(".hoverLine").attr("x2", ptArray[1]);
-  d3.select(".hoverLine").attr("y1", ptArray[2]);
-  d3.select(".hoverLine").attr("y2", ptArray[3]);
+  d3.select("#fractionline .hoverLine").attr("x1", ptArray[0]);
+  d3.select("#fractionline .hoverLine").attr("x2", ptArray[1]);
+  d3.select("#fractionline .hoverLine").attr("y1", ptArray[2]);
+  d3.select("#fractionline .hoverLine").attr("y2", ptArray[3]);
 }
 // Display hover tool text in PUDO line chart
 function showHoverText(...args) {
@@ -81,9 +280,6 @@ function hideTable(divClassName) {
   d3.select(`.${divClassName} .chart-data-table`)
     .select("table")
     .style("display", "none");
-  // close details
-  d3.select(`.${divClassName} details`)
-    .attr("open", null);
 }
 
 // -----------------------------------------------------------------------------
@@ -168,7 +364,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
   rect
       .attr("width", chartObj.settings.innerWidth)
       .attr("height", chartObj.settings.innerHeight)
-      .on("mousemove", function(e) {
+      .on("touchmove mousemove", function(e) {
         // Allow hoverLine movement only if not frozen by mouse click
         if (d3.select(".mapboxgl-canvas-container").classed("moveable")) {
           const chartObj = d3.select(this.ownerSVGElement).datum();
@@ -198,13 +394,14 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           line.style("visibility", "visible");
 
           if (onMsOverCb && typeof onMsOverCb === "function") {
-            hr = i % 24;
+            let format_hr = (i % 24) < 10 ? `0${i % 24}` : `${i % 24}`;
+            hr = (i % 24);
             val = d3.format("(,")(data[Object.keys(data)[1]][i]);
             idx = data.keys.values[i];
             thisTOD = findTOD([hr, idx]);
             const updateText = [{
               id: 1,
-              text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${val}, ${thisTOD[0]} ${hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`
+              text: `${i18next.t("y_label", {ns: "ward_towline"})}: ${val}, ${thisTOD[0]} ${format_hr}:00 (${i18next.t(thisTOD[1], {ns: "timewin"})})`
             }];
             hoverTextBind(updateText);
 
@@ -215,7 +412,7 @@ function createOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
           }
         }
       })
-      .on("mouseout", function() {
+      .on("touchleave mouseleave", function() {
         if (onMsOutCb && typeof onMsOutCb === "function") {
           onMsOutCb();
         }

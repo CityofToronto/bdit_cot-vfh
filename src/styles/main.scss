@@ -20,18 +20,19 @@
 		font-size: 1.125em;
 		font-family: "Roboto";
 	}
-	h3 {
+	p {
+		margin-top: 20px;
+	}
+	h2 {
 	  margin-top: 35px !important;
+	}
+	.spacer div {
+		height: 1px !important;
 	}
 	.section-text {
 		margin-top: 20px;
 	}
-	label {
-		margin-top: 30px;
-	}
-	.form-control {
-	  margin-top: 20px;
-	}
+
 	.midtexts {
 	  margin-top: 20px;
 	}
@@ -56,7 +57,7 @@
 		font-size: 15.3px;
 	}
 	.fractionline .chart-data-table {
-		margin-top: 84px;
+		margin-top: 9px;
 	}
 	details {
 	  padding-bottom: 0em;
@@ -65,9 +66,10 @@
 	}
 	details > summary {
 		display: list-item;
-		// font-size: 85%;
+		/*font-size: 85%;*/
 		font-size: 15.3px;
 		font-weight: bold;
+		margin-bottom: 20px;
 	}
 	caption {
 		padding-bottom: 15px;
@@ -106,12 +108,13 @@
 	/* -----------*/
 	/* Intro section */
 	.row.cards > div{
-	    height: 180px;
-	    margin-bottom: 1em;
+	    height: 175px;
+	    margin-top: 1em;
+			margin-bottom: 1em;
 	}
 	.chart__card {
 	   display:grid;
-	   height:100%;
+	   height:70%;
 	   grid-template-rows:2fr 3.8fr 1fr
 	}
 	@media print {
@@ -182,7 +185,7 @@
 	   left:50%;
 	   -webkit-transform:translate(-50%,-50%);
 	   transform:translate(-50%,-50%);
-	   padding:0
+	   padding:5
 	}
 	@media screen and (max-width:600px) {
 	 .chart--card__image .chart__card-body {
@@ -194,15 +197,6 @@
 	}
 	.chart--card .chart--caption {
 	  font-size:85%
-	}
-
-	.chart__button-link {
-	  text-align: right;
-	  width: 98%;
-	  color: #2d699e;
-	}
-	.glyphicon-circle-arrow-right {
-	  color: #2d699e;
 	}
 
 	/* -----------*/
@@ -217,13 +211,73 @@
 	  text-align: center;
 	}
 
+	.dline {
+		stroke-width: 7px;
+	}
+
+	.dline1 {
+		stroke: #660159;
+	}
+
+	/* Fig 1 - Avg daily trip line chart */
+	.line svg {
+		fill: currentColor;
+	}
+	.tpdline text {
+		font-size: 12px;
+	}
+
+	.line svg .tick line,
+	.line svg .domain {
+		stroke: currentColor;
+	}
+
+	#tpdGrowth .dline2 {
+		stroke: #FF7F00;
+		stroke-dasharray: 10,3; /* ON, OFF*/
+	}
+	#tpdGrowth .legendline {
+		stroke-width: 5px !important;
+	}
+	#tpdGrowth .legendline1 {
+		stroke: #660159;
+	}
+	#tpdGrowth .legendline2 {
+		stroke: #FF7F00;
+		stroke-dasharray: 10,3; /* ON, OFF*/
+	}
+	#tpdGrowth .legendtext {
+		text-anchor: left;
+		alignment-baseline: middle;
+	}
+
+
+	.hoverCircle {
+		fill: #f5f5f5;
+		stroke: #660159;
+		stroke-width: 2px;
+		pointer-events: none;
+	}
+	.hoverRectTr1 {
+		stroke: #ddd;
+		stroke-width: 1px;
+		fill: #f9f9f9;
+		opacity: 0.9;
+	}
+	.hoverRectTr2 {
+		stroke: #ddd;
+		stroke-width: 1px;
+		fill: #f5f5f5;
+		opacity: 0.9;
+	}
+
 	/* VKT vol map */
-	#vktMapTip table td {
+	#vktMapTip table td, #shareMapTip table td {
 		padding-left: 20px;
 		padding-right: 20px;
 		padding-top: 8px;
 		padding-bottom: 8px;
-		border: 1px solid #ddd;
+		border: 1px solid #ddd !important;
 	}
 	.subway {
 		fill:	none;
@@ -249,16 +303,27 @@
 		font-weight: 500;
 		font-size: 18px;
 	}
-	#vktlg .legendTitle {
+	#vktlg .legendTitle, #sharelg .legendTitle {
 		font-size: 12px !important;
 	}
-	#vktlg .legendCells text {
+	#vktlg .legendCells text, #sharelg .legendCells text {
 		font-size: 12px;
 		font-weight: normal;
 	}
 
-	#section4-text1c label, #for-ward label, #for-type label {
-		margin-top: 0px;
+	/* Shared trips */
+	#sharedtrips-menu {
+		margin-bottom: 25px;
+	}
+
+	/* Fig 4 Time-of-day trip count city */
+	#citytod text {
+		font-size: 16px;
+	}
+
+	#for-vkt label, #for-share label, #for-ward label, #for-type label {
+		margin-top: 10px;
+		font-weight: bold;
 	}
 	/* tooltip for Trip Fraction lineChart with hover line */
 	.secondline {
@@ -302,50 +367,6 @@
 		border: none !important;
 	}
 
-	/* line chart PTC growth */
-	.line svg text {
-		fill: currentColor;
-	}
-
-	.line svg .tick line,
-	.line svg .domain {
-		stroke: currentColor;
-	}
-
-	.dline {
-		stroke: #000;
-		stroke-width: 1.5;
-	}
-
-	.dline1 {
-		stroke: #660159;
-	  stroke-width: 7px;
-	}
-
-	.dline2 {
-		stroke: #FF7F00;
-	}
-
-	.dline3 {
-		stroke: #28A026;
-	}
-
-	.dline4 {
-		stroke: #D82A23;
-	}
-
-	.dline5 {
-		stroke: #9364BE;
-	}
-
-	.dline6 {
-		stroke: #8C574B;
-	}
-
-	.dline7 {
-		stroke: #E474C2;
-	}
-
   /* Ward Patterns section */
 	#for-ward, #for-type {
 		margin-top: 25px;
@@ -363,15 +384,7 @@
 		font-size: 20px;
 	}
 
-	 /* table button */
-	 #fraction-action, #pudo-action {
-		 background-color: #175689;
-		 border-color: #175689;
-		 margin-top: 20px;
-	 }
 	 #show-humber {
-		 background-color: #175689;
-		 border-color: #175689;
 		 font-style: normal;
 	 }
 	.submenu-label {

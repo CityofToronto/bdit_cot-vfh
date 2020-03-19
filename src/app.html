@@ -28,12 +28,81 @@ See examples below in the boilerplate code
   <!-- Intro texts -->
   <div class="row">
     <div class="col-md-12 page-content">
+      <h2 id="subtitle">Key findings and implications</h2>
       <div id="introp">
         <dfn id='ptc'>Private Tranpsportation Companies</dfn> <span role='definition' aria-labelledby='ptc'>(PTC)</span>
         trips have grown rapidly since the service was first licensed by the City in September 2016.
         Understanding these new services and their impact is key to developing policies that support
         the benefits of these services while minimizing adverse effects on traffic, the environment
-        and the equity of mobility services.
+        and the equity of mobility services. In response to the City Council Recommendation 92, Item LS10.3,
+        “A New Vehicle-for-Hire Bylaw to Regulate Toronto's Ground Transportation Industry”, adopted by City
+        Council on May 3, 2016, the Transportation Impacts of Vehicle-for-Hire in the City of Toronto report
+        was released in June 2019 and looks at what is most likely the first wave of disruptions from these
+        new mobility-as-a-service businesses.
+      </div>
+    </div>
+  </div>
+
+  <!-- links to PDF reports -->
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-print-12 page-content">
+      <p>Click the links below to open a PDF of the full staff report, its methodology, or a ward-by-ward overview of PTC trends.</p>
+      <div class="row cards">
+        <div class="col-md-12">
+          <div id="card-1" class="chart--card">
+            <div class="chart__card-heading">The Transportation Impacts of Vehicle-for-Hire in the City of Toronto </div>
+            <div class="chart__card-body">
+              <a href="https://www.toronto.ca/wp-content/uploads/2019/06/96c7-Report_v1.0_2019-06-21.pdf"
+                rel="attachment wp-att-412496" title="PDF Document" target="_blank">Full Staff Report
+                <img class="cot-open-new-window" alt="PDF" src="https://www.toronto.ca/wp-content/themes/cot/img/icon-link-pdf.svg">
+              </a>
+            </div>
+            <div class="chart__card-body">
+              <a href="https://www.toronto.ca/wp-content/uploads/2019/06/8f59-AppendixA_detailed_methodology_data.pdf"
+                rel="attachment wp-att-412496" title="PDF Document" target="_blank">Appendix A: Detailed Methodology and Data
+                <img class="cot-open-new-window" alt="PDF" src="https://www.toronto.ca/wp-content/themes/cot/img/icon-link-pdf.svg">
+              </a>
+            </div>
+            <div class="chart__card-body">
+              <a href="https://www.toronto.ca/wp-content/uploads/2019/06/8edf-AppendixB_ward_profiles.pdf"
+                rel="attachment wp-att-412496" title="PDF Document" target="_blank">Appendix B: Profiles of PTC Actvity by Ward
+                <img class="cot-open-new-window" alt="PDF" src="https://www.toronto.ca/wp-content/themes/cot/img/icon-link-pdf.svg">
+              </a>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 page-content">
+          <p id="DVpara">On this page, we provide an interactive exploration of the results of the staff report, organized around these 3 central questions:</p>
+          <ul id="centralQ">
+           <li id="Q1">What are the trends and patterns in vehicle-for-hire travel in the City?</li>
+           <li id="Q2">How has travel impacted the transportation network?</li>
+           <li id="Q3">How have travel choices evolved in Toronto?</li>
+          </ul>
+      </div>
+    </div>
+
+
+   <!-- Avg trips per day -->
+  <div class="row">
+    <div class="col-md-12 page-content">
+      <h2 id="section1">PTC trips have grown by 180% in 2.5 years</h2>
+        <div id="section1-text1" class="section-text">
+          PTC trips have grown rapidly since the service was first licensed by the City in September 2016, increasing to
+          176,000 daily trips in March 2019 &ndash; an increase of over 180%. Most of these trips were made in the district of
+          Toronto and East York, which in September 2018 accounted for 61% of the total number of daily trips, followed
+          by North York (16%), Etobicoke York (13), and Scarborough (9%).
+      </div>
+      <h4 id="growthTitle" class="text-center"></h4>
+      <div class="row">
+
+        <div class="col-md-12 tpdline line data"></div>
+
       </div>
     </div>
   </div>
@@ -41,13 +110,13 @@ See examples below in the boilerplate code
   <!-- VKT -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section3" class="h2">PTC trips are concentrated downtown</h3>
+      <h2 id="section3">PTC trips are concentrated downtown</h2>
       <div id="section3-text1" class="section-text">
         PTC trips are concentrated downtown throughout the day. The largest
-        concentration occurs in the evening after 19:00 (post-PM peak) where in the
+        concentration occurs in the evening after 19:00 (post-PM peak) where
+        trips account for about 14% of traffic in the
         Waterfront Communities-The Island neighbourhood, bordered by Bathurst St,
-        Queen St/Front St, the Don River, and Lake Ontario, trips account for
-        about 14% of traffic.
+        Queen St/Front St, the Don River, and Lake Ontario.
       </div>
       <div id="section3-text2" class="section-text">
         The map below shows the proportion of daily traffic accounted for by PTC
@@ -58,7 +127,8 @@ See examples below in the boilerplate code
   </div>
   <!-- VKT drop-down menu -->
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-lg-4"></div>
+    <div class="col-md-2">
       <div role="region" class="menu" id="for-vkt" aria-live="polite">
         <label for="vkt"></label>
         <select id="vkt-menu" class="form-control">
@@ -76,26 +146,88 @@ See examples below in the boilerplate code
     </div>
   </div>
 
+  <!-- Shared trips -->
+  <div class="row">
+    <div class="col-xs-12 page-content">
+      <h2 id="section4">Shared trips: matched mostly downtown</h2>
+      <div class="section-text">
+        <p>Ride sharing is a feature that can be requested when booking a trip with for example Lyft Line
+        and Uber Pool. These services match passengers with others heading on similar paths. Shared trips
+        are 45% more likely to be requested outside the core. However, 52% of the 42,288 daily shared
+        requests in September 2018 were successfully matched, or 22,076 trips/day.</p>
+
+        <p>The map below shows the
+        percentage of shared trips requested by neighbourhood in September 2018, with the largest
+        concentration in the suburbs, especially in Etobicoke North. Compare with the actual percentage
+        of shared trip requests that were matched by selecting from the drop-down menu. Although shared trips were
+        mostly requested outside downtown and centrals areas, a smaller percentage of trips in outside areas were matched
+        compared with central neighbourhoods.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-4">
+    <div role="region" class="menu" id="for-share" aria-live="polite">
+      <label for="share"></label>
+      <select id="share-menu" class="form-control">
+        <option value="req" selected="selected"></option>
+        <option value="match"></option>
+      </select>
+    </div>
+    </div>
+    <div class="col-lg-5"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 page-content">
+      <div class="sharemap data"></div>
+    </div>
+  </div>
+
+  <!-- Time of Day patterns -->
+  <div class="row">
+    <div class="col-xs-12 page-content">
+      <h2>PTC trips have clear Time-of-Day patterns</h2>
+      <div class="section-text">
+        <p>The number of trips per hour over the course of an average week in September 2018 in the City reveals 
+          distinctive patterns, as shown in the line chart below: during weekdays, trips peak during morning and 
+          evening periods, suggesting that PTCs are used for commuting. PTC trips are considerably higher on Friday 
+          and Saturday evenings, likely to accommodate entertainment-related activities.</p>
+
+        <p>The next section shows the geographical locations (to the nearest intersection) of these trip patterns 
+          on a ward-by-ward basis.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 page-content">
+      <div class="citytod data"></div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
   <!-- Ward patterns -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <h3 id="section4" class="h2">Explore your ward</h3>
+      <h2 id="section4">Explore your ward</h2>
       <div id="section4-text1a" class="section-text">
-        You can explore the number of trips per hour in different wards by following
-        the line chart below over the course of an average week in September 2018,
-        and find where these trips started and/or ended by viewing them on the
-        adjacent map. Some wards such as X, Y, and Z show trip patterns similar to the city average shown above (COMING SOON),
+        While we don't have data about individual trips, we do know total pick-up and drop-off locations and times.
+        Looking a bit closer at different parts of the city over the course of an average week in September 2018 gives some ideas about
+        why people are using PTCs. Some wards such as X, Y, and Z show trip patterns similar to the city average shown above,
         where PTCs are used largely during morning and evening
         weekday peaks, likely for commuting. Other wards such as A, B and C show a different pattern, where
         PTCs are used mostly during Friday night and weekend trips.
       </div>
       <div id="section4-text1b" class="section-text">
-        Select a ward from the drop-down menu and choose to display data for Pick-ups & Drop-offs,
-        or each separately, from the Trip Type menu. Pick-ups and drop-offs at the same locations are counted and
-        displayed on the map as proportionally-sized circles (only clusters &gt; 14 are shown).
+        You can explore the number of trips per hour in different wards by selecting a ward from the drop-down menu for different trip types (Pick-ups & Drop-offs, Pick-ups only, or Drop-offs only). Trip locations are displayed on the map as proportionally-sized circles (only clusters &gt; 14 are shown).
         When zooming out, nearby circles automatically cluster together into larger circles. If you have selected Pick-ups & Drop-offs,
         the map circles are coloured according to the fraction of trips that are pick-ups:
-        orange for pick-ups only, purple for drop-offs only, and shades in between
+        brown for pick-ups only, green for drop-offs only, and shades in between
         for decreasing proportions.
       </div>
       <div id="section4-text1c" class="section-text">
@@ -109,8 +241,6 @@ See examples below in the boilerplate code
   <!-- Ward drop-down menu -->
   <div class="row">
     <div class="col-md-12 page-content">
-      <p>
-      </p>
     </div>
     <div class="col-md-5 page-content">
       <div class="col-md-6">
@@ -180,7 +310,7 @@ See examples below in the boilerplate code
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/choropleth.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/line.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/linetable_oneheader.js"></script>
-  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/aux.js"></script>
+  <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/helpers.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/mapLayers.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/settings.js"></script>
   <script type="text/javascript" src="<!-- @echo SRC_PATH -->/scripts/mapsettings.js"></script>
