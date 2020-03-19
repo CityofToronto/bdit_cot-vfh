@@ -321,7 +321,6 @@
       "x_label": "Neighbourhood",
       "y_label": "Proportion of shared requests (%)",
       "area_s_cd": "Neighbourhood",
-      "prop": "Shared trips requests made (%)",
       "prop_req": "Shared trips requests made (%)",
       "prop_match": "Shared trip requests matched (%)"
     },
