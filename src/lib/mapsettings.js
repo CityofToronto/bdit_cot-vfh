@@ -1,3 +1,4 @@
+// choropleth
 vktMapSett = {
   alt:"VKT map",
   margin: {
@@ -55,6 +56,10 @@ vktMapSett = {
     getDataPoints: function(d) {
       return d.prop;
     },
+    getPropertyKey: function(o) {
+      const keys = Object.keys(o[0]); // ["area_s_cd", "prop"]
+      return keys[1];
+    },
     getId: function(d) {
       return `id${d.properties.area_s_cd}`;
     },
@@ -74,6 +79,7 @@ vktMapSett = {
 }
 
 // -----------------------------------------------------------------------------
+// choropleth
 shareMapSett = {
   alt:"VKT map",
   margin: {
@@ -132,11 +138,15 @@ shareMapSett = {
     getDataPoints: function(d) {
       return d.prop;
     },
+    getPropertyKey: function(o) {
+      const keys = Object.keys(o[0]); // ["area_s_cd", "prop"]
+      return keys[1];
+    },
     getId: function(d) {
       return `id${d.properties.area_s_cd}`;
     },
     getKeys: function(d) {
-      const keys = Object.keys(d[0]); // ["area_s_cd", "prop"]
+      const keys = Object.keys(d[0]); // ["area_s_cd", "area_name"]
       return [i18next.t(keys[0], {ns: "share_map"}), i18next.t(keys[1], {ns: "share_map"})];
     },
     getPair: function(o) {

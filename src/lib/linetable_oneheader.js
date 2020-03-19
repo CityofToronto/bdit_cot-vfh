@@ -1,5 +1,4 @@
 function lineTable(svg, settings, data) {
-  console.log(data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -130,6 +129,7 @@ function lineTable(svg, settings, data) {
 
     headerCols
     .text(function(d) {
+      console.log("headerCols update d: ", d)
       return d;
     });
 

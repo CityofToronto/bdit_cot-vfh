@@ -321,7 +321,7 @@
       "x_label": "Neighbourhood",
       "y_label": "Proportion of shared requests (%)",
       "area_s_cd": "Neighbourhood",
-      "prop": "Percentage Requested (%)"
+      "prop": "Shared trips requests made (%)"
     },
     "city_tod": {
       "alt": "This timeseries plot shows the trip counts in the city for each hour of the week, averaged by day of week, over the study period September 2018 to March 2019.",

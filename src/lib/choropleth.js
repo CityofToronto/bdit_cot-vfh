@@ -1,5 +1,7 @@
 function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
+            console.log("data: ", data)            
   var mergedSettings = settings,
+  propertyKey = settings.z.getPropertyKey.call(settings, data),
   outerWidth = mergedSettings.width,
   outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio),
   innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom,
@@ -36,6 +38,8 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         .translate( [innerWidth/2,innerHeight/2] ),
       geoPath = d3.geoPath()
         .projection( albersProjection );
+    
+    console.log("propertyKey: ", propertyKey)
 
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
@@ -63,13 +67,13 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         if (d.properties.area_s_cd === 141 || d.properties.area_s_cd === 142) {
           return sett.colour.null;
         } else {
-          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd)[propertyKey];
           return colourScale(val);
         }
       })
       .on("touchmove mousemove", function(d) {
         if (d.properties.area_s_cd !== 141 && d.properties.area_s_cd !== 142) {
-          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd)[propertyKey];
           let selectedPath = d3.select(this);
           val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
             selectedPath.classed("nnActiveGray", true);
@@ -97,7 +101,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         if (d.properties.area_s_cd === 141 || d.properties.area_s_cd === 142) {
           return sett.colour.null;
         } else {
-          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd).prop;
+          var val = data.find(element => element.area_s_cd === d.properties.area_s_cd)[propertyKey];
           return colourScale(val);
         }
       });
