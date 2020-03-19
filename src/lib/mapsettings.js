@@ -54,7 +54,7 @@ vktMapSett = {
   },
   z: {
     getDataPoints: function(d) {
-      return d.prop;
+      return d.prop;      
     },
     getPropertyKey: function(o) {
       const keys = Object.keys(o[0]); // ["area_s_cd", "prop"]
@@ -119,8 +119,9 @@ shareMapSett = {
   attachedToSvg: true,
   topTen: function(d) {
     const n = 10; // Top-n list of VKT hotspots
+    const propKey = Object.keys(d[0])[1];
     let sortByProp = d
-        .sort((a, b) => (a.prop < b.prop) ? 1 : -1)
+        .sort((a, b) => (a[propKey] < b[propKey]) ? 1 : -1)
         .filter((p)=> {
           if (p.area_s_cd < 141) return p;
         })
@@ -136,7 +137,8 @@ shareMapSett = {
   },
   z: {
     getDataPoints: function(d) {
-      return d.prop;
+      // return d.prop;
+      return d[Object.keys(d)[1]]; // "prop" or "prop_match"
     },
     getPropertyKey: function(o) {
       const keys = Object.keys(o[0]); // ["area_s_cd", "prop"]
@@ -150,10 +152,11 @@ shareMapSett = {
       return [i18next.t(keys[0], {ns: "share_map"}), i18next.t(keys[1], {ns: "share_map"})];
     },
     getPair: function(o) {
+      const propKey = Object.keys(o[0])[1];
       let pairs = [];
       o.filter(function(d) {        
           var col1 = i18next.t(d.area_s_cd, {ns: "nhoods"});
-          pairs.push([col1, d3.format("(.0f")(d.prop)]);        
+          pairs.push([col1, d3.format("(.0f")(d[propKey])]);        
       });
       return pairs;
     }

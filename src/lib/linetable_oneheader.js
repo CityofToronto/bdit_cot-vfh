@@ -129,7 +129,6 @@ function lineTable(svg, settings, data) {
 
     headerCols
     .text(function(d) {
-      console.log("headerCols update d: ", d)
       return d;
     });
 

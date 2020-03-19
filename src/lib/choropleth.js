@@ -1,5 +1,4 @@
-function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
-            console.log("data: ", data)            
+function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {        
   var mergedSettings = settings,
   propertyKey = settings.z.getPropertyKey.call(settings, data),
   outerWidth = mergedSettings.width,
@@ -38,8 +37,6 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         .translate( [innerWidth/2,innerHeight/2] ),
       geoPath = d3.geoPath()
         .projection( albersProjection );
-    
-    console.log("propertyKey: ", propertyKey)
 
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")

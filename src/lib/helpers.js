@@ -230,7 +230,6 @@ function findTOD(...args) {
 // Flatten data arrays in object to find full extent of values
 function fullExtent(sett, dataObj) {
   let keys = Object.keys(dataObj);
-
   keys = keys.filter((x)=> {
      return x !== "keys";
   });
