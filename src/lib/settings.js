@@ -59,7 +59,7 @@ settTpdLine = {
       if (d) return d.date;
     },
     ticks: 6,
-    translateXY: [-380, 65],
+    translateXY: [0, 40],
     // from extend
     getDomain: function(flatData) {
       return d3.extent(flatData, this.x.getValue.bind(this));
@@ -299,7 +299,7 @@ settCityTodLine = {
       return pairs;
     }
   },
-  extraXlabelX: {"Mon": 75, "Tues": 180, "Wed": 288, "Thurs": 400, "Fri": 492, "Sat": 602, "Sun": 711},
+  extraXlabelX: {"Mon": 62, "Tues": 151, "Wed": 239, "Thurs": 333, "Fri": 408, "Sat": 500, "Sun": 590},
   extraXlabelY:61,
   initHoverLine: {
     coords: [35.73652694610779, 35.73652694610779, -20, 292],
