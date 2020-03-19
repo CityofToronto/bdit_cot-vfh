@@ -46,10 +46,9 @@ See examples below in the boilerplate code
   <!-- links to PDF reports -->
   <div class="row">
     <div class="col-sm-12 col-md-12 col-print-12 page-content">
-      <p>Click the links below to open the PDF of the full staff report, its methodology, or a ward-by-ward overview of PTC trends.</p>
+      <p>Click the links below to open a PDF of the full staff report, its methodology, or a ward-by-ward overview of PTC trends.</p>
       <div class="row cards">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-12">
           <div id="card-1" class="chart--card">
             <div class="chart__card-heading">The Transportation Impacts of Vehicle-for-Hire in the City of Toronto </div>
             <div class="chart__card-body">
@@ -79,10 +78,10 @@ See examples below in the boilerplate code
 
     <div class="row">
       <div class="col-xs-12 page-content">
-          <p id="DVpara">Here, we provide an interactive exploration of the results of this report, organized around these 3 central questions:</p>
+          <p id="DVpara">On this page, we provide an interactive exploration of the results of the staff report, organized around these 3 central questions:</p>
           <ul id="centralQ">
            <li id="Q1">What are the trends and patterns in vehicle-for-hire travel in the City?</li>
-           <li id="Q2">How has this travel impacted the transportation network?</li>
+           <li id="Q2">How has travel impacted the transportation network?</li>
            <li id="Q3">How have travel choices evolved in Toronto?</li>
           </ul>
       </div>
@@ -114,10 +113,10 @@ See examples below in the boilerplate code
       <h2 id="section3">PTC trips are concentrated downtown</h2>
       <div id="section3-text1" class="section-text">
         PTC trips are concentrated downtown throughout the day. The largest
-        concentration occurs in the evening after 19:00 (post-PM peak) where in the
+        concentration occurs in the evening after 19:00 (post-PM peak) where
+        trips account for about 14% of traffic in the
         Waterfront Communities-The Island neighbourhood, bordered by Bathurst St,
-        Queen St/Front St, the Don River, and Lake Ontario, trips account for
-        about 14% of traffic.
+        Queen St/Front St, the Don River, and Lake Ontario.
       </div>
       <div id="section3-text2" class="section-text">
         The map below shows the proportion of daily traffic accounted for by PTC
@@ -128,7 +127,8 @@ See examples below in the boilerplate code
   </div>
   <!-- VKT drop-down menu -->
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-lg-4"></div>
+    <div class="col-md-2">
       <div role="region" class="menu" id="for-vkt" aria-live="polite">
         <label for="vkt"></label>
         <select id="vkt-menu" class="form-control">
@@ -156,7 +156,6 @@ See examples below in the boilerplate code
         are 45% more likely to be requested outside the core. However, 52% of the 42,288 daily shared
         requests in September 2018 were successfully matched, or 22,076 trips/day.</p>
 
-
         <p>The map below shows the
         percentage of shared trips requested by neighbourhood in September 2018, with the largest
         concentration in the suburbs, especially in Etobicoke North. Compare with the actual percentage
@@ -167,12 +166,15 @@ See examples below in the boilerplate code
   </div>
 
   <div class="row">
-    <div class="col-lg-5"></div>
-    <div class="col-lg-2">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-4">
+    <div role="region" class="menu" id="for-share" aria-live="polite">
+      <label for="share"></label>
       <select id="share-menu" class="form-control">
-        <option value="req" selected="selected">Shared trips requested (%)</option>
-          <option value="match">Matched (%)</option>
+        <option value="req" selected="selected"></option>
+        <option value="match"></option>
       </select>
+    </div>
     </div>
     <div class="col-lg-5"></div>
   </div>

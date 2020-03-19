@@ -23,13 +23,16 @@
       "section4-text1c": "In the suburbs, trips are more commuter-focused, since their Friday night and weekend profiles are smaller compared with the city average which is dominated by downtown activity. For example, selecting Scarborough-Agincourt from the dropdown menu shows that there are strong peaks on weekday mornings and reduced Friday/Saturday night activity compared with the city average. Moving the cursor over the Monday morning peak shows on the adjacent map several drop-off locations (pink circles) around Sunnybrook Health Sciences Centre and the Hollands Broadview Rehabilliation Hospital, whereas on Friday or Saturday evening the dropoffs (purple circles) clustered around the Don Mills entertainment complex."
     },
     "menus":{
-      "ward-menu":"Select a Ward",
-      "pudo-menu":"Select a Trip Type",
-      "vkt-menu":"Select a Time of Day",
+      "vkt-menu":"Select Period",
+      "share-menu":"Select Requests or Matches",
+      "ward-menu":"Select Ward",
+      "pudo-menu":"Select Type",
       "allday":"All day",
       "amPeak":"AM peak (7:00–10:00)",
       "pmPeak":"PM peak (16:00–19:00)",
-      "postpmPeak":"Post-PM peak (19:00–midnight)"
+      "postpmPeak":"Post-PM peak (19:00–midnight)",
+      "req": "Shared trips requested (%)",
+      "match": "Matched (%)"
     },
     "days": {
        "mon": "Mondays",
@@ -354,7 +357,7 @@
     },
     "pudoMap": {
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
-      "tabletitle": "Click to open table of trip counts displayed in the above map, grouped by neighbourhood",
+      "tabletitle": "Click to open table of trip counts, grouped by neighbourhood",
       "tableCaption": "Trip counts grouped by neighbourhood",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",

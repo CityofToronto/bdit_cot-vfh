@@ -26,13 +26,13 @@
 	h2 {
 	  margin-top: 35px !important;
 	}
+	.spacer div {
+		height: 1px !important;
+	}
 	.section-text {
 		margin-top: 20px;
 	}
 
-	.form-control, #action-citytod, #action-fraction {
-	  margin-top: 20px;
-	}
 	.midtexts {
 	  margin-top: 20px;
 	}
@@ -66,9 +66,10 @@
 	}
 	details > summary {
 		display: list-item;
-		// font-size: 85%;
+		/*font-size: 85%;*/
 		font-size: 15.3px;
 		font-weight: bold;
+		margin-bottom: 20px;
 	}
 	caption {
 		padding-bottom: 15px;
@@ -320,8 +321,9 @@
 		font-size: 16px;
 	}
 
-	#section4-text1c label, #for-ward label, #for-type label {
-		margin-top: 0px;
+	#for-vkt label, #for-share label, #for-ward label, #for-type label {
+		margin-top: 10px;
+		font-weight: bold;
 	}
 	/* tooltip for Trip Fraction lineChart with hover line */
 	.secondline {

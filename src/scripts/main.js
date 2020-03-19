@@ -89,6 +89,12 @@ function pageTexts() {
   d3.select("#vkt-menu").node()[2].text = i18next.t("pmPeak", {ns: "menus"});
   d3.select("#vkt-menu").node()[3].text = i18next.t("postpmPeak", {ns: "menus"});
 
+  // Shared trips
+  // ** shared trips dropdown menu
+  d3.select("#for-share label").text(i18next.t("share-menu", {ns: "menus"}));
+  d3.select("#share-menu").node()[0].text = i18next.t("req", {ns: "menus"});
+  d3.select("#share-menu").node()[1].text = i18next.t("match", {ns: "menus"});
+
   // Ward patterns
   // ** text interaction for Humber story
   d3.selectAll(".section-text .highlight-humber")
