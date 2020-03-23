@@ -224,7 +224,7 @@
 		fill: currentColor;
 	}
 	.tpdline text {
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 	.line svg .tick line,
@@ -317,12 +317,15 @@
 	}
 
 	/* Fig 4 Time-of-day trip count city */
+	#citytod .dline1 {
+		stroke-width: 4px;
+	}
 	#citytod text {
-		font-size: 16px;
+		font-size: 10px;
 	}
 
 	#for-vkt label, #for-share label, #for-ward label, #for-type label {
-		margin-top: 10px;
+		margin-top: 30px;
 		font-weight: bold;
 	}
 	/* tooltip for Trip Fraction lineChart with hover line */

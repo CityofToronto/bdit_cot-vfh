@@ -180,12 +180,12 @@ settTpdLine = {
 settCityTodLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
-    top: 100,
+    top: 60,
     right: 185,
     bottom: 73,
     left: 120
   },
-  aspectRatio: 18 / 8,
+  aspectRatio: 16 / 6,
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
@@ -237,7 +237,7 @@ settCityTodLine = {
       return modVal;
     },
     translateXY: [-380, 45],
-    chartlabel: 30
+    chartlabel: 27
   },
   y: {
     label: i18next.t("y_label", {ns: "city_tod"}),
@@ -247,7 +247,7 @@ settCityTodLine = {
     getText: function(d) {
       return d3.format("(,.0f")(d.value);
     },
-    translateXY: [-72, 195],
+    translateXY: [-45, 111],
     ticks: 4
   },
   z: {
@@ -296,8 +296,8 @@ settCityTodLine = {
       return pairs;
     }
   },
-  extraXlabelX: {"Mon": 62, "Tues": 151, "Wed": 239, "Thurs": 333, "Fri": 408, "Sat": 500, "Sun": 590},
-  extraXlabelY:61,
+  extraXlabelX: {"Mon": 39, "Tues": 97, "Wed": 154, "Thurs": 214, "Fri": 262, "Sat": 321, "Sun": 379},
+  extraXlabelY: 40,
   initHoverLine: {
     coords: [35.73652694610779, 35.73652694610779, -20, 292],
     indices: [7, 7] // hr, index
@@ -306,13 +306,14 @@ settCityTodLine = {
   initTipPosn: [180, 0],
   width: 700,
   tooltip: {
+    r: 4,
     pageX: 400,
     pageY: 450,
     units: "trips/hour",
-    width: 175,
-    height: 50,
+    width: 110,
+    height: 25,
     shiftX: 12,
-    shiftY: -150,
+    shiftY: -60,
     textdy: 5
   },
   datatable: true,

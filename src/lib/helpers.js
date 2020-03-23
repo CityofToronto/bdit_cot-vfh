@@ -72,7 +72,7 @@ function circleOverlay(chartObj, data, onMsOverCb, onMsOutCb, onMsClickCb) {
 
     circle = overlay.append("circle")
       .attr("class", "hoverCircle")
-      .attr("r", 7)
+      .attr("r", chartObj.settings.tooltip.r ? chartObj.settings.tooltip.r : 7)
       .style("visibility", "hidden");
 
     tr1Rect = overlay.append("rect")
