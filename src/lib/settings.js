@@ -247,7 +247,7 @@ settCityTodLine = {
     getText: function(d) {
       return d3.format("(,.0f")(d.value);
     },
-    translateXY: [-45, 111],
+    translateXY: [-50, 121],
     ticks: 4
   },
   z: {

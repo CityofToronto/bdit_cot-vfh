@@ -226,6 +226,10 @@
 	.tpdline text {
 		font-size: 14px;
 	}
+	.tpdline .tick text {
+		font-size: 13px;
+	}
+
 
 	.line svg .tick line,
 	.line svg .domain {
@@ -321,7 +325,7 @@
 		stroke-width: 4px;
 	}
 	#citytod text {
-		font-size: 10px;
+		font-size: 12px;
 	}
 
 	#for-vkt label, #for-share label, #for-ward label, #for-type label {
