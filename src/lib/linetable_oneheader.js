@@ -1,4 +1,5 @@
 function lineTable(svg, settings, data) {
+  console.log(data)
   var drawTable = function() {
     var sett = this.settings,
       summaryId = sett.summaryId,
@@ -14,16 +15,19 @@ function lineTable(svg, settings, data) {
       keys = (sett.z.getTableKeys && typeof sett.z.getTableKeys === "function") ?
         sett.z.getTableKeys.call(sett, filteredData) : sett.z.getKeys.call(sett, data),
       setRow = function(d) { // d: [ "Monday 0:00", 0.3234158 ]
+      console.log("setRow d: ", d)
         var row = d3.select(this),
           cells = row.selectAll("*")
             .data(d),
           getText = function(d) {
+            console.log("setRow getText d: ", d)
             return d; // cell value in row i for each col
           };
 
         cells
           .enter()
             .append(function(d, i) {
+              console.log("setRow cells d: ", d)
               return  document.createElement(i === 0 ? "th" : "td");
             })
             .attr("scope", function(d, i) { // COT accessibility
@@ -139,6 +143,8 @@ function lineTable(svg, settings, data) {
     // Set number of rows by appending array in .data
     dataRows = body.selectAll("tr")
       .data(rowArray);
+
+      console.log("rowArray: ", rowArray)
 
     dataRow = dataRows
       .enter()
