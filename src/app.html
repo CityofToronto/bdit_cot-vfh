@@ -266,13 +266,20 @@ See examples below in the boilerplate code
   <div class="row">
     <!-- Ward trip fraction lineChart -->
     <div class="col-md-6 page-content">
-      <div class="instructions">
-        For example, in Etobicoke North during the Monday morning peak (7:00&ndash;9:00), considerably fewer pick-ups than drop-offs were made at
-        Humber College (24 vs. 212, out of 236 total trips, or 10%).
-        <button type="submit" id="show-humber" class="btn btn-primary">Show</button>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="instructions">
+            For example, in Etobicoke North during the Monday morning peak (7:00&ndash;9:00), considerably fewer pick-ups than drop-offs were made at
+            Humber College (24 vs. 212, out of 236 total trips, or 10%).
+            <button type="submit" id="show-humber" class="btn btn-primary">Show</button>
+          </div>
+        </div>
       </div>
-      <div class="fractionline data"></div>
+      <div class="row">
+        <div class="fractionline data"></div>
+      </div>
     </div>
+
     <!-- Ward PUDO map -->
     <div class="col-md-6 page-content">
       <div class="row">
@@ -282,12 +289,10 @@ See examples below in the boilerplate code
           <div id="pudomap-legend" class="legend">
           </div>
         </div>
-        <div class="col-md-12 maptable data">
-        </div>
       </div>
+      <div class="maptable data"></div>
     </div>
   </div>
-</div>
 <!-- cot-app:body end-->
 
 <!-- cot-app:footer -->
