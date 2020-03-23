@@ -388,7 +388,13 @@
 	}
 
 	.fractionline text {
-		font-size: 20px;
+		font-size: 22px;
+	}
+	.fractionline .lab text {
+		font-size: 30px;
+	}
+	.fractionline .y.axis text, .fractionline .chart-label, .fractionline .extra-label text {
+		font-size: 27px;
 	}
 
 	 #show-humber {

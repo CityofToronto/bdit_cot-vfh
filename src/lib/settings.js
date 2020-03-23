@@ -236,7 +236,7 @@ settCityTodLine = {
       const modVal = val % 24;
       return modVal;
     },
-    translateXY: [-380, 45],
+    translateXY: [0, 0],
     chartlabel: 27
   },
   y: {
@@ -409,7 +409,7 @@ settPudoLine = {
       const modVal = val % 24;
       return modVal;
     },
-    translateXY: [-380, 45],
+    translateXY: [0, 0],
     chartlabel: 48
   },
 
@@ -421,7 +421,7 @@ settPudoLine = {
     getText: function(d) {
       return Math.round(d.value);
     },
-    translateXY: [-72, 260],
+    translateXY: [-67, 260],
     ticks: 4
   },
 

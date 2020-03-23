@@ -147,13 +147,14 @@ function lineChart(svg, settings, rawdata) {
 
       if (sett.extraXlabelX) {
         var extraGroup = xAxisObj
-          .attr("class", "extra-label")
+          // .attr("class", "extra-label")
           .selectAll(".xdow")
           .data(Object.keys(sett.extraXlabelX));
 
         var eachGroup = extraGroup
           .enter()
-          .append("g");
+          .append("g")
+          .attr("class", "extra-label");
 
         eachGroup
           .append("text")
