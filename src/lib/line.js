@@ -141,7 +141,7 @@ function lineChart(svg, settings, rawdata) {
           .attr("fill", "#000")
           .attr("x", innerWidth)
           // .attr("dy", "-0.5em")
-          .attr("dy", sett.x.chartlabel)
+          .attr("dy", sett.x.chartlabel) // x-axis label
           .attr("text-anchor", "end")
           .text(sett.x.label);
 
@@ -175,6 +175,7 @@ function lineChart(svg, settings, rawdata) {
         .ticks(sett.x.ticks)
         .tickValues(sett.z.getxtickIdx ? sett.z.getxtickIdx.call(sett, filteredData) : null)
         .tickFormat(sett.x.getTickText ? sett.x.getTickText.bind(sett) : null)
+        .tickSize(sett.tickSize ? sett.tickSize : 6)
     );
 
     if (yAxisObj.empty()) {
@@ -197,6 +198,7 @@ function lineChart(svg, settings, rawdata) {
       d3.axisLeft(y)
         .ticks(sett.y.ticks)
         .tickFormat(sett.y.getTickText ? sett.y.getTickText.bind(sett) : null)
+        .tickSize(sett.tickSize ? sett.tickSize : 6)
     );
   },
   clear = function() {

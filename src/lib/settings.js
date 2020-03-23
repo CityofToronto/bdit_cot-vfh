@@ -92,7 +92,6 @@ settTpdLine = {
       ];
     }
   },
-
   z: {
     label: i18next.t("z_label", {ns: "line"}),
     getId: function(d) {
@@ -213,6 +212,7 @@ settCityTodLine = {
       };
     });
   },
+  tickSize: 4,
   x: {
     label: i18next.t("x_label", {ns: "ward_towline"}), // "Time of day"
     type: "linear",
@@ -237,7 +237,7 @@ settCityTodLine = {
       return modVal;
     },
     translateXY: [-380, 45],
-    chartlabel: 42
+    chartlabel: 30
   },
   y: {
     label: i18next.t("y_label", {ns: "city_tod"}),
