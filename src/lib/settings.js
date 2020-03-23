@@ -181,12 +181,12 @@ settTpdLine = {
 settCityTodLine = {
   alt: i18next.t("alt", {ns: "towline"}),
   margin: {
-    top: 160,
+    top: 100,
     right: 185,
     bottom: 73,
-    left: 100
+    left: 120
   },
-  aspectRatio: 16 / 8,
+  aspectRatio: 18 / 8,
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
@@ -274,9 +274,6 @@ settCityTodLine = {
         return d.xtickIdx;
       })[0];
     },
-    getClass: function(...args) {
-      return this.z.getId.apply(this, args);
-    },
     getDataPoints: function(d) {
       return d.values;
     },
@@ -307,7 +304,7 @@ settCityTodLine = {
   },
   tipTextCoords: [30, -50],
   initTipPosn: [180, 0],
-  width: 900,
+  width: 700,
   tooltip: {
     pageX: 400,
     pageY: 450,
@@ -449,9 +446,6 @@ settPudoLine = {
       return filteredData.map((d) => {
         return d.xtickIdx;
       })[0];
-    },
-    getClass: function(...args) {
-      return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
       return d.values;
