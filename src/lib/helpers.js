@@ -189,10 +189,14 @@ function hoverlineTip(div, tr1, tr2, sett) {
     rtnTable = rtnTable.concat("</table>");
     return rtnTable;
   };
+  const c = sett.tooltip.cutoff;
+  let Xval = (d3.event.pageX - sett.tooltip.pageX) > c ? c :
+              d3.event.pageX - sett.tooltip.pageX;
+  let Yval = (d3.event.pageY - sett.tooltip.pageY);
   div.html(makeTable())
       .style("opacity", .999)
-      .style("left", ((d3.event.pageX - sett.tooltip.pageX) + "px"))
-      .style("top", ((d3.event.pageY - sett.tooltip.pageY) + "px"))
+      .style("left", (Xval + "px"))
+      .style("top", (Yval + "px"))
       .style("pointer-events", "none")
       .style("position", "absolute");
 }

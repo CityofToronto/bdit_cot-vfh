@@ -25,8 +25,9 @@ vktMapSett = {
     labelAlign: "middle"
   },
   tooltip: {
-    pageX: 400,
-    pageY: 450,
+    cutoff: 750,
+    pageX: 200,
+    pageY: 390,
     units: "% PTC volume",
     values: function(val) {
       tr2 = `${d3.format("(.1f")(val)}% PTC volume`;
@@ -107,8 +108,9 @@ shareMapSett = {
     labelAlign: "middle"
   },
   tooltip: {
-    pageX: 400,
-    pageY: 450,
+    cutoff: 750,
+    pageX: 200,
+    pageY: 390,
     units: "% shared",
     values: function(val) {
       tr2 = `${d3.format("(.0f")(val)}% shared`;
