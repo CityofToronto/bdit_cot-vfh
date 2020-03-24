@@ -28,7 +28,7 @@ vktMapSett = {
     val: 9,
     cutoff: 750,
     pageX: 200,
-    pageY: 390,
+    pageY: 430,
     units: "% PTC volume",
     values: function(val) {
       tr2 = `${d3.format("(.1f")(val)}% PTC volume`;
@@ -112,7 +112,7 @@ shareMapSett = {
     val: 55,
     cutoff: 750,
     pageX: 200,
-    pageY: 390,
+    pageY: 430,
     units: "% shared",
     values: function(val) {
       tr2 = `${d3.format("(.0f")(val)}% shared`;
