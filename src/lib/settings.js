@@ -355,7 +355,7 @@ settPudoLine = {
   margin: {
     top: 85,
     right: 55,
-    bottom: 73,
+    bottom: 120,
     left: 100
   },
   aspectRatio: 16 / 8,

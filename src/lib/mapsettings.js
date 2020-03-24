@@ -253,16 +253,35 @@ pudoMapSett = {
   menuId: "day-submenu",
   actionId: "pudo-action",
   z: {
-     getKeys: function(d) {
-      // ["nn", "pcounts", "dcounts"] OR
-      // ["nn", "pcounts"] OR
-      // ["nn", "dcounts"]
-      const keys = Object.keys(d[0]);
-      let keyArr = [];
-      for (let idx = 0; idx < keys.length; idx++) {
-        keyArr.push(i18next.t(keys[idx], {ns: "pudoMap"}));
-      }
-      return keyArr;
+   getKeys: function(d) {
+    // ["nn", "pcounts", "dcounts"] OR
+    // ["nn", "pcounts"] OR
+    // ["nn", "dcounts"]
+    const keys = Object.keys(d[0]);
+    let keyArr = [];
+    for (let idx = 0; idx < keys.length; idx++) {
+      keyArr.push(i18next.t(keys[idx], {ns: "pudoMap"}));
+    }
+    return keyArr;
+  },
+  getPair: function(o) { // used for data table ONLY
+    arr = [];
+    const theseKeys = Object.keys(o[0]);
+    o.map((d, i) => {
+      let thisRow = [];
+      theseKeys.map((key, i) => {
+        let thisCol;
+        if (i === 0) {
+          thisCol = i18next.t(parseInt(d[key].split("nn")[1]), {ns: "nhoods"});
+         } else {
+          thisCol = (typeof d[key] === "string") ? d[key] :
+                     d3.format("(,")(d[key]);
+        }         
+        thisRow.push(thisCol);
+      })
+      arr.push(thisRow);
+    })
+    return arr;
     }
   },
   getTableData: function(obj) {
@@ -321,8 +340,7 @@ pudoMapSett = {
     });
     return returnGroup.sort(function(a, b) {return b[sortBy]-a[sortBy];});
   },
-  pair: {
-    getValues: function(d) { // used for data table ONLY
+  getValues: function(d) { // used for data table ONLY
       // data = [{ nn: "nn4", pcounts: 312, dcounts: 186 }, ...,
       //      { nn: "nn1", pcounts: 0, dcounts: 80 }]
       // OR
@@ -339,5 +357,4 @@ pudoMapSett = {
       }
       return valArr;
     }
-  }
 };
