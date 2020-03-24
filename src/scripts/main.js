@@ -155,7 +155,8 @@ function showTPDline() {
 
 function showVktMap() {
   const fullDimExtent = fullExtent(vktMapSett, ptcVol);
-  choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
+  vktMapSvg.id = "vktmap"; // used in choropleth to identify the svg for mousemove highlights
+  choropleth(nnLayer["subway"],nnTopo, vktMapSvg, vktMapTip, vktMapSett, ptcVol[ptcvolTOD], fullDimExtent);
 
   // Create data table for VKT vol map
   const vktTable = lineTable(vktMapSvg, vktMapSett,
@@ -165,7 +166,8 @@ function showVktMap() {
 function showShareMap() {
   const fullDimExtent = fullExtent(shareMapSett, shareProp);
   shareMapSvg.legTitle = shareMapLegTitle;
-  choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapSett, shareProp[selShare], fullDimExtent);
+  shareMapSvg.id = "sharemap"; // used in choropleth to identify the svg for mousemove highlights
+  choropleth(nnLayer["subway"],nnTopo, shareMapSvg, shareMapTip, shareMapSett, shareProp[selShare], fullDimExtent);
 
   // Create data table for VKT vol map
   const shareTable = lineTable(shareMapSvg, shareMapSett,
@@ -544,7 +546,7 @@ $(document).ready(function(){
         const tpdTableTitle = `${i18next.t("tabletitle", {ns: "tpd"})}`;
         d3.select(".tpdline").select("summary").text(tpdTableTitle);
 
-        vktMapSvg.id = "legIdVkt"; // used in choropleth to identify and rm the svg
+        vktMapSvg.legId = "legIdVkt"; // used in choropleth to identify and rm the svg
         vktMapSvg.legTitle = i18next.t("legendTitle", {ns: "vkt_map"});
         showVktMap();
         const vktMapTableTitle = `${i18next.t("tabletitle", {ns: "vkt_map"})},
@@ -552,7 +554,7 @@ $(document).ready(function(){
         d3.select(".vktmap").select("summary").text(vktMapTableTitle);
 
         shareMapLegTitle = i18next.t("legendTitle", {ns: "share_map"});
-        shareMapSvg.id = "legIdShare"; // used in choropleth to identify and rm the svg
+        shareMapSvg.legId = "legIdShare"; // used in choropleth to identify and rm the svg
         showShareMap();
         // shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map"})}`;
         shareMapTableTitle = `${i18next.t("tabletitle", {ns: "share_map",

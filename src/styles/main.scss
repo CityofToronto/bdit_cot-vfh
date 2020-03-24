@@ -288,17 +288,17 @@
 		stroke:	gray;
 		stroke-width: 2px;
 	}
-	.nnActiveGray {
-			stroke: #9d9595;
-			stroke-width: 2px;
-	}
 	.nnActiveDarkGray {
-			stroke: #372727;
-			stroke-width: 2px;
+		stroke: #037e7a !important;
+		stroke-width: 5px !important;
+	}
+	.nnActiveBlue {
+		stroke: #3bded6 !important;
+		stroke-width: 5px !important;
 	}
 	.subunit {
 		stroke: #fff;
-		stroke-width: 0.8px;
+		stroke-width: 1.5px;
 	}
 
 	#vktlegendcap {

@@ -1,4 +1,4 @@
-function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {        
+function choropleth(subwayfile, topojfile, svg, mapTip, settings, data, fullDimExtent) {        
   var mergedSettings = settings,
   propertyKey = settings.z.getPropertyKey.call(settings, data),
   outerWidth = mergedSettings.width,
@@ -72,19 +72,19 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         if (d.properties.area_s_cd !== 141 && d.properties.area_s_cd !== 142) {
           var val = data.find(element => element.area_s_cd === d.properties.area_s_cd)[propertyKey];
           let selectedPath = d3.select(this);
-          val <= 10.5 ? selectedPath.classed("nnActiveDarkGray", true) :
-            selectedPath.classed("nnActiveGray", true);
+          val <= sett.tooltip.val ? selectedPath.classed("nnActiveDarkGray", true) :
+            selectedPath.classed("nnActiveBlue", true);          
           selectedPath.moveToFront();
           d3.selectAll(".subway").moveToFront(); // otherwise lines disappear
           var tr1 = d.properties.area_name.split(" (")[0];
           const tr2 = sett.tooltip.values.call(sett, val);
-          hoverlineTip(vktMapTip, tr1, tr2, sett);
+          hoverlineTip(mapTip, tr1, tr2, sett);
         }
       })
       .on("touchend mouseleave", function(d) {
-        d3.selectAll("#vktmap path").classed("nnActiveDarkGray", false);
-        d3.selectAll("#vktmap path").classed("nnActiveGray", false);
-        vktMapTip.style("opacity", 0);
+        d3.selectAll(`#${svg.id} path`).classed("nnActiveDarkGray", false);
+        d3.selectAll(`#${svg.id} path`).classed("nnActiveBlue", false);
+        mapTip.style("opacity", 0);
       });
 
     map
@@ -126,7 +126,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         .attr("class", "legSvg");
 
       legSvg.append("g")
-        .attr("id", svg.id)
+        .attr("id", svg.legId)
         .attr("class", "legendShared")
         .attr("transform", "translate(" + sett.legend.trans[0] + "," +
               sett.legend.trans[1] + ") rotate(-" + sett.rot + ")")
@@ -134,7 +134,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
         .attr("aria-label", mergedSettings.legend.alt);
     } else {
       if (sett.rmlegend) {
-        d3.select(`#${svg.id}`).select(".legendShared")
+        d3.select(`#${svg.legId}`).select(".legendShared")
           .remove();
       }      
     }
@@ -150,7 +150,7 @@ function choropleth(subwayfile, topojfile, svg, settings, data, fullDimExtent) {
       .labelAlign(sett.legend.labelAlign)
       .scale(colourScale);
 
-    legSvg.select(`#${svg.id}`)
+    legSvg.select(`#${svg.legId}`)
       .call(legendParams);
 
   },

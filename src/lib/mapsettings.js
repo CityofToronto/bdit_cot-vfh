@@ -25,6 +25,7 @@ vktMapSett = {
     labelAlign: "middle"
   },
   tooltip: {
+    val: 9,
     cutoff: 750,
     pageX: 200,
     pageY: 390,
@@ -108,6 +109,7 @@ shareMapSett = {
     labelAlign: "middle"
   },
   tooltip: {
+    val: 55,
     cutoff: 750,
     pageX: 200,
     pageY: 390,
