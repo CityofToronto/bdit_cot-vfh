@@ -510,6 +510,7 @@ $(document).ready(function(){
     shareMapSett.legend.title = i18next.t("legendTitle", {ns: "share_map"}),
     settCityTodLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
     settCityTodLine.y.label = i18next.t("y_label", {ns: "city_tod"}),
+    settCityTodLine.menuLabel = i18next.t("menuLabel", {ns: "ward_towline"}),
     settPudoLine.alt = i18next.t("alt", {ns: "ward_towline"}),
     settPudoLine.y.label = i18next.t("y_label", {ns: "ward_towline"}),
     settPudoLine.x.label = i18next.t("x_label", {ns: "ward_towline"}),
