@@ -26,7 +26,7 @@ vktMapSett = {
   },
   tooltip: {
     val: 9,
-    cutoff: 750,
+    cutoff: 1300,
     pageX: 200,
     pageY: 430,
     units: "% PTC volume",
@@ -110,7 +110,7 @@ shareMapSett = {
   },
   tooltip: {
     val: 55,
-    cutoff: 750,
+    cutoff: 1300,
     pageX: 200,
     pageY: 430,
     units: "% shared",
