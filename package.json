@@ -40,7 +40,8 @@
   "dependencies": {
     "core": "git+https://github.com/CityofToronto/corejs.git#9.3.8",
     "cotui": "git+https://github.com/CityofToronto/COT_UI.git#1.0.2",
-    "d3-svg-legend": "^2.25.6"
+    "d3-svg-legend": "^2.25.6",
+    "details-element-polyfill": "^2.4.0"
   },
   "coreConfig": {
     "isEmbedded": true,

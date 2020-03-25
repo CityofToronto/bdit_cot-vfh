@@ -227,7 +227,7 @@
 		font-size: 14px;
 	}
 	.tpdline .tick text {
-		font-size: 13px;
+		font-size: 12px;
 	}
 
 
@@ -325,7 +325,7 @@
 		stroke-width: 4px;
 	}
 	#citytod text {
-		font-size: 12px;
+		font-size: 10px;
 	}
 
 	#for-vkt label, #for-share label, #for-ward label, #for-type label {
@@ -394,7 +394,7 @@
 		font-size: 30px;
 	}
 	.fractionline .y.axis text, .fractionline .chart-label, .fractionline .extra-label text {
-		font-size: 27px;
+		font-size: 22px;
 	}
 
 	 #show-humber {
@@ -405,7 +405,7 @@
 		 font-size: 15.3px;
 	 }
 	 .fractionline .submenu-label {
-			margin-top: 25px;
+			padding-top: 6px;
 	 }
 
 	/* Mapbox */
@@ -414,7 +414,7 @@
 		top: 0;
 		bottom: 0;
 		width: 100%;
-		height: 450px;
+		height: 498px;
 	}
 /*	.mapboxgl-popup {
 	 	max-width: 200px;
