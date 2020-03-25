@@ -21,6 +21,9 @@ See the [current mockup](https://10.160.2.198/vfh-cot/) for reference.
 **Ward Profiles on Heroku**  
 Also see the [Ward Profiles](https://10.160.2.198/vfh-cot/) `dash` app currently hosted on Heroku.  
 
+## Accessibility Testing
+Email digital.accessibility@toronto.ca
+
 ## Build instructions
 From [COT documentation](https://itdconfluence.csd.toronto.ca/display/DTSKS/CotJS+Documentation).  
 
@@ -158,6 +161,28 @@ $(document).ready(function(){
   })
 })
 ```  
+
+### 6. Deploy
+Instead of `gulp run`, the code needs to be built with the folders in the order required by WordPress, so instead execute:
+
+`gulp deploy:dev`  
+
+Then go to the dist folder and copy all the files in `resources/bdit_cot-vfh/` to the shared WordPress drive.
+
+## WordPress
+You need to be granted access to map the shared network drive:
+`\\dmnas-smb.corp.toronto.ca\inet`  
+
+From there, navigate to the DV folder:  
+`\content\DEV\resources\bdit_cot-vfh\`  
+
+This is where the files built locally by `gulp deploy:dev` are to be copied.  
+
+The WordPress editor is here:  
+`https://contrib0.wp.intra.dev-toronto.ca/?page_id=21239&preview=true`  
+
+And the test pages for BDITTO are under:  
+`BDITTO Test Pages`  
 
 ## Setup COT_UI
 Needed for COT widgets (e.g. maps, charts).  
