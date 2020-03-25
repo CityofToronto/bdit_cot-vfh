@@ -70,6 +70,9 @@ function choropleth(subwayfile, topojfile, svg, mapTip, settings, data, fullDimE
       })
       .on("touchmove mousemove", function(d) {
         if (d.properties.area_s_cd !== 141 && d.properties.area_s_cd !== 142) {
+          // clear here in case Edge did not detect mouseleave/mouseout
+          d3.selectAll(`#${svg.id} path`).classed("nnActiveDarkGray", false);
+          d3.selectAll(`#${svg.id} path`).classed("nnActiveBlue", false);
           var val = data.find(element => element.area_s_cd === d.properties.area_s_cd)[propertyKey];
           let selectedPath = d3.select(this);
           val <= sett.tooltip.val ? selectedPath.classed("nnActiveDarkGray", true) :
@@ -81,7 +84,7 @@ function choropleth(subwayfile, topojfile, svg, mapTip, settings, data, fullDimE
           hoverlineTip(mapTip, tr1, tr2, sett);
         }
       })
-      .on("touchend mouseleave", function(d) {
+      .on("touchend mouseleave mouseout", function(d) {
         d3.selectAll(`#${svg.id} path`).classed("nnActiveDarkGray", false);
         d3.selectAll(`#${svg.id} path`).classed("nnActiveBlue", false);
         mapTip.style("opacity", 0);
