@@ -193,6 +193,8 @@ function showCityTodLine() {
         .select("table")
         .style("display", "table");
     });
+
+  d3.select(".citytod").select("details").attr("open", true);
 }
 
 function showFractionLine() {
@@ -252,6 +254,8 @@ function showFractionLine() {
         .select("table")
         .style("display", "table");
     });
+
+  d3.select(".fractionline").select("details").attr("open", true);
 }
 // Fig 5b - PUDO map
 function initMapBox() {

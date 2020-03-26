@@ -53,7 +53,7 @@ function lineTable(svg, settings, data) {
 
         // Text label for sub-menu
         details.append("div")
-          .attr("class", "col-md-3 submenu-label")
+          .attr("class", "col-md-2 submenu-label")
           .attr("role", "region")
           .attr("aria-live", "polite")
           .append("label")
@@ -61,7 +61,11 @@ function lineTable(svg, settings, data) {
             .text(sett.menuLabel);
 
         // Details setup
-        menu = details.append("div").attr("class", "col-md-4")
+        menu = details.append("div")
+          .attr("class", function() {
+            return sett.menuId === "submenu-fraction" ? "col-md-3" :
+              "col-md-2";
+          })
           .append("select")
             .attr("id", sett.menuId)
             .attr("class", "form-control");
@@ -84,12 +88,24 @@ function lineTable(svg, settings, data) {
             })
 
         // Action button to execute selection in sub-menu
-        button = details.append("div").attr("class", "col-md-3")
+        button = details.append("div")
+          .attr("class", function() {
+            return sett.actionId === "action-fraction" ? "col-md-2" :
+              "col-md-1";
+          })
           .append("button")
           .attr("id", sett.actionId)
           .attr("class", "btn btn-primary")
           .attr("type","submit")
           .text("Show Data");
+
+        // Action button to execute selection in sub-menu
+        button = details.append("div").attr("class", "col-md-1")
+          .append("button")
+          .attr("id", sett.closeId)
+          .attr("class", "btn btn-primary")
+          .attr("type","submit")
+          .text("Close");
       }
       // ** end dropdown menu
 
