@@ -186,6 +186,9 @@ function showCityTodLine() {
 
   // Table
   lineTable(cityTodSvg, settCityTodLine, cityTod);
+  // set details to be always open
+  d3.select(".citytod").select("details").attr("open", true);
+
   // Only show table if action button is clicked
   d3.select(`#${settCityTodLine.actionId}`)
     .on("click", function() {
@@ -193,8 +196,11 @@ function showCityTodLine() {
         .select("table")
         .style("display", "table");
     });
-
-  d3.select(".citytod").select("details").attr("open", true);
+  // Close table if Close button is clicked
+  d3.select(`#${settCityTodLine.closeId}`)
+    .on("click", function() {
+      hideTable("citytod");
+    });
 }
 
 function showFractionLine() {
@@ -246,6 +252,8 @@ function showFractionLine() {
 
   // Data table for trip fraction
   const fractionLineTable = lineTable(fractionLineSvg, settPudoLine, thisPTC);
+  // set details to be always open
+  d3.select(".fractionline").select("details").attr("open", true);
 
   // Only show table if action button is clicked
   d3.select(`#${settPudoLine.actionId}`)
@@ -254,8 +262,11 @@ function showFractionLine() {
         .select("table")
         .style("display", "table");
     });
-
-  d3.select(".fractionline").select("details").attr("open", true);
+  // Close table if Close button is clicked
+  d3.select(`#${settPudoLine.closeId}`)
+    .on("click", function() {
+      hideTable("fractionline");
+    });
 }
 // Fig 5b - PUDO map
 function initMapBox() {
