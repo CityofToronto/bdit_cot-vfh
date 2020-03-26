@@ -262,7 +262,7 @@
     "tpd": {
       "x_label": "Month",
       "y_label": "Average trips/day",
-      "tabletitle":"Click to open table of Average number of PTC trips per day by month since Sept 2016",
+      "tabletitle":"Table of Average number of daily PTC trips by month since Sept 2016",
       "date": "Date",
       "value": "Average number of PTC trips per day",
       "city": "Study period",
@@ -310,7 +310,7 @@
     },
     "vkt_map": {
       "legendTitle": "PTC fraction of daily traffic (%)",
-      "tabletitle": "Click to open table of Top-10 PTC volume hotspots by neighbourhood",
+      "tabletitle": "Table of Top-10 PTC volume hotspots by neighbourhood",
       "x_label": "Neighbourhood",
       "y_label": "Percentage of Traffic (%)",
       "area_s_cd": "Neighbourhood",
@@ -319,7 +319,7 @@
     "share_map": {
       "legendTitle": "Shared trips requests made (%)",
       "legendTitleMatched": "Shared trip requests matched (%)",
-      "tabletitle":"Click to open table of {{thisTitle}}, Top-10 neighbourhoods",
+      "tabletitle":"Table of {{thisTitle}}, Top-10 neighbourhoods",
       "x_label": "Neighbourhood",
       "y_label": "Proportion of shared requests (%)",
       "area_s_cd": "Neighbourhood",
@@ -329,7 +329,7 @@
     "city_tod": {
       "alt": "This timeseries plot shows the trip counts in the city for each hour of the week, averaged by day of week, over the study period September 2018 to March 2019.",
       "y_label": "Average trips/hour",
-      "tabletitle":  "Click to open table of average trips per hour",
+      "tabletitle":  "Table of average trips per hour",
       "tablecaption":  "Average trips/hour, City of Toronto, {{weekday}}",
       "menuLabel": "Select Day",
       "count":"Average trips/hour"
@@ -341,7 +341,7 @@
       "tod": "Time of day",
       "fraction": "Average number of trips",
       "hr": "Hour",
-      "tabletitle":  "Click to open table of trip counts per hour",
+      "tabletitle":  "Table of trip counts per hour",
       "captiontitle":  "per hour in ",
       "menuLabel": "Select Day"
     },
@@ -357,7 +357,7 @@
     },
     "pudoMap": {
       "alt": "This map shows the pick-ups and drop-offs in the selected ward for the selected time of day.",
-      "tabletitle": "Click to open table of trip counts, grouped by neighbourhood",
+      "tabletitle": "Table of trip counts, grouped by neighbourhood",
       "tableCaption": "Trip counts grouped by neighbourhood",
       "x_label": "Neighbourhood",
       "y_label": "Total trip count",
